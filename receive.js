@@ -2,7 +2,9 @@
 /*jshint esversion: 8 */
 const AppConfig = require("./configurations/appConfig");
 const amqp = require("amqplib/callback_api");
-const convert = require("./convert");
+const text = require("./conversions/text");
+const svg = require("./conversions/svg");
+const parse = require("./parse");
 
 // Override console to enable papertrail
 const console = require("./logger");
@@ -35,39 +37,37 @@ const console = require("./logger");
           channel.consume(
             queue,
             (msg) => {
-              let payload = JSON.parse(msg.content), generatedText = "";
+              let payload = JSON.parse(msg.content);
 
-              if(payload.contentType == "math") {
-                convert.GenerateMath(payload.content).then(res => {
-                  // Return data
-                  channel.sendToQueue(
-                    msg.properties.replyTo,
-                    Buffer.from(JSON.stringify({success: true, generated: res})),
-                    {
-                      expiration: 10000,
-                      contentType: "application/json",
-                      correlationId: msg.properties.correlationId
-                    }
-                  );
-                })
-                .catch(err => {
-                  // Return data
-                  channel.sendToQueue(
-                    msg.properties.replyTo,
-                    Buffer.from(JSON.stringify({success: false, error: err})),
-                    {
-                      expiration: 10000,
-                      contentType: "application/json",
-                      correlationId: msg.properties.correlationId
-                    }
-                  );
-                });
+              if (payload.contentType == "math") {
+                Promise.all([
+                  text.GenerateMath(payload.content).then(res => res).catch(err => err),
+                  svg.GenerateSvg(payload.content).then(svg => svg).catch(err => err)
+                ])
+                  .then(values => {
+                    return { success: Array.isArray(values[0]), generated : { text: (Array.isArray(values[0]) ? parse.Cleanup(values[0]) : "mathematical formula"), svg: values[1] }};
+                  })
+                  .catch(err => {
+                    return { success: false, error: err };
+                  })
+                  .then((result) => {
+                    // Return data
+                    channel.sendToQueue(
+                      msg.properties.replyTo,
+                      Buffer.from(JSON.stringify(result)),
+                      {
+                        expiration: 10000,
+                        contentType: "application/json",
+                        correlationId: msg.properties.correlationId
+                      }
+                    );
+                  });
               }
-              else if(payload.contentType == "chemistry" || payload.contentType == "physics" || payload.contentType == "other") {
+              else if (payload.contentType == "chemistry" || payload.contentType == "physics" || payload.contentType == "other") {
                 // Return data
                 channel.sendToQueue(
                   msg.properties.replyTo,
-                  Buffer.from(JSON.stringify({success: false, error: "Not yet developed"})),
+                  Buffer.from(JSON.stringify({ success: false, error: "Not yet developed" })),
                   {
                     expiration: 10000,
                     contentType: "application/json",
@@ -81,7 +81,7 @@ const console = require("./logger");
             }
           );
         }
-        catch(ex) {
+        catch (ex) {
           throw ex;
         }
       });
