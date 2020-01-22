@@ -97,10 +97,10 @@
         { "code": 8476, "value": "real part" },
         { "code": 8482, "value": "trade mark" },
         { "code": 8501, "value": "first transfinite cardinal" },
+        { "code": 8734, "value": "infinity" },
         { "code": 9824, "value": "spades" },
         { "code": 9827, "value": "clubs" },
         { "code": 9829, "value": "hearts" },
-        { "code": 9830, "value": "diamonds" },
-        { "code": 8734, "value": "infinity" }
+        { "code": 9830, "value": "diamonds" }
     ]
 }
