@@ -1,2 +1,5 @@
 # service-stem
-A service to generate text content based on markup
+
+A microservice to generate text content and images based on MathML.
+
+It requires a message broker (RabbitMQ) and a API frontend to run.
