@@ -1,0 +1,37 @@
+{
+    "strings": [
+        { "name": "the", "value": "the" },
+        { "name": "end", "value": "end" },
+        { "name": "and", "value": "and" },
+        { "name": "of", "value": "of" },
+        { "name": "divided by", "value": "divided by" },
+        { "name": "derived", "value": "derived" },
+        { "name": "double derived", "value": "double derived" },
+        { "name": "to the power of", "value": "to the power of" },
+        { "name": "with the lower index", "value": "with the lower index" },
+        { "name": "with the lower limit", "value": "with the lower limit" },
+        { "name": "integral", "value": "integral" },
+        { "name": "vector", "value": "vector" },
+        { "name": "function", "value": "function" },
+        { "name": "double integral", "value": "double integral" },
+        { "name": "triple integral", "value": "triple integral" },
+        { "name": "contour integral", "value": "contour integral" },
+        { "name": "and with the upper limit", "value": "and with the upper limit" },
+        { "name": "the square root of", "value": "the square root of" },
+        { "name": "square root", "value": "square root" },
+        { "name": "root", "value": "root" },
+        { "name": "division with the dividend", "value": "division with the dividend" },
+        { "name": "division", "value": "division" },
+        { "name": "capital", "value": "capital" },
+        { "name": " to the power of 2 ", "value": " squared " }
+    ],
+    "chars": [
+        { "code": 40, "value": "left parenthesis" },
+        { "code": 41, "value": "right parenthesis" },
+        { "code": 91, "value": "left square bracket" },
+        { "code": 93, "value": "right square bracket" },
+        { "code": 123, "value": "left curly bracket" },
+        { "code": 124, "value": "absolute value" },
+        { "code": 125, "value": "right curly bracket" }
+    ]
+}

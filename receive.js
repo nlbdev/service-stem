@@ -45,7 +45,12 @@ const console = require("./logger");
                   svg.GenerateSvg(payload.content).then(svg => svg).catch(err => err)
                 ])
                   .then(values => {
-                    return { success: Array.isArray(values[0]), generated : { text: (Array.isArray(values[0]) ? parse.Cleanup(values[0]) : "mathematical formula"), svg: values[1] }};
+                    /*try {
+                      var translated = text.TranslateTexts(values[0].words.join(" "), values[0].language);
+                      return { success: values[0].success, generated : { text: parse.Cleanup(translated), svg: values[1] }};
+                    }
+                    catch(ex) {}*/
+                      return { success: values[0].success, generated : { text: parse.Cleanup(values[0].words.join(" ")), svg: values[1] }};
                   })
                   .catch(err => {
                     return { success: false, error: err };
@@ -67,7 +72,7 @@ const console = require("./logger");
                 // Return data
                 channel.sendToQueue(
                   msg.properties.replyTo,
-                  Buffer.from(JSON.stringify({ success: false, error: "Not yet developed" })),
+                  Buffer.from(JSON.stringify({ success: false, error: "non-mathematical formula" })),
                   {
                     expiration: 10000,
                     contentType: "application/json",

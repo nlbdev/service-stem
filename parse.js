@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
 
-module.exports = {
-    Cleanup: (words) => {
-        let text = words.join(" ");
+const misc = require("./conversions/data/text-misc.json");
 
-        text = text.replace(" to the power of 2 ", " squared ");
+module.exports = {
+    Cleanup: (text) => {
+        text = text.replace(" to the power of 2 ", misc.strings.find( m => m.name == " to the power of 2 " ));
 
         return text;
     }

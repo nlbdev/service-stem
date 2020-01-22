@@ -1,0 +1,35 @@
+{
+    "strings": [
+        { "name": "lim", "value": "limit" }
+    ],
+    "chars": [
+        { "code": 42, "value": "times" },
+        { "code": 43, "value": "plus" },
+        { "code": 45, "value": "minus" },
+        { "code": 60, "value": "is less than" },
+        { "code": 61, "value": "is equal to" },
+        { "code": 62, "value": "is more than" },
+        { "code": 8289, "value": "of" },
+        { "code": 8290, "value": "times" },
+        { "code": 8517, "value": "differential with respect to" },
+        { "code": 8518, "value": "differential with respect to" },
+        { "code": 8592, "value": "withdraws" },
+        { "code": 8593, "value": "upward arrow" },
+        { "code": 8594, "value": "approaches" },
+        { "code": 8595, "value": "downward arrow" },
+        { "code": 8596, "value": "left right arrow" },
+        { "code": 8629, "value": "downwards arrow with corner leftwards" },
+        { "code": 8656, "value": "leftwards double arrow" },
+        { "code": 8657, "value": "upwards double arrow" },
+        { "code": 8658, "value": "implies" },
+        { "code": 8659, "value": "downwards double arrow" },
+        { "code": 8660, "value": "equivalent to" },
+        { "code": 8747, "value": "the integral of" },
+        { "code": 8748, "value": "the double integral of" },
+        { "code": 8749, "value": "the triple integral of" },
+        { "code": 8750, "value": "the contour integral of" },
+        { "code": 8804, "value": "is less than or equal to" },
+        { "code": 8805, "value": "is more than or equal to" },
+        { "code": 8901, "value": "multiplied by" }
+    ]
+}

@@ -3,6 +3,29 @@
 
 const X2JS = require("x2js");
 const { Translate } = require('@google-cloud/translate').v2;
+const operators = require("./data/text-operators.json");
+const identifiers = require("./data/text-identifiers.json");
+const misc = require("./data/text-misc.json");
+
+/**
+ * Get the correct string and return it, return undefined if not found
+ * @param s A string or number to find
+ * @param source The JSON source
+ */
+function GetTranslatedText(s, source) {
+    var found;
+    if(typeof(s) == "string") {
+        found = source.strings.find( m => m.name == s );
+        return (found != undefined) ? found.value : undefined;
+    }
+    else if(typeof(s) == "number") {
+        found = source.chars.find( m => m.code == s );
+        return (found != undefined) ? found.value : undefined;
+    }
+    else {
+        return undefined;
+    }
+}
 
 function ExtractLanguage(node) {
     let lang = "en";
@@ -17,7 +40,7 @@ function ExtractLanguage(node) {
 
 function DividendText(node, words) {
     if (node.parentNode != null && (node.parentNode.localName == "mfrac" && node == node.parentNode.lastChild)) {
-        words.push("divided by");
+        words.push(GetTranslatedText("divided by", misc));
     }
 }
 
@@ -30,17 +53,13 @@ function ParenthesisTextOpen(node, words) {
                     if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
                         // Its a function and does not require parenthesis
                     } else {
-                        words.push("left parenthesis");
+                        words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
                     }
                     break;
                 case 91:
-                    words.push("left square bracket");
-                    break;
                 case 123:
-                    words.push("left curly bracket");
-                    break;
                 case 124:
-                    words.push("the absolute value");
+                    words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
                     break;
                 default:
                     console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
@@ -60,17 +79,16 @@ function ParenthesisTextClose(node, words) {
                     if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
                         // Its a function and does not require parenthesis
                     } else {
-                        words.push("right parenthesis");
+                        words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
                     }
                     break;
                 case 93:
-                    words.push("right square bracket");
+                case 125:
+                    words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
                     break;
                 case 124:
-                    words.push("absolute value end");
-                    break;
-                case 125:
-                    words.push("right curly bracket");
+                    words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
+                    words.push(GetTranslatedText("end", misc));
                     break;
                 default:
                     console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
@@ -82,67 +100,39 @@ function ParenthesisTextClose(node, words) {
 }
 
 function RaisedLoweredDerivedText(node, words) {
-    if (node.parentNode != null && (node.parentNode.localName == "msup") && node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
-        if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
-            words.push("derived");
-        }
-        else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
-            words.push("double derived");
-        }
-        else {
-            words.push("to the power of");
+    if (node.parentNode != null && node.parentNode.localName == "msup") {
+        if(node.parentNode.previousSibling != null && (
+            node.parentNode.previousSibling.localName == "mi" || 
+            node.parentNode.previousSibling.localName == "mn" || 
+            node.parentNode.previousSibling.localName == "mrow" || 
+            node.parentNode.previousSibling.localName == "mfenced")) {
+            if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
+                words.push(GetTranslatedText("derived", misc));
+            }
+            else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
+                words.push(GetTranslatedText("double derived", misc));
+            }
+            else {
+                words.push(GetTranslatedText("to the power of", misc));
+            }
         }
     }
-    if (node.parentNode != null && (node.parentNode.localName == "msub") && node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
-        words.push("with the lower index");
+    if(node.parentNode != null && node.parentNode.localName == "mrow" && node.parentNode.parentNode != null && node.parentNode.parentNode.localName == "msup" && node == node.parentNode.firstChild) {
+        words.push(GetTranslatedText("to the power of", misc));
+    }
+    if ((node.parentNode != null && node.parentNode.localName == "msub") && (node.parentNode.previousSibling != null && (node.parentNode.previousSibling.localName == "mi" || node.parentNode.previousSibling.localName == "mn" || node.parentNode.previousSibling.localName == "mrow" || node.parentNode.previousSibling.localName == "mfenced"))) {
+        words.push(GetTranslatedText("with the lower index", misc));
     }
 }
 
 /**
- * Returns the correct order text for a specified number.
+ * Returns the correct root text for a specified number.
  * @param i A number as string or a string
  */
 function RootNumbers(i) {
-    var tmp = "";
-    switch (i) {
-        case "1":
-            tmp = "radical";
-            break;
-        case "2":
-            tmp = "square";
-            break;
-        case "3":
-            tmp = "cube";
-            break;
-        case "4":
-            tmp = "fourth";
-            break;
-        case "5":
-            tmp = "fifth";
-            break;
-        case "6":
-            tmp = "sixth";
-            break;
-        case "7":
-            tmp = "seventh";
-            break;
-        case "8":
-            tmp = "eight";
-            break;
-        case "9":
-            tmp = "ninth";
-            break;
-        case "10":
-            tmp = "tenth";
-            break;
-        case "n":
-            tmp = "nth";
-            break;
-        default:
-            tmp = i;
-            break;
-    }
-    return tmp;
+    const roots = require("./data/text-roots.json");
+    
+    return roots.find(root => root.id == i).value;
 }
 
 function IsFunc(node) {
@@ -172,11 +162,11 @@ function ParseNode(node, words) {
                     }
                     break;
                 case "mover":
-                    if (node.lastChild != null && node.lastChild.localName == "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() == 8594) words.push("vector");
+                    if (node.lastChild != null && node.lastChild.localName == "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() == 8594) words.push(GetTranslatedText("vector", misc));
                     for (var o = 0; o < node.childNodes.length; o++) {
                         ParseNode(node.childNodes[o], words);
                     }
-                    if (node.lastChild != null && node.lastChild.localName == "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() == 8594) words.push("vector end");
+                    if (node.lastChild != null && node.lastChild.localName == "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() == 8594) words.push(`${GetTranslatedText("vector", misc)} ${GetTranslatedText("end", misc)}`);
                     break;
                 case "munder":
                     for (var s = 0; s < node.childNodes.length; s++) {
@@ -190,16 +180,16 @@ function ParseNode(node, words) {
                         else if (node.firstChild.firstChild.nodeValue.charCodeAt() == 8749) integralType = "triple integral";
                         else if (node.firstChild.firstChild.nodeValue.charCodeAt() == 8750) integralType = "contour integral";
 
-                        words.push(`the ${integralType}`);
-                        words.push("with the lower limit");
-                        if (node.nextSibling != null) {
-                            ParseNode(node.nextSibling, words);
+                        words.push(`${GetTranslatedText("the", misc)} ${GetTranslatedText(integralType, misc)}`);
+                        words.push(GetTranslatedText("with the lower limit", misc));
+                        if (node.childNodes[1] != null) {
+                            ParseNode(node.childNodes[1], words);
                         }
-                        words.push("and with the upper limit")
-                        if (node.lastChild != null) {
-                            ParseNode(node.lastChild, words);
+                        words.push(GetTranslatedText("and with the upper limit", misc));
+                        if (node.childNodes[2] != null) {
+                            ParseNode(node.childNodes[2], words);
                         }
-                        words.push(`${integralType} end`);
+                        words.push(`${GetTranslatedText(integralType, misc)} ${GetTranslatedText("end", misc)}`);
                     } else {
                         for (var u = 0; u < node.childNodes.length; u++) {
                             ParseNode(node.childNodes[u], words);
@@ -211,24 +201,24 @@ function ParseNode(node, words) {
                     ParenthesisTextOpen(node, words);
                     for (var l = 0; l < node.childNodes.length; l++) {
                         ParseNode(node.childNodes[l], words);
-                        words.push("and");
+                        words.push(GetTranslatedText("and", misc));
                     }
                     words.pop(); // remove extra 'and'
                     ParenthesisTextClose(node, words);
                     RaisedLoweredDerivedText(node, words);
                     break;
                 case "mrow":
-                    if (IsFunc(node)) words.push("the function");
+                    if(IsFunc(node)) words.push(`${GetTranslatedText("the", misc)} ${GetTranslatedText("function", misc)}`);
                     for (var k = 0; k < node.childNodes.length; k++) {
                         ParseNode(node.childNodes[k], words);
                     }
-                    if (IsFunc(node)) words.push("function end");
+                    if(IsFunc(node)) words.push(`${GetTranslatedText("function", misc)} ${GetTranslatedText("end", misc)}`);
                     break;
                 case "msqrt":
                     DividendText(node, words);
-                    words.push("the square root of");
+                    words.push(`${GetTranslatedText("the", misc)} ${GetTranslatedText("square root", misc)} ${GetTranslatedText("of", misc)}`);
                     for (var i = 0; i < node.childNodes.length; i++) ParseNode(node.childNodes[i], words);
-                    words.push("square root end");
+                    words.push(`${GetTranslatedText("square root", misc)} ${GetTranslatedText("end", misc)}`);
                     break;
                 case "mroot":
                     DividendText(node, words);
@@ -238,142 +228,86 @@ function ParseNode(node, words) {
                             ParseNode(node.childNodes[n], words);
                         }
                     }
-                    words.push("root end");
+                    words.push(`${GetTranslatedText("root", misc)} ${GetTranslatedText("end", misc)}`);
                     break;
                 case "mfrac":
                     RaisedLoweredDerivedText(node, words);
-                    words.push("division with the dividend");
+                    words.push(GetTranslatedText("division with the dividend", misc));
                     for (var j = 0; j < node.childNodes.length; j++) {
                         ParseNode(node.childNodes[j], words);
                     }
-                    words.push("division end");
+                    words.push(`${GetTranslatedText("division", misc)} ${GetTranslatedText("end", misc)}`);
                     break;
                 case "mo":
                     DividendText(node, words);
                     RaisedLoweredDerivedText(node, words);
-                    switch (node.firstChild.nodeValue) {
-                        case "lim":
-                            words.push("limit");
-                            break;
-                        default:
-                            switch (node.firstChild.nodeValue.charCodeAt()) {
-                                case 42:
-                                case 8290:
-                                    words.push("times");
-                                    break;
-                                case 8901:
-                                    words.push("multiplied by");
-                                    break;
-                                case 43:
-                                    words.push("plus");
-                                    break;
-                                case 45:
-                                    words.push("minus");
-                                    break;
-                                case 60:
-                                    words.push("is less than");
-                                    break;
-                                case 61:
-                                    words.push("is equal to");
-                                    break;
-                                case 62:
-                                    words.push("is more than");
-                                    break;
-                                case 8804:
-                                    words.push("is less than or equal to");
-                                    break;
-                                case 8805:
-                                    words.push("is more than or equal to");
-                                    break;
+                    var mo_val = node.firstChild.nodeValue;
+                    var mo_t = GetTranslatedText(mo_val, operators);
+                    if(mo_t != undefined) {
+                        words.push(mo_t);
+                    }
+                    else {
+                        var mo_code = mo_val.charCodeAt();
+                        var mo_c = GetTranslatedText(mo_code, operators);
+                        if(mo_c != undefined) {
+                            switch(mo_code) {
                                 case 8242:
                                 case 8243:
                                     break;
-                                case 8517:
-                                case 8518:
-                                    words.push("differential with respect to");
-                                    break;
-                                case 8289:
-                                    words.push("of");
-                                    break;
-                                case 8747:
-                                    words.push("the integral of");
-                                    break;
-                                case 8748:
-                                    words.push("the double integral of");
-                                    break;
-                                case 8749:
-                                    words.push("the triple integral of");
-                                    break;
-                                case 8750:
-                                    words.push("the contour integral of");
+                                case 8592:
+                                    if (node.parentNode != null && node.parentNode.localName == "mrow") {
+                                        words.push(mo_c);
+                                    }
+                                    else {
+                                        words.push(GetTranslatedText("larr", identifiers));
+                                    }
                                     break;
                                 case 8594:
-                                    if (node.parentNode != null && node.parentNode.localName == "mrow") words.push("approaches");
-                                    // Vector is handled elsewhere
+                                    if (node.parentNode != null && node.parentNode.localName == "mrow") {
+                                        words.push(mo_c);
+                                    }
+                                    else {
+                                        words.push(GetTranslatedText("rarr", identifiers));
+                                    }
                                     break;
                                 default:
-                                    console.warn(` [ WARNING ] Missing text for MO: ${node.firstChild.nodeValue} (char code: ${node.firstChild.nodeValue.charCodeAt()})`);
-                                    words.push(node.firstChild.nodeValue);
+                                    words.push(mo_c);
                                     break;
                             }
-                            break;
+                        }
+                        else {
+                            console.warn(` [ WARNING ] Missing text for MO: ${mo_val} (char code: ${mo_code})`);
+                            words.push(mo_val);
+                        }
                     }
                     break;
                 case "mi":
                     DividendText(node, words);
                     RaisedLoweredDerivedText(node, words);
                     if (node.firstChild != null && node.firstChild.nodeValue == node.firstChild.nodeValue.toUpperCase() && (node.firstChild != null && node.firstChild.nodeValue.charCodeAt() != 8734)) words.push("capital"); // if capital, except infinity
-                    switch (node.firstChild.nodeValue) {
-                        case "sin":
-                            words.push("sine");
-                            break;
-                        case "cos":
-                            words.push("cosine");
-                            break;
-                        case "log":
-                            words.push("the log");
-                            break;
-                        case "ln":
-                            words.push("the natural log");
-                            break;
-                        default:
-                            switch (node.firstChild.nodeValue.charCodeAt()) {
+                    
+                    var mi_val = node.firstChild.nodeValue;
+                    var mi_t = GetTranslatedText(mi_val, identifiers);
+                    if(mi_t != undefined) {
+                        words.push(mi_t);
+                    }
+                    else {
+                        var mi_code = mi_val.charCodeAt();
+                        var mi_c = GetTranslatedText(mi_code, identifiers);
+                        if(mi_c != undefined) {
+                            switch(mi_code) {
                                 case 176:
-                                    words.push((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees");
-                                    break;
-                                case 593:
-                                    words.push("alpha");
-                                    break;
-                                case 916:
-                                    words.push("delta");
-                                    break;
-                                case 947:
-                                    words.push("gamma");
-                                    break;
-                                case 960:
-                                    words.push("pi");
-                                    break;
-                                case 966:
-                                    words.push("phi");
-                                    break;
-                                case 968:
-                                    words.push("psi");
-                                    break;
-                                case 976:
-                                    words.push("beta");
-                                    break;
-                                case 977:
-                                    words.push("theta");
-                                    break;
-                                case 8734:
-                                    words.push("infinity");
+                                    words.push(GetTranslatedText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers));
                                     break;
                                 default:
-                                    console.warn(` [ WARNING ] Missing text for MI: ${node.firstChild.nodeValue} (char code: ${node.firstChild.nodeValue.charCodeAt()})`);
-                                    words.push(node.firstChild.nodeValue.toLowerCase());
+                                    words.push(mi_c);
                                     break;
                             }
-                            break;
+                        }
+                        else {
+                            console.warn(` [ WARNING ] Missing text for MI: ${mi_val} (char code: ${mi_code})`);
+                            words.push(mi_val);
+                        }
                     }
                     break;
                 case "mtext":
@@ -401,6 +335,24 @@ function ParseNode(node, words) {
     }
 }
 
+function Detect(root, words) {
+    var word = "";
+    for(var z = 0; z < root.attributes.length; z++) {
+        var Attr = root.attributes[z];
+        if(Attr.nodeName == "class") {
+            if(Attr.nodeValue == "chemistry") {
+                word = "chemical formula";
+            }
+            else if(Attr.nodeValue == "physics") {
+                word = "physics formula";
+            }
+            break;
+        }
+    }
+    if(word == "" && root.localName == "math") word = "formula";
+    words.push(word);
+}
+
 module.exports = {
     GenerateMath: async (content) => {
         var words = [], x2js = new X2JS(), root = {};
@@ -410,21 +362,20 @@ module.exports = {
 
             // Build words array
             root = dom.childNodes[0];
-            if (root.localName == "math") {
-                words.push("formula");
-                ParseNode(dom.childNodes[0], words);
-                words.push("formula end");
-            }
+            Detect(root, words);
+            ParseNode(dom.childNodes[0], words);
+            words.push("formula end");
             // Return words in an array which can be prosessed by the translation service and API
             var lang = ExtractLanguage(root);
-            return ((lang != "en") ? await module.exports.TranslateTexts(words, lang) : words);
+            return { success: true, language: lang, words: words };
         }
         catch (ex) {
             throw ex;
         }
     },
     TranslateTexts: async (texts, target) => {
-        const translate = new Translate();
+        const projectId = "nlb-babel-dev";
+        const translate = new Translate({projectId});
 
         const options = {
             to: target,
