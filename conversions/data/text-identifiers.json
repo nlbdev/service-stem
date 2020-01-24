@@ -102,5 +102,8 @@
         { "code": 9827, "value": "clubs" },
         { "code": 9829, "value": "hearts" },
         { "code": 9830, "value": "diamonds" }
+    ],
+    "unicode": [
+        
     ]
 }

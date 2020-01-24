@@ -15,7 +15,12 @@ const misc = require("./data/text-misc.json");
 function GetTranslatedText(s, source) {
     var found;
     if(typeof(s) == "string") {
-        found = source.strings.find( m => m.name == s );
+        if(/[^\u0000-\u00ff]/.test(s)) {
+            found = source.unicode.find( m => m.code == s );
+        }
+        else {
+            found = source.strings.find( m => m.name == s );
+        }
         return (found != undefined) ? found.value : undefined;
     }
     else if(typeof(s) == "number") {
