@@ -281,7 +281,7 @@ function ParseNode(node, words) {
                             }
                         }
                         else {
-                            console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
+                            if (mo_code > 127) console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
                             words.push(mo_val);
                         }
                     }
@@ -310,7 +310,7 @@ function ParseNode(node, words) {
                             }
                         }
                         else {
-                            console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
+                            if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
                             words.push(mi_val);
                         }
                     }
