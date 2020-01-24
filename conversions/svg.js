@@ -23,8 +23,11 @@ const html = mathjax.document('', {InputJax: mml, OutputJax: svg});
 module.exports = {
     GenerateSvg: async (mathml) => {
         const node = html.convert(mathml);
+        node.kind = "div";
+        node.attributes = { "class": "visual-math" };
 
-        return adaptor.outerHTML(node);
+        let original = adaptor.outerHTML(node);
+
+        return original;
     }
 };
-
