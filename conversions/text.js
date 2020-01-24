@@ -106,11 +106,11 @@ function ParenthesisTextClose(node, words) {
 
 function RaisedLoweredDerivedText(node, words) {
     if (node.parentNode != null && node.parentNode.localName == "msup") {
-        if(node.parentNode.previousSibling != null && (
-            node.parentNode.previousSibling.localName == "mi" || 
-            node.parentNode.previousSibling.localName == "mn" || 
-            node.parentNode.previousSibling.localName == "mrow" || 
-            node.parentNode.previousSibling.localName == "mfenced")) {
+        if(node.previousSibling != null && (
+            node.previousSibling.localName == "mi" || 
+            node.previousSibling.localName == "mn" || 
+            node.previousSibling.localName == "mrow" || 
+            node.previousSibling.localName == "mfenced")) {
             if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
                 words.push(GetTranslatedText("derived", misc));
             }
