@@ -45,11 +45,6 @@ const console = require("./logger");
                   svg.GenerateSvg(payload.content).then(svg => svg).catch(err => err)
                 ])
                   .then(values => {
-                    /*try {
-                      var translated = text.TranslateTexts(values[0].words.join(" "), values[0].language);
-                      return { success: values[0].success, generated : { text: parse.Cleanup(translated), svg: values[1] }};
-                    }
-                    catch(ex) {}*/
                       return { success: values[0].success, generated : { text: parse.Cleanup(values[0].words.join(" ")), svg: values[1] }};
                   })
                   .catch(err => {

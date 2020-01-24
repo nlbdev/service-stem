@@ -2,7 +2,13 @@
     "strings": [
         { "name": "the", "value": "the" },
         { "name": "end", "value": "end" },
+        { "name": "start", "value": "start" },
         { "name": "and", "value": "and" },
+        { "name": "row", "value": "row" },
+        { "name": "rows", "value": "rows" },
+        { "name": "cell", "value": "cell" },
+        { "name": "cells", "value": "cells" },
+        { "name": "contains", "value": "contains" },
         { "name": "of", "value": "of" },
         { "name": "divided by", "value": "divided by" },
         { "name": "derived", "value": "derived" },
@@ -13,6 +19,7 @@
         { "name": "integral", "value": "integral" },
         { "name": "vector", "value": "vector" },
         { "name": "function", "value": "function" },
+        { "name": "matrix", "value": "matrix" },
         { "name": "double integral", "value": "double integral" },
         { "name": "triple integral", "value": "triple integral" },
         { "name": "contour integral", "value": "contour integral" },
@@ -23,7 +30,9 @@
         { "name": "division with the dividend", "value": "division with the dividend" },
         { "name": "division", "value": "division" },
         { "name": "capital", "value": "capital" },
-        { "name": " to the power of 2 ", "value": " squared " }
+        { "name": " to the power of 2 ", "value": " squared " },
+        { "name": " left parenthesis matrix start ", "value": " matrix start " },
+        { "name": " matrix end right parenthesis ", "value": " matrix end " }
     ],
     "chars": [
         { "code": 40, "value": "left parenthesis" },

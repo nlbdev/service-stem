@@ -2,7 +2,6 @@
 /*jshint esversion: 8 */
 
 const X2JS = require("x2js");
-const { Translate } = require('@google-cloud/translate').v2;
 const operators = require("./data/text-operators.json");
 const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
@@ -57,6 +56,8 @@ function ParenthesisTextOpen(node, words) {
                 case 40:
                     if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
                         // Its a function and does not require parenthesis
+                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                        // Its a matrix and does not require parenthesis
                     } else {
                         words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
                     }
@@ -83,6 +84,8 @@ function ParenthesisTextClose(node, words) {
                 case 41:
                     if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
                         // Its a function and does not require parenthesis
+                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                        // Its a matrix and does not require parenthesis
                     } else {
                         words.push(GetTranslatedText(Attr.nodeValue.charCodeAt(), misc));
                     }
@@ -149,15 +152,55 @@ function IsFunc(node) {
     }
 }
 
+function inWords(num) {
+    var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+    var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+    if ((num = num.toString()).length > 9) return 'overflow';
+    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return; var str = '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+    return str;
+}
+
 function ParseNode(node, words) {
     try {
         if (node != null) {
             switch (node.localName) {
+                case "mphantom": 
+                    // Just used for visual representation
+                    break;
+                case "mpadded":
+                case "menclose":
                 case "math":
                 case "msub":
                 case "semantics":
                     for (var m = 0; m < node.childNodes.length; m++) {
                         ParseNode(node.childNodes[m], words);
+                    }
+                    break;
+                case "mtable":
+                    words.push(`${GetTranslatedText("matrix", misc)} ${GetTranslatedText("start", misc)}`);
+                    for (var x = 0; x < node.childNodes.length; x++) {
+                        ParseNode(node.childNodes[x], words);
+                    }
+                    words.push(`${GetTranslatedText("matrix", misc)} ${GetTranslatedText("end", misc)}`);
+                    break;
+                case "mtr":
+                    for(var tr = 0; tr < node.parentNode.childNodes.length; tr++) if(node == node.parentNode.childNodes[tr]) break;
+                    words.push(`${GetTranslatedText("row", misc)} ${tr+1} ${GetTranslatedText("contains", misc)} ${node.childNodes.length} ${GetTranslatedText("cells", misc)}:`);
+                    for (var y = 0; y < node.childNodes.length; y++) {
+                        words.push(`${GetTranslatedText("cell", misc)} ${y+1} ${GetTranslatedText("contains", misc)}`);
+                        ParseNode(node.childNodes[y], words);
+                    }
+                    words.push(`${GetTranslatedText("end", misc)} ${GetTranslatedText("row", misc)},`);
+                    break;
+                case "mtd":
+                    for (var a = 0; a < node.childNodes.length; a++) {
+                        ParseNode(node.childNodes[a], words);
                     }
                     break;
                 case "msup":
@@ -179,6 +222,7 @@ function ParseNode(node, words) {
                     }
                     break;
                 case "munderover":
+                case "msubsup":
                     if (node.childNodes.length == 3 && node.firstChild.localName == "mo" && (node.firstChild.firstChild.nodeValue.charCodeAt() == 8747 || node.firstChild.firstChild.nodeValue.charCodeAt() == 8748 || node.firstChild.firstChild.nodeValue.charCodeAt() == 8749 || node.firstChild.firstChild.nodeValue.charCodeAt() == 8750)) {
                         var integralType = "integral";
                         if (node.firstChild.firstChild.nodeValue.charCodeAt() == 8748) integralType = "double integral";
@@ -328,8 +372,10 @@ function ParseNode(node, words) {
                 case "mspace":
                     break;
                 default:
-                    console.warn(` [ WARNING ] Missing translation for: ${node.firstChild.nodeValue}`);
-                    words.push(node.firstChild.nodeValue);
+                    if(node.firstChild != null) {
+                        console.warn(` [ WARNING ] Missing translation for: ${node.firstChild.nodeValue}`);
+                        words.push(node.firstChild.nodeValue);
+                    }
                     break;
             }
         }
@@ -372,6 +418,7 @@ module.exports = {
             words.push("formula end");
             // Return words in an array which can be prosessed by the translation service and API
             var lang = ExtractLanguage(root);
+            //return { success: true, language: lang, words: module.exports.TranslateTexts(words, lang) };
             return { success: true, language: lang, words: words };
         }
         catch (ex) {
@@ -379,16 +426,20 @@ module.exports = {
         }
     },
     TranslateTexts: async (texts, target) => {
+        const {TranslationServiceClient} = require('@google-cloud/translate');
         const projectId = "nlb-babel-dev";
-        const translate = new Translate({projectId});
+        const location = 'global';
+        const translationClient = new TranslationServiceClient();
 
         const options = {
-            to: target,
-            source: "en",
+            parent: `projects/${projectId}/locations/${location}`,
+            contents: texts,
+            sourceLanguageCode: "en",
+            targetLanguageCode: target,
             model: "nmt",
         };
 
-        let [translations] = await translate.translate(texts, options);
+        let [translations] = await translationClient.translateText(options);
         translations = Array.isArray(translations) ? translations : [translations];
         return translations;
     }
