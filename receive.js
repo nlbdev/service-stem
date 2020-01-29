@@ -86,5 +86,5 @@ const console = require("./logger");
         }
       });
     });
-  }, 1000);
+  }, (process.env.NODE_ENV == "development" ? 1000 : 10000));
 })();
