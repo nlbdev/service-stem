@@ -47,7 +47,7 @@ function ExtractAttributes(node) {
 
 function DividendText(node, words) {
     if (node.parentNode != null && (node.parentNode.localName == "mfrac" && node == node.parentNode.lastChild)) {
-        words.push(GetText("divided by", misc));
+        words.push(GetText("and denominator", misc));
     }
 }
 
@@ -118,10 +118,10 @@ function RaisedLoweredDerivedText(node, words) {
             node.previousSibling.localName == "mrow" || 
             node.previousSibling.localName == "mfenced")) {
             if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
-                words.push(GetText("derived", misc));
+                words.push(GetText("derivated", misc));
             }
             else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
-                words.push(GetText("double derived", misc));
+                words.push(GetText("double derivated", misc));
             }
             else {
                 words.push(GetText("to the power of", misc));
@@ -361,11 +361,11 @@ function ParseNode(node, words) {
                     break;
                 case "mfrac":
                     RaisedLoweredDerivedText(node, words);
-                    words.push(GetText("division with the dividend", misc));
+                    words.push(GetText("fraction with counter", misc));
                     for (var j = 0; j < node.childNodes.length; j++) {
                         ParseNode(node.childNodes[j], words);
                     }
-                    words.push(`${GetText("division", misc)} ${GetText("end", misc)}`);
+                    words.push(`${GetText("fraction", misc)} ${GetText("end", misc)}`);
                     break;
                 case "mo":
                     DividendText(node, words);
