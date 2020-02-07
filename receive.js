@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
-const AppConfig = require("./configurations/appConfig");
+const X2JS = require("x2js");
 const amqp = require("amqplib/callback_api");
+
+const AppConfig = require("./configurations/appConfig");
 const text = require("./conversions/text");
 const svg = require("./conversions/svg");
-const parse = require("./parse");
 
 // Override console to enable papertrail
 const console = require("./logger");
@@ -45,7 +46,33 @@ const console = require("./logger");
                   svg.GenerateSvg(payload.content).then(svg => svg).catch(err => err)
                 ])
                   .then(values => {
-                      return { success: values[0].success, generated : { text: parse.Cleanup(values[0].words.join(" ")), svg: values[1] }};
+                    // Post-processing SVG
+                    var x2js = new X2JS(), xmlDoc = x2js.xml2js( values[1] ), svgDoc = xmlDoc.div;
+
+                    svgDoc.svg._class = "spoken-math";
+                    svgDoc.svg["_aria-hidden"] = true;
+
+                    var domDoc = x2js.js2dom(svgDoc);
+
+                    var titleEl = domDoc.createElement("title"), titleText = domDoc.createTextNode(values[0].ascii);
+                    titleEl.appendChild(titleText);
+                    domDoc.firstChild.insertBefore(titleEl);
+                    var tmpDoc = x2js.dom2js(domDoc);
+                    
+                    // Generate return object
+                    var obj = { success: values[0].success, 
+                      generated : { 
+                        text: values[0], 
+                        svg: x2js.js2xml(tmpDoc),
+                        ascii: values[0].ascii
+                      }, 
+                      attributes: {
+                        language: values[0].language,
+                        display: values[0].display,
+                        image: values[0].imagepath
+                      }
+                    };
+                    return obj;
                   })
                   .catch(err => {
                     return { success: false, error: err };
@@ -86,5 +113,5 @@ const console = require("./logger");
         }
       });
     });
-  }, (process.env.NODE_ENV == "development" ? 1000 : 10000));
+  }, 1000);
 })();
