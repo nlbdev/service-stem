@@ -7,6 +7,7 @@ const SVG = require('mathjax-full/js/output/svg.js').SVG;
 const liteAdaptor = require('mathjax-full/js/adaptors/liteAdaptor.js').liteAdaptor;
 const RegisterHTMLHandler = require('mathjax-full/js/handlers/html.js').RegisterHTMLHandler;
 
+
 //
 //  Create DOM adaptor and register it for HTML documents
 //
@@ -22,12 +23,11 @@ const html = mathjax.document('', {InputJax: mml, OutputJax: svg});
 
 module.exports = {
     GenerateSvg: async (mathml) => {
+        // Generate SVG
         const node = html.convert(mathml);
         node.kind = "div";
         node.attributes = { "class": "visual-math" };
 
-        let original = adaptor.outerHTML(node);
-
-        return original;
+        return adaptor.outerHTML(node);
     }
 };
