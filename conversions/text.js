@@ -31,15 +31,18 @@ function GetText(s, source) {
     }
 }
 
-function ExtractLanguage(node) {
-    let lang = "en";
+function ExtractAttributes(node) {
+    var arr = [];
     if (node.attributes.length > 0) {
         for (var i = 0; i < node.attributes.length; i++) {
             var Attr = node.attributes[i];
-            if (Attr.nodeName == "xml:lang") lang = Attr.nodeValue;
+            if (Attr.nodeName == "xml:lang") arr.push({name: "language", value: Attr.nodeValue});
+            else if (Attr.nodeName == "alttext") arr.push({name: "ascii", value: Attr.nodeValue});
+            else if (Attr.nodeName == "display") arr.push({name: "display", value: Attr.nodeValue});
+            else if (Attr.nodeName == "altimg") arr.push({name: "image", value: Attr.nodeValue});
         }
     }
-    return lang;
+    return arr;
 }
 
 function DividendText(node, words) {
@@ -133,16 +136,6 @@ function RaisedLoweredDerivedText(node, words) {
     }
 }
 
-function BoundariesTextOpen(node, words) {
-    var hasBoundaries = false;
-
-    if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-        ParseNode(node.childNodes[0], words);
-        hasBoundaries = true;
-    }
-    return hasBoundaries;
-}
-
 function IsVector(node, words) {
     if(node.lastChild != null && node.lastChild.localName == "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() == 8594) {
         words.push(GetText("vector", misc));
@@ -217,7 +210,7 @@ function ParseNode(node, words) {
                     }
                     break;
                 case "mtable":
-                    words.push(`${GetText("matrix", misc)} ${GetText("start", misc)}`);
+                    words.push(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`);
                     for (var x = 0; x < node.childNodes.length; x++) {
                         ParseNode(node.childNodes[x], words);
                     }
@@ -275,19 +268,38 @@ function ParseNode(node, words) {
                         }
                         words.push(`${GetText("vector", misc)} ${GetText("end", misc)}`);
                     }
-                    else if(BoundariesTextOpen(node, words)) {
-                        for (var p = 0; p < node.childNodes.length; p++) {
-                            ParseNode(node.childNodes[p], words);
+                    else {
+                        if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
+                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("start", misc)}`);
+                            ParseNode(node.childNodes[0], words);
+                            words.push(`${GetText("with the upper index", misc)}`);
+                            for (var g = 1; g < node.childNodes.length; g++) {
+                                ParseNode(node.childNodes[g], words);
+                            }
+                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("end", misc)}`);
                         }
-                        words.push(`${GetText("bracket", misc)} ${GetText("end", misc)}`);
+                        else {
+                            for (var p = 0; p < node.childNodes.length; p++) {
+                                ParseNode(node.childNodes[p], words);
+                            }
+                        }
                     }
                     break;
                 case "munder":
-                    BoundariesTextOpen(node, words);
-                    for (var s = 0; s < node.childNodes.length; s++) {
-                        ParseNode(node.childNodes[s], words);
+                    if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
+                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("start", misc)}`);
+                        ParseNode(node.childNodes[0], words);
+                        words.push(`${GetText("with the lower index", misc)}`);
+                        for (var f = 1; f < node.childNodes.length; f++) {
+                            ParseNode(node.childNodes[f], words);
+                        }
+                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("end", misc)}`);
                     }
-                    words.push(`${GetText("bracket", misc)} ${GetText("end", misc)}`);
+                    else {
+                        for (var s = 0; s < node.childNodes.length; s++) {
+                            ParseNode(node.childNodes[s], words);
+                        }
+                    }
                     break;
                 case "munderover":
                 case "msubsup":
@@ -490,30 +502,21 @@ module.exports = {
             ParseNode(dom.childNodes[0], words);
             words.push("formula end");
             // Return words in an array which can be prosessed by the translation service and API
-            var lang = ExtractLanguage(root);
-            //return { success: true, language: lang, words: module.exports.TranslateTexts(words, lang) };
-            return { success: true, language: lang, words: words };
+            
+            var attributes = ExtractAttributes(root);
+
+            // Defaults
+            var lang = "no", asciiMath = "", display = "block", image = "";
+
+            if(attributes.find(m => m.name == "language") != null) lang = attributes.find(m => m.name == "language").value;
+            if(attributes.find(m => m.name == "ascii") != null) asciiMath = attributes.find( m => m.name == "ascii").value;
+            if(attributes.find(m => m.name == "display") != null) display = attributes.find( m => m.name == "display").value;
+            if(attributes.find(m => m.name == "image") != null) image = attributes.find( m => m.name == "image").value;
+
+            return { success: true, language: lang, words: words, ascii: asciiMath, display: display, imagepath: image };
         }
         catch (ex) {
             throw ex;
         }
-    },
-    TranslateTexts: async (texts, target) => {
-        const {TranslationServiceClient} = require('@google-cloud/translate');
-        const projectId = "nlb-babel-dev";
-        const location = 'global';
-        const translationClient = new TranslationServiceClient();
-
-        const options = {
-            parent: `projects/${projectId}/locations/${location}`,
-            contents: texts,
-            sourceLanguageCode: "en",
-            targetLanguageCode: target,
-            model: "nmt",
-        };
-
-        let [translations] = await translationClient.translateText(options);
-        translations = Array.isArray(translations) ? translations : [translations];
-        return translations;
     }
 };
