@@ -209,7 +209,7 @@
                 <seg>rightward arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre</seg>
+                <seg>høyrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -1017,7 +1017,7 @@
                 <seg>approaches</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>tilnærmer seg</seg>
+                <seg>nærmer seg</seg>
             </tuv>
         </tu>
         <tu>
@@ -1889,7 +1889,7 @@
                 <seg>dot plus</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>prikk pluss</seg>
+                <seg>punkt pluss</seg>
             </tuv>
         </tu>
         <tu>
@@ -2073,7 +2073,7 @@
                 <seg>dot minus</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>prikk minus</seg>
+                <seg>punkt minus</seg>
             </tuv>
         </tu>
         <tu>
@@ -2833,7 +2833,7 @@
                 <seg>circled division slash</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>sirklet divisjon skråstrek</seg>
+                <seg>sirklet skråstrek</seg>
             </tuv>
         </tu>
         <tu>
@@ -2841,7 +2841,7 @@
                 <seg>circled dot operator</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>sirklet prikkoperatør</seg>
+                <seg>sirklet punktoperatør</seg>
             </tuv>
         </tu>
         <tu>
@@ -2857,7 +2857,7 @@
                 <seg>circled asterisk operator</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>sirklet stjerneoperatør</seg>
+                <seg>sirklet asteriskoperatør</seg>
             </tuv>
         </tu>
         <tu>
@@ -2873,7 +2873,7 @@
                 <seg>circled dash</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>sirklet streken</seg>
+                <seg>sirklet strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -2881,7 +2881,7 @@
                 <seg>squared plus</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>firkantet pluss</seg>
+                <seg>kvadrat pluss</seg>
             </tuv>
         </tu>
         <tu>
@@ -2897,7 +2897,7 @@
                 <seg>squared times</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>kvadratiske tider</seg>
+                <seg>kvadrat ganger</seg>
             </tuv>
         </tu>
         <tu>
@@ -2905,7 +2905,7 @@
                 <seg>squared dot operator</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>firkantet prikkoperatør</seg>
+                <seg>kvadrat punktoperatør</seg>
             </tuv>
         </tu>
         <tu>
@@ -2913,7 +2913,7 @@
                 <seg>right tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>rett takling</seg>
+                <seg>rett stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -2921,7 +2921,7 @@
                 <seg>left tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre takling</seg>
+                <seg>venstre stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -2929,7 +2929,7 @@
                 <seg>down tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>ned tak</seg>
+                <seg>nedover stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -2937,7 +2937,7 @@
                 <seg>up tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp tak</seg>
+                <seg>oppover stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -2969,7 +2969,7 @@
                 <seg>forces</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>krefter</seg>
+                <seg>tvinger</seg>
             </tuv>
         </tu>
         <tu>
@@ -3017,7 +3017,7 @@
                 <seg>negated double vertical bar double right turnstile</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>negert dobbelt loddrett stang dobbelt høyre turnstile</seg>
+                <seg>opphevet dobbelt loddrett strek med dobbelt høyre rotasjonsgrind</seg>
             </tuv>
         </tu>
         <tu>
@@ -3089,7 +3089,7 @@
                 <seg>multimap</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>multimap</seg>
+                <seg>multikart</seg>
             </tuv>
         </tu>
         <tu>
@@ -3105,31 +3105,31 @@
                 <seg>intercalate</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>intercalate</seg>
+                <seg>innskutt</seg>
             </tuv>
         </tu>
         <tu>
             <tuv xml:lang="en">
-                <seg>xor</seg>
+                <seg>x-or</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>xor</seg>
+                <seg>x-or</seg>
             </tuv>
         </tu>
         <tu>
             <tuv xml:lang="en">
-                <seg>nand</seg>
+                <seg>n-and</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nand</seg>
+                <seg>n-and</seg>
             </tuv>
         </tu>
         <tu>
             <tuv xml:lang="en">
-                <seg>nor</seg>
+                <seg>n-or</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>heller ikke</seg>
+                <seg>n-or</seg>
             </tuv>
         </tu>
         <tu>
@@ -3137,7 +3137,7 @@
                 <seg>right angle with arc</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>rett vinkel med lysbue</seg>
+                <seg>rett vinkel med bue</seg>
             </tuv>
         </tu>
         <tu>
@@ -3153,7 +3153,7 @@
                 <seg>n-ary logical and</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>n-ary logisk og</seg>
+                <seg>n-te logisk og</seg>
             </tuv>
         </tu>
         <tu>
@@ -3161,7 +3161,7 @@
                 <seg>n-ary logical or</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>n-ary logisk eller</seg>
+                <seg>n-te logisk eller</seg>
             </tuv>
         </tu>
         <tu>
@@ -3169,7 +3169,7 @@
                 <seg>n-ary intersection</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>n-ary kryss</seg>
+                <seg>n-te kryss</seg>
             </tuv>
         </tu>
         <tu>
@@ -3177,7 +3177,7 @@
                 <seg>n-ary union</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>n-ary union</seg>
+                <seg>n-te union</seg>
             </tuv>
         </tu>
         <tu>
@@ -3193,7 +3193,7 @@
                 <seg>dot operator</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>prikkoperatør</seg>
+                <seg>pypunktoperatør</seg>
             </tuv>
         </tu>
         <tu>
@@ -3209,7 +3209,7 @@
                 <seg>division times</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>delingstider</seg>
+                <seg>deling med gangetegn</seg>
             </tuv>
         </tu>
         <tu>
@@ -3225,7 +3225,7 @@
                 <seg>left normal factor semidirect product</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre normal faktor semidirekt produkt</seg>
+                <seg>venstre normal faktor med semidirekte produkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -3233,7 +3233,7 @@
                 <seg>right normal factor semidirect product</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>riktig normalfaktor semidirekt produkt</seg>
+                <seg>riktig normalfaktor med semidirekte produkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -3241,7 +3241,7 @@
                 <seg>left semidirect product</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre semidirekt produkt</seg>
+                <seg>venstre semidirekte produkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -3249,7 +3249,7 @@
                 <seg>right semidirect product</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>riktig semidirekt produkt</seg>
+                <seg>riktig semidirekte produkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -3257,7 +3257,7 @@
                 <seg>reversed tilde equals</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>reversert tilde tilsvarer</seg>
+                <seg>reversert tilde er lik</seg>
             </tuv>
         </tu>
         <tu>
@@ -3281,7 +3281,7 @@
                 <seg>double subset</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbelt underett</seg>
+                <seg>dobbelt undersett</seg>
             </tuv>
         </tu>
         <tu>
@@ -3305,7 +3305,7 @@
                 <seg>double union</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbeltforening</seg>
+                <seg>dobbelt union</seg>
             </tuv>
         </tu>
         <tu>
@@ -3329,7 +3329,7 @@
                 <seg>less-than with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>mindre enn med prikk</seg>
+                <seg>mindre enn med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -3337,7 +3337,7 @@
                 <seg>greater-than with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>større enn med prikk</seg>
+                <seg>større enn med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -3457,7 +3457,7 @@
                 <seg>less-than but not equivalent to</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>mindre enn, men ikke tilsvarer</seg>
+                <seg>mindre enn, men tilsvarer ikke</seg>
             </tuv>
         </tu>
         <tu>
@@ -3465,7 +3465,7 @@
                 <seg>greater-than but not equivalent to</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>større enn, men ikke tilsvarende</seg>
+                <seg>større enn, men tilsvarer ikke</seg>
             </tuv>
         </tu>
         <tu>
@@ -3473,7 +3473,7 @@
                 <seg>precedes but not equivalent to</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>går foran, men ikke tilsvarer</seg>
+                <seg>går foran, men tilsvarer ikke</seg>
             </tuv>
         </tu>
         <tu>
@@ -3481,7 +3481,7 @@
                 <seg>succeeds but not equivalent to</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lykkes, men ikke tilsvarer</seg>
+                <seg>lykkes, men tilsvarer ikke</seg>
             </tuv>
         </tu>
         <tu>
@@ -3505,7 +3505,7 @@
                 <seg>not normal subgroup of or equal to</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>ikke normal undergruppe på eller lik</seg>
+                <seg>ikke normal undergruppe av eller lik</seg>
             </tuv>
         </tu>
         <tu>
@@ -3521,7 +3521,7 @@
                 <seg>vertical ellipsis</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>vertikal ellipsis</seg>
+                <seg>vertikal ellipse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3529,7 +3529,7 @@
                 <seg>midline horizontal ellipsis</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>midtlinje horisontal ellipsis</seg>
+                <seg>midtlinje horisontal ellipse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3537,7 +3537,7 @@
                 <seg>up right diagonal ellipsis</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp høyre diagonal ellipsis</seg>
+                <seg>opp høyre diagonal ellipse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3545,7 +3545,7 @@
                 <seg>down right diagonal ellipsis</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedre høyre diagonal ellipsis</seg>
+                <seg>nedre høyre diagonal ellipse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3553,7 +3553,7 @@
                 <seg>element of with long horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av med langt horisontalt slag</seg>
+                <seg>element av med langt horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3561,7 +3561,7 @@
                 <seg>element of with vertical bar at end of horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av med vertikal bjelke på slutten av horisontalt slag</seg>
+                <seg>element av med vertikal linje på slutten av horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3569,7 +3569,7 @@
                 <seg>small element of with vertical bar at end of horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lite element med vertikal bjelke på slutten av horisontalt slag</seg>
+                <seg>lite element med vertikal linje på slutten av horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3577,7 +3577,7 @@
                 <seg>element of with dot above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av med prikk over</seg>
+                <seg>element av med punkt over</seg>
             </tuv>
         </tu>
         <tu>
@@ -3585,7 +3585,7 @@
                 <seg>element of with overbar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av med overbar</seg>
+                <seg>element av med overstrek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3593,7 +3593,7 @@
                 <seg>small element of with overbar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lite element med overbar</seg>
+                <seg>lite element med overstrek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3601,7 +3601,7 @@
                 <seg>element of with underbar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av med underbar</seg>
+                <seg>element av med understrek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3609,7 +3609,7 @@
                 <seg>element of with two horizontal strokes</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av med to horisontale slag</seg>
+                <seg>element av med to horisontale streker</seg>
             </tuv>
         </tu>
         <tu>
@@ -3617,7 +3617,7 @@
                 <seg>contains with long horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>inneholder med langt horisontalt slag</seg>
+                <seg>inneholder med langt horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3625,7 +3625,7 @@
                 <seg>contains with vertical bar at end of horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>inneholder med vertikal bjelke på slutten av horisontalt slag</seg>
+                <seg>inneholder med vertikal linje på slutten av horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3633,7 +3633,7 @@
                 <seg>small contains with vertical bar at end of horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>liten inneholder med vertikal bjelke på slutten av horisontalt slag</seg>
+                <seg>liten inneholder med vertikal linje på slutten av horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3641,7 +3641,7 @@
                 <seg>contains with overbar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>inneholder med overbar</seg>
+                <seg>inneholder med overstrek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3649,7 +3649,7 @@
                 <seg>small contains with overbar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>liten inneholder med overbar</seg>
+                <seg>liten inneholder med overstrek</seg>
             </tuv>
         </tu>
         <tu>
@@ -3665,7 +3665,7 @@
                 <seg>top half integral</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>topp halvdel integrert</seg>
+                <seg>øverste halvdel integral</seg>
             </tuv>
         </tu>
         <tu>
@@ -3673,7 +3673,7 @@
                 <seg>bottom half integral</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nederste halvdel integrert</seg>
+                <seg>nederste halvdel integral</seg>
             </tuv>
         </tu>
         <tu>
@@ -3689,7 +3689,7 @@
                 <seg>left parenthesis upper hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre parentes øvre krok</seg>
+                <seg>venstre parentes med øvre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3697,7 +3697,7 @@
                 <seg>left parenthesis extension</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>forlengelse av venstre parentes</seg>
+                <seg>utvidelse av venstre parentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3705,7 +3705,7 @@
                 <seg>left parenthesis lower hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre parentes nedre krok</seg>
+                <seg>venstre parentes med nedre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3713,7 +3713,7 @@
                 <seg>right parenthesis upper hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre parentes øvre krok</seg>
+                <seg>høyre parentes med øvre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3729,7 +3729,7 @@
                 <seg>right parenthesis lower hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre parentes nedre krok</seg>
+                <seg>høyre parentes med nedre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3737,7 +3737,7 @@
                 <seg>left square bracket upper corner</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre firkant brakett øvre hjørne</seg>
+                <seg>venstre firkantparantes i øvre hjørne</seg>
             </tuv>
         </tu>
         <tu>
@@ -3745,7 +3745,7 @@
                 <seg>left square bracket extension</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>forlengelse av venstre firkant</seg>
+                <seg>utvidelse av venstre firkantparantes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3753,7 +3753,7 @@
                 <seg>left square bracket lower corner</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre firkant brakett nedre hjørne</seg>
+                <seg>venstre firkantparantes i nedre hjørne</seg>
             </tuv>
         </tu>
         <tu>
@@ -3761,7 +3761,7 @@
                 <seg>right square bracket upper corner</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre firkant brakett øvre hjørne</seg>
+                <seg>høyre firkantparantes i øvre hjørne</seg>
             </tuv>
         </tu>
         <tu>
@@ -3769,7 +3769,7 @@
                 <seg>right square bracket extension</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre firkant brakettforlengelse</seg>
+                <seg>høyre firkantparantes med utvidelse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3777,7 +3777,7 @@
                 <seg>right square bracket lower corner</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre firkant brakett nedre hjørne</seg>
+                <seg>høyre firkantparantes i nedre hjørne</seg>
             </tuv>
         </tu>
         <tu>
@@ -3785,7 +3785,7 @@
                 <seg>left curly bracket upper hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre krøllete brakett øvre krok</seg>
+                <seg>venstre krøllparentes med øvre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3793,7 +3793,7 @@
                 <seg>left curly bracket middle piece</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>midtre del av venstre krøllete brakett</seg>
+                <seg>midtre del av venstre krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3801,7 +3801,7 @@
                 <seg>left curly bracket lower hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre krokbeslag nedre krok</seg>
+                <seg>venstre krøllparentes med nedre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3809,7 +3809,7 @@
                 <seg>curly bracket extension</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>forlengelse av krøllete braketter</seg>
+                <seg>utvidelse av krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3817,7 +3817,7 @@
                 <seg>right curly bracket upper hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre krøllete brakett øvre krok</seg>
+                <seg>høyre krøllparentes med øvre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3825,7 +3825,7 @@
                 <seg>right curly bracket middle piece</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>midtre del av høyre krøllete brakett</seg>
+                <seg>midtre del av høyre krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3833,7 +3833,7 @@
                 <seg>right curly bracket lower hook</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre krøllete brakett nedre krok</seg>
+                <seg>høyre krøllparentes med nedre krok</seg>
             </tuv>
         </tu>
         <tu>
@@ -3841,7 +3841,7 @@
                 <seg>integral extension</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>integrert utvidelse</seg>
+                <seg>integral utvidelse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3849,7 +3849,7 @@
                 <seg>horizontal line extension</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>horisontal linjeutvidelse</seg>
+                <seg>horisontallinje utvidelse</seg>
             </tuv>
         </tu>
         <tu>
@@ -3857,7 +3857,7 @@
                 <seg>upper left or lower right curly bracket section</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>øvre venstre eller nedre høyre krøllete brakkseksjon</seg>
+                <seg>øvre venstre eller nedre høyre krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3865,7 +3865,7 @@
                 <seg>upper right or lower left curly bracket section</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>øvre høyre eller nedre venstre krøllete del</seg>
+                <seg>øvre høyre eller nedre venstre krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3873,7 +3873,7 @@
                 <seg>summation top</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>summasjon toppen</seg>
+                <seg>summering topp</seg>
             </tuv>
         </tu>
         <tu>
@@ -3905,7 +3905,7 @@
                 <seg>top curly bracket</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>topp krøllet brakett</seg>
+                <seg>topp krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3913,7 +3913,7 @@
                 <seg>bottom curly bracket</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>bunn krøllete brakett</seg>
+                <seg>bunn krøllparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3921,7 +3921,7 @@
                 <seg>top tortoise shell bracket</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>toppskildpaddeskallbrakett</seg>
+                <seg>topp skilpaddeskallparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3929,7 +3929,7 @@
                 <seg>bottom tortoise shell bracket</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>bunnskilpaddeskallbrakett</seg>
+                <seg>bunn skilpaddeskallparentes</seg>
             </tuv>
         </tu>
         <tu>
@@ -3977,7 +3977,7 @@
                 <seg>white medium square</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvitt middels firkant</seg>
+                <seg>hvit medium størrelse kvadrat</seg>
             </tuv>
         </tu>
         <tu>
@@ -3985,7 +3985,7 @@
                 <seg>black medium square</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>svart middels firkant</seg>
+                <seg>svart medium størrelse kvadrat</seg>
             </tuv>
         </tu>
         <tu>
@@ -3993,7 +3993,7 @@
                 <seg>white medium small square</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvit middels liten firkant</seg>
+                <seg>hvit medium til liten størrelse kvadrat</seg>
             </tuv>
         </tu>
         <tu>
@@ -4001,7 +4001,7 @@
                 <seg>black medium small square</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>svart middels liten firkant</seg>
+                <seg>svart medium til liten størrelse kvadrat</seg>
             </tuv>
         </tu>
         <tu>
@@ -4065,7 +4065,7 @@
                 <seg>or with dot inside</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>eller med prikk inni</seg>
+                <seg>eller med punkt inni</seg>
             </tuv>
         </tu>
         <tu>
@@ -4089,7 +4089,7 @@
                 <seg>vertical bar with horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>vertikal bjelke med horisontalt slag</seg>
+                <seg>vertikal linje med horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4105,7 +4105,7 @@
                 <seg>long division</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang inndeling</seg>
+                <seg>lang divisjon</seg>
             </tuv>
         </tu>
         <tu>
@@ -4137,7 +4137,7 @@
                 <seg>white diamond with centred dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvit diamant med sentrert prikk</seg>
+                <seg>hvit diamant med sentrert punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -4145,7 +4145,7 @@
                 <seg>and with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>og med prikk</seg>
+                <seg>og med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -4153,7 +4153,7 @@
                 <seg>element of opening upwards</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>element av å åpne seg oppover</seg>
+                <seg>element av oppover åpning</seg>
             </tuv>
         </tu>
         <tu>
@@ -4161,7 +4161,7 @@
                 <seg>lower right corner with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedre høyre hjørne med prikk</seg>
+                <seg>nedre høyre hjørne med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -4169,7 +4169,7 @@
                 <seg>upper left corner with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>øvre venstre hjørne med prikk</seg>
+                <seg>øvre venstre hjørne med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -4201,7 +4201,7 @@
                 <seg>large up tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>stor opp tak</seg>
+                <seg>stor opp stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -4209,7 +4209,7 @@
                 <seg>large down tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>stor dunklage</seg>
+                <seg>stor ned stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -4217,7 +4217,7 @@
                 <seg>left and right double turnstile</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre og høyre dobbel turnstile</seg>
+                <seg>venstre og høyre dobbel rotasjonsgrind</seg>
             </tuv>
         </tu>
         <tu>
@@ -4225,7 +4225,7 @@
                 <seg>left and right tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre og høyre takling</seg>
+                <seg>venstre og høyre stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -4233,7 +4233,7 @@
                 <seg>left multimap</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre multimap</seg>
+                <seg>venstre multikart</seg>
             </tuv>
         </tu>
         <tu>
@@ -4241,7 +4241,7 @@
                 <seg>long right tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang høyre takling</seg>
+                <seg>lang høyre stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -4249,7 +4249,7 @@
                 <seg>long left tack</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang venstre takling</seg>
+                <seg>lang venstre stift</seg>
             </tuv>
         </tu>
         <tu>
@@ -4257,7 +4257,7 @@
                 <seg>up tack with circle above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp tak med sirkelen over</seg>
+                <seg>opp stift med sirkelen over</seg>
             </tuv>
         </tu>
         <tu>
@@ -4265,7 +4265,7 @@
                 <seg>lozenge divided by horizontal rule</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pastill delt på horisontal regel</seg>
+                <seg>lozenge delt på horisontal regel</seg>
             </tuv>
         </tu>
         <tu>
@@ -4281,7 +4281,7 @@
                 <seg>white concave-sided diamond with leftwards tick</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvit konkavsidig diamant med venstre flått</seg>
+                <seg>hvit konkavsidig diamant med venstre anførstelstegn</seg>
             </tuv>
         </tu>
         <tu>
@@ -4289,7 +4289,7 @@
                 <seg>white concave-sided diamond with rightwards tick</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvit konkavsidig diamant med høyre flått</seg>
+                <seg>hvit konkavsidig diamant med høyre anførstelstegn</seg>
             </tuv>
         </tu>
         <tu>
@@ -4297,7 +4297,7 @@
                 <seg>white square with leftwards tick</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvitt firkant med venstre flått</seg>
+                <seg>hvitt firkant med venstre anførstelstegn</seg>
             </tuv>
         </tu>
         <tu>
@@ -4305,7 +4305,7 @@
                 <seg>white square with rightwards tick</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>hvit firkant med høyre flått</seg>
+                <seg>hvit firkant med høyre anførstelstegn</seg>
             </tuv>
         </tu>
         <tu>
@@ -4329,7 +4329,7 @@
                 <seg>anticlockwise gapped circle arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>sirkelspilen mot klokken</seg>
+                <seg>sirkelpil mot klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4337,7 +4337,7 @@
                 <seg>clockwise gapped circle arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>sirkelpilen med klokken</seg>
+                <seg>sirkelpil med klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4353,7 +4353,7 @@
                 <seg>long leftwards arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang venstre pil</seg>
+                <seg>lang venstrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4361,7 +4361,7 @@
                 <seg>long rightwards arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang pil til høyre</seg>
+                <seg>lang høyrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4369,7 +4369,7 @@
                 <seg>long left right arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang venstre høyre pil</seg>
+                <seg>lang venstre-høyre pil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4385,7 +4385,7 @@
                 <seg>long rightwards double arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang høyre pil dobbelt</seg>
+                <seg>lang høyre dobbel pil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4393,7 +4393,7 @@
                 <seg>long left right double arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang venstre høyre dobbel pil</seg>
+                <seg>lang venstre-høyre dobbel pil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4401,7 +4401,7 @@
                 <seg>long leftwards arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang venstre pil fra stolpen</seg>
+                <seg>lang venstrepil fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4409,7 +4409,7 @@
                 <seg>long rightwards arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang pil til høyre fra linjen</seg>
+                <seg>lang høyrepil fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4417,7 +4417,7 @@
                 <seg>long leftwards double arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang venstre dobbeltpil fra linjen</seg>
+                <seg>lang venstre dobbeltpil fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4425,7 +4425,7 @@
                 <seg>long rightwards double arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang høyre pil dobbelt fra stolpen</seg>
+                <seg>lang høyrepil dobbelt fra stolpe</seg>
             </tuv>
         </tu>
         <tu>
@@ -4433,7 +4433,7 @@
                 <seg>long rightwards squiggle arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>lang mot høyre krøllende pil</seg>
+                <seg>lang høyrepil med krøll</seg>
             </tuv>
         </tu>
         <tu>
@@ -4441,7 +4441,7 @@
                 <seg>rightwards two-headed arrow with vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre to-pil med loddrett strek</seg>
+                <seg>to-hodet høyrepil med loddrett strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4449,7 +4449,7 @@
                 <seg>rightwards two-headed arrow with double vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre to-pil med to vertikale slag</seg>
+                <seg>to-hodet høyrepil med to vertikale streker</seg>
             </tuv>
         </tu>
         <tu>
@@ -4457,7 +4457,7 @@
                 <seg>leftwards double arrow with vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil dobbelt med loddrett slag</seg>
+                <seg>venstre pekende dobbeltpil med loddrett strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4465,7 +4465,7 @@
                 <seg>rightwards double arrow with vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbeltpil med høyre loddrett</seg>
+                <seg>høyre pekende dobbeltpil med loddrett strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4473,7 +4473,7 @@
                 <seg>left right double arrow with vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbel høyre pil venstre med vertikalt slag</seg>
+                <seg>venstre-høyre dobbeltpil med loddrett strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4481,7 +4481,7 @@
                 <seg>rightwards two-headed arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>tohodet pil fra stolpen</seg>
+                <seg>to-hodet høyrepil bort fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4489,7 +4489,7 @@
                 <seg>leftwards double arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbeltpil til venstre fra linjen</seg>
+                <seg>dobbel venstrepil bort fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4497,7 +4497,7 @@
                 <seg>rightwards double arrow from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbeltpil til høyre fra linjen</seg>
+                <seg>dobbel høyrepil bort fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4505,7 +4505,7 @@
                 <seg>downwards arrow with horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil nedover med horisontalt slag</seg>
+                <seg>nedadgående pil med horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4513,7 +4513,7 @@
                 <seg>upwards arrow with horizontal stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil oppover med horisontalt slag</seg>
+                <seg>oppadgående pil med horisontal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4521,7 +4521,7 @@
                 <seg>upwards triple arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>oppover trippel pil</seg>
+                <seg>oppadgående trippelpil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4529,7 +4529,7 @@
                 <seg>downwards triple arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedover trippel pil</seg>
+                <seg>nedadgående trippelpil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4537,7 +4537,7 @@
                 <seg>leftwards double dash arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil med dobbelt streker</seg>
+                <seg>venstrepil med dobbel strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4545,7 +4545,7 @@
                 <seg>rightwards double dash arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre pil dobbel strek</seg>
+                <seg>høyrepil med dobbel strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4553,7 +4553,7 @@
                 <seg>leftwards triple dash arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil triple dash</seg>
+                <seg>venstrepil med trippel strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4561,7 +4561,7 @@
                 <seg>rightwards triple dash arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>trippel dash-pil til høyre</seg>
+                <seg>høyrepil med trippel strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4569,7 +4569,7 @@
                 <seg>rightwards two-headed triple dash arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre to-ledet trippel-dash-pil</seg>
+                <seg>to-hodet høyrepil med trippel strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4577,7 +4577,7 @@
                 <seg>rightwards arrow with dotted stem</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre med stiplet stamme</seg>
+                <seg>høyrepil med stiplet stamme</seg>
             </tuv>
         </tu>
         <tu>
@@ -4585,7 +4585,7 @@
                 <seg>upwards arrow to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil oppover for å linke</seg>
+                <seg>pil pekende oppover mot linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4593,7 +4593,7 @@
                 <seg>downwards arrow to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil nedover for å linke</seg>
+                <seg>pil pekende nedover mot linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -4601,7 +4601,7 @@
                 <seg>rightwards arrow with tail with vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre med hale med loddrett strek</seg>
+                <seg>høyrepil med hale med loddrett strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4609,7 +4609,7 @@
                 <seg>rightwards arrow with tail with double vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre med hale med dobbelt vertikalt slag</seg>
+                <seg>høyrepil med hale med dobbelt vertikal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4617,7 +4617,7 @@
                 <seg>rightwards two-headed arrow with tail</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre to-pilet med hale</seg>
+                <seg>to-hodet høyrepil med hale</seg>
             </tuv>
         </tu>
         <tu>
@@ -4625,7 +4625,7 @@
                 <seg>rightwards two-headed arrow with tail with vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre to-ledet pil med hale med loddrett strek</seg>
+                <seg>to-hodet høyrepil med hale og vertikal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4633,7 +4633,7 @@
                 <seg>rightwards two-headed arrow with tail with double vertical stroke</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre to-ledet pil med hale med dobbelt vertikalt slag</seg>
+                <seg>to-hodet høyrepil med hale og dobbel vertikal strek</seg>
             </tuv>
         </tu>
         <tu>
@@ -4641,7 +4641,7 @@
                 <seg>leftwards arrow-tail</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pilhale</seg>
+                <seg>venstrepil med pilhale</seg>
             </tuv>
         </tu>
         <tu>
@@ -4649,7 +4649,7 @@
                 <seg>rightwards arrow-tail</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre pil-hale</seg>
+                <seg>høyrepil med pilhale</seg>
             </tuv>
         </tu>
         <tu>
@@ -4657,7 +4657,7 @@
                 <seg>leftwards double arrow-tail</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil-hale til venstre</seg>
+                <seg>venstre pekende dobbelpil med pilhale</seg>
             </tuv>
         </tu>
         <tu>
@@ -4665,7 +4665,7 @@
                 <seg>rightwards double arrow-tail</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>dobbelt pilhale til høyre</seg>
+                <seg>høyre pekende dobbelpil med pilhale</seg>
             </tuv>
         </tu>
         <tu>
@@ -4673,7 +4673,7 @@
                 <seg>leftwards arrow to black diamond</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil til svart diamant</seg>
+                <seg>venstre pekende pil med diamant</seg>
             </tuv>
         </tu>
         <tu>
@@ -4681,7 +4681,7 @@
                 <seg>rightwards arrow to black diamond</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre til svart diamant</seg>
+                <seg>høyrepil pekende til svart diamant</seg>
             </tuv>
         </tu>
         <tu>
@@ -4689,7 +4689,7 @@
                 <seg>leftwards arrow from bar to black diamond</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil fra stolpe til svart diamant</seg>
+                <seg>venstre pil fra linje til svart diamant</seg>
             </tuv>
         </tu>
         <tu>
@@ -4697,7 +4697,7 @@
                 <seg>rightwards arrow from bar to black diamond</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre fra stolpe til svart diamant</seg>
+                <seg>høyrepil fra stolpe til svart diamant</seg>
             </tuv>
         </tu>
         <tu>
@@ -4785,7 +4785,7 @@
                 <seg>rising diagonal crossing falling diagonal</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>stigende diagonal kryss fallende diagonal</seg>
+                <seg>stigende diagonal krysser fallende diagonal</seg>
             </tuv>
         </tu>
         <tu>
@@ -4793,7 +4793,7 @@
                 <seg>falling diagonal crossing rising diagonal</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>fallende diagonal kryssende stigende diagonal</seg>
+                <seg>fallende diagonal krysser stigende diagonal</seg>
             </tuv>
         </tu>
         <tu>
@@ -4817,7 +4817,7 @@
                 <seg>falling diagonal crossing north east arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>fallende diagonal kryss nordøst-pilen</seg>
+                <seg>fallende diagonal krysser nordøst-pilen</seg>
             </tuv>
         </tu>
         <tu>
@@ -4825,7 +4825,7 @@
                 <seg>rising diagonal crossing south east arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>stigende diagonal kryss sørøst-pil</seg>
+                <seg>stigende diagonal krysser sørøst-pil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4865,7 +4865,7 @@
                 <seg>arrow pointing rightwards then curving downwards</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil som peker mot høyre og deretter krølles nedover</seg>
+                <seg>pil som peker mot høyre og deretter krumning nedover</seg>
             </tuv>
         </tu>
         <tu>
@@ -4873,7 +4873,7 @@
                 <seg>arrow pointing downwards then curving leftwards</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pilen peker nedover og deretter krølles til venstre</seg>
+                <seg>pilen peker nedover og deretter krummes til venstre</seg>
             </tuv>
         </tu>
         <tu>
@@ -4881,7 +4881,7 @@
                 <seg>arrow pointing downwards then curving rightwards</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil som peker nedover og deretter krølles rettover</seg>
+                <seg>pil som peker nedover og deretter krummes til høyre</seg>
             </tuv>
         </tu>
         <tu>
@@ -4889,7 +4889,7 @@
                 <seg>right-side arc clockwise arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre side av lysbuen med klokken</seg>
+                <seg>buet høyrepil med klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4897,7 +4897,7 @@
                 <seg>left-side arc anticlockwise arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil venstre på venstre side</seg>
+                <seg>buet venstrepil mot klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4905,7 +4905,7 @@
                 <seg>top arc anticlockwise arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>øverste pil mot klokken</seg>
+                <seg>toppbue med pil mot klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4913,7 +4913,7 @@
                 <seg>bottom arc anticlockwise arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nederste bue mot klokken</seg>
+                <seg>bunnbue med pil mot klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4921,7 +4921,7 @@
                 <seg>top arc clockwise arrow with minus</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>øverste bue med klokken pil med minus</seg>
+                <seg>toppbue med pil med klokken med minus</seg>
             </tuv>
         </tu>
         <tu>
@@ -4929,7 +4929,7 @@
                 <seg>top arc anticlockwise arrow with plus</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>øverste pil mot urviseren med pluss</seg>
+                <seg>toppbue med pil mot klokken med pluss</seg>
             </tuv>
         </tu>
         <tu>
@@ -4937,7 +4937,7 @@
                 <seg>lower right semicircular clockwise arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nederst til høyre halvcirkelformet med klokken</seg>
+                <seg>nedre høyre halvsirkelformetpil med klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4945,7 +4945,7 @@
                 <seg>lower left semicircular anticlockwise arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedre venstre halvcirkelformede pil mot klokken</seg>
+                <seg>nedre venstre halvsirkelformetpil mot klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4953,7 +4953,7 @@
                 <seg>anticlockwise closed circle arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>mot urviseren lukket sirkelpil</seg>
+                <seg>lukket sirkelpil mot klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4961,7 +4961,7 @@
                 <seg>clockwise closed circle arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>medurs med lukket sirkelpil</seg>
+                <seg>lukket sirkelpil med klokken</seg>
             </tuv>
         </tu>
         <tu>
@@ -4969,7 +4969,7 @@
                 <seg>rightwards arrow above short leftwards arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre over pil venstre</seg>
+                <seg>høyrepil over kort venstrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4977,7 +4977,7 @@
                 <seg>leftwards arrow above short rightwards arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre pil over kort pil høyre</seg>
+                <seg>venstrepil over kort høyrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4985,7 +4985,7 @@
                 <seg>short rightwards arrow above leftwards arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>kort høyre pil over venstre pil</seg>
+                <seg>kort høyrepil over venstrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -4993,7 +4993,7 @@
                 <seg>rightwards arrow with plus below</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre med pluss under</seg>
+                <seg>høyrepil med pluss under</seg>
             </tuv>
         </tu>
         <tu>
@@ -5001,7 +5001,7 @@
                 <seg>leftwards arrow with plus below</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til venstre med pluss under</seg>
+                <seg>venstrepil med pluss under</seg>
             </tuv>
         </tu>
         <tu>
@@ -5009,7 +5009,7 @@
                 <seg>rightwards arrow through x</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre gjennom x</seg>
+                <seg>høyrepil gjennom x</seg>
             </tuv>
         </tu>
         <tu>
@@ -5025,7 +5025,7 @@
                 <seg>upwards two-headed arrow from small circle</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>oppover tohodet pil fra liten sirkel</seg>
+                <seg>oppadgående to-hodet pil fra liten sirkel</seg>
             </tuv>
         </tu>
         <tu>
@@ -5033,7 +5033,7 @@
                 <seg>left barb up right barb down harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre tupp opp høyre tupp ned harpun</seg>
+                <seg>venstre tupp opp og høyre tupp ned harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5041,7 +5041,7 @@
                 <seg>left barb down right barb up harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre tupp ned til høyre tupp opp harpun</seg>
+                <seg>venstre tupp ned og høyre tupp opp harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5049,7 +5049,7 @@
                 <seg>up barb right down barb left harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp stiv høyre ned stiv venstre harpun</seg>
+                <seg>opp og høyre ned tupp venstre harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5057,7 +5057,7 @@
                 <seg>up barb left down barb right harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp stiv venstre ned stiv høyre harpun</seg>
+                <seg>opp og venstre ned tupp høyre harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5065,7 +5065,7 @@
                 <seg>left barb up right barb up harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre tupp opp høyre tupp opp harpun</seg>
+                <seg>venstre og opp høyre tupp oppover harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5073,7 +5073,7 @@
                 <seg>up barb right down barb right harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp barb rett ned barb høyre harpun</seg>
+                <seg>oppover og høyre ned tupp høyre harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5081,7 +5081,7 @@
                 <seg>left barb down right barb down harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre stiv ned høyre stiv ned harpun</seg>
+                <seg>venstre og høyre ned tupp nedover harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5089,7 +5089,7 @@
                 <seg>up barb left down barb left harpoon</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>opp stiv venstre ned stiv venstre harpun</seg>
+                <seg>oppover og venstre ned tupp venstre harpun</seg>
             </tuv>
         </tu>
         <tu>
@@ -5097,7 +5097,7 @@
                 <seg>leftwards harpoon with barb up to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre harpun med pigg til bar</seg>
+                <seg>venstre harpun med tupp opp til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5105,7 +5105,7 @@
                 <seg>rightwards harpoon with barb up to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre harpun med pigg til bar</seg>
+                <seg>høyre harpun med tupp opp til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5113,7 +5113,7 @@
                 <seg>upwards harpoon with barb right to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>oppover harpun med pigg rett til bar</seg>
+                <seg>oppover harpun med tupp til høyre til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5121,7 +5121,7 @@
                 <seg>downwards harpoon with barb right to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedover harpun med pigg rett til bar</seg>
+                <seg>nedover harpun med tupp til høyre til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5129,7 +5129,7 @@
                 <seg>leftwards harpoon with barb down to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre harpun med pigg ned til stangen</seg>
+                <seg>venstre harpun med tupp ned til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5137,7 +5137,7 @@
                 <seg>rightwards harpoon with barb down to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre harpun med pigg ned til stangen</seg>
+                <seg>høyre harpun med tupp ned til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5145,7 +5145,7 @@
                 <seg>upwards harpoon with barb left to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>oppover harpun</seg>
+                <seg>oppover harpun med tupp til venstre til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5153,7 +5153,7 @@
                 <seg>downwards harpoon with barb left to bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedad harpun med pigg igjen til bar</seg>
+                <seg>nedad harpun med tupp til venstre til linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5161,7 +5161,7 @@
                 <seg>leftwards harpoon with barb up from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre harpun med pigg fra baren</seg>
+                <seg>venstre harpun med tupp opp fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5169,7 +5169,7 @@
                 <seg>rightwards harpoon with barb up from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre harpun med pigg opp fra baren</seg>
+                <seg>høyre harpun med tupp opp fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5177,7 +5177,7 @@
                 <seg>upwards harpoon with barb right from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>oppover harpun med pigg rett fra baren</seg>
+                <seg>oppover harpun med tupp til høyre fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5185,7 +5185,7 @@
                 <seg>downwards harpoon with barb right from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedad harpun med pigg rett fra baren</seg>
+                <seg>nedadgående harpun med tupp til høyre fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5193,7 +5193,7 @@
                 <seg>leftwards harpoon with barb down from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>venstre harpun med pigg ned fra baren</seg>
+                <seg>venstre harpun med tupp nedover fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5201,7 +5201,7 @@
                 <seg>rightwards harpoon with barb down from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>høyre harpun med pigg ned fra baren</seg>
+                <seg>høyre harpun med tupp nedover fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5209,7 +5209,7 @@
                 <seg>upwards harpoon with barb left from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>oppover harpun med pigg igjen fra baren</seg>
+                <seg>oppover harpun med tupp til venstre fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5217,7 +5217,7 @@
                 <seg>downwards harpoon with barb left from bar</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>nedad harpun med pigg igjen fra baren</seg>
+                <seg>nedadgående harpun med tupp til venstre fra linje</seg>
             </tuv>
         </tu>
         <tu>
@@ -5369,7 +5369,7 @@
                 <seg>rightwards arrow above tilde operator</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre over operatøren</seg>
+                <seg>høyrepil over operatøren</seg>
             </tuv>
         </tu>
         <tu>
@@ -5409,7 +5409,7 @@
                 <seg>subset above rightwards arrow</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>delmengde over pil til høyre</seg>
+                <seg>delmengde over høyrepil</seg>
             </tuv>
         </tu>
         <tu>
@@ -5521,7 +5521,7 @@
                 <seg>measured right angle with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>målt rett vinkel med prikk</seg>
+                <seg>målt rett vinkel med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -5881,7 +5881,7 @@
                 <seg>triangle with dot above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>trekant med prikk over</seg>
+                <seg>trekant med punkt over</seg>
             </tuv>
         </tu>
         <tu>
@@ -6289,7 +6289,7 @@
                 <seg>n-ary union operator with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>n-ary fagforeningsoperatør med prikk</seg>
+                <seg>n-ary fagforeningsoperatør med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -6561,7 +6561,7 @@
                 <seg>plus sign with dot below</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>plussskilt med prikk nedenfor</seg>
+                <seg>plussskilt med punkt nedenfor</seg>
             </tuv>
         </tu>
         <tu>
@@ -6601,7 +6601,7 @@
                 <seg>minus sign with dot below</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>minustegn med prikk nedenfor</seg>
+                <seg>minustegn med punkt nedenfor</seg>
             </tuv>
         </tu>
         <tu>
@@ -6649,7 +6649,7 @@
                 <seg>multiplication sign with dot above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>multiplikasjonsskilt med prikk over</seg>
+                <seg>multiplikasjonsskilt med punkt over</seg>
             </tuv>
         </tu>
         <tu>
@@ -6913,7 +6913,7 @@
                 <seg>logical and with dot above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>logisk og med prikk over</seg>
+                <seg>logisk og med punkt over</seg>
             </tuv>
         </tu>
         <tu>
@@ -6921,7 +6921,7 @@
                 <seg>logical or with dot above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>logisk eller med prikk over</seg>
+                <seg>logisk eller med punkt over</seg>
             </tuv>
         </tu>
         <tu>
@@ -7081,7 +7081,7 @@
                 <seg>equals sign with dot below</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>tilsvarer skilt med prikk nedenfor</seg>
+                <seg>tilsvarer skilt med punkt nedenfor</seg>
             </tuv>
         </tu>
         <tu>
@@ -7113,7 +7113,7 @@
                 <seg>tilde operator with dot above</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>tilde-operatør med prikk over</seg>
+                <seg>tilde-operatør med punkt over</seg>
             </tuv>
         </tu>
         <tu>
@@ -7473,7 +7473,7 @@
                 <seg>slanted equal to or less-than with dot inside</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>skråstilt lik eller mindre enn med prikk inni</seg>
+                <seg>skråstilt lik eller mindre enn med punkt inni</seg>
             </tuv>
         </tu>
         <tu>
@@ -7481,7 +7481,7 @@
                 <seg>slanted equal to or greater-than with dot inside</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>skråstilt lik eller større enn med prikk inni</seg>
+                <seg>skråstilt lik eller større enn med punkt inni</seg>
             </tuv>
         </tu>
         <tu>
@@ -7777,7 +7777,7 @@
                 <seg>subset with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>delsett med prikk</seg>
+                <seg>delsett med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -7785,7 +7785,7 @@
                 <seg>superset with dot</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>supersett med prikk</seg>
+                <seg>supersett med punkt</seg>
             </tuv>
         </tu>
         <tu>
@@ -8473,7 +8473,7 @@
                 <seg>rightwards arrow through superset</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre gjennom supersettet</seg>
+                <seg>høyrepil gjennom supersettet</seg>
             </tuv>
         </tu>
         <tu>
@@ -8489,7 +8489,7 @@
                 <seg>rightwards arrow above reverse almost equal to</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre over revers nesten lik</seg>
+                <seg>høyrepil over revers nesten lik</seg>
             </tuv>
         </tu>
         <tu>
@@ -8521,7 +8521,7 @@
                 <seg>rightwards arrow above reverse tilde operator</seg>
             </tuv>
             <tuv xml:lang="no">
-                <seg>pil til høyre over operatøren bakover</seg>
+                <seg>høyrepil over operatøren bakover</seg>
             </tuv>
         </tu>
         <tu>
