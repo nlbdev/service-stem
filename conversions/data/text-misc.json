@@ -33,7 +33,8 @@
         { "name": " to the power of 2 ", "value": " squared " },
         { "name": " left parenthesis matrix start ", "value": " matrix start " },
         { "name": " matrix end right parenthesis ", "value": " matrix end " },
-        { "name": "bracket", "value": "bracket" }
+        { "name": "bracket", "value": "bracket" },
+        { "name": "the matrix contains", "value": "the matrix contains" }
     ],
     "chars": [
         { "code": 40, "value": "left parenthesis" },

@@ -33,6 +33,7 @@
         { "name": "degrees", "value": "degrees"}
     ],
     "chars": [
+        { "code": 176, "value": "degrees" },
         { "code": 593, "value": "alpha" },
         { "code": 913, "value": "alpha" },
         { "code": 945, "value": "alpha" },
