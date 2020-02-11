@@ -112,16 +112,12 @@ function ParenthesisTextClose(node, words) {
 
 function RaisedLoweredDerivedText(node, words) {
     if (node.parentNode != null && node.parentNode.localName == "msup") {
-        if(node.previousSibling != null && (
-            node.previousSibling.localName == "mi" || 
-            node.previousSibling.localName == "mn" || 
-            node.previousSibling.localName == "mrow" || 
-            node.previousSibling.localName == "mfenced")) {
+        if(node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
             if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
-                words.push(GetText("derivated", misc));
+                words.push(GetText("derivative", misc));
             }
             else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
-                words.push(GetText("double derivated", misc));
+                words.push(GetText("double derivative", misc));
             }
             else {
                 words.push(GetText("to the power of", misc));
