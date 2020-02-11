@@ -414,7 +414,10 @@ function ParseNode(node, words) {
                 case "mi":
                     DividendText(node, words);
                     RaisedLoweredDerivedText(node, words);
-                    if (node.firstChild != null && node.firstChild.nodeValue == node.firstChild.nodeValue.toUpperCase() && (node.firstChild != null && node.firstChild.nodeValue.charCodeAt() != 8734)) words.push("capital"); // if capital, except infinity
+                    if (node.firstChild != null && node.firstChild.nodeValue == node.firstChild.nodeValue.toUpperCase() && (node.firstChild != null && node.firstChild.nodeValue.charCodeAt() != 8734)) { // if capital, except infinity
+                        words.push("capital");
+                        node.firstChild.nodeValue = node.firstChild.nodeValue.toLowerCase();
+                    }
                     
                     var mi_val = node.firstChild.nodeValue;
                     var mi_t = GetText(mi_val, identifiers);

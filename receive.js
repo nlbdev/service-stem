@@ -88,6 +88,7 @@ const console = require("./logger");
                         correlationId: msg.properties.correlationId
                       }
                     );
+                    channel.ack(msg);
                   });
               }
               else if (payload.contentType == "chemistry" || payload.contentType == "physics" || payload.contentType == "other") {
@@ -101,6 +102,7 @@ const console = require("./logger");
                     correlationId: msg.properties.correlationId
                   }
                 );
+                channel.ack(msg);
               }
             },
             {
