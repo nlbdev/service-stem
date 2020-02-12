@@ -49,7 +49,7 @@ const console = require("./logger");
                     // Post-processing SVG
                     var x2js = new X2JS(), xmlDoc = x2js.xml2js( values[1] ), svgDoc = xmlDoc.div;
 
-                    svgDoc.svg._class = "spoken-math";
+                    svgDoc.svg._class = "visual-math";
                     svgDoc.svg["_aria-hidden"] = true;
 
                     var domDoc = x2js.js2dom(svgDoc);
