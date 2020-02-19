@@ -52,73 +52,96 @@ function DividendText(node, words) {
 }
 
 function ParenthesisTextOpen(node, words) {
-    // Sjekke om mfenced har en mo med prime eller dobbel prime i seg (for derivasjon) og heller bruke dette for derivasjon
+    var cont = true;
+    if(node.nextSibling != null && node.nextSibling.localName == "mo") {
+        if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8242) {// Derivative
+            cont = false;
+            words.push(GetText("the derivative of the expression", misc));
+        }
+        else if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8243) { // Double derivative
+            cont = false;
+            words.push(GetText("the double derivative of the expression", misc));
+        }
+    }
 
-
-    for (var n = 0; n < node.attributes.length; n++) {
-        var Attr = node.attributes[n];
-        if (Attr.localName == "open") {
-            switch (Attr.nodeValue.charCodeAt()) {
-                case 40:
-                    if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
-                        // Its a function and does not require parenthesis
-                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                        // Its a matrix and does not require parenthesis
-                    } else {
+    if(cont) {
+        for (var n = 0; n < node.attributes.length; n++) {
+            var Attr = node.attributes[n];
+            if (Attr.localName == "open") {
+                switch (Attr.nodeValue.charCodeAt()) {
+                    case 40:
+                        if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
+                            // Its a function and does not require parenthesis
+                        } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                            // Its a matrix and does not require parenthesis
+                        } else {
+                            words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
+                        }
+                        break;
+                    case 91:
+                    case 123:
+                    case 124:
                         words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                    }
-                    break;
-                case 91:
-                case 123:
-                case 124:
-                    words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                    break;
-                default:
-                    console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
-                    words.push(Attr.nodeValue);
-                    break;
+                        break;
+                    default:
+                        console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
+                        words.push(Attr.nodeValue);
+                        break;
+                }
             }
         }
     }
 }
 
 function ParenthesisTextClose(node, words) {
-    for (var o = 0; o < node.attributes.length; o++) {
-        var Attr = node.attributes[o];
-        if (Attr.localName == "close") {
-            switch (Attr.nodeValue.charCodeAt()) {
-                case 41:
-                    if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
-                        // Its a function and does not require parenthesis
-                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                        // Its a matrix and does not require parenthesis
-                    } else {
+    var cont = true;
+    if(node.nextSibling != null && node.nextSibling.localName == "mo") {
+        if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8242 || node.nextSibling.firstChild.nodeValue.charCodeAt() == 8243) { // Derivative or Double derivative
+            cont = false;
+            words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
+        }
+    }
+
+    if(cont) {
+        for (var o = 0; o < node.attributes.length; o++) {
+            var Attr = node.attributes[o];
+            if (Attr.localName == "close") {
+                switch (Attr.nodeValue.charCodeAt()) {
+                    case 41:
+                        if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
+                            // Its a function and does not require parenthesis
+                        } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                            // Its a matrix and does not require parenthesis
+                        } else {
+                            words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
+                        }
+                        break;
+                    case 93:
+                    case 125:
                         words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                    }
-                    break;
-                case 93:
-                case 125:
-                    words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                    break;
-                case 124:
-                    words.push(`${GetText(Attr.nodeValue.charCodeAt(), misc)} ${GetText("end", misc)}`);
-                    break;
-                default:
-                    console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
-                    words.push(Attr.nodeValue);
-                    break;
+                        break;
+                    case 124:
+                        words.push(`${GetText(Attr.nodeValue.charCodeAt(), misc)} ${GetText("end", misc)}`);
+                        break;
+                    default:
+                        console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
+                        words.push(Attr.nodeValue);
+                        break;
+                }
             }
         }
     }
 }
 
-function RaisedLoweredDerivedText(node, words) {
+function RaisedLoweredText(node, words) {
     if (node.parentNode != null && node.parentNode.localName == "msup") {
         if(node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
             if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
+                // Derivative is handled elsewhere
                 words.push(GetText("derivative", misc));
             }
             else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
+                // Double derivative is handled elsewhere
                 words.push(GetText("double derivative", misc));
             }
             else {
@@ -225,7 +248,7 @@ function ParseNode(node, words) {
                     break;
                 case "mtable":
                     words.push(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`);
-                    StandardLoop(node, words);
+                    StandardLoop(node, words, 0);
                     words.push(`${GetText("matrix", misc)} ${GetText("end", misc)}`);
                     break;
                 case "mtr":
@@ -242,6 +265,7 @@ function ParseNode(node, words) {
                     StandardLoop(node, words, 0);
                     break;
                 case "msub":
+                    DividendText(node, words);
                     if((node.parentNode != null && node.parentNode.localName === "mover")) {
                         if(node.nextSibling != null && node.nextSibling.localName === "mo" && (node.nextSibling.firstChild != null && node.nextSibling.firstChild.nodeValue.charCodeAt() == 8594)) {
                             if(node.childNodes.length >= 2) {
@@ -266,7 +290,8 @@ function ParseNode(node, words) {
                     }
                     break;
                 case "msup":
-                    RaisedLoweredDerivedText(node, words);
+                    DividendText(node, words);
+                    RaisedLoweredText(node, words);
                     if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
                     StandardLoop(node, words, 0);
                     if(IsExp(node)) words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
@@ -339,7 +364,7 @@ function ParseNode(node, words) {
                     }
                     words.pop(); // remove extra 'and'
                     ParenthesisTextClose(node, words);
-                    RaisedLoweredDerivedText(node, words);
+                    RaisedLoweredText(node, words);
                     break;
                 case "mrow":
                     if(IsFunc(node)) words.push(`${GetText("the", misc)} ${GetText("function", misc)}`);
@@ -365,7 +390,7 @@ function ParseNode(node, words) {
                     words.push(`${GetText("root", misc)} ${GetText("end", misc)}`);
                     break;
                 case "mfrac":
-                    RaisedLoweredDerivedText(node, words);
+                    RaisedLoweredText(node, words);
                     if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
                     words.push(GetText("fraction with counter", misc));
                     StandardLoop(node, words, 0);
@@ -374,7 +399,7 @@ function ParseNode(node, words) {
                     break;
                 case "mo":
                     DividendText(node, words);
-                    RaisedLoweredDerivedText(node, words);
+                    RaisedLoweredText(node, words);
                     var mo_val = node.firstChild.nodeValue;
                     var mo_t = GetText(mo_val, operators);
                     var mo_code = mo_val.charCodeAt();
@@ -450,12 +475,12 @@ function ParseNode(node, words) {
                     break;
                 case "mi":
                     DividendText(node, words);
-                    RaisedLoweredDerivedText(node, words);
+                    RaisedLoweredText(node, words);
                     if (node.firstChild != null && node.firstChild.nodeValue == node.firstChild.nodeValue.toUpperCase() && (node.firstChild != null && node.firstChild.nodeValue.charCodeAt() != 8734)) { // if capital, except infinity
                         words.push("capital");
                         node.firstChild.nodeValue = node.firstChild.nodeValue.toLowerCase();
                     }
-                    
+
                     var mi_val = node.firstChild.nodeValue;
                     var mi_t = GetText(mi_val, identifiers);
                     var mi_code = mi_val.charCodeAt();
@@ -489,12 +514,12 @@ function ParseNode(node, words) {
                     break;
                 case "mtext":
                     DividendText(node, words);
-                    RaisedLoweredDerivedText(node, words);
+                    RaisedLoweredText(node, words);
                     words.push(node.firstChild.nodeValue);
                     break;
                 case "mn":
                     DividendText(node, words);
-                    RaisedLoweredDerivedText(node, words);
+                    RaisedLoweredText(node, words);
                     words.push(node.firstChild.nodeValue);
                     break;
                 case "mspace":
