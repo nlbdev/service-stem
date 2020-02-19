@@ -19,6 +19,7 @@
         { "name": "integral", "value": "integral" },
         { "name": "vector", "value": "vector" },
         { "name": "function", "value": "function" },
+        { "name": "expression", "value": "expression" },
         { "name": "matrix", "value": "matrix" },
         { "name": "double integral", "value": "double integral" },
         { "name": "triple integral", "value": "triple integral" },
