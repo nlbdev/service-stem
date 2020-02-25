@@ -258,6 +258,7 @@ function ParseNode(node, words) {
                     for (var y = 0; y < node.childNodes.length; y++) {
                         words.push(`${GetText("cell", misc)} ${y+1} ${GetText("contains", misc)}`);
                         ParseNode(node.childNodes[y], words);
+                        words[words.length-1] = `${words[words.length-1]},`;
                     }
                     words.push(`${GetText("row", misc)} ${GetText("end", misc)}${(node != node.parentNode.lastChild ? ',' : '')}`);
                     break;
