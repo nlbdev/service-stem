@@ -7,9 +7,6 @@ const AppConfig = require("./configurations/appConfig");
 const text = require("./conversions/text");
 const svg = require("./conversions/svg");
 
-// Override console to enable papertrail
-const console = require("./logger");
-
 (() => {
   "use strict";
 
