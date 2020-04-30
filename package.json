@@ -11,7 +11,7 @@
     "crypto": "^1.0.1",
     "ejs": "^3.0.1",
     "he": "^1.2.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsdom": "^15.2.1",
     "mathjax-full": "^3.0.0",
     "pino-multi-stream": "^4.2.0",
