@@ -50,7 +50,7 @@
 		\textbullet\quad20190926 / 1.2: Third version: Minor changes and additions.\\
 		\textbullet\quad20191204 / 2.0: Fourth version: Conclusion of testing and linear math.\\
         \textbullet\quad20200206 / 2.1: Fifth version: Minor changes and additions.\\
-        \textbullet\quad20200527 / 2.2: Sixth version (this version): Clarifications.\\
+        \textbullet\quad20200528 / 2.2: Sixth version (this version): Clarifications.\\
         \bigskip
 	}
 	\end{quote}
@@ -80,11 +80,12 @@ Except for the first bullet point, which relies on the math knowledge of a  huma
 	\item All mathematical expressions --~both inline and block~-- shall be marked up, along with the general EPUB markup, using \emph{MathML Presentation Markup}, as specified in ''Mathematical Markup Language (MathML) Version 3.0 2nd Edition''\footnote{See~\url{https://www.w3.org/TR/MathML3/}}.
 	\item All expressions must have the \emph{xml:lang}-attribute, defining what language the expression should be outputted in.
 	\item Whenever applicable, the requirements in this document must be respected.
-	
-	\textbf{For mathematical expressions that are not covered in this document, the personnel involved in the markup process is encouraged to do MathML markup based on a good understanding of mathematics, combined with a solid knowledge of the set of MathML elements and attributes.}
 
+	\item \textbf{For mathematical expressions that are not covered in this document, the personnel involved in the markup process is encouraged to do MathML markup based on a good understanding of mathematics, combined with a solid knowledge of the set of MathML elements and attributes.}
+	
 	\item Unless MathML markup of a certain type of mathematical expression is specified in this document, the markup should be based on a good understanding of mathematics, combined with a solid knowledge of the set of MathML elements and attributes.
 	\item Use the numeric XML annotation of an entity, for example: instead of \entitet{ApplyFunction} or \entitet{af}, use \entitet{\#8289}, or it's unicode representation.
+	\item Do not create MathML out of formulas in headers and/or table of contents.
 	\item All MathML markup must be annotated with an AsciiMath expression that represents the mathematical expression printed in the book. Thus, the complete markup of any given mathematical expression must be coded according to the following scheme:
 	
 \begin{kodeblokk}
@@ -135,13 +136,39 @@ This enumerated attribute specifies how the enclosed MathML markup should be ren
 \bigskip
 \textbf{It should be possible to implement this in practice using the following rules:}
 \begin{itemize}
-    \item If the \element{<math>} element has a sibling node which is either a non-empty text node (note that text nodes consisting only of whitespace are considered "empty"), or one of the following inline elements, then the \markup{display} attribute should be set to inline: \element{<a>}, \element{<abbr>}, \element{<bdo>}, \element{<br>}, \element{<code>}, \element{<dfn>}, \element{<em>}, \element{<img>}, \element{<kbd>}, \element{<q>}, \element{<samp>}, \element{<span>}, \element{<strong>}, \element{<sub>}, \element{<sup>}.
-    \item The \element{<math>} element must not be the only node in an inline context.
-    
-    So for instance, while \markup{<p><math display="inline">…</math></p>} is technically valid, it should rather be written as \markup{<math display="block">…</math>}. 
-    
-    But if there are non-empty text nodes or inline elements in the same context, then \markup{display="inline"} should still be used: \markup{<p>text text <math display="inline">…</math> <span>more text</span></p>} is correct.
-    \item \element{<math>} elements that are not in an inline context, should use \markup{display="block"}.
+	\item If the \element{<math>} element has a sibling or parent node node which is either a non-empty text node (note that text nodes consisting only of whitespace are considered "empty"), or one of the following inline elements, then the \markup{display} attribute should be set to \markup{inline}: \element{<a>}, \element{<abbr>}, \element{<bdo>}, \element{<br>}, \element{<code>}, \element{<dfn>}, \element{<em>}, \element{<img>}, \element{<kbd>}, \element{<q>}, \element{<samp>}, \element{<span>}, \element{<strong>}, \element{<sub>}, \element{<sup>}.
+	\item If the \element{<math>} element does not have any sibling elements or non-empty text nodes, and the parent element is either \element{<figcaption>}, \element{<dd>}, \element{<li>}, \element{<caption>}, \element{<th>} or \element{<td>}, then the \markup{display} attribute should be \markup{inline}.
+	\item Except for the previous case, the \element{<math>} element must not be the only node in an \markup{inline} context. So for instance, while
+
+	\begin{kodeblokk}
+	\begin{verbatimtab}[3]
+	<p>
+		<math display="inline">…</math>
+	</p>
+	\end{verbatimtab}
+	\end{kodeblokk}
+
+	is technically valid, it should rather be written as
+
+	\begin{kodeblokk}
+	\begin{verbatimtab}[3]
+	<math display="block">…</math>
+	\end{verbatimtab}
+	\end{kodeblokk}
+
+	But if there are non-empty text nodes or inline elements in the same context (i.e. siblings or parent), then \markup{display="inline"} should still be used. For instance, this is correct:
+
+	\begin{kodeblokk}
+	\begin{verbatimtab}[3]
+	<p>
+		text text
+		<math display="inline">…</math>
+		<span>more text</span>
+	</p>
+	\end{verbatimtab}
+	\end{kodeblokk}
+
+    \item \element{<math>} elements that are not in an inline context according to the rules above, should use \markup{display="block"}.
 \end{itemize}
 
 See also: \url{https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements}
