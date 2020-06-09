@@ -1,11 +1,10 @@
-#! /usr/bin/env node
 /*jshint esversion: 8 */
 
-const mathjax = require('mathjax-full/js/mathjax.js').mathjax;
-const MathML = require('mathjax-full/js/input/mathml.js').MathML;
-const SVG = require('mathjax-full/js/output/svg.js').SVG;
-const liteAdaptor = require('mathjax-full/js/adaptors/liteAdaptor.js').liteAdaptor;
-const RegisterHTMLHandler = require('mathjax-full/js/handlers/html.js').RegisterHTMLHandler;
+import { mathjax } from 'mathjax-full/js/mathjax.js';
+import { MathML } from 'mathjax-full/js/input/mathml.js';
+import { SVG } from 'mathjax-full/js/output/svg.js';
+import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js';
+import { RegisterHTMLHandler } from 'mathjax-full/js/handlers/html.js';
 
 
 //
@@ -21,8 +20,8 @@ const mml = new MathML();
 const svg = new SVG({fontCache: 'none'});
 const html = mathjax.document('', {InputJax: mml, OutputJax: svg});
 
-module.exports = {
-    GenerateSvg: async (mathml) => {
+export class SvgClass {
+    GenerateSvg = async (mathml:string) => {
         // Generate SVG
         const node = html.convert(mathml);
         node.kind = "div";
@@ -30,4 +29,4 @@ module.exports = {
 
         return adaptor.outerHTML(node);
     }
-};
+}
