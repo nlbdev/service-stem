@@ -1,7 +1,7 @@
 /*jshint esversion: 8 */
-import operators from "../data/text-operators.json";
-import identifiers from "../data/text-identifiers.json";
-import misc from "../data/text-misc.json";
+import * as operators from "../data/text-operators.json";
+import * as identifiers from "../data/text-identifiers.json";
+import * as misc from "../data/text-misc.json";
 
 function DividendText(node: CheerioElement, words: string[]) {
     if (node.parentNode !== null && (node.parentNode.tagName === "mfrac" && node === node.parentNode.lastChild)) {

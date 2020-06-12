@@ -1,40 +1,39 @@
 /*jshint esversion: 8 */
 import * as cheerio from "cheerio";
-import * as X2JS from "x2js";
 import * as Hapi from "@hapi/hapi";
 import * as Joi from "@hapi/joi";
 import * as Airbrake from "@airbrake/node"
 import * as uuid from "uuid";
+import * as ejs from "ejs";
+import fetch from "node-fetch";
 import { TextClass } from "./conversions/text";
 import { SvgClass } from "./conversions/svg";
 
-function postprocessSVG(content: string, title: string): string {
-  // Post-processing SVG
-  const x2js:X2JS = new X2JS();
-  const xmlDoc:any = x2js.xml2js(content);
-  const svgDoc:any = xmlDoc.div;
-
-  svgDoc.svg._class = "visual-math";
-  svgDoc.svg["_aria-hidden"] = true;
-  let domDoc: Document = new Document();
-
-  try {
-    domDoc = x2js.js2dom(svgDoc);
-  }
-  catch (ex) {
-    return "";
-  }
-
-  const titleEl:HTMLTitleElement = domDoc.createElement("title");
-  const titleText:Text = domDoc.createTextNode(title);
-  titleEl.appendChild(titleText);
-  domDoc.insertBefore(titleEl, domDoc.firstChild);
-  const tmpDoc = x2js.dom2js(domDoc);
-  return x2js.js2xml(tmpDoc);
-}
-
 (() => {
   "use strict";
+
+  async function GenerateAccessibleHtml(lang: string, display: string, text: string, image: string, svg: string, ascii: string): Promise<string> {
+    const filename = `${__dirname}\\templates\\accessibleHtml.ejs`;
+    const options = { async: true };
+    const data = { language: lang, disp: display, txt: text, altimg: image, alttext: ascii, svg };
+
+    return ejs.renderFile(filename, data, options).then((res: string) => res);
+  }
+
+  function PostprocessSVG(content: string, title: string): string {
+    const $ = cheerio.load(content, {
+      xmlMode: true
+    });
+
+    if ($("div.visual-math")[0].firstChild.tagName === "svg") {
+      $("div.visual-math")[0].firstChild.attribs.class = "visual-math";
+      $("div.visual-math")[0].firstChild.attribs["aria-hidden"] = "true";
+
+      $("div.visual-math > svg").append(`<title>${title}</title`);
+    }
+    return $.html();
+  }
+
   const Pack = { name: "service-stem", version: "2.0.0" };
   const identifier: string = uuid.v4();
 
@@ -118,46 +117,53 @@ function postprocessSVG(content: string, title: string): string {
         console.info(element);
       });
     }
-    catch(ex) {
+    catch (ex) {
       //
     }
   }
 
-  async function HandleRequest(request: Hapi.Request, h: Hapi.ResponseToolkit):Promise<any> {
+  async function HandleRequest(request: Hapi.Request, h: Hapi.ResponseToolkit): Promise<any> {
     const ident = request.headers["NLB-UUID"] || uuid.v1();
     console.info(` | ${new Date().toISOString()}\t| ${ident}\t| ${Pack.name}\t\t\t| Received HTTP ${request.method.toUpperCase()} with the payload: ${JSON.stringify(request.payload)}`);
     const payload: any = request.payload;
 
     const t = new TextClass();
     const s = new SvgClass();
-    return Promise.all([
+    return await Promise.all([
       t.GenerateMath(payload.content).then(res => res).catch(err => err),
       s.GenerateSvg(payload.content).then(svg => svg).catch(err => err)
     ])
-      .then(values => {
-        // Generate return object
-        const obj = {
+      .then(async (values: [{ success: boolean; language: string; words: string[]; ascii: string; display: string; imagepath: string; }, string]) => {
+        const words = values[0].words;
+        console.info(` | ${new Date().toISOString()}\t| ${ident}\t| ${Pack.name}\t\t\t| Generated text: '${words.join(" ")}'`);
+        // Send generated text to translate service
+        const opts = {
+          method: "POST",
+          headers: {
+            "nlb-uuid": ident
+          },
+          timeout: 10000,
+          body: JSON.stringify({ words })
+        };
+        const response = await fetch(`${process.env.NLB_SERVICE_TRANSLATE}/${values[0].language}`, opts);
+        const res = await response.text();
+        console.info(` | ${new Date().toISOString()}\t| ${ident}\t| ${Pack.name}\t\t\t| Translated text: '${res}'`);
+        const processedSvg = PostprocessSVG(values[1], values[0].ascii);
+        const accessibleHtml = await GenerateAccessibleHtml(values[0].language, values[0].display, res, values[0].imagepath, processedSvg, values[0].ascii);
+        return {
           success: values[0].success,
+          mathml: payload.content,
           generated: {
-            text: values[0],
-            svg: postprocessSVG(values[1], values[0].ascii),
+            text: res,
+            html: accessibleHtml,
             ascii: values[0].ascii
           },
-          attributes: {
-            language: values[0].language,
-            display: values[0].display,
-            image: values[0].imagepath
-          }
+          uuid: ident
         };
-        console.info(` | ${new Date().toISOString()}\t| ${ident}\t| ${Pack.name}\t| Generated text: ${values[0]}`);
-        return obj;
       })
-      .then((result) => {
-        // Return data
-        return { success: true, data: result };
-      })
-      .catch(err => {
-        return { success: false, error: err };
+      .catch((err: Error) => {
+        console.error(err);
+        return { success: false, error: err.message, uuid: ident };
       });
   }
 
