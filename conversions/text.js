@@ -369,6 +369,7 @@ function ParseNode(node, words) {
                     RaisedLoweredText(node, words);
                     break;
                 case "mrow":
+                    DividendText(node, words);
                     if(IsFunc(node)) words.push(`${GetText("the", misc)} ${GetText("function", misc)}`);
                     if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
                     StandardLoop(node, words, 0);
