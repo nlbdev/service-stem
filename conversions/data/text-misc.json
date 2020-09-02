@@ -15,6 +15,7 @@
         { "name": "double derivative", "value": "double derivative" },
         { "name": "to the power of", "value": "to the power of" },
         { "name": "with the lower index", "value": "with the lower index" },
+        { "name": "index", "value": "index" },
         { "name": "with the lower limit", "value": "with the lower limit" },
         { "name": "integral", "value": "integral" },
         { "name": "vector", "value": "vector" },

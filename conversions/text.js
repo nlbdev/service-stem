@@ -283,6 +283,7 @@ function ParseNode(node, words) {
                         ParseNode(node.childNodes[0], words);
                         words.push(`${GetText("with the lower index", misc)}`);
                         StandardLoop(node, words, 1);
+                        words.push(`${GetText("index", misc)} ${GetText("end", misc)}`);
                     }
                     else {
                         if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
