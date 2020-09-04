@@ -7,6 +7,7 @@
         { "code": 8290, "value": "times" },
         { "code": 43, "value": "plus" },
         { "code": 45, "value": "minus" },
+        { "code": 47, "value": "divided by" },
         { "code": 8722, "value": "minus" },
         { "code": 60, "value": "is less than" },
         { "code": 61, "value": "equals" },
