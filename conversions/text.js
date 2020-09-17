@@ -71,29 +71,38 @@ function ParenthesisTextOpen(node, words) {
     }
 
     if(cont) {
-        if(node.getAttribute("open")) {
-            var Attr = node.getAttribute("open");
-            var charCode = Attr.nodeValue.charCodeAt();
-            switch (charCode) {
-                case 40:
-                    if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
-                        // Its a function and does not require parenthesis
-                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                        // Its a matrix and does not require parenthesis
-                    } else {
-                        AddWord(GetText(charCode, misc), words);
-                    }
-                    break;
-                case 91:
-                case 123:
-                case 124:
+        var Attr = node.getAttribute("open"), charCode = 0, IsSiblingMo = false, IsPreviousSiblingFunction = false;
+
+        try {
+            charCode = Attr.charCodeAt();
+        } catch(ex) {
+            // Do nothing
+        }
+        switch (charCode) {
+            case 40:
+                try {
+                    IsSiblingMo = (node.previousSibling != null && node.previousSibling.localName == "mo");
+                    IsPreviousSiblingFunction = (node.previousSibling.firstChild && node.previousSibling.firstChild.value.charCodeAt() == 8289);
+                } catch(ex) { 
+                    // Do nothing
+                }
+                if (IsSiblingMo && IsPreviousSiblingFunction) {
+                    // Its a function and does not require parenthesis
+                } else if (node.firstChild && node.firstChild.localName == "mtable") {
+                    // Its a matrix and does not require parenthesis
+                } else {
                     AddWord(GetText(charCode, misc), words);
-                    break;
-                default:
-                    console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${charCode})`);
-                    AddWord(Attr.nodeValue, words);
-                    break;
-            }
+                }
+                break;
+            case 91:
+            case 123:
+            case 124:
+                AddWord(GetText(charCode, misc), words);
+                break;
+            default:
+                console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
+                AddWord(Attr, words);
+                break;
         }
     }
 }
@@ -108,32 +117,42 @@ function ParenthesisTextClose(node, words) {
     }
 
     if(cont) {
-        if(node.getAttribute("close")) {
-            var Attr = node.getAttribute("close");
-            var charCode = Attr.nodeValue.charCodeAt();
-            switch (charCode) {
-                case 41:
-                    if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
-                        // Its a function and does not require parenthesis
-                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                        // Its a matrix and does not require parenthesis
-                    } else {
-                        AddWord(GetText(charCode, misc), words);
-                    }
-                    break;
-                case 93:
-                case 125:
-                    AddWord(GetText(charCode, misc), words);
-                    break;
-                case 124:
-                    AddWord(`${GetText(charCode, misc)} ${GetText("end", misc)}`, words);
-                    break;
-                default:
-                    console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${charCode})`);
-                    AddWord(Attr.nodeValue, words);
-                    break;
-            }
+        var Attr = node.getAttribute("close"), charCode = 0, IsSiblingMo = false, IsPreviousSiblingFunction = false;
+
+        try {
+            charCode = Attr.charCodeAt();
+        } catch(ex) {
+            // Do nothing
         }
+        switch (charCode) {
+            case 41:
+                try {
+                    IsSiblingMo = (node.previousSibling != null && node.previousSibling.localName == "mo");
+                    IsPreviousSiblingFunction = (node.previousSibling.firstChild && node.previousSibling.firstChild.value.charCodeAt() == 8289);
+                } catch(ex) { 
+                    // Do nothing
+                }
+                if (IsSiblingMo && IsPreviousSiblingFunction) {
+                    // Its a function and does not require parenthesis
+                } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                    // Its a matrix and does not require parenthesis
+                } else {
+                    AddWord(GetText(charCode, misc), words);
+                }
+                break;
+            case 93:
+            case 125:
+                AddWord(GetText(charCode, misc), words);
+                break;
+            case 124:
+                AddWord(`${GetText(charCode, misc)} ${GetText("end", misc)}`, words);
+                break;
+            default:
+                console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
+                AddWord(Attr, words);
+                break;
+        }
+        charCode = 0;
     }
 }
 
