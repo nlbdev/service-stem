@@ -4,6 +4,7 @@
 const operators = require("./data/text-operators.json");
 const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
+const { Cipher } = require("crypto");
 const DOMParser = require("xmldom").DOMParser;
 
 /**
@@ -71,7 +72,7 @@ function ParenthesisTextOpen(node, words) {
     }
 
     if(cont) {
-        var Attr = node.getAttribute("open"), charCode = 0, IsSiblingMo = false, IsPreviousSiblingFunction = false;
+        var Attr = node.getAttribute("open"), charCode = 0, IsSiblingMo = false, IsPreviousSiblingFunction = false, IsFirstChildMtable = false;
 
         try {
             charCode = Attr.charCodeAt();
@@ -81,15 +82,23 @@ function ParenthesisTextOpen(node, words) {
         switch (charCode) {
             case 40:
                 try {
-                    IsSiblingMo = (node.previousSibling != null && node.previousSibling.localName == "mo");
-                    IsPreviousSiblingFunction = (node.previousSibling.firstChild && node.previousSibling.firstChild.value.charCodeAt() == 8289);
+                    IsSiblingMo = node.previousSibling.localName == "mo";
                 } catch(ex) { 
                     // Do nothing
                 }
-                if (IsSiblingMo && IsPreviousSiblingFunction) {
-                    // Its a function and does not require parenthesis
-                } else if (node.firstChild && node.firstChild.localName == "mtable") {
-                    // Its a matrix and does not require parenthesis
+                try {
+                    IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289;
+                } catch(ex) { 
+                    // Do nothing
+                }
+                try {
+                    IsFirstChildMtable = node.firstChild.localName == "mtable";
+                } catch(ex) { 
+                    // Do nothing
+                }
+
+                if ((IsPreviousSiblingFunction && IsSiblingMo) || IsFirstChildMtable ) {
+                    // Its does not require parenthesis text
                 } else {
                     AddWord(GetText(charCode, misc), words);
                 }
@@ -117,7 +126,7 @@ function ParenthesisTextClose(node, words) {
     }
 
     if(cont) {
-        var Attr = node.getAttribute("close"), charCode = 0, IsSiblingMo = false, IsPreviousSiblingFunction = false;
+        var Attr = node.getAttribute("close"), charCode = 0, IsSiblingMo = false, IsPreviousSiblingFunction = false, IsFirstChildMtable = false;
 
         try {
             charCode = Attr.charCodeAt();
@@ -127,15 +136,23 @@ function ParenthesisTextClose(node, words) {
         switch (charCode) {
             case 41:
                 try {
-                    IsSiblingMo = (node.previousSibling != null && node.previousSibling.localName == "mo");
-                    IsPreviousSiblingFunction = (node.previousSibling.firstChild && node.previousSibling.firstChild.value.charCodeAt() == 8289);
+                    IsSiblingMo = node.previousSibling.localName == "mo";
                 } catch(ex) { 
                     // Do nothing
                 }
-                if (IsSiblingMo && IsPreviousSiblingFunction) {
-                    // Its a function and does not require parenthesis
-                } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                    // Its a matrix and does not require parenthesis
+                try {
+                    IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289;
+                } catch(ex) { 
+                    // Do nothing
+                }
+                try {
+                    IsFirstChildMtable = node.firstChild.localName == "mtable";
+                } catch(ex) { 
+                    // Do nothing
+                }
+
+                if ((IsPreviousSiblingFunction && IsSiblingMo) || IsFirstChildMtable ) {
+                    // Its does not require parenthesis text
                 } else {
                     AddWord(GetText(charCode, misc), words);
                 }
