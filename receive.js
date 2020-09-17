@@ -3,6 +3,7 @@
 const X2JS = require("x2js");
 const amqp = require("amqplib/callback_api");
 
+const { DOMParser } = require("xmldom");
 const AppConfig = require("./configurations/appConfig");
 const text = require("./conversions/text");
 const svg = require("./conversions/svg");
@@ -38,29 +39,16 @@ const svg = require("./conversions/svg");
               let payload = JSON.parse(msg.content);
 
               if (payload.contentType == "math") {
-                Promise.all([
-                  text.GenerateMath(payload.content).then(res => res).catch(err => err),
-                  svg.GenerateSvg(payload.content).then(svg => svg).catch(err => err)
-                ])
+                var p = [text.GenerateMath(payload.content).then(res => res).catch(err => err)];
+                var doc = new DOMParser().parseFromString(payload.content);
+                if(!doc.documentElement.getAttribute("altimg")) p.push(svg.GenerateSvg(payload.content).then(svg => svg).catch(err => err));
+
+                Promise.all(p)
                   .then(values => {
-                    // Post-processing SVG
-                    var x2js = new X2JS(), xmlDoc = x2js.xml2js( values[1] ), svgDoc = xmlDoc.div;
-
-                    svgDoc.svg._class = "visual-math";
-                    svgDoc.svg["_aria-hidden"] = true;
-
-                    var domDoc = x2js.js2dom(svgDoc);
-
-                    var titleEl = domDoc.createElement("title"), titleText = domDoc.createTextNode(values[0].ascii);
-                    titleEl.appendChild(titleText);
-                    domDoc.firstChild.insertBefore(titleEl);
-                    var tmpDoc = x2js.dom2js(domDoc);
-                    
                     // Generate return object
                     var obj = { success: values[0].success, 
                       generated : { 
                         text: values[0], 
-                        svg: x2js.js2xml(tmpDoc),
                         ascii: values[0].ascii
                       }, 
                       attributes: {
@@ -69,6 +57,23 @@ const svg = require("./conversions/svg");
                         image: values[0].imagepath
                       }
                     };
+
+                    if(values.length === 2) {
+                      // Post-processing SVG
+                      var x2js = new X2JS(), xmlDoc = x2js.xml2js( values[1] ), svgDoc = xmlDoc.div;
+
+                      svgDoc.svg._class = "visual-math";
+                      svgDoc.svg["_aria-hidden"] = true;
+
+                      var domDoc = x2js.js2dom(svgDoc);
+
+                      var titleEl = domDoc.createElement("title"), titleText = domDoc.createTextNode(values[0].ascii);
+                      titleEl.appendChild(titleText);
+                      domDoc.firstChild.insertBefore(titleEl);
+                      var tmpDoc = x2js.dom2js(domDoc);
+                      obj.generated.svg = x2js.js2xml(tmpDoc);
+                    }
+
                     return obj;
                   })
                   .catch(err => {

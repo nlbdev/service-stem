@@ -19,7 +19,8 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "x2js": "^3.4.0",
-    "xml": "^1.0.1"
+    "xml": "^1.0.1",
+    "xmldom": "^0.3.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

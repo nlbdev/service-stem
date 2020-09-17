@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
 
-const X2JS = require("x2js");
 const operators = require("./data/text-operators.json");
 const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
+const DOMParser = require("xmldom").DOMParser;
 
 /**
  * Get the correct string and return it, return undefined if not found
@@ -31,23 +31,29 @@ function GetText(s, source) {
     }
 }
 
-function ExtractAttributes(node) {
-    var arr = [];
-    if (node.attributes.length > 0) {
-        for (var i = 0; i < node.attributes.length; i++) {
-            var Attr = node.attributes[i];
-            if (Attr.nodeName == "xml:lang") arr.push({name: "language", value: Attr.nodeValue});
-            else if (Attr.nodeName == "alttext") arr.push({name: "ascii", value: Attr.nodeValue});
-            else if (Attr.nodeName == "display") arr.push({name: "display", value: Attr.nodeValue});
-            else if (Attr.nodeName == "altimg") arr.push({name: "image", value: Attr.nodeValue});
-        }
+function AddWord(word, words) {
+    var success = false;
+    try {
+        if(word) words.push(word);
+        success = true;
+    } catch(ex) {
+        console.error(ex);
     }
-    return arr;
+    return success;
+}
+
+function ExtractAttributes(node) {
+    return [
+        {name: "language", value: node.getAttribute("xml:lang") || null },
+        {name: "ascii", value: node.getAttribute("alttext") || null },
+        {name: "display", value: node.getAttribute("display") || null },
+        {name: "image", value: node.getAttribute("altimg") || null }
+    ];
 }
 
 function DividendText(node, words) {
     if (node.parentNode != null && (node.parentNode.localName == "mfrac" && node == node.parentNode.lastChild)) {
-        words.push(GetText("and denominator", misc));
+        AddWord(GetText("and denominator", misc), words);
     }
 }
 
@@ -56,38 +62,37 @@ function ParenthesisTextOpen(node, words) {
     if(node.nextSibling != null && node.nextSibling.localName == "mo") {
         if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8242) {// Derivative
             cont = false;
-            words.push(GetText("the derivative of the expression", misc));
+            AddWord(GetText("the derivative of the expression", misc), words);
         }
         else if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8243) { // Double derivative
             cont = false;
-            words.push(GetText("the double derivative of the expression", misc));
+            AddWord(GetText("the double derivative of the expression", misc), words);
         }
     }
 
     if(cont) {
-        for (var n = 0; n < node.attributes.length; n++) {
-            var Attr = node.attributes[n];
-            if (Attr.localName == "open") {
-                switch (Attr.nodeValue.charCodeAt()) {
-                    case 40:
-                        if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
-                            // Its a function and does not require parenthesis
-                        } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                            // Its a matrix and does not require parenthesis
-                        } else {
-                            words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                        }
-                        break;
-                    case 91:
-                    case 123:
-                    case 124:
-                        words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                        break;
-                    default:
-                        console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
-                        words.push(Attr.nodeValue);
-                        break;
-                }
+        if(node.getAttribute("open")) {
+            var Attr = node.getAttribute("open");
+            var charCode = Attr.nodeValue.charCodeAt();
+            switch (charCode) {
+                case 40:
+                    if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
+                        // Its a function and does not require parenthesis
+                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                        // Its a matrix and does not require parenthesis
+                    } else {
+                        AddWord(GetText(charCode, misc), words);
+                    }
+                    break;
+                case 91:
+                case 123:
+                case 124:
+                    AddWord(GetText(charCode, misc), words);
+                    break;
+                default:
+                    console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${charCode})`);
+                    AddWord(Attr.nodeValue, words);
+                    break;
             }
         }
     }
@@ -98,36 +103,35 @@ function ParenthesisTextClose(node, words) {
     if(node.nextSibling != null && node.nextSibling.localName == "mo") {
         if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8242 || node.nextSibling.firstChild.nodeValue.charCodeAt() == 8243) { // Derivative or Double derivative
             cont = false;
-            words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
+            AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
         }
     }
 
     if(cont) {
-        for (var o = 0; o < node.attributes.length; o++) {
-            var Attr = node.attributes[o];
-            if (Attr.localName == "close") {
-                switch (Attr.nodeValue.charCodeAt()) {
-                    case 41:
-                        if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
-                            // Its a function and does not require parenthesis
-                        } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
-                            // Its a matrix and does not require parenthesis
-                        } else {
-                            words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                        }
-                        break;
-                    case 93:
-                    case 125:
-                        words.push(GetText(Attr.nodeValue.charCodeAt(), misc));
-                        break;
-                    case 124:
-                        words.push(`${GetText(Attr.nodeValue.charCodeAt(), misc)} ${GetText("end", misc)}`);
-                        break;
-                    default:
-                        console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${Attr.nodeValue.charCodeAt()})`);
-                        words.push(Attr.nodeValue);
-                        break;
-                }
+        if(node.getAttribute("close")) {
+            var Attr = node.getAttribute("close");
+            var charCode = Attr.nodeValue.charCodeAt();
+            switch (charCode) {
+                case 41:
+                    if (node.previousSibling != null && node.previousSibling.localName == "mo" && node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289) {
+                        // Its a function and does not require parenthesis
+                    } else if (node.childNodes.firstChild != null && node.childNodes.firstChild.localName == "mtable") {
+                        // Its a matrix and does not require parenthesis
+                    } else {
+                        AddWord(GetText(charCode, misc), words);
+                    }
+                    break;
+                case 93:
+                case 125:
+                    AddWord(GetText(charCode, misc), words);
+                    break;
+                case 124:
+                    AddWord(`${GetText(charCode, misc)} ${GetText("end", misc)}`, words);
+                    break;
+                default:
+                    console.warn(` [ WARNING ] Missing text for PAREN: ${Attr.nodeValue} (char code: ${charCode})`);
+                    AddWord(Attr.nodeValue, words);
+                    break;
             }
         }
     }
@@ -138,28 +142,28 @@ function RaisedLoweredText(node, words) {
         if(node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
             if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
                 // Derivative is handled elsewhere
-                words.push(GetText("derivative", misc));
+                AddWord(GetText("derivative", misc), words);
             }
             else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
                 // Double derivative is handled elsewhere
-                words.push(GetText("double derivative", misc));
+                AddWord(GetText("double derivative", misc), words);
             }
             else {
-                words.push(GetText("to the power of", misc));
+                AddWord(GetText("to the power of", misc), words);
             }
         }
     }
     if(node.parentNode != null && node.parentNode.localName == "mrow" && node.parentNode.parentNode != null && node.parentNode.parentNode.localName == "msup" && node == node.parentNode.firstChild) {
-        words.push(GetText("to the power of", misc));
+        AddWord(GetText("to the power of", misc), words);
     }
     if ((node.parentNode != null && node.parentNode.localName == "msub") && (node.parentNode.previousSibling != null && (node.parentNode.previousSibling.localName == "mi" || node.parentNode.previousSibling.localName == "mn" || node.parentNode.previousSibling.localName == "mrow" || node.parentNode.previousSibling.localName == "mfenced"))) {
-        words.push(GetText("with the lower index", misc));
+        AddWord(GetText("with the lower index", misc), words);
     }
 }
 
 function StandardLoop(node, words, start) {
     for (var num = start; num < node.childNodes.length; num++) {
-        ParseNode(node.childNodes[num], words);
+        if(node.childNodes[num]) ParseNode(node.childNodes[num], words);
     }
 }
 
@@ -247,20 +251,20 @@ function ParseNode(node, words) {
                     StandardLoop(node, words, 0);
                     break;
                 case "mtable":
-                    words.push(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`);
+                    AddWord(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`, words);
                     StandardLoop(node, words, 0);
-                    words.push(`${GetText("matrix", misc)} ${GetText("end", misc)}`);
+                    AddWord(`${GetText("matrix", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mtr":
                 case "mlabeledtr":
                     for(var tr = 0; tr < node.parentNode.childNodes.length; tr++) if(node == node.parentNode.childNodes[tr]) break;
-                    words.push(`${GetText("row", misc)} ${(tr+1)} ${GetText("contains", misc)} ${node.childNodes.length} ${GetText("cells", misc)}:`);
+                    AddWord(`${GetText("row", misc)} ${(tr+1)} ${GetText("contains", misc)} ${node.childNodes.length} ${GetText("cells", misc)}:`, words);
                     for (var y = 0; y < node.childNodes.length; y++) {
-                        words.push(`${GetText("cell", misc)} ${y+1} ${GetText("contains", misc)}`);
+                        AddWord(`${GetText("cell", misc)} ${y+1} ${GetText("contains", misc)}`, words);
                         ParseNode(node.childNodes[y], words);
                         words[words.length-1] = `${words[words.length-1]},`;
                     }
-                    words.push(`${GetText("row", misc)} ${GetText("end", misc)}${(node != node.parentNode.lastChild ? ',' : '')}`);
+                    AddWord(`${GetText("row", misc)} ${GetText("end", misc)}${(node != node.parentNode.lastChild ? ',' : '')}`, words);
                     break;
                 case "mtd":
                     StandardLoop(node, words, 0);
@@ -271,7 +275,7 @@ function ParseNode(node, words) {
                         if(node.nextSibling != null && node.nextSibling.localName === "mo" && (node.nextSibling.firstChild != null && node.nextSibling.firstChild.nodeValue.charCodeAt() == 8594)) {
                             if(node.childNodes.length >= 2) {
                                 ParseNode(node.childNodes[0], words);
-                                words.push(`${GetText("with the lower index", misc)}`);
+                                AddWord(`${GetText("with the lower index", misc)}`, words);
                                 StandardLoop(node, words, 1);
                             }
                             else {
@@ -281,42 +285,42 @@ function ParseNode(node, words) {
                     }
                     else if(node.childNodes.length >= 2) {
                         ParseNode(node.childNodes[0], words);
-                        words.push(`${GetText("with the lower index", misc)}`);
+                        AddWord(`${GetText("with the lower index", misc)}`, words);
                         StandardLoop(node, words, 1);
-                        words.push(`${GetText("index", misc)} ${GetText("end", misc)}`);
+                        AddWord(`${GetText("index", misc)} ${GetText("end", misc)}`, words);
                     }
                     else {
-                        if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
+                        if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                         StandardLoop(node, words, 0);
-                        if(IsExp(node)) words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
+                        if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     }
                     break;
                 case "msup":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
+                    if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     StandardLoop(node, words, 0);
-                    if(IsExp(node)) words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
+                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mover":
                     var isBound = false;
                     if (IsVector(node, words)) {
-                        words.push(GetText("vector", misc));
+                        AddWord(GetText("vector", misc), words);
                         if(node.childNodes[0] != null && node.childNodes[0].localName == "mi") {
-                            words.push(node.childNodes[0].firstChild.nodeValue);
+                            AddWord(node.childNodes[0].firstChild.nodeValue, words);
                         }
                         else {
                             StandardLoop(node, words, 0);
                         }
-                        words.push(`${GetText("vector", misc)} ${GetText("end", misc)}`);
+                        AddWord(`${GetText("vector", misc)} ${GetText("end", misc)}`, words);
                     }
                     else {
                         if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("start", misc)}`);
+                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
                             ParseNode(node.childNodes[0], words);
-                            words.push(`${GetText("with the upper index", misc)}`);
+                            AddWord(`${GetText("with the upper index", misc)}`, words);
                             StandardLoop(node, words, 1);
-                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("end", misc)}`);
+                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
                         }
                         else {
                             StandardLoop(node, words, 0);
@@ -325,11 +329,11 @@ function ParseNode(node, words) {
                     break;
                 case "munder":
                     if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("start", misc)}`);
+                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
                         ParseNode(node.childNodes[0], words);
-                        words.push(`${GetText("with the lower index", misc)}`);
+                        AddWord(`${GetText("with the lower index", misc)}`, words);
                         StandardLoop(node, words, 1);
-                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") words.push(`${GetText("bracket", misc)} ${GetText("end", misc)}`);
+                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
                     }
                     else {
                         StandardLoop(node, words, 0);
@@ -343,16 +347,16 @@ function ParseNode(node, words) {
                         else if (node.firstChild.firstChild.nodeValue.charCodeAt() == 8749) integralType = "triple integral";
                         else if (node.firstChild.firstChild.nodeValue.charCodeAt() == 8750) integralType = "contour integral";
 
-                        words.push(`${GetText("the", misc)} ${GetText(integralType, misc)}`);
-                        words.push(GetText("with the lower limit", misc));
+                        AddWord(`${GetText("the", misc)} ${GetText(integralType, misc)}`, words);
+                        AddWord(GetText("with the lower limit", misc), words);
                         if (node.childNodes[1] != null) {
                             ParseNode(node.childNodes[1], words);
                         }
-                        words.push(GetText("and with the upper limit", misc));
+                        AddWord(GetText("and with the upper limit", misc), words);
                         if (node.childNodes[2] != null) {
                             ParseNode(node.childNodes[2], words);
                         }
-                        words.push(`${GetText(integralType, misc)} ${GetText("end", misc)}`);
+                        AddWord(`${GetText(integralType, misc)} ${GetText("end", misc)}`, words);
                     } else {
                         StandardLoop(node, words, 0);
                     }
@@ -362,7 +366,7 @@ function ParseNode(node, words) {
                     ParenthesisTextOpen(node, words);
                     for (var l = 0; l < node.childNodes.length; l++) {
                         ParseNode(node.childNodes[l], words);
-                        words.push(GetText("and", misc));
+                        AddWord(GetText("and", misc), words);
                     }
                     words.pop(); // remove extra 'and'
                     ParenthesisTextClose(node, words);
@@ -370,35 +374,35 @@ function ParseNode(node, words) {
                     break;
                 case "mrow":
                     DividendText(node, words);
-                    if(IsFunc(node)) words.push(`${GetText("the", misc)} ${GetText("function", misc)}`);
-                    if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
+                    if(IsFunc(node)) AddWord(`${GetText("the", misc)} ${GetText("function", misc)}`, words);
+                    if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     StandardLoop(node, words, 0);
-                    if(IsExp(node)) words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
-                    if(IsFunc(node)) words.push(`${GetText("function", misc)} ${GetText("end", misc)}`);
+                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                    if(IsFunc(node)) AddWord(`${GetText("function", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "msqrt":
                     DividendText(node, words);
-                    words.push(`${GetText("the", misc)} ${GetText("square root", misc)} ${GetText("of", misc)}`);
+                    AddWord(`${GetText("the", misc)} ${GetText("square root", misc)} ${GetText("of", misc)}`, words);
                     for (var i = 0; i < node.childNodes.length; i++) ParseNode(node.childNodes[i], words);
-                    words.push(`${GetText("square root", misc)} ${GetText("end", misc)}`);
+                    AddWord(`${GetText("square root", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mroot":
                     DividendText(node, words);
-                    if (node.lastChild != null && node.lastChild.localName == "mn") words.push(`the ${RootNumbers(node.lastChild.firstChild.nodeValue)} root of`); else words.push("the root of");
+                    if (node.lastChild != null && node.lastChild.localName == "mn") AddWord(`the ${RootNumbers(node.lastChild.firstChild.nodeValue)} root of`); else AddWord("the root of", words);
                     for (var n = 0; n < node.childNodes.length; n++) {
                         if (node.childNodes[n] != node.lastChild && node.lastChild.localName == "mn") {
                             ParseNode(node.childNodes[n], words);
                         }
                     }
-                    words.push(`${GetText("root", misc)} ${GetText("end", misc)}`);
+                    AddWord(`${GetText("root", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mfrac":
                     RaisedLoweredText(node, words);
-                    if(IsExp(node)) words.push(`${GetText("the", misc)} ${GetText("expression", misc)}`);
-                    words.push(GetText("fraction with counter", misc));
+                    if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                    AddWord(GetText("fraction with counter", misc), words);
                     StandardLoop(node, words, 0);
-                    words.push(`${GetText("fraction", misc)} ${GetText("end", misc)}`);
-                    if(IsExp(node)) words.push(`${GetText("expression", misc)} ${GetText("end", misc)}`);
+                    AddWord(`${GetText("fraction", misc)} ${GetText("end", misc)}`, words);
+                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mo":
                     DividendText(node, words);
@@ -413,27 +417,27 @@ function ParseNode(node, words) {
                                 break;
                             case 8592:
                                 if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                    words.push(mo_t);
+                                    AddWord(mo_t, words);
                                 }
                                 else {
-                                    words.push(GetText("larr", identifiers));
+                                    AddWord(GetText("larr", identifiers), words);
                                 }
                                 break;
                             case 8594:
                                 if (node.parentNode != null ) {
                                     if(node.parentNode.localName == "mrow") {
-                                        words.push(mo_t);
+                                        AddWord(mo_t, words);
                                     }
                                     else if(node.parentNode.localName == "mover") {
                                         // It's a vector, do nothing
                                     }
                                 }
                                 else {
-                                    words.push(GetText("rarr", identifiers));
+                                    AddWord(GetText("rarr", identifiers), words);
                                 }
                                 break;
                             default:
-                                words.push(mo_t);
+                                AddWord(mo_t, words);
                                 break;
                         }
                     }
@@ -446,33 +450,33 @@ function ParseNode(node, words) {
                                     break;
                                 case 8592:
                                     if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                        words.push(mo_c);
+                                        AddWord(mo_c, words);
                                     }
                                     else {
-                                        words.push(GetText("larr", identifiers));
+                                        AddWord(GetText("larr", identifiers), words);
                                     }
                                     break;
                                 case 8594:
                                     if (node.parentNode != null ) {
                                         if(node.parentNode.localName == "mrow") {
-                                            words.push(mo_c);
+                                            AddWord(mo_c, words);
                                         }
                                         else if(node.parentNode.localName == "mover") {
                                             // It's a vector, do nothing
                                         }
                                     }
                                     else {
-                                        words.push(GetText("rarr", identifiers));
+                                        AddWord(GetText("rarr", identifiers), words);
                                     }
                                     break;
                                 default:
-                                    words.push(mo_c);
+                                    AddWord(mo_c, words);
                                     break;
                             }
                         }
                         else {
                             if (mo_code > 127) console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
-                            words.push(mo_val);
+                            AddWord(mo_val, words);
                         }
                     }
                     break;
@@ -480,7 +484,7 @@ function ParseNode(node, words) {
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
                     if (node.firstChild != null && node.firstChild.nodeValue == node.firstChild.nodeValue.toUpperCase() && (node.firstChild != null && node.firstChild.nodeValue.charCodeAt() != 8734)) { // if capital, except infinity
-                        words.push("capital");
+                        AddWord("capital", words);
                         node.firstChild.nodeValue = node.firstChild.nodeValue.toLowerCase();
                     }
 
@@ -490,10 +494,10 @@ function ParseNode(node, words) {
                     if(mi_t != undefined) {
                         switch(mi_code) {
                             case 176:
-                                words.push(GetText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers));
+                                AddWord(GetText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers), words);
                                 break;
                             default:
-                                words.push(mi_t);
+                                AddWord(mi_t, words);
                                 break;
                         }
                     }
@@ -502,35 +506,35 @@ function ParseNode(node, words) {
                         if(mi_c != undefined) {
                             switch(mi_code) {
                                 case 176:
-                                    words.push(GetText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers));
+                                    AddWord(GetText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers), words);
                                     break;
                                 default:
-                                    words.push(mi_c);
+                                    AddWord(mi_c, words);
                                     break;
                             }
                         }
                         else {
                             if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
-                            words.push(mi_val);
+                            AddWord(mi_val, words);
                         }
                     }
                     break;
                 case "mtext":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    words.push(node.firstChild.nodeValue);
+                    if(node.firstChild !== null) AddWord(node.firstChild.nodeValue, words);
                     break;
                 case "mn":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    words.push(node.firstChild.nodeValue);
+                    if(node.firstChild !== null) AddWord(node.firstChild.nodeValue, words);
                     break;
                 case "mspace":
                     break;
                 default:
-                    if(node.firstChild != null) {
+                    if(node.firstChild !== null) {
                         console.warn(` [ WARNING ] Missing translation for: ${node.firstChild.nodeValue}`);
-                        words.push(node.firstChild.nodeValue);
+                        AddWord(node.firstChild.nodeValue, words);
                     }
                     break;
             }
@@ -544,34 +548,32 @@ function ParseNode(node, words) {
 
 function Detect(root, words) {
     var word = "";
-    for(var z = 0; z < root.attributes.length; z++) {
-        var Attr = root.attributes[z];
-        if(Attr.nodeName == "class") {
-            if(Attr.nodeValue == "chemistry") {
-                word = "chemical formula";
-            }
-            else if(Attr.nodeValue == "physics") {
-                word = "physics formula";
-            }
+    switch(root.getAttribute("class")) {
+        case "chemistry":
+            word = "chemical formula";
             break;
-        }
+        case "physics":
+            word = "physics formula";
+            break;
+        default:
+            break;
     }
     if(word == "" && root.localName == "math") word = "formula";
-    words.push(word);
+    AddWord(word, words);
 }
 
 module.exports = {
     GenerateMath: async (content) => {
-        var words = [], x2js = new X2JS(), root = {};
+        var words = [];
 
         try {
-            var dom = x2js.xml2dom(content);
+            var dom = new DOMParser().parseFromString(content);
 
             // Build words array
-            root = dom.childNodes[0];
+            var root = dom.documentElement;
             Detect(root, words);
-            ParseNode(dom.childNodes[0], words);
-            words.push("formula end");
+            ParseNode(root, words);
+            AddWord("formula end", words);
             // Return words in an array which can be prosessed by the translation service and API
             
             var attributes = ExtractAttributes(root);
@@ -583,7 +585,7 @@ module.exports = {
             if(attributes.find(m => m.name == "ascii") != null) asciiMath = attributes.find( m => m.name == "ascii").value;
             if(attributes.find(m => m.name == "display") != null) display = attributes.find( m => m.name == "display").value;
             if(attributes.find(m => m.name == "image") != null) image = attributes.find( m => m.name == "image").value;
-
+            
             return { success: true, language: lang, words: words, ascii: asciiMath, display: display, imagepath: image };
         }
         catch (ex) {
