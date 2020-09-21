@@ -79,24 +79,25 @@ function ParenthesisTextOpen(node, words) {
         } catch(ex) {
             // Do nothing
         }
+
+        try {
+            IsSiblingMo = node.previousSibling.localName == "mo";
+        } catch(ex) { 
+            // Do nothing
+        }
+        try {
+            IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289;
+        } catch(ex) { 
+            // Do nothing
+        }
+        try {
+            IsFirstChildMtable = node.firstChild.localName == "mtable";
+        } catch(ex) { 
+            // Do nothing
+        }
+
         switch (charCode) {
             case 40:
-                try {
-                    IsSiblingMo = node.previousSibling.localName == "mo";
-                } catch(ex) { 
-                    // Do nothing
-                }
-                try {
-                    IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289;
-                } catch(ex) { 
-                    // Do nothing
-                }
-                try {
-                    IsFirstChildMtable = node.firstChild.localName == "mtable";
-                } catch(ex) { 
-                    // Do nothing
-                }
-
                 if ((IsPreviousSiblingFunction && IsSiblingMo) || IsFirstChildMtable ) {
                     // Its does not require parenthesis text
                 } else {
@@ -110,7 +111,7 @@ function ParenthesisTextOpen(node, words) {
                 break;
             default:
                 console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
-                AddWord(Attr, words);
+                AddWord(GetText(40, misc), words);
                 break;
         }
     }
@@ -133,24 +134,25 @@ function ParenthesisTextClose(node, words) {
         } catch(ex) {
             // Do nothing
         }
+
+        try {
+            IsSiblingMo = node.previousSibling.localName == "mo";
+        } catch(ex) { 
+            // Do nothing
+        }
+        try {
+            IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289;
+        } catch(ex) { 
+            // Do nothing
+        }
+        try {
+            IsFirstChildMtable = node.firstChild.localName == "mtable";
+        } catch(ex) { 
+            // Do nothing
+        }
+
         switch (charCode) {
             case 41:
-                try {
-                    IsSiblingMo = node.previousSibling.localName == "mo";
-                } catch(ex) { 
-                    // Do nothing
-                }
-                try {
-                    IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() == 8289;
-                } catch(ex) { 
-                    // Do nothing
-                }
-                try {
-                    IsFirstChildMtable = node.firstChild.localName == "mtable";
-                } catch(ex) { 
-                    // Do nothing
-                }
-
                 if ((IsPreviousSiblingFunction && IsSiblingMo) || IsFirstChildMtable ) {
                     // Its does not require parenthesis text
                 } else {
@@ -166,7 +168,7 @@ function ParenthesisTextClose(node, words) {
                 break;
             default:
                 console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
-                AddWord(Attr, words);
+                AddWord(GetText(41, misc), words);
                 break;
         }
         charCode = 0;
@@ -352,11 +354,11 @@ function ParseNode(node, words) {
                     }
                     else {
                         if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
+                            if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
                             ParseNode(node.childNodes[0], words);
                             AddWord(`${GetText("with the upper index", misc)}`, words);
                             StandardLoop(node, words, 1);
-                            if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
+                            if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
                         }
                         else {
                             StandardLoop(node, words, 0);
@@ -365,11 +367,11 @@ function ParseNode(node, words) {
                     break;
                 case "munder":
                     if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
+                        if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
                         ParseNode(node.childNodes[0], words);
                         AddWord(`${GetText("with the lower index", misc)}`, words);
                         StandardLoop(node, words, 1);
-                        if(node.attributes[0] != null && node.attributes[0].firstChild.nodeName == "accent" && node.attributes[0].firstChild.nodeValue == "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
+                        if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
                     }
                     else {
                         StandardLoop(node, words, 0);
@@ -443,50 +445,18 @@ function ParseNode(node, words) {
                 case "mo":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    var mo_val = node.firstChild.nodeValue;
-                    var mo_t = GetText(mo_val, operators);
-                    var mo_code = mo_val.charCodeAt();
-                    if(mo_t != undefined) {
-                        switch(mo_code) {
-                            case 8242:
-                            case 8243:
-                                break;
-                            case 8592:
-                                if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                    AddWord(mo_t, words);
-                                }
-                                else {
-                                    AddWord(GetText("larr", identifiers), words);
-                                }
-                                break;
-                            case 8594:
-                                if (node.parentNode != null ) {
-                                    if(node.parentNode.localName == "mrow") {
-                                        AddWord(mo_t, words);
-                                    }
-                                    else if(node.parentNode.localName == "mover") {
-                                        // It's a vector, do nothing
-                                    }
-                                }
-                                else {
-                                    AddWord(GetText("rarr", identifiers), words);
-                                }
-                                break;
-                            default:
-                                AddWord(mo_t, words);
-                                break;
-                        }
-                    }
-                    else {
-                        var mo_c = GetText(mo_code, operators);
-                        if(mo_c != undefined) {
+                    if(node.firstChild !== null) {
+                        var mo_val = node.firstChild.nodeValue;
+                        var mo_t = GetText(mo_val, operators);
+                        var mo_code = mo_val.charCodeAt();
+                        if(mo_t != undefined) {
                             switch(mo_code) {
                                 case 8242:
                                 case 8243:
                                     break;
                                 case 8592:
                                     if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                        AddWord(mo_c, words);
+                                        AddWord(mo_t, words);
                                     }
                                     else {
                                         AddWord(GetText("larr", identifiers), words);
@@ -495,7 +465,7 @@ function ParseNode(node, words) {
                                 case 8594:
                                     if (node.parentNode != null ) {
                                         if(node.parentNode.localName == "mrow") {
-                                            AddWord(mo_c, words);
+                                            AddWord(mo_t, words);
                                         }
                                         else if(node.parentNode.localName == "mover") {
                                             // It's a vector, do nothing
@@ -506,13 +476,47 @@ function ParseNode(node, words) {
                                     }
                                     break;
                                 default:
-                                    AddWord(mo_c, words);
+                                    AddWord(mo_t, words);
                                     break;
                             }
                         }
                         else {
-                            if (mo_code > 127) console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
-                            AddWord(mo_val, words);
+                            var mo_c = GetText(mo_code, operators);
+                            if(mo_c != undefined) {
+                                switch(mo_code) {
+                                    case 8242:
+                                    case 8243:
+                                        break;
+                                    case 8592:
+                                        if (node.parentNode != null && node.parentNode.localName == "mrow") {
+                                            AddWord(mo_c, words);
+                                        }
+                                        else {
+                                            AddWord(GetText("larr", identifiers), words);
+                                        }
+                                        break;
+                                    case 8594:
+                                        if (node.parentNode != null ) {
+                                            if(node.parentNode.localName == "mrow") {
+                                                AddWord(mo_c, words);
+                                            }
+                                            else if(node.parentNode.localName == "mover") {
+                                                // It's a vector, do nothing
+                                            }
+                                        }
+                                        else {
+                                            AddWord(GetText("rarr", identifiers), words);
+                                        }
+                                        break;
+                                    default:
+                                        AddWord(mo_c, words);
+                                        break;
+                                }
+                            }
+                            else {
+                                if (mo_code > 127) console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
+                                AddWord(mo_val, words);
+                            }
                         }
                     }
                     break;
@@ -524,34 +528,49 @@ function ParseNode(node, words) {
                         node.firstChild.nodeValue = node.firstChild.nodeValue.toLowerCase();
                     }
 
-                    var mi_val = node.firstChild.nodeValue;
-                    var mi_t = GetText(mi_val, identifiers);
-                    var mi_code = mi_val.charCodeAt();
-                    if(mi_t != undefined) {
-                        switch(mi_code) {
-                            case 176:
-                                AddWord(GetText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers), words);
-                                break;
-                            default:
-                                AddWord(mi_t, words);
-                                break;
-                        }
-                    }
-                    else {
-                        var mi_c = GetText(mi_code, identifiers);
-                        if(mi_c != undefined) {
+                    if(node.firstChild !== null) {
+                        var mi_val = node.firstChild.nodeValue;
+                        var mi_t = GetText(mi_val, identifiers);
+                        var mi_code = mi_val.charCodeAt();
+                        var value = 1;
+                        if(mi_t != undefined) {
                             switch(mi_code) {
                                 case 176:
-                                    AddWord(GetText((node.previousSibling.firstChild.nodeValue == 1) ? "degree" : "degrees", identifiers), words);
+                                    try {
+                                        value = node.previousSibling.firstChild.nodeValue;
+                                    }
+                                    catch(ex) {
+                                        // Do nothing
+                                    }
+                                    AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
                                     break;
                                 default:
-                                    AddWord(mi_c, words);
+                                    AddWord(mi_t, words);
                                     break;
                             }
                         }
                         else {
-                            if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
-                            AddWord(mi_val, words);
+                            var mi_c = GetText(mi_code, identifiers);
+                            if(mi_c != undefined) {
+                                switch(mi_code) {
+                                    case 176:
+                                        try {
+                                            value = node.previousSibling.firstChild.nodeValue;
+                                        }
+                                        catch(ex) {
+                                            // Do nothing
+                                        }
+                                        AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
+                                        break;
+                                    default:
+                                        AddWord(mi_c, words);
+                                        break;
+                                }
+                            }
+                            else {
+                                if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
+                                AddWord(mi_val, words);
+                            }
                         }
                     }
                     break;

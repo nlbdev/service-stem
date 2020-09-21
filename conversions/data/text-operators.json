@@ -1,6 +1,11 @@
 {
     "strings": [
-        { "name": "lim", "value": "limit" }
+        { "name": "lim", "value": "limit" },
+        { "name": "¨", "value": "diaeresis"},
+        { "name": "¯", "value": "macron"},
+        { "name": "'", "value": "apostrophe"},
+        { "name": "×", "value": "multiplied by"},
+        { "name": ":", "value": "divided by"}
     ],
     "chars": [
         { "code": 42, "value": "times" },
@@ -12,6 +17,7 @@
         { "code": 60, "value": "is less than" },
         { "code": 61, "value": "equals" },
         { "code": 62, "value": "is more than" },
+        { "code": 8230, "value": "et cetera" },
         { "code": 8242, "value": "" },
         { "code": 8243, "value": "" },
         { "code": 8289, "value": "of" },
