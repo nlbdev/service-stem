@@ -41,6 +41,7 @@
         { "name": "and denominator", "value": "and denominator" },
         { "name": "the matrix contains", "value": "the matrix contains" },
         { "name": "the derivative of the expression", "value": "the derivative of the expression" },
+        { "name": "the double derivative of the expression", "value": "the double derivative of the expression" },
         { "name": "the arithmetic mean", "value": "the arithmetic mean" },
         { "name": "of a set of values", "value": "of a set of values" },
         { "name": "parenthesis", "value": "parenthesis" },
