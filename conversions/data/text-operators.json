@@ -1,7 +1,7 @@
 {
     "strings": [
         { "name": "lim", "value": "limit" },
-        { "name": "¨", "value": "diaeresis"},
+        { "name": "¨", "value": "with umlaut"},
         { "name": "¯", "value": "macron"},
         { "name": "'", "value": "apostrophe"},
         { "name": "×", "value": "multiplied by"},

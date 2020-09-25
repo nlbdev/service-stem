@@ -354,11 +354,28 @@ function ParseNode(node, words) {
                     }
                     else {
                         if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-                            if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
-                            ParseNode(node.childNodes[0], words);
-                            AddWord(`${GetText("with the upper index", misc)}`, words);
-                            StandardLoop(node, words, 1);
-                            if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
+                            var IsMacron1 = false;
+                            var HasAccent1 = false;
+                            try {
+                                IsMacron1 = ( node.lastChild && node.lastChild.localName === "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() === 175 );
+                            } catch(ex) {
+                                // Do nothing
+                            }
+                            try {
+                                HasAccent1 = ( node.getAttribute("accent") === "true" || node.getAttribute("accentunder") === "true" || node.getAttribute("accentover") === "true" );
+                            } catch(ex) {
+                                // Do nothing
+                            }
+                            if(IsMacron1) {
+                                AddWord(GetText("the arithmetic mean", misc), words);
+                                ParseNode(node.childNodes[0], words);
+                            } else {
+                                if(HasAccent1) AddWord(`${GetText("curly bracket", misc)} ${GetText("over", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                                ParseNode(node.childNodes[0], words);
+                                AddWord(`${GetText("with the upper index", misc)}`, words);
+                                StandardLoop(node, words, 1);
+                                if(HasAccent1) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                            }
                         }
                         else {
                             StandardLoop(node, words, 0);
@@ -367,11 +384,28 @@ function ParseNode(node, words) {
                     break;
                 case "munder":
                     if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
-                        if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("start", misc)}`, words);
-                        ParseNode(node.childNodes[0], words);
-                        AddWord(`${GetText("with the lower index", misc)}`, words);
-                        StandardLoop(node, words, 1);
-                        if(node.getAttribute("accent") === "true") AddWord(`${GetText("bracket", misc)} ${GetText("end", misc)}`, words);
+                        var IsMacron2 = false;
+                        var HasAccent2 = false;
+                        try {
+                            IsMacron2 = ( node.lastChild && node.lastChild.localName === "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() === 175 );
+                        } catch(ex) {
+                            // Do nothing
+                        }
+                        try {
+                            HasAccent2 = ( node.getAttribute("accent") === "true" || node.getAttribute("accentunder") === "true" || node.getAttribute("accentover") === "true" );
+                        } catch(ex) {
+                            // Do nothing
+                        }
+                        if(IsMacron2) {
+                            AddWord(GetText("the arithmetic mean", misc), words);
+                            ParseNode(node.childNodes[0], words);
+                        } else {
+                            if(HasAccent2) AddWord(`${GetText("curly bracket", misc)} ${GetText("under", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                            ParseNode(node.childNodes[0], words);
+                            AddWord(`${GetText("with the lower index", misc)}`, words);
+                            StandardLoop(node, words, 1);
+                            if(HasAccent2) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                        }
                     }
                     else {
                         StandardLoop(node, words, 0);
@@ -447,16 +481,16 @@ function ParseNode(node, words) {
                     RaisedLoweredText(node, words);
                     if(node.firstChild !== null) {
                         var mo_val = node.firstChild.nodeValue;
-                        var mo_t = GetText(mo_val, operators);
+                        var mo_text = GetText(mo_val, operators);
                         var mo_code = mo_val.charCodeAt();
-                        if(mo_t != undefined) {
+                        if(mo_text != undefined) {
                             switch(mo_code) {
                                 case 8242:
                                 case 8243:
                                     break;
                                 case 8592:
                                     if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                        AddWord(mo_t, words);
+                                        AddWord(mo_text, words);
                                     }
                                     else {
                                         AddWord(GetText("larr", identifiers), words);
@@ -465,7 +499,7 @@ function ParseNode(node, words) {
                                 case 8594:
                                     if (node.parentNode != null ) {
                                         if(node.parentNode.localName == "mrow") {
-                                            AddWord(mo_t, words);
+                                            AddWord(mo_text, words);
                                         }
                                         else if(node.parentNode.localName == "mover") {
                                             // It's a vector, do nothing
@@ -476,7 +510,7 @@ function ParseNode(node, words) {
                                     }
                                     break;
                                 default:
-                                    AddWord(mo_t, words);
+                                    AddWord(mo_text, words);
                                     break;
                             }
                         }
@@ -515,7 +549,20 @@ function ParseNode(node, words) {
                             }
                             else {
                                 if (mo_code > 127) console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
-                                AddWord(mo_val, words);
+                                
+                                var value = 1;
+                                if ( mo_code === 176) {
+                                    try {
+                                        value = node.previousSibling.firstChild.nodeValue;
+                                    }
+                                    catch(ex) {
+                                        // Do nothing
+                                    }
+                                    AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
+                                }
+                                else {
+                                    AddWord(mo_val, words);
+                                }
                             }
                         }
                     }
@@ -530,10 +577,10 @@ function ParseNode(node, words) {
 
                     if(node.firstChild !== null) {
                         var mi_val = node.firstChild.nodeValue;
-                        var mi_t = GetText(mi_val, identifiers);
+                        var mi_text = GetText(mi_val, identifiers);
                         var mi_code = mi_val.charCodeAt();
                         var value = 1;
-                        if(mi_t != undefined) {
+                        if(mi_text != undefined) {
                             switch(mi_code) {
                                 case 176:
                                     try {
@@ -545,7 +592,7 @@ function ParseNode(node, words) {
                                     AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
                                     break;
                                 default:
-                                    AddWord(mi_t, words);
+                                    AddWord(mi_text, words);
                                     break;
                             }
                         }
