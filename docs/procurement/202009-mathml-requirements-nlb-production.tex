@@ -1,5 +1,8 @@
 % !TeX spellcheck = nb_NO
 \documentclass[english,a4paper,11pt]{article}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{babel}
 \usepackage{bookman}
 \usepackage[utf8]{inputenx}
@@ -23,8 +26,23 @@
 \usepackage{mhchem}
 \usepackage[a4paper,left=15mm,right=30mm,top=25mm,bottom=25mm]{geometry}
 
-\usetikzlibrary{trees,arrows,arrows.meta,intersections,calc,backgrounds,positioning,decorations} % ,shadows,fit,shapes,backgrounds,decorations
+\definecolor{codebg}{HTML}{fff5eb}
 
+% set the default code style
+\lstset{
+	numberstyle=\tiny,
+	frame=tb,
+    tabsize=4,
+    showstringspaces=false,
+    numbers=left,
+    commentstyle=\color{green},
+    keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\bfseries\color{black}
+}
+
+\usetikzlibrary{trees,arrows,arrows.meta,intersections,calc,backgrounds,positioning,decorations} % ,shadows,fit,shapes,backgrounds,decorations
 \setlength{\parskip}{1ex plus 4pt minus 2pt}
 \setlength{\marginparwidth}{18mm}
 %\setlength{\marginparsep}{3pt}
@@ -52,7 +70,8 @@
         \textbullet\quad20200206 / 2.1: Minor changes and additions.\\
         \textbullet\quad20200527 / 2.2: Clarifications.\\
         \textbullet\quad20200831 / 2.3: Update for language and more structure to chemistry markup.\\
-        \textbullet\quad20200831 / 2.4: (current version) Added programming markup.\\
+        \textbullet\quad20200917 / 2.4: Added programming markup.\\
+        \textbullet\quad20200928 / 2.5: (current version) Clarifications and updated code appearance.\\
         \bigskip
 	}
 	\end{quote}
@@ -88,22 +107,21 @@ Except for the first bullet point, which relies on the math knowledge of a  huma
 	\item Unless MathML markup of a certain type of mathematical expression is specified in this document, the markup should be based on a good understanding of mathematics, combined with a solid knowledge of the set of MathML elements and attributes.
 	\item Use the numeric XML annotation of an entity, for example: instead of \entitet{ApplyFunction} or \entitet{af}, use \entitet{\#8289}, or it's unicode representation.
 	\item All MathML markup must be annotated with an AsciiMath expression that represents the mathematical expression printed in the book. Thus, the complete markup of any given mathematical expression must be coded according to the following scheme:
-	
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+
+\begin{lstlisting}[language=HTML, caption={Default MathML markup}]
 <m:math xmlns:m="http://www.w3.org/1998/Math/MathML"
-	   alttext="[AsciiMath markup]" 
-	   altimg="[Image path]" 
-	   display="[value]">
+	alttext="[AsciiMath markup]" 
+	altimg="[Image path]" 
+	display="[block|inline]">
 	<m:semantics>
 		<m:mrow>
 			[MathML markup]
 		</m:mrow>
 	</m:semantics>
 </m:math>
-\end{verbatimtab}
-\end{kodeblokk}
-The \markup{[MathML markup]} is, obviously, the MathML markup that represents the mathematical expression in question, and \markup{[AsciiMath markup]} is the AciiMath version of the same expression.
+\end{lstlisting}
+
+	The \markup{[MathML markup]} is, obviously, the MathML markup that represents the mathematical expression in question, and \markup{[AsciiMath markup]} is the AciiMath version of the same expression.
 
 Observe that the MathML markup will always be a child of an \element{mrow} element, which again is a child of an \element{semantics} element, which again is a child of an \element{math} element, which constitute the frame around the complete MathML markup.
 
@@ -155,7 +173,7 @@ Please note that, in all of the examples to follow, the markup discussed is the 
 \begin{tikzpicture}
 \node[text width=40mm,align=center,draw=black!30] (matte) {In printed book:\\$x =\sqrt{2}$};
 
-\node[text width=40mm,align=center,draw=black!30,right=25mm of matte] (MathML) {Markup:
+\node[text width=40mm,align=center,draw=black!30,right=15mm of matte] (MathML) {Markup:
 \begin{kodeblokk}
 \footnotesize
 \begin{verbatimtab}[3]
@@ -201,8 +219,7 @@ It is extremely important that the interpretation is clearly indicated in the Ma
 
 
 So, even though this:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
 	<m:mi>a</m:mi>
 	<m:mo>(</m:mo>
@@ -211,11 +228,9 @@ So, even though this:
 	<m:mi>&#966;</m:mi>
 	<m:mo>)</m:mo>
 </m:math>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 in many cases would be perfectly good markup of the expression above, NLB require the markup to be either
-\begin{kodeblokk}
-	\begin{listing}{1}
+\begin{lstlisting}[language=HTML]
 <m:math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
 	<m:mi>a</m:mi>
 	<m:mo>&#8290;</m:mo>
@@ -227,11 +242,9 @@ in many cases would be perfectly good markup of the expression above, NLB requir
 		</m:mrow>
 	</m:mfenced>
 </m:math>
-\end{listing}
-\end{kodeblokk}
+\end{lstlisting}
 for the ''multiplication interpretation'', or
-\begin{kodeblokk}
-	\begin{listing}{1}
+\begin{lstlisting}[language=HTML]
 <m:math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
 	<m:mi>a</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -242,8 +255,8 @@ for the ''multiplication interpretation'', or
 			<m:mi>&#966;</m:mi>
 		</m:mrow>
 	</m:mfenced>
-</m:math>\end{listing}
-\end{kodeblokk}
+</m:math>
+\end{lstlisting}
 for the ''function interpretation''. Note that the only difference is the choice of entity in line~3.
 
 It should be quite clear by now that, to ensure the expected quality of the MathML markup, personnel with solid mathematical skills, as well as the ability to focus on important markup details, must be assigned to this kind of work.
@@ -283,15 +296,22 @@ If there is any risk of ambiguity, the following operators \textbf{must} be used
 		& \multicolumn{1}{c}{\textbf{Numeric}}
 			& \multicolumn{1}{c}{\textbf{Comment}}\\
 \entitet{ApplyFunction} & \entitet{\#8289} & Function application\\
-\entitet{InvisibleTimes} & \entitet{\#8290} & Invisible multiplcation\\
+\entitet{InvisibleTimes} & \entitet{\#8290} & Invisible multiplication\\
 \entitet{InvisibleComma} & \entitet{\#8291} & Invisible separator\\
  & \entitet{\#8292} & Invisible addition
 \end{tabular}
 
-This means that, even for expressions such as $(x+y)\, (x-y)$ or $2\,\sin \alpha$, where it is quite clear from the context that multiplication is involved, we \emph{require} that these multiplications are added to the markup. Thus, the first of these two expressions must be marked up as 
+This means that, even for expressions such as 
+\begin{equation}
+	(x+y) (x-y)
+\end{equation}
+or 
+\begin{equation}
+	2 \sin \alpha
+\end{equation}
+where it is quite clear from the context that multiplication is involved, we \emph{require} that these multiplications are added to the markup. Thus, expression 4 must be marked up as 
 
-\begin{kodeblokk}
-	\begin{listing}{1}
+\begin{lstlisting}[language=HTML, caption={Invisible multiplication}]
 <m:mfenced open="(" close=")">
 	<m:mrow>
 		<m:mi>x</m:mi>
@@ -306,19 +326,18 @@ This means that, even for expressions such as $(x+y)\, (x-y)$ or $2\,\sin \alpha
 		<m:mo>-</m:mo>
 		<m:mi>y</m:mi>
 	</m:mrow>
-</m:mfenced>\end{listing}
-\end{kodeblokk}
-while the second expression must be represented with the following markup:
-\begin{kodeblokk}
-	\begin{listing}{1}
+</m:mfenced>
+\end{lstlisting}
+while expression 5 must be represented with the following markup:
+\begin{lstlisting}[language=HTML, caption={Function application and invisible multiplication}]
 <m:mn>2</m:mn>
 <m:mo>&#8290;</m:mo>
 <m:mrow>
 	<m:mi>sin</m:mi>
 	<m:mo>&#8289;</m:mo>
 	<m:mi>&#593;</m:mi>
-</m:mrow>\end{listing}
-\end{kodeblokk}
+</m:mrow>
+\end{lstlisting}
 Note the use of \entitet{\#8290} in line~8 and line~2 respectively in these markup snippets.
 
 Multiple examples of use of invisible operators are given in the following sections.
@@ -337,77 +356,66 @@ HTML entities would generally be able to be used for this, but to remove the ris
     & \entitet{\#8805} & Greater than or equal\\
 \end{tabular}\\
 \bigskip
-$9 < 10$
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+
+\begin{lstlisting}[language=HTML, caption={$9 < 10$}]
 <m:mrow> 
 	<m:mn>9</m:mn>
 	<m:mo>&#60;</m:mo>
 	<m:mi>10</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \bigskip
-$10 > 9$
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML, caption={$10 > 9$}]
 <m:mrow> 
 	<m:mn>10</m:mn>
 	<m:mo>&#62;</m:mo>
 	<m:mi>9</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \bigskip
-$9 \leq 9$
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML, caption={$9 \leq 9$}]
 <m:mrow> 
 	<m:mn>9</m:mn>
 	<m:mo>&#8804;</m:mo>
 	<m:mi>9</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \bigskip
-$9 \geq 9$
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML, caption={$9 \geq 9$}]
 <m:mrow> 
 	<m:mn>9</m:mn>
 	<m:mo>&#8805;</m:mo>
 	<m:mi>9</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \subsection{Markup of parenthesis}
 
 Parenthesis shall not be marked up using \verb|<m:mo>(</m:mo>| and \verb|<m:mo>)</m:mo>|. Rather the MathML element \element{mfenced} must be used. 
 The \element{mfenced} should contain attribute defining what type of parenthesis it, as follows: 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mfenced open="(" close=")">
 	<m:mi>x</m:mi>
 </m:mfenced>
-\end{verbatimtab}
-\end{kodeblokk} 
+\end{lstlisting}
 This is done to clarify what parenthesis we are dealing with.\\
 \bigskip
 There are other parentesis to be aware of:
 
-Square bracket
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML, caption={Square bracket}]
 <m:mfenced open="[" close="]">
 	<m:mi>x</m:mi>
 </m:mfenced>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
-This is trivial when there is only one element inside the parenthesis, such as $g(x)$, which could be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML, caption={Curly bracket}]
+<m:mfenced open="{" close="}">
+	<m:mi>x</m:mi>
+</m:mfenced>
+\end{lstlisting}
+
+This is trivial when there is only one element inside the parenthesis, such as $g(x)$, which should be marked up as
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>g</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -415,12 +423,10 @@ This is trivial when there is only one element inside the parenthesis, such as $
 		<m:mi>x</m:mi>
 	</m:mfenced>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 However, when the content of the parenthesis consists of multiple parts, such as $3 \cdot (4 + 9)$, the content of the \element{mfenced} element must be placed inside an \element{mrow} element:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mn>3</m:mn>
 <m:mo>&#8901;</m:mo>
 <m:mfenced open="(" close=")">
@@ -429,16 +435,14 @@ However, when the content of the parenthesis consists of multiple parts, such as
 		<m:mo>+</m:mo>
 		<m:mn>9</m:mn>
 	</m:mrow>
-</m:mfenced>	
-\end{verbatimtab}
-\end{kodeblokk}
+</m:mfenced>
+\end{lstlisting}
 A more complex example, involving nested parenthesis, is
 \begin{equation}
 4 \cdot (x + x \cdot (x +a)) \cdot (x - x\cdot (x -b))
 \end{equation}
 The correct markup of this expression would be
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mn>4</m:mn>
 <m:mo>&#8901;</m:mo>
 <m:mfenced open="(" close=")">
@@ -472,8 +476,7 @@ The correct markup of this expression would be
         </m:mfenced>
 	</m:mrow>
 </m:mfenced>
-	\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 
 \bigskip
@@ -485,8 +488,7 @@ The absolute value of a number, symbol or expression shall be done using the Mat
 The expression 
 \begin{equation}|-2| = 2\end{equation}
 must be marked up as
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML, caption={Absolute values}]
 <m:mfenced open="|" close="|">
 	<m:mrow>
 		<m:mo>-</m:mo>
@@ -495,15 +497,13 @@ must be marked up as
 </m:mfenced>
 <m:mo>=</m:mo>
 <m:mn>2</m:mn>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 while the more complex expression
 \begin{equation}
 \left|\cos \frac{x}{2}\right| =\sqrt{\frac{1 + \cos x}{2}}
 \end{equation}
 must be marked up as follows:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mfenced open="|" close="|">
 	<m:mrow>
 		<m:mi>cos</m:mi>
@@ -531,22 +531,19 @@ must be marked up as follows:
 		</m:mfrac>
 	</m:mrow>
 </m:msqrt>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \subsection{Markup of number of degrees}
 
 How to mark up a number of degrees, such as such as $\ang{360}$ or $\ang{-273,15}\;\text{C}$, depends on whether the value is positive or negative.
 
 For a positive number, the required markup is simple:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mn>[numeric value]</m:mn>
 	<m:mi>&#176;</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup must be placed inside an \element{mrow} element. This \element{mrow} must contain exactly two children.
@@ -557,8 +554,7 @@ Note also that the \element{msup} element must not be used, as the degree symbol
 
 \medskip
 For a negative value, the required markup is a bit more complex:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mrow>
 		<m:mo>-</m:mo>
@@ -566,8 +562,7 @@ For a negative value, the required markup is a bit more complex:
 	</m:mrow>
 	<m:mi>&#176;</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item Once again the markup must be placed inside an \element{mrow} element with exactly two children.
@@ -583,17 +578,14 @@ For a negative value, the required markup is a bit more complex:
 This kind of markup is relevant both for  temperature and for angular measurements. But for angular measurements there is --~in addition to the normal 360 degree division of a circle~-- the \emph{gradian measure} where the circle is divided into 400~gon, so that $\ang{360} = 400^\text{g}$.
 
 The required markup for this kind of angular measurement is either:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msup>
 	<m:mn>[numeric value]</m:mn>
 	<m:mtext>g</m:mtext>
 </m:msup>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 or
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msup>
 	<m:mrow>
 		<m:mo>-</m:mo>
@@ -601,8 +593,7 @@ or
 	</m:mrow>
 	<m:mtext>g</m:mtext>
 </m:msup>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 depending on the value, as described above.
 
 Note the use of the \element{msup} element this time, in order to raise the unit g.
@@ -613,8 +604,7 @@ The markup for the expression
 \ang{0}\;\text{C} = \ang{32}\;\text{F} = 273\;\text{K}
 \end{equation}	
 is
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mn>0</m:mn>
 	<m:mi>&#176;</m:mi>
@@ -632,13 +622,11 @@ is
 <m:mn>273</m:mn>
 <m:mspace width="0.25em"/>
 <m:mtext>K</m:mtext>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 Note the use of the \element{mspace} element to insert proper visual spacing between values and the relevant unit.
 
 For clarity, one could use the following markup instead:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mrow>
 		<m:mn>0</m:mn>
@@ -662,13 +650,11 @@ For clarity, one could use the following markup instead:
 	<m:mspace width="0.25em"/>
 	<m:mtext>K</m:mtext>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 The only difference is the extra \element{mrow} elements that are used to group together the different parts of the expression.
 
 The expression $T_0 = \ang{-273,15}\;\text{C}$ must be represented by the following markup:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msub>
 	<m:mi>T</m:mi>
 	<m:mn>0</m:mn>
@@ -683,15 +669,13 @@ The expression $T_0 = \ang{-273,15}\;\text{C}$ must be represented by the follow
 </m:mrow>
 <m:mspace width="0.25em"/>
 <m:mtext>C</m:mtext>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 As a final example, the expression \begin{equation}
 \sin \ang{45} =\sin 50^\text{g}  = \sin\frac{\pi}{2}= \frac{1}{\sqrt{2}}
 \end{equation}
 must be marked up as
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>sin</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -725,16 +709,14 @@ must be marked up as
 		<m:mn>2</m:mn>
 	</m:msqrt>
 </m:mfrac>
-	\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \end{eksempler}
 
 \subsection{Markup of square roots and higher-order roots}
 The square root must be marked up using the MathML element \element{msqrt}. As the square root of a mathematical expression can be looked upon as a function with \emph{one} argument, one could expect that the \element{sqrt} element always should have \emph{exactly on}e child.
 This would require that $\sqrt{a + b}$ should be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msqrt>
 	<m:mrow>
 		<m:mi>a</m:mi>
@@ -742,38 +724,32 @@ This would require that $\sqrt{a + b}$ should be marked up as
 		<m:mi>b</m:mi>
 	</m:mrow>
 </m:msqrt>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 And this is indeed perfectly good markup, but the simpler form
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msqrt>
 	<m:mi>a</m:mi>
 	<m:mo>+</m:mo>
 	<m:mi>b</m:mi>
 </m:msqrt>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 would work just as well.
 
 \bigskip For root expressions other than the square root, the MathML element \element{mroot} must be used, and this time with the requirement that only two children are allowed. The first child must be the expression of which one wants to find the radical, and the second child must be the order of the root.
 
 Thus, the expression \begin{equation}\sqrt[3]{8} =2\end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mroot>
 	<m:mn>8</m:mn>
 	<m:mn>3</m:mn>
 </m:mroot>
 <m:mo>=</m:mo>
 <m:mn>2</m:mn>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 and the expression \begin{equation}\sqrt[n]{x}=x^{1/n} \end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mroot>
 	<m:mi>x</m:mi>
 	<m:mn>n</m:mn>
@@ -786,8 +762,7 @@ must be marked up as
 		<m:mi>n</m:mi>
 	</m:mfrac>
 </m:msup>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \subsection{Markup of exponentiation}
 We do not have any special requirements related to exponentiation, except that markup must be based on information given in \url{https://www.w3.org/TR/MathML3/chapter3.html#presm.msup}.
@@ -804,28 +779,23 @@ Another way is to present the vector in some kind of bold font, as in
 
 \bigskip
 For vector notation with arrows we require the following markup:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mover>
 	[a single element representing the vector]
 	<m:mo>&#8594;</m:mo>
 </m:mover>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \begin{eksempler}
 The very simple expression $\vec{v}$ must be represented by
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mover>
 	<m:mo>v</m:mo>
 	<m:mo>&#8594;</m:mo>
 </m:mover>
-\end{verbatimtab}
-\end{kodeblokk}
- Note that the placeholder \markup{[a single element representing the vector]} may represent more complex notation. This means that $\vec{a} = \vec{a_1} + \vec{a_2}$ must be marked up as:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\end{lstlisting}
+Note that the placeholder \markup{[a single element representing the vector]} may represent more complex notation. This means that $\vec{a} = \vec{a_1} + \vec{a_2}$ must be marked up as:
+\begin{lstlisting}[language=HTML]
 <m:mover>
 	<m:mi>a</m:mi>
 	<m:mo>&#8594;</m:mo>
@@ -846,25 +816,21 @@ The very simple expression $\vec{v}$ must be represented by
 	</m:msub>
 	<m:mo>&#8594;</m:mo>
 </m:mover>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \end{eksempler}
 
 \medskip The required markup for vectors represented by a bold font, is to add the \markup{mathvariant} attribute to the \element{mi} element representing the vector. The attribute value \emph{must} be a string containing the substring \markup{bold}, This will typically mean one of \markup{bold}, \markup{bold-italic}, \markup{bold-sans-serif} or \markup{sans-serif-bold-italic}:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mi mathvariant="[string containing the substring 'bold']">
 	[symbol representing the vector]
 </m:mi>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 This means that the expression
 \begin{equation}
 \mathbf{v} = v_x\;  \mathbf{i} + v_y\; \mathbf{j} + v_z\;  \mathbf{k}
 \end{equation}
 can be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mi mathvariant="bold">v</m:mi>
 <m:mo>=</m:mo>
 <m:msub>
@@ -887,16 +853,14 @@ can be marked up as
 </m:msub>
 <m:mo>&#8290;</m:mo>
 <m:mi mathvariant="bold">k</m:mi>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 Note that another attribute value than \markup{bold} could be used, in order to represent different types of bold font.
 
 \subsection{Markup of fractions}
 The MathML element \element{mfrac} must always be used for markup of fractions.
 
 Even though the expression $1/2 + 1/2 =1$ could be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mn>1</m:mn>
 <m:mo>/</m:mo>
 <m:mn>2</m:mn>
@@ -906,11 +870,9 @@ Even though the expression $1/2 + 1/2 =1$ could be marked up as
 <m:mn>2</m:mn>
 <m:mo>=</m:mo>
 <m:mn>1</m:mn>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 we require the use of \element{mfrac} to represent the fractions:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mfrac bevelled="true">
 	<m:mn>1</m:mn>
 	<m:mn>2</m:mn>
@@ -922,8 +884,7 @@ we require the use of \element{mfrac} to represent the fractions:
 </m:mfrac>
 <m:mo>=</m:mo>
 <m:mn>1</m:mn>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 Note the use of the \markup{bevelled} attribute to separate the numerator and denominator  with a slash rather than with a horizontal line.
 
 Of course, if a horizontal line \emph{is} required, as in this expression:
@@ -931,8 +892,7 @@ Of course, if a horizontal line \emph{is} required, as in this expression:
 x = \frac{1}{a + b}
 \end{equation}
 then the \markup{bevelled} attribute should not be used:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mi>x</m:mi>
 <m:mo>=</m:mo>
 <m:mfrac>
@@ -943,9 +903,7 @@ then the \markup{bevelled} attribute should not be used:
 		<m:mi>b</m:mi>
 	</m:mrow>
 </m:mfrac>
-\end{verbatimtab}
-\end{kodeblokk}
-
+\end{lstlisting}
 
 \bigskip
 Consult \url{https://www.w3.org/TR/MathML3/chapter3.html#presm.mfrac} for further information about use of the \element{mfrac} element. 
@@ -955,8 +913,7 @@ Consult \url{https://www.w3.org/TR/MathML3/chapter3.html#presm.mfrac} for furthe
 For lower indices, as in $A_T = A_1 + A_2$ we use the MathML element \element{msub}.
 
 For a numeric index, the required markup is 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msub>
 	<m:mrow>
 		<m:mi>
@@ -967,11 +924,9 @@ For a numeric index, the required markup is
 	</m:mrow>
 	<m:mn>[one or more integers]</m:mn>
 </m:msub>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 and for a symbolic index, the required markup is 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msub>
 	<m:mrow>
 		<m:mi>
@@ -988,15 +943,13 @@ and for a symbolic index, the required markup is
 		</m:mi>
 	</m:mrow>
 </m:msub>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \begin{eksempler}
 Based on this,
 	\begin{equation} A_T = A_1 + A_2 \end{equation}
 	must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msub>
 	<m:mrow>
 		<m:mi>A</m:mi>
@@ -1017,13 +970,11 @@ Based on this,
 	</m:mrow>
 	<m:mn>2</m:mn>
 </m:msub>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 and
 	\begin{equation} I_\alpha = \frac{I_\beta - I_\gamma}{2} \end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msub>
 	<m:mrow>
 		<m:mi>I</m:mi>
@@ -1049,15 +1000,13 @@ must be marked up as
 	</m:mrow>
 	<m:mn>2</m:mn>
 </m:mfrac>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 	
 \end{eksempler}
 
 \subsection{Markup of functions with one argument}
 A mathematical function, such as $f(x)$, $x(t)$, $F(x)$, $\psi (t)$ and similar, must be marked up as follows:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>
 		[a single greek letter 
@@ -1067,8 +1016,7 @@ A mathematical function, such as $f(x)$, $x(t)$, $F(x)$, $\psi (t)$ and similar,
 	<m:mo>&#8289;</m:mo>
 	<m:mfenced open="(" close=")">[any one child]</m:mfenced>
 </m:mrow>
-	\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 \item The markup of the function must be placed inside an \element{mrow} element. This \element{mrow} must contain exactly three children.
@@ -1081,8 +1029,7 @@ A mathematical function, such as $f(x)$, $x(t)$, $F(x)$, $\psi (t)$ and similar,
 	The expression 
 	\begin{equation}g(x)\end{equation}
 	shall be marked up as
-	\begin{kodeblokk}
-		\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>g</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1090,14 +1037,12 @@ A mathematical function, such as $f(x)$, $x(t)$, $F(x)$, $\psi (t)$ and similar,
 		<m:mi>x</m:mi>
 	</m:mfenced>
 </m:mrow>
-		\end{verbatimtab}
-	\end{kodeblokk}
+\end{lstlisting}
 
 And similar, the expression 
 \begin{equation}\psi(t)\end{equation}
 shall be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>&#968;</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1105,14 +1050,12 @@ shall be marked up as
 		<m:mi>t</m:mi>
 	</m:mfenced>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 If the argument to the function is more complicated, such as in 
 \begin{equation}f(x + \Delta x)\end{equation} 
 the corresponding markup will also be more complicated:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>f</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1125,15 +1068,13 @@ the corresponding markup will also be more complicated:
 		</m:mrow>
 	</m:mfenced>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \end{eksempler}
 
 \subsection{Markup of functions with two or more arguments}
 A mathematical function with two or more arguments, such as $f(x,y,z)$, $F(x,t)$, $\psi (r, \theta )$ and similar, must be marked up as follows:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>
 		[a single greek letter 
@@ -1143,8 +1084,7 @@ A mathematical function with two or more arguments, such as $f(x,y,z)$, $F(x,t)$
 	<m:mo>&#8289;</m:mo>
 	<m:mfenced open="(" close=")">[two or more children]</m:mfenced>
 </m:mrow>
-	\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup of the function must be placed inside an \element{mrow} element. This \element{mrow} element must contain exactly three children.
@@ -1159,49 +1099,43 @@ A mathematical function with two or more arguments, such as $f(x,y,z)$, $F(x,t)$
 	The expression 
 	\begin{equation}f(x,y,z)\end{equation}
 	shall be marked up as
-	\begin{kodeblokk}
-		\begin{verbatimtab}[3]
-<m:mrow>
-	<m:mi>f</m:mi>
-	<m:mo>&#8289;</m:mo>
-	<m:mfenced open="(" close=")">
-		<m:mi>x</m:mi>
-		<m:mi>y</m:mi>
-		<m:mi>z</m:mi>
-	</m:mfenced>
-</m:mrow>
-		\end{verbatimtab}
-	\end{kodeblokk}
+	\begin{lstlisting}[language=HTML]
+	<m:mrow>
+		<m:mi>f</m:mi>
+		<m:mo>&#8289;</m:mo>
+		<m:mfenced open="(" close=")">
+			<m:mi>x</m:mi>
+			<m:mi>y</m:mi>
+			<m:mi>z</m:mi>
+		</m:mfenced>
+	</m:mrow>
+	\end{lstlisting}
 	
 	And the two-argument function 
 	$\psi (r, \theta )$
 	shall be marked up as
-	\begin{kodeblokk}
-		\begin{verbatimtab}[3]
-<m:mrow>
-	<m:mi>&#968;</m:mi>
-	<m:mo>&#8289;</m:mo>
-	<m:mfenced open="(" close=")">
-		<m:mi>r</m:mi>
-		<m:mi>&#977;</m:mi>
-	</m:mfenced>
-</m:mrow>
-		\end{verbatimtab}
-	\end{kodeblokk}
+	\begin{lstlisting}[language=HTML]
+	<m:mrow>
+		<m:mi>&#968;</m:mi>
+		<m:mo>&#8289;</m:mo>
+		<m:mfenced open="(" close=")">
+			<m:mi>r</m:mi>
+			<m:mi>&#977;</m:mi>
+		</m:mfenced>
+	</m:mrow>
+	\end{lstlisting}
 \end{eksempler}
 
 
 \subsection{Markup of named functions}\label{named-functions}
 A known mathematical function, such as $\sin \alpha$, $\ln x$, $\arccos(x)$ and similar, must be marked up as follows:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>[function name]</m:mi>
 	<m:mo>&#8289;</m:mo>
 	[any one element that represents the argument(s) to the function]
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup of the function must be placed inside an \element{mrow} element. This \element{mrow} must contain exactly three children.
@@ -1214,31 +1148,28 @@ A known mathematical function, such as $\sin \alpha$, $\ln x$, $\arccos(x)$ and 
 	The expression 
 	\begin{equation}g(\alpha) = \sin \alpha\end{equation}
 	shall be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
-<m:mrow>
-	<m:mi>g</m:mi>
-	<m:mo>&#8289;</m:mo>
-	<m:mfenced open="(" close=")">
+	\begin{lstlisting}[language=HTML]
+	<m:mrow>
+		<m:mi>g</m:mi>
+		<m:mo>&#8289;</m:mo>
+		<m:mfenced open="(" close=")">
+			<m:mi>&#593;</m:mi>
+		</m:mfenced>
+	</m:mrow>
+	<m:mo>=</m:mo>
+	<m:mrow>
+		<m:mi>sin</m:mi>
+		<m:mo>&#8289;</m:mo>
 		<m:mi>&#593;</m:mi>
-	</m:mfenced>
-</m:mrow>
-<m:mo>=</m:mo>
-<m:mrow>
-	<m:mi>sin</m:mi>
-	<m:mo>&#8289;</m:mo>
-	<m:mi>&#593;</m:mi>
-</m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+	</m:mrow>
+	\end{lstlisting}
 
 And, the expression 
 \begin{equation}
 \ln (x\, y) = \ln x + \ln y
 \end{equation}
 shall be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>ln</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1262,13 +1193,11 @@ shall be marked up as
 	<m:mo>&#8289;</m:mo>
 	<m:mi>y</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}	
+\end{lstlisting}
 \end{eksempler}
 
 Note that, for an expression on the form $\cos 2 x$, the following markup is \textbf{NOT} correct:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>cos</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1276,11 +1205,9 @@ Note that, for an expression on the form $\cos 2 x$, the following markup is \te
 	<m:mo>&#8290;</m:mo>
 	<m:mi>x</m:mi>
 </m:mrow>
-	\end{verbatimtab}
-\end{kodeblokk}	
+\end{lstlisting}
 This markup breaks the requirement that the \element{mrow} element must contain exactly three children. Instead, the markup must be as follows:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>cos</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1290,14 +1217,12 @@ This markup breaks the requirement that the \element{mrow} element must contain 
 		<m:mi>x</m:mi>
 	</m:mrow>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}	
+\end{lstlisting}
 
 \subsection{Markup of limits and the derivative}
 
 The limit of a mathematical expression must generically be marked up as follows:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:munder>
 		<m:mo>lim</m:mo>
@@ -1306,8 +1231,7 @@ The limit of a mathematical expression must generically be marked up as follows:
 	<m:mo>&#8289;</m:mo>
 	[one element representing some mathematcal function or expression]
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}	
+\end{lstlisting}
 
 \kravliste{
 	\item The construction must be placed inside an \element{mrow} element. This \element{mrow} must contain exactly three children.
@@ -1327,8 +1251,7 @@ The limit of a mathematical expression must generically be marked up as follows:
 g(x) =\lim_{t \rightarrow T} f(x,t)
 \end{equation}
 shall be marked up as
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>g</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1356,35 +1279,32 @@ shall be marked up as
 		</m:mfenced>
 	</m:mrow>
 </m:mrow>
-	\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 	And, the expression 
 	\begin{equation}
 	\lim_{x \rightarrow 0} \frac{1}{x} = \infty
 	\end{equation}
 	shall be marked up as
-	\begin{kodeblokk}
-		\begin{verbatimtab}[3]
-<m:mrow>
-	<m:munder>
-		<m:mo>lim</m:mo>
-		<m:mrow>
+	\begin{lstlisting}[language=HTML]
+	<m:mrow>
+		<m:munder>
+			<m:mo>lim</m:mo>
+			<m:mrow>
+				<m:mi>x</m:mi>
+				<m:mo>&#8594;</m:mo>
+				<m:mn>0</m:mn>
+			</m:mrow>
+		</m:munder>
+		<m:mo>&#8289;</m:mo>
+		<m:mfrac>
+			<m:mn>1</m:mn>
 			<m:mi>x</m:mi>
-			<m:mo>&#8594;</m:mo>
-			<m:mn>0</m:mn>
-		</m:mrow>
-	</m:munder>
-	<m:mo>&#8289;</m:mo>
-	<m:mfrac>
-		<m:mn>1</m:mn>
-		<m:mi>x</m:mi>
-	</m:mfrac>
-</m:mrow>
-<m:mo>=</m:mo>
-<m:mi>&#8734;</m:mi>		
-\end{verbatimtab}
-	\end{kodeblokk}
+		</m:mfrac>
+	</m:mrow>
+	<m:mo>=</m:mo>
+	<m:mi>&#8734;</m:mi>
+	\end{lstlisting}
 \end{eksempler}
 
 \bigskip
@@ -1401,8 +1321,7 @@ There are several more ways to write the derivative, but these are the most comm
 \subsubsection{The \emph{Lagrange notation}}
 When we want to write the derivative of a function using \emph{Lagrange's notation}, as in $f'(x)$, the required markup is
 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:msup>
 		<m:mi>
@@ -1413,10 +1332,11 @@ When we want to write the derivative of a function using \emph{Lagrange's notati
 		<m:mo>&#8242;</m:mo>
 	</m:msup>
 	<m:mo>&#8289;</m:mo>
-	<m:mfenced open="(" close=")">[markup of one or more arguments]</m:mfenced>
+	<m:mfenced open="(" close=")">
+		[markup of one or more arguments]
+	</m:mfenced>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup of the derivative of a function must be placed inside an \element{mrow} element. This \element{mrow} must contain exactly three children.
@@ -1438,8 +1358,7 @@ The definition of the derivative of a function $f$ is often given as
 f'(x) = \lim_{h \rightarrow 0} \frac{f(x+h) - f(h)}{h}
 \end{equation}
 The correct markup of this expression is 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:msup>
 		<m:mi>f</m:mi>
@@ -1486,15 +1405,13 @@ The correct markup of this expression is
 		<m:mi>h</m:mi>
 	</m:mfrac>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 And
 \begin{equation}
 f''(x) = f'(f'(x))
 \end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:msup>
 		<m:mi>f</m:mi>
@@ -1525,24 +1442,21 @@ must be marked up as
 		</m:mrow>
 	</m:mfenced>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \end{eksempler}
 
 \bigskip
 When we want to write the derivative of a named function using \emph{Lagrange's notation}, as in $(\sin x)'$, the required markup is
 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msup>
 	<m:mfenced open="(" close=")">
 		[markup representing the function]
 	</m:mfenced>
 	<m:mo>&#8242;</m:mo>
 </m:msup>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup of the derivative of a named function must be placed inside an \element{msup} element.
@@ -1560,8 +1474,7 @@ The expression
 (3 a x^3)'' = (9 ax^2)' = 18 a x
 \end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:msup>
 	<m:mfenced open="(" close=")">
 		<m:mrow>
@@ -1599,8 +1512,7 @@ must be marked up as
 <m:mi>a</m:mi>
 <m:mo>&#8290;</m:mo>
 <m:mi>x</m:mi>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 
 \end{eksempler}
@@ -1612,8 +1524,7 @@ When we want to write the derivative of a function using \emph{Leibniz's notatio
 \end{equation}
 the required markup is
 
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mfrac>
 	<m:mrow>
 		<m:mo>&#8518;</m:mo>
@@ -1626,8 +1537,7 @@ the required markup is
 		</m:mi>
 	</m:mrow>
 </m:mfrac>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup of the derivative of a function, using \emph{Leibniz's notation,} must be placed inside an \element{mfrac} element.
@@ -1649,8 +1559,7 @@ The expression
 f'(x) = \frac{\text{d}f(x)}{\text{d}x}
 \end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:msup>
 		<m:mi>f</m:mi>
@@ -1678,13 +1587,11 @@ must be marked up as
 		<m:mi>x</m:mi>
 	</m:mrow>
 </m:mfrac>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \end{eksempler}
 
 Markup of higher order derivatives of a function, based on \emph{Leibniz's notation}, is just an extension of the markup of the first derivative:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mfrac>
 	<m:mrow>
 		<m:msup>
@@ -1707,8 +1614,7 @@ Markup of higher order derivatives of a function, based on \emph{Leibniz's notat
 		</m:msup>
 	</m:mrow>
 </m:mfrac>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \kravliste{
 	\item The markup of the second derivative of a function, using \emph{Leibniz's notation,} must be placed inside an \element{mfrac} element.
@@ -1738,8 +1644,7 @@ The expression
 g''(x) =\frac{\text{d}^2 \sin x}{\text{d} x^2}
 \end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:msup>
 		<m:mi>g</m:mi>
@@ -1771,8 +1676,7 @@ must be marked up as
 		</m:msup>
 	</m:mrow>
 </m:mfrac>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \end{eksempler}
 
@@ -1795,28 +1699,24 @@ The following entities are relevant for markup of integrals:
 \end{tabular}\label{integraltegn}
 
 For the \emph{indefinite integral}, with a very simple argument, such as $\int f = g +C$ and $T = \oint f$ and even $a(x) = \iint \cos x$, the following markup will be sufficient:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+
+\begin{lstlisting}[language=HTML]
 <m:mo>&#8747;</m:mo>
 <m:mi>f</m:mi>
 <m:mo>=</m:mo>
 <m:mi>g</m:mi>
 <m:mo>+</m:mo>
 <m:mi>C</m:mi>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 and
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mi>T</m:mi>
 <m:mo>=</m:mo>
 <m:mo>&#8750;</m:mo>
 <m:mi>g</m:mi>	
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 and
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>a</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1831,8 +1731,7 @@ and
 	<m:mo>&#8289;</m:mo>
 	<m:mi>x</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 respectively.
 
 \bigskip
@@ -1841,16 +1740,14 @@ However, once the expressions get a little more complex, the requirements get mo
 \int f(x) \text{d}x
 \end{equation}
 will require a very specific markup:
-\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mo>&#8747;</m:mo>
 [markup of function to be integrated
 <m:mrow>
 	<m:mo>&#8517;</m:mo>
 	<m:mi>[integration variable]</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 Note that the \entitet{\#8747} entity in the first \element{mo} element could just as well be any of the other integral entities listed \vpageref{integraltegn}.
 
 So the complete markup of 
@@ -1858,8 +1755,7 @@ So the complete markup of
 C(z) = \oint \frac{1}{z}\text{d}z
 \end{equation}
 would be
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>C</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1877,13 +1773,11 @@ would be
 	<m:mo>&#8517;</m:mo>
 	<m:mi>z</m:mi>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 \bigskip
 For \emph{definite integrals}, where the interval of the integration is specified, there are further requirements to the markup.
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:munderover>
 		<m:mo>[integration sign]</m:mo>
@@ -1896,8 +1790,7 @@ For \emph{definite integrals}, where the interval of the integration is specifie
 		<m:mi>[a letter in the region a-z]</m:mi>
 	</m:mrow>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 %
 \kravliste{
@@ -1925,8 +1818,7 @@ For \emph{definite integrals}, where the interval of the integration is specifie
 	F(x) = \int_{t=a}^{t=x} f(t) \text{d}t
 	\end{equation}
 must be marked up as
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mrow>
 	<m:mi>F</m:mi>
 	<m:mo>&#8289;</m:mo>
@@ -1961,16 +1853,14 @@ must be marked up as
 		<m:mi>t</m:mi>
 	</m:mrow>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 
 Another example:
 \begin{equation}
 \oint \frac{1}{z}\text{d} z =\int_{0}^{2\pi} \frac{1}{e^{i t}}\, i\; e^{i t} \text{d}t
 \end{equation}
 must be represented by the following markup:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 <m:mo>&#8750;</m:mo>
 <m:mfrac>
 	<m:mn>1</m:mn>
@@ -2020,8 +1910,8 @@ must be represented by the following markup:
 		<m:mi>t</m:mi>
 	</m:mrow>
 </m:mrow>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
+\end{eksempler}
 
 \subsection{Markup of matrices}
 
@@ -2036,8 +1926,7 @@ The markup of matrices is the same as described in the W3C standard, except for 
 	\end{pmatrix}
 	\end{equation}
 
-	\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+	\begin{lstlisting}[language=HTML]
 		<m:mrow>
 			<m:mfenced open="(" close=")">
 				<m:mtable>
@@ -2059,8 +1948,7 @@ The markup of matrices is the same as described in the W3C standard, except for 
 				</m:mtable>
 			</m:mfenced>
 	  	</m:mrow>
-	\end{verbatimtab}
-	\end{kodeblokk}
+	\end{lstlisting}
 \end{eksempler}
 
 \subsection{Markup of set delimiters}
@@ -2072,8 +1960,7 @@ When it comes to markup for set delimiters, it should be marked up as follows:
 		\underbrace{x+y+z}
 	\end{equation}
 
-	\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+	\begin{lstlisting}[language=HTML]
 		<m:mrow>
 			<m:munder accent="true">
 				<m:mrow>
@@ -2086,8 +1973,7 @@ When it comes to markup for set delimiters, it should be marked up as follows:
 				<m:mo>&#x23DF;</m:mo>
 			</m:munder>
 	  	</m:mrow>
-	\end{verbatimtab}
-	\end{kodeblokk}
+	\end{lstlisting}
 
 
 And similarily
@@ -2096,8 +1982,7 @@ And similarily
 		\overbrace{x+y+z}
 	\end{equation}
 
-	\begin{kodeblokk}
-	\begin{verbatimtab}[3]
+	\begin{lstlisting}[language=HTML]
 		<m:mrow>
 			<m:mover accent="true">
 				<m:mrow>
@@ -2110,15 +1995,14 @@ And similarily
 				<m:mo>&#x23DE;</m:mo>
 			</m:mover>
 	  	</m:mrow>
-	\end{verbatimtab}
-	\end{kodeblokk}
+	\end{lstlisting}
 \end{eksempler}
 
 \subsection{Markup of multiline formulas}
 
 Multiline formulas should follow the markup convention of tables, using the \element{mtable} element described in \url{https://www.w3.org/TR/MathML3/chapter3.html#presm.tabmat} and the element \element{maligngroup}.
 
-\subsection{Markup of chemistry}
+\subsection{Markup of chemistry}\label{chemistry}
 
 \textit{Note: This markup will most likely be changed in the near future, and we're open to suggestions on how to improve it.}
 
@@ -2132,8 +2016,7 @@ For the following chemical formula for photosynthesis:
 \end{equation}
 
 The markup would be as follows:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 	<m:math 
 	  xmlns:m="http://www.w3.org/1998/Math/MathML"
 	  alttext="6 CO_2 + 6 H_2O + light rarr C_6H_12O_6 + 6 O_2"
@@ -2192,11 +2075,26 @@ The markup would be as follows:
 			</m:msub>
 		</m:mrow>
 	</m:math>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \end{eksempler}
 
-\subsection{Markup of physics}
+\subsubsection{Superscript in upper left to denote isotope}\label{chemistry-isotope}
+
+\begin{eksempler}
+	\begin{equation}
+		\ce{^{14}C}
+	\end{equation}
+	\begin{lstlisting}[language=HTML]
+		<m:msup>
+			<m:mo>&#32;</m:mo>
+			<m:mn>14</m:mn>
+		</m:msup>
+		<m:mtext>C</m:mtext>
+	\end{lstlisting}
+	Where \entitet{\#32} represents a blank space.
+\end{eksempler}
+
+\subsection{Markup of physics}\label{physics}
 
 \textit{Note: This markup will most likely be changed in the near future, and we're open to suggestions on how to improve it.}
 
@@ -2204,8 +2102,7 @@ Every \element{math} element that is a physics formula, will have to have added 
 
 \begin{eksempler}
 The markup would be as follows:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 	<m:math 
 	    xmlns:m="http://www.w3.org/1998/Math/MathML"
 	    alttext="..."
@@ -2213,10 +2110,7 @@ The markup would be as follows:
 		class="physics">
 		...
 	</m:math>
-\end{verbatimtab}
-\end{kodeblokk}
-\end{eksempler}
-
+\end{lstlisting}
 \end{eksempler}
 
 \subsection{Markup of math elements within code blocks}
@@ -2227,8 +2121,7 @@ When a \element{math} element is within a code block, we need to make sure the c
 
 \begin{eksempler}
 The markup would be as follows:
-\begin{kodeblokk}
-\begin{verbatimtab}[3]
+\begin{lstlisting}[language=HTML]
 	<m:math 
 	    xmlns:m="http://www.w3.org/1998/Math/MathML"
 	    alttext="..."
@@ -2236,7 +2129,136 @@ The markup would be as follows:
 		class="code">
 		...
 	</m:math>
-\end{verbatimtab}
-\end{kodeblokk}
+\end{lstlisting}
 \end{eksempler}
+
+\section{Issues and clarifications}
+
+These clarifications should cover any ambiguity, and solve issues that have been addressed during the development.
+
+\subsection{AsciiMath should be mirroring MathML}
+
+There has been detected very short AsciiMath expressions, whilst the corresponding MathML was very much longer. We are implementing rules to validate such markup, and rendering it invalid.
+
+\subsection{Dividing obvious words into single letters}
+\begin{eksempler}
+	The following equation
+\begin{equation}
+	index_{mean}
+\end{equation}
+
+\begin{lstlisting}[language=HTML, caption={\textbf{Invalid markup}}]
+<m:munder>
+	<m:mtext>index</m:mtext>
+	<m:mrow>
+		<m:mi>m</m:mi>
+		<m:mi>e</m:mi>
+		<m:mi>a</m:mi>
+		<m:mi>n</m:mi>
+	</m:mrow>
+</m:munder>
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML, caption={Valid markup 1}]
+<m:munder>
+	<m:mtext>index</m:mtext>
+	<m:mtext>mean</m:mtext>
+</m:munder>
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML, caption={Valid markup 2}]
+<m:munder>
+	<m:mtext>index</m:mtext>
+	<m:mrow>
+		<m:mtext>mean</m:mtext>
+	</m:mrow>
+</m:munder>
+\end{lstlisting}
+\end{eksempler}
+
+Do \textbf{NOT} divide obvious words into single letters.
+
+\subsection{Spaces}
+
+There should not be any spaces in \element{mi}, \element{mo} or \element{mn}. If there is need for a visual space, the element \element{mspace} should be used.
+
+\subsubsection{Mtext elements with spaces}
+
+There should not be created any \element{mtext} with just a single space in it, with the exception of special chemical formulas, described in \ref{chemistry-isotope}. If there is need for a visual space, the element \element{mspace} should be used.
+
+\subsection{Decimals}
+
+Every decimal needs to be interpreted and decided whether it's a decimal. As obvious as this seems, there has been cases of the following happening.
+
+\begin{eksempler}
+\begin{equation}
+	20,0
+\end{equation}
+\begin{lstlisting}[language=HTML, caption={\textbf{Invalid markup}}]
+	<m:mn>20</m:mn>
+	<m:mo>,</m:mo>
+	<m:mn>0</m:mn>
+\end{lstlisting}
+
+This will cause the TTS to divide the expression into two numbers: 20 and 0, which is not good. Thus should this be avoided one of the following ways:
+\begin{lstlisting}[language=HTML, caption={Valid markup 1}]
+	<m:mn>20,0</m:mn>
+\end{lstlisting}
+\begin{lstlisting}[language=HTML, caption={Valid markup 2}]
+	<m:mn>20.0</m:mn>
+\end{lstlisting}
+\end{eksempler}
+
+\subsection{Thousand separator}
+
+There is an issue with thousand separators having the wrong markup, thus there should not be used any thousand separators.
+
+\begin{eksempler}
+	\textsc{164 000}
+	\begin{lstlisting}[language=HTML, caption={\textbf{Invalid markup}}]
+		<m:mn>164</m:mn>
+		<m:mtext> </m:mtext>
+		<m:mn>000</m:mn> 
+	\end{lstlisting}
+	
+	This will cause the TTS to divide the expression into two numbers: 164 and 0, which is not good. Thus should this be avoided the following way:
+	\begin{lstlisting}[language=HTML, caption={Valid markup}]
+		<m:mn>164000</m:mn>
+	\end{lstlisting}
+\end{eksempler}
+
+\subsection{Union}
+
+Union must be marked up as \entitet{\#8746} - not the letter U, and it must be within a \element{mo} element. 
+
+\begin{eksempler}
+\begin{equation}
+	A \cup B
+\end{equation}
+\begin{lstlisting}[language=HTML]
+<m:mrow>
+	<m:mtext>A</m:mtext>
+	<m:mo>&#8746;</m:mo>
+	<m:mtext>B</m:mtext>
+</m:mrow>
+\end{lstlisting}
+\end{eksempler}
+
+\subsection{Intersection}
+
+Intersection must be marked up as \entitet{\#8898} - and it must be within a \element{mo} element. 
+
+\begin{eksempler}
+\begin{equation}
+	A \cap B
+\end{equation}
+\begin{lstlisting}[language=HTML]
+<m:mrow>
+	<m:mtext>A</m:mtext>
+	<m:mo>&#8898;</m:mo>
+	<m:mtext>B</m:mtext>
+</m:mrow>
+\end{lstlisting}
+\end{eksempler}
+
 \end{document}
