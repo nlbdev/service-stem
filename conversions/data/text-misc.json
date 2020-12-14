@@ -33,7 +33,7 @@
         { "name": "root", "value": "root" },
         { "name": "fraction with counter", "value": "fraction with counter" },
         { "name": "fraction", "value": "fraction" },
-        { "name": "capital", "value": "capital" },
+        { "name": "capital", "value": "large" },
         { "name": " to the power of 2 ", "value": " squared " },
         { "name": " left parenthesis matrix start ", "value": " matrix start " },
         { "name": " matrix end right parenthesis ", "value": " matrix end " },
