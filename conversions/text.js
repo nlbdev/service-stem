@@ -6,6 +6,9 @@ const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
 const { Cipher } = require("crypto");
 const DOMParser = require("xmldom").DOMParser;
+const { GetALIX, GetDefaultIndexes, GetDefaultModifiers } = require("./alix");
+const alix = require("./alix");
+const modifiers = GetDefaultModifiers();
 
 /**
  * Get the correct string and return it, return undefined if not found
@@ -199,9 +202,9 @@ function RaisedLoweredText(node, words) {
     }
 }
 
-function StandardLoop(node, words, start) {
+function StandardLoop(node, words, start, indexes) {
     for (var num = start; num < node.childNodes.length; num++) {
-        if(node.childNodes[num]) ParseNode(node.childNodes[num], words);
+        if(node.childNodes[num]) ParseNode(node.childNodes[num], words, indexes);
     }
 }
 
@@ -260,9 +263,10 @@ function inWords(num) {
     return str;
 }
 
-function ParseNode(node, words) {
+function ParseNode(node, words, indexes) {
     try {
         if (node != null) {
+            indexes[node.localName]++;
             switch (node.localName) {
                 case "mphantom":
                 case "mspace":
@@ -286,11 +290,11 @@ function ParseNode(node, words) {
                 case "mscarries":
                 case "mscarry":
                 case "mlongdiv":
-                    StandardLoop(node, words, 0);
+                    StandardLoop(node, words, 0, indexes);
                     break;
                 case "mtable":
                     AddWord(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`, words);
-                    StandardLoop(node, words, 0);
+                    StandardLoop(node, words, 0, indexes);
                     AddWord(`${GetText("matrix", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mtr":
@@ -299,37 +303,37 @@ function ParseNode(node, words) {
                     AddWord(`${GetText("row", misc)} ${(tr+1)} ${GetText("contains", misc)} ${node.childNodes.length} ${GetText("cells", misc)}:`, words);
                     for (var y = 0; y < node.childNodes.length; y++) {
                         AddWord(`${GetText("cell", misc)} ${y+1} ${GetText("contains", misc)}`, words);
-                        ParseNode(node.childNodes[y], words);
+                        ParseNode(node.childNodes[y], words, indexes);
                         words[words.length-1] = `${words[words.length-1]},`;
                     }
                     AddWord(`${GetText("row", misc)} ${GetText("end", misc)}${(node != node.parentNode.lastChild ? ',' : '')}`, words);
                     break;
                 case "mtd":
-                    StandardLoop(node, words, 0);
+                    StandardLoop(node, words, 0, indexes);
                     break;
                 case "msub":
                     DividendText(node, words);
                     if((node.parentNode != null && node.parentNode.localName === "mover")) {
                         if(node.nextSibling != null && node.nextSibling.localName === "mo" && (node.nextSibling.firstChild != null && node.nextSibling.firstChild.nodeValue.charCodeAt() == 8594)) {
                             if(node.childNodes.length >= 2) {
-                                ParseNode(node.childNodes[0], words);
+                                ParseNode(node.childNodes[0], words, indexes);
                                 AddWord(`${GetText("with the lower index", misc)}`, words);
-                                StandardLoop(node, words, 1);
+                                StandardLoop(node, words, 1, indexes);
                             }
                             else {
-                                ParseNode(node.childNodes[0], words);
+                                ParseNode(node.childNodes[0], words, indexes);
                             }
                         }
                     }
                     else if(node.childNodes.length >= 2) {
-                        ParseNode(node.childNodes[0], words);
+                        ParseNode(node.childNodes[0], words, indexes);
                         AddWord(`${GetText("with the lower index", misc)}`, words);
-                        StandardLoop(node, words, 1);
+                        StandardLoop(node, words, 1, indexes);
                         AddWord(`${GetText("index", misc)} ${GetText("end", misc)}`, words);
                     }
                     else {
                         if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                        StandardLoop(node, words, 0);
+                        StandardLoop(node, words, 0, indexes);
                         if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     }
                     break;
@@ -337,7 +341,7 @@ function ParseNode(node, words) {
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                    StandardLoop(node, words, 0);
+                    StandardLoop(node, words, 0, indexes);
                     if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mover":
@@ -348,7 +352,7 @@ function ParseNode(node, words) {
                             AddWord(node.childNodes[0].firstChild.nodeValue, words);
                         }
                         else {
-                            StandardLoop(node, words, 0);
+                            StandardLoop(node, words, 0, indexes);
                         }
                         AddWord(`${GetText("vector", misc)} ${GetText("end", misc)}`, words);
                     }
@@ -368,17 +372,17 @@ function ParseNode(node, words) {
                             }
                             if(IsMacron1) {
                                 AddWord(GetText("the arithmetic mean", misc), words);
-                                ParseNode(node.childNodes[0], words);
+                                ParseNode(node.childNodes[0], words, indexes);
                             } else {
                                 if(HasAccent1) AddWord(`${GetText("curly bracket", misc)} ${GetText("over", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                                ParseNode(node.childNodes[0], words);
+                                ParseNode(node.childNodes[0], words, indexes);
                                 AddWord(`${GetText("with the upper index", misc)}`, words);
-                                StandardLoop(node, words, 1);
+                                StandardLoop(node, words, 1, indexes);
                                 if(HasAccent1) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                             }
                         }
                         else {
-                            StandardLoop(node, words, 0);
+                            StandardLoop(node, words, 0, indexes);
                         }
                     }
                     break;
@@ -398,12 +402,12 @@ function ParseNode(node, words) {
                         }
                         if(IsMacron2) {
                             AddWord(GetText("the arithmetic mean", misc), words);
-                            ParseNode(node.childNodes[0], words);
+                            ParseNode(node.childNodes[0], words, indexes);
                         } else {
                             if(HasAccent2) AddWord(`${GetText("curly bracket", misc)} ${GetText("under", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                            ParseNode(node.childNodes[0], words);
+                            ParseNode(node.childNodes[0], words, indexes);
                             AddWord(`${GetText("with the lower index", misc)}`, words);
-                            StandardLoop(node, words, 1);
+                            StandardLoop(node, words, 1, indexes);
                             if(HasAccent2) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                         }
                     }
@@ -422,22 +426,22 @@ function ParseNode(node, words) {
                         AddWord(`${GetText("the", misc)} ${GetText(integralType, misc)}`, words);
                         AddWord(GetText("with the lower limit", misc), words);
                         if (node.childNodes[1] != null) {
-                            ParseNode(node.childNodes[1], words);
+                            ParseNode(node.childNodes[1], words, indexes);
                         }
                         AddWord(GetText("and with the upper limit", misc), words);
                         if (node.childNodes[2] != null) {
-                            ParseNode(node.childNodes[2], words);
+                            ParseNode(node.childNodes[2], words, indexes);
                         }
                         AddWord(`${GetText(integralType, misc)} ${GetText("end", misc)}`, words);
                     } else {
-                        StandardLoop(node, words, 0);
+                        StandardLoop(node, words, 0, indexes);
                     }
                     break;
                 case "mfenced":
                     DividendText(node, words);
                     ParenthesisTextOpen(node, words);
                     for (var l = 0; l < node.childNodes.length; l++) {
-                        ParseNode(node.childNodes[l], words);
+                        ParseNode(node.childNodes[l], words, indexes);
                         AddWord(GetText("and", misc), words);
                     }
                     words.pop(); // remove extra 'and'
@@ -448,14 +452,14 @@ function ParseNode(node, words) {
                     DividendText(node, words);
                     if(IsFunc(node)) AddWord(`${GetText("the", misc)} ${GetText("function", misc)}`, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                    StandardLoop(node, words, 0);
+                    StandardLoop(node, words, 0, indexes);
                     if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     if(IsFunc(node)) AddWord(`${GetText("function", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "msqrt":
                     DividendText(node, words);
                     AddWord(`${GetText("the", misc)} ${GetText("square root", misc)} ${GetText("of", misc)}`, words);
-                    for (var i = 0; i < node.childNodes.length; i++) ParseNode(node.childNodes[i], words);
+                    for (var i = 0; i < node.childNodes.length; i++) ParseNode(node.childNodes[i], words, indexes);
                     AddWord(`${GetText("square root", misc)} ${GetText("end", misc)}`, words);
                     break;
                 case "mroot":
@@ -463,7 +467,7 @@ function ParseNode(node, words) {
                     if (node.lastChild != null && node.lastChild.localName == "mn") AddWord(`the ${RootNumbers(node.lastChild.firstChild.nodeValue)} root of`); else AddWord("the root of", words);
                     for (var n = 0; n < node.childNodes.length; n++) {
                         if (node.childNodes[n] != node.lastChild && node.lastChild.localName == "mn") {
-                            ParseNode(node.childNodes[n], words);
+                            ParseNode(node.childNodes[n], words, indexes);
                         }
                     }
                     AddWord(`${GetText("root", misc)} ${GetText("end", misc)}`, words);
@@ -472,7 +476,7 @@ function ParseNode(node, words) {
                     RaisedLoweredText(node, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     AddWord(GetText("fraction with counter", misc), words);
-                    StandardLoop(node, words, 0);
+                    StandardLoop(node, words, 0, indexes);
                     AddWord(`${GetText("fraction", misc)} ${GetText("end", misc)}`, words);
                     if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
                     break;
@@ -667,6 +671,7 @@ function Detect(root, words) {
 module.exports = {
     GenerateMath: async (content) => {
         var words = [];
+        var indexes = GetDefaultIndexes();
 
         try {
             var dom = new DOMParser().parseFromString(content);
@@ -674,11 +679,19 @@ module.exports = {
             // Build words array
             var root = dom.documentElement;
             Detect(root, words);
-            ParseNode(root, words);
+            ParseNode(root, words, indexes);
             AddWord("formula end", words);
             // Return words in an array which can be prosessed by the translation service and API
             
+            // Generate "Algoritme LesbarhetsIndeX (ALIX)"
+            var alix = GetALIX(indexes, modifiers);
             var attributes = ExtractAttributes(root);
+
+            // Remove formula text if low ALIX
+            if (alix <= 10) {
+                words.shift();
+                words.pop();
+            }
 
             // Defaults
             var lang = "no", asciiMath = "", display = "block", image = "";
@@ -687,8 +700,9 @@ module.exports = {
             if(attributes.find(m => m.name == "ascii") != null) asciiMath = attributes.find( m => m.name == "ascii").value;
             if(attributes.find(m => m.name == "display") != null) display = attributes.find( m => m.name == "display").value;
             if(attributes.find(m => m.name == "image") != null) image = attributes.find( m => m.name == "image").value;
-            
-            return { success: true, language: lang, words: words, ascii: asciiMath, display: display, imagepath: image };
+
+            var obj = { success: true, language: lang, words, ascii: asciiMath, display, imagepath: image, alix };
+            return obj;
         }
         catch (ex) {
             throw ex;
