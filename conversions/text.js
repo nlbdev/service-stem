@@ -687,12 +687,6 @@ module.exports = {
             var alix = GetALIX(indexes, modifiers);
             var attributes = ExtractAttributes(root);
 
-            // Remove formula text if low ALIX
-            if (alix <= 10) {
-                words.shift();
-                words.pop();
-            }
-
             // Defaults
             var lang = "no", asciiMath = "", display = "block", image = "";
 
