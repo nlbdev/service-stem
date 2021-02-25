@@ -125,7 +125,7 @@ function ParenthesisTextClose(node, words) {
     if(node.nextSibling != null && node.nextSibling.localName == "mo") {
         if(node.nextSibling.firstChild.nodeValue.charCodeAt() == 8242 || node.nextSibling.firstChild.nodeValue.charCodeAt() == 8243) { // Derivative or Double derivative
             cont = false;
-            AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+            AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
         }
     }
 
@@ -167,7 +167,7 @@ function ParenthesisTextClose(node, words) {
                 AddWord(GetText(charCode, misc), words);
                 break;
             case 124:
-                AddWord(`${GetText(charCode, misc)} ${GetText("end", misc)}`, words);
+                AddWord(`${GetText(charCode, misc)} ${GetText("end", misc)},`, words);
                 break;
             default:
                 console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
@@ -295,7 +295,7 @@ function ParseNode(node, words, indexes) {
                 case "mtable":
                     AddWord(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`, words);
                     StandardLoop(node, words, 0, indexes);
-                    AddWord(`${GetText("matrix", misc)} ${GetText("end", misc)}`, words);
+                    AddWord(`${GetText("matrix", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mtr":
                 case "mlabeledtr":
@@ -329,12 +329,12 @@ function ParseNode(node, words, indexes) {
                         ParseNode(node.childNodes[0], words, indexes);
                         AddWord(`${GetText("with the lower index", misc)}`, words);
                         StandardLoop(node, words, 1, indexes);
-                        AddWord(`${GetText("index", misc)} ${GetText("end", misc)}`, words);
+                        AddWord(`${GetText("index", misc)} ${GetText("end", misc)},`, words);
                     }
                     else {
                         if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                         StandardLoop(node, words, 0, indexes);
-                        if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                        if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
                     }
                     break;
                 case "msup":
@@ -342,7 +342,7 @@ function ParseNode(node, words, indexes) {
                     RaisedLoweredText(node, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     StandardLoop(node, words, 0, indexes);
-                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mover":
                     var isBound = false;
@@ -354,7 +354,7 @@ function ParseNode(node, words, indexes) {
                         else {
                             StandardLoop(node, words, 0, indexes);
                         }
-                        AddWord(`${GetText("vector", misc)} ${GetText("end", misc)}`, words);
+                        AddWord(`${GetText("vector", misc)} ${GetText("end", misc)},`, words);
                     }
                     else {
                         if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
@@ -378,7 +378,7 @@ function ParseNode(node, words, indexes) {
                                 ParseNode(node.childNodes[0], words, indexes);
                                 AddWord(`${GetText("with the upper index", misc)}`, words);
                                 StandardLoop(node, words, 1, indexes);
-                                if(HasAccent1) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                                if(HasAccent1) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
                             }
                         }
                         else {
@@ -408,7 +408,7 @@ function ParseNode(node, words, indexes) {
                             ParseNode(node.childNodes[0], words, indexes);
                             AddWord(`${GetText("with the lower index", misc)}`, words);
                             StandardLoop(node, words, 1, indexes);
-                            if(HasAccent2) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                            if(HasAccent2) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
                         }
                     }
                     else {
@@ -432,7 +432,7 @@ function ParseNode(node, words, indexes) {
                         if (node.childNodes[2] != null) {
                             ParseNode(node.childNodes[2], words, indexes);
                         }
-                        AddWord(`${GetText(integralType, misc)} ${GetText("end", misc)}`, words);
+                        AddWord(`${GetText(integralType, misc)} ${GetText("end", misc)},`, words);
                     } else {
                         StandardLoop(node, words, 0, indexes);
                     }
@@ -453,8 +453,8 @@ function ParseNode(node, words, indexes) {
                     if(IsFunc(node)) AddWord(`${GetText("the", misc)} ${GetText("function", misc)}`, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     StandardLoop(node, words, 0, indexes);
-                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
-                    if(IsFunc(node)) AddWord(`${GetText("function", misc)} ${GetText("end", misc)}`, words);
+                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                    if(IsFunc(node)) AddWord(`${GetText("function", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "msqrt":
                     DividendText(node, words);
@@ -470,15 +470,15 @@ function ParseNode(node, words, indexes) {
                             ParseNode(node.childNodes[n], words, indexes);
                         }
                     }
-                    AddWord(`${GetText("root", misc)} ${GetText("end", misc)}`, words);
+                    AddWord(`${GetText("root", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mfrac":
                     RaisedLoweredText(node, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     AddWord(GetText("fraction with counter", misc), words);
                     StandardLoop(node, words, 0, indexes);
-                    AddWord(`${GetText("fraction", misc)} ${GetText("end", misc)}`, words);
-                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)}`, words);
+                    AddWord(`${GetText("fraction", misc)} ${GetText("end", misc)},`, words);
+                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mo":
                     DividendText(node, words);
