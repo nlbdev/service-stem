@@ -47,11 +47,11 @@ module.exports = {
             "mfenced": 0.05,
             "mi": 0.09,
             // Medium diff
-            "mfrac": 0.15,
             "munder": 0.15,
             "mover": 0.15,
             "msup": 0.15,
             "msub": 0.15,
+            "mfrac": 0.2,
             // Hard diff
             "mroot": 0.25,
             "msqrt": 0.25,
