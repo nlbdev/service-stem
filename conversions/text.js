@@ -306,7 +306,7 @@ function ParseNode(node, words, indexes) {
                         ParseNode(node.childNodes[y], words, indexes);
                         words[words.length-1] = `${words[words.length-1]},`;
                     }
-                    AddWord(`${GetText("row", misc)} ${GetText("end", misc)}${(node != node.parentNode.lastChild ? ',' : '')}`, words);
+                    AddWord(`${GetText("row", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mtd":
                     StandardLoop(node, words, 0, indexes);
@@ -460,7 +460,7 @@ function ParseNode(node, words, indexes) {
                     DividendText(node, words);
                     AddWord(`${GetText("the", misc)} ${GetText("square root", misc)} ${GetText("of", misc)}`, words);
                     for (var i = 0; i < node.childNodes.length; i++) ParseNode(node.childNodes[i], words, indexes);
-                    AddWord(`${GetText("square root", misc)} ${GetText("end", misc)}`, words);
+                    AddWord(`${GetText("square root", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mroot":
                     DividendText(node, words);
