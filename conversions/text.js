@@ -197,9 +197,6 @@ function RaisedLoweredText(node, words) {
     if(node.parentNode != null && node.parentNode.localName == "mrow" && node.parentNode.parentNode != null && node.parentNode.parentNode.localName == "msup" && node == node.parentNode.firstChild) {
         AddWord(GetText("to the power of", misc), words);
     }
-    if ((node.parentNode != null && node.parentNode.localName == "msub") && (node.parentNode.previousSibling != null && (node.parentNode.previousSibling.localName == "mi" || node.parentNode.previousSibling.localName == "mn" || node.parentNode.previousSibling.localName == "mrow" || node.parentNode.previousSibling.localName == "mfenced"))) {
-        AddWord(GetText("with the lower index", misc), words);
-    }
 }
 
 function StandardLoop(node, words, start, indexes) {
