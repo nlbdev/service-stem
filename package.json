@@ -1,12 +1,13 @@
 {
   "name": "service-stem",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A service to generate text content based on markup",
-  "main": "receive.js",
+  "main": "index.js",
   "dependencies": {
-    "@google-cloud/translate": "^5.1.4",
+    "@airbrake/node": "^1.0.6",
     "@hapi/hapi": "^19.1.1",
-    "amqplib": "^0.5.3",
+    "@hapi/joi": "^15.0.1",
+    "dotenv": "^8.2.0",
     "cross-fetch": "^3.0.4",
     "crypto": "^1.0.1",
     "ejs": "^3.0.1",
@@ -23,7 +24,7 @@
     "xmldom": "^0.5.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "nodemon index.js"
   },
   "repository": {
     "type": "git",
