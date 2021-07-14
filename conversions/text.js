@@ -4,16 +4,15 @@
 const operators = require("./data/text-operators.json");
 const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
-const { Cipher } = require("crypto");
 const DOMParser = require("xmldom").DOMParser;
 const { GetALIX, GetDefaultIndexes, GetDefaultModifiers } = require("./alix");
-const alix = require("./alix");
 const modifiers = GetDefaultModifiers();
 
 /**
  * Get the correct string and return it, return undefined if not found
- * @param s A string or number to find
- * @param source The JSON source
+ * @param {String} s A string or number to find
+ * @param {String} source The JSON source
+ * @returns {String|undefined} The text found
  */
 function GetText(s, source) {
     var found;
@@ -35,6 +34,12 @@ function GetText(s, source) {
     }
 }
 
+/**
+ * Adds a word to the words array
+ * @param {String} word The word to add
+ * @param {Array<String>} words The words array
+ * @returns {Boolean} Successful?
+ */
 function AddWord(word, words) {
     var success = false;
     try {
@@ -46,21 +51,36 @@ function AddWord(word, words) {
     return success;
 }
 
-function ExtractAttributes(node) {
+/**
+ * Extracts attributes from document
+ * @param {HTMLElement} root The document to work with
+ * @returns {Array<{name:String,value:String|null}>} The extracted attributes
+ */
+function ExtractAttributes(root) {
     return [
-        {name: "language", value: node.getAttribute("xml:lang") || null },
-        {name: "ascii", value: node.getAttribute("alttext") || null },
-        {name: "display", value: node.getAttribute("display") || null },
-        {name: "image", value: node.getAttribute("altimg") || null }
+        {name: "language", value: root.getAttribute("xml:lang") || null },
+        {name: "ascii", value: root.getAttribute("alttext") || null },
+        {name: "display", value: root.getAttribute("display") || null },
+        {name: "image", value: root.getAttribute("altimg") || null }
     ];
 }
 
+/**
+ * Generates dividend text
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The words array
+ */
 function DividendText(node, words) {
     if (node.parentNode != null && (node.parentNode.localName == "mfrac" && node == node.parentNode.lastChild)) {
         AddWord(GetText("and denominator", misc), words);
     }
 }
 
+/**
+ * Generates parenthesis start text
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The words array
+ */
 function ParenthesisTextOpen(node, words) {
     var cont = true;
     if(node.nextSibling != null && node.nextSibling.localName == "mo") {
@@ -120,6 +140,11 @@ function ParenthesisTextOpen(node, words) {
     }
 }
 
+/**
+ * Generates parenthesis end text
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The words array
+ */
 function ParenthesisTextClose(node, words) {
     var cont = true;
     if(node.nextSibling != null && node.nextSibling.localName == "mo") {
@@ -178,6 +203,11 @@ function ParenthesisTextClose(node, words) {
     }
 }
 
+/**
+ * Generates raised and lowered texts
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The words array
+ */
 function RaisedLoweredText(node, words) {
     if (node.parentNode != null && node.parentNode.localName == "msup") {
         if(node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
@@ -199,12 +229,25 @@ function RaisedLoweredText(node, words) {
     }
 }
 
+/**
+ * Creates a standard loop on the node document
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The words array
+ * @param {Number} start Where to start the loop
+ * @param {Array<String>} indexes The index array
+ */
 function StandardLoop(node, words, start, indexes) {
     for (var num = start; num < node.childNodes.length; num++) {
         if(node.childNodes[num]) ParseNode(node.childNodes[num], words, indexes);
     }
 }
 
+/**
+ * Checks if this is a vector
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The words array
+ * @returns {Boolean} Is this a vector or not
+ */
 function IsVector(node, words) {
     if(node.lastChild != null && node.lastChild.localName == "mo" && node.lastChild.firstChild.nodeValue.charCodeAt() == 8594) {
         return true;
@@ -216,7 +259,8 @@ function IsVector(node, words) {
 
 /**
  * Returns the correct root text for a specified number.
- * @param i A number as string or a string
+ * @param {String} i A number as string or a string
+ * @returns {String} The textual represenation of a root number
  */
 function RootNumbers(i) {
     const roots = require("./data/text-roots.json");
@@ -224,6 +268,11 @@ function RootNumbers(i) {
     return roots.find(root => root.id == i).value;
 }
 
+/**
+ * Checks if this is a function
+ * @param {Document} node The document to work with
+ * @returns {Boolean} Is it a function?
+ */
 function IsFunc(node) {
     if (node.localName == "mrow") {
         return (node.lastChild != null && node.lastChild.localName == "mfenced" && node.lastChild.previousSibling != null && node.lastChild.previousSibling.localName == "mo" && node.lastChild.previousSibling.firstChild.nodeValue.charCodeAt() == 8289);
@@ -233,6 +282,11 @@ function IsFunc(node) {
     }
 }
 
+/**
+ * Checks if this is an expression
+ * @param {Document} node The document to work with
+ * @returns {Boolean} Is it an expression?
+ */
 function IsExp(node) {
     if (["mrow","msup","msub","mfrac"].includes(node.localName)) {
         var idents = ["sin","log","ln","tan","arcsin","arccos","arctan","sinh","cosh","tanh","coth","sech","cosech","csch","arsinh","arcosh","artanh",
@@ -246,20 +300,12 @@ function IsExp(node) {
     }
 }
 
-function inWords(num) {
-    var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
-    var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
-    if ((num = num.toString()).length > 9) return 'overflow';
-    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-    if (!n) return; var str = '';
-    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + '' + a[n[5][1]]) : '';
-    return str;
-}
-
+/**
+ * Parses document node generating a words array
+ * @param {Document} node The document to work with
+ * @param {Array<String>} words The generated words array
+ * @param {Array<String>} indexes The index array
+ */
 function ParseNode(node, words, indexes) {
     try {
         if (node != null) {
@@ -273,8 +319,8 @@ function ParseNode(node, words, indexes) {
                 case "merror":
                 case "msline":
                 case "none":
-                case "mmultiscripts":
                 case "mstyle":
+                case "mprescripts":
                     // Just used for visual representation
                     break;
                 case "mpadded":
@@ -288,6 +334,20 @@ function ParseNode(node, words, indexes) {
                 case "mscarry":
                 case "mlongdiv":
                     StandardLoop(node, words, 0, indexes);
+                    break;
+                case "mmultiscripts":
+                    if (node.firstChild.localName === "mtext" && node.firstChild.nextSibling.localName === "mprescripts") {
+                        // Chemical isotopes
+                        var definingNode = node.firstChild;
+                        var preRaisedNode = definingNode.nextSibling.nextSibling.nextSibling.firstChild;
+                        var preLoweredNode = definingNode.nextSibling.nextSibling;
+
+                        AddWord(preRaisedNode.firstChild.nodeValue, words);
+                        AddWord(`${GetText("over", misc) }`, words);
+                        AddWord(preLoweredNode.firstChild.nodeValue, words);
+                        AddWord(`${GetText("prior to", misc)}`, words);
+                        AddWord(definingNode.firstChild.nodeValue, words);
+                    }
                     break;
                 case "mtable":
                     AddWord(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`, words);
@@ -649,22 +709,6 @@ function ParseNode(node, words, indexes) {
     }
 }
 
-function Detect(root, words) {
-    var word = "";
-    switch(root.getAttribute("class")) {
-        case "chemistry":
-            word = "chemical formula";
-            break;
-        case "physics":
-            word = "physics formula";
-            break;
-        default:
-            break;
-    }
-    if(word == "" && root.localName == "math") word = "formula";
-    AddWord(word, words);
-}
-
 module.exports = {
     GenerateMath: async (content) => {
         var words = [];
@@ -675,11 +719,11 @@ module.exports = {
 
             // Build words array
             var root = dom.documentElement;
-            Detect(root, words);
+            AddWord("formula", words);
             ParseNode(root, words, indexes);
             AddWord("formula end", words);
             // Return words in an array which can be prosessed by the translation service and API
-            
+
             // Generate "Algoritme LesbarhetsIndeX (ALIX)"
             var alix = GetALIX(indexes, modifiers);
             var attributes = ExtractAttributes(root);

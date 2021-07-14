@@ -30,7 +30,8 @@ module.exports = {
             "mtd": 0,
             "mlabeledtr": 0,
             "mtr": 0,
-            "mtable": 0
+            "mtable": 0,
+            "mmultiscripts": 0
         };
     },
     GetDefaultModifiers: () => {
@@ -51,6 +52,7 @@ module.exports = {
             "mover": 0.15,
             "msup": 0.15,
             "msub": 0.15,
+            "mmultiscripts": 0.15,
             "mfrac": 0.2,
             // Hard diff
             "mroot": 0.25,
