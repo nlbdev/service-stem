@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
+require("dotenv").config();
 
 const Hapi = require('@hapi/hapi');
 const Joi = require("@hapi/joi");
