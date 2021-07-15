@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
+require("dotenv").config();
 
 const Hapi = require('@hapi/hapi');
 const Joi = require("@hapi/joi");
 const Pack = require("./package.json");
 const X2JS = require("x2js");
+const Boom = require("@hapi/boom");
 
 const { PORT, HOST } = require("./configurations/appConfig");
 const { DOMParser } = require("xmldom");
@@ -18,7 +20,22 @@ const { GenerateSvg } = require("./conversions/svg");
     const init = async () => {
         const server = Hapi.server({
             port: PORT,
-            host: HOST
+            host: HOST,
+            routes: {
+                validate: {
+                    failAction: async (request, h, err) => {
+                      if (process.env.NODE_ENV === 'production') {
+                        // In prod, log a limited error message and throw the default Bad Request error.
+                        console.error('ValidationError:', err.message);
+                        throw Boom.badRequest(`Invalid request payload input`);
+                      } else {
+                        // During development, log and respond with the full error.
+                        console.error(err);
+                        throw err;
+                      }
+                    }
+                }
+            }
         });
         server.validator(Joi);
 
@@ -60,7 +77,7 @@ const { GenerateSvg } = require("./conversions/svg");
                     var doc = new DOMParser().parseFromString(payload.content);
                     if (!doc.documentElement.getAttribute("altimg")) p.push(GenerateSvg(payload.content).then(svg => svg).catch(err => err));
 
-                    Promise.all(p)
+                    return Promise.all(p)
                         .then(values => {
                             // Generate return object
                             var obj = {
