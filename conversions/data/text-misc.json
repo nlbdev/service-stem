@@ -1,5 +1,6 @@
 {
     "strings": [
+        { "name": "for", "value": "for" },
         { "name": "prior to", "value": "prior to" },
         { "name": "over", "value": "over" },
         { "name": "under", "value": "under" },

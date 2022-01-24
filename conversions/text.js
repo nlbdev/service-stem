@@ -67,7 +67,7 @@ function ExtractAttributes(root) {
 
 /**
  * Generates dividend text
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @param {Array<String>} words The words array
  */
 function DividendText(node, words) {
@@ -78,7 +78,7 @@ function DividendText(node, words) {
 
 /**
  * Generates parenthesis start text
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @param {Array<String>} words The words array
  */
 function ParenthesisTextOpen(node, words) {
@@ -142,7 +142,7 @@ function ParenthesisTextOpen(node, words) {
 
 /**
  * Generates parenthesis end text
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @param {Array<String>} words The words array
  */
 function ParenthesisTextClose(node, words) {
@@ -205,7 +205,7 @@ function ParenthesisTextClose(node, words) {
 
 /**
  * Generates raised and lowered texts
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @param {Array<String>} words The words array
  */
 function RaisedLoweredText(node, words) {
@@ -231,20 +231,30 @@ function RaisedLoweredText(node, words) {
 
 /**
  * Creates a standard loop on the node document
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @param {Array<String>} words The words array
  * @param {Number} start Where to start the loop
  * @param {Array<String>} indexes The index array
+ * @param {?Array<ChildNode>} exclude Exclude the following nodes
  */
-function StandardLoop(node, words, start, indexes) {
+function StandardLoop(node, words, start, indexes, exclude = []) {
     for (var num = start; num < node.childNodes.length; num++) {
-        if(node.childNodes[num]) ParseNode(node.childNodes[num], words, indexes);
+        if(node.childNodes[num]) {
+            const child = node.childNodes[num];
+            if (exclude.length > 0) {
+                if (exclude.includes(child) === false) {
+                    ParseNode(child, words, indexes);
+                }
+            } else {
+                ParseNode(child, words, indexes);
+            }
+        }
     }
 }
 
 /**
  * Checks if this is a vector
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @param {Array<String>} words The words array
  * @returns {Boolean} Is this a vector or not
  */
@@ -270,7 +280,7 @@ function RootNumbers(i) {
 
 /**
  * Checks if this is a function
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @returns {Boolean} Is it a function?
  */
 function IsFunc(node) {
@@ -284,7 +294,7 @@ function IsFunc(node) {
 
 /**
  * Checks if this is an expression
- * @param {Document} node The document to work with
+ * @param {ChildNode} node The document to work with
  * @returns {Boolean} Is it an expression?
  */
 function IsExp(node) {
@@ -302,7 +312,7 @@ function IsExp(node) {
 
 /**
  * Parses document node generating a words array
- * @param {Document} node The document to work with
+ * @param {Node} node The document to work with
  * @param {Array<String>} words The generated words array
  * @param {Array<String>} indexes The index array
  */
@@ -430,12 +440,17 @@ function ParseNode(node, words, indexes) {
                             if(IsMacron1) {
                                 AddWord(GetText("the arithmetic mean", misc), words);
                                 ParseNode(node.childNodes[0], words, indexes);
-                            } else {
-                                if(HasAccent1) AddWord(`${GetText("curly bracket", misc)} ${GetText("over", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                            } else if (HasAccent1) {
+                                AddWord(`${GetText("curly bracket", misc)} ${GetText("over", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                                 ParseNode(node.childNodes[0], words, indexes);
                                 AddWord(`${GetText("with the upper index", misc)}`, words);
                                 StandardLoop(node, words, 1, indexes);
-                                if(HasAccent1) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                                AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                            } else {
+                                ParseNode(node.childNodes[0], words, indexes);
+                                AddWord(`${GetText("with the upper index", misc)}`, words);
+                                StandardLoop(node, words, 1, indexes);
+                                AddWord(',', words);
                             }
                         }
                         else {
@@ -444,7 +459,7 @@ function ParseNode(node, words, indexes) {
                     }
                     break;
                 case "munder":
-                    if(node.childNodes.length == 2) { // Length should always be 2 if set delimiter
+                    if(node.childNodes.length == 2) {
                         var IsMacron2 = false;
                         var HasAccent2 = false;
                         try {
@@ -459,13 +474,23 @@ function ParseNode(node, words, indexes) {
                         }
                         if(IsMacron2) {
                             AddWord(GetText("the arithmetic mean", misc), words);
-                            ParseNode(node.childNodes[0], words, indexes);
-                        } else {
-                            if(HasAccent2) AddWord(`${GetText("curly bracket", misc)} ${GetText("under", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                            ParseNode(node.childNodes[0], words, indexes);
+                            ParseNode(node.firstChild, words, indexes);
+                        } else if (HasAccent2) {
+                            AddWord(`${GetText("curly bracket", misc)} ${GetText("under", misc)} ${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                            ParseNode(node.firstChild, words, indexes);
                             AddWord(`${GetText("with the lower index", misc)}`, words);
                             StandardLoop(node, words, 1, indexes);
-                            if(HasAccent2) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                            AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                        } else {
+                            ParseNode(node.firstChild, words, indexes);
+                            AddWord(`${GetText("with the lower index", misc)}`, words);
+                            StandardLoop(node, words, 1, indexes);
+                            if(node.firstChild != null && node.firstChild.firstChild != null && node.firstChild.firstChild.firstChild != null && node.firstChild.firstChild.firstChild.nodeValue == "lim") {
+                                AddWord(',', words);
+                                if (node.nextSibling.firstChild.localName != "mfrac") {
+                                    AddWord(`${GetText("for", misc)}`, words);
+                                }
+                            }
                         }
                     }
                     else {
@@ -717,12 +742,12 @@ module.exports = {
         try {
             var dom = new DOMParser().parseFromString(content);
 
-            // Build words array
             var root = dom.documentElement;
-            AddWord("formula", words);
+
+            // Build words array
+            AddWord("equation", words);
             ParseNode(root, words, indexes);
-            AddWord("formula end", words);
-            // Return words in an array which can be prosessed by the translation service and API
+            AddWord("equation end", words);
 
             // Generate "Algoritme LesbarhetsIndeX (ALIX)"
             var alix = GetALIX(indexes, modifiers);
@@ -736,6 +761,7 @@ module.exports = {
             if(attributes.find(m => m.name == "display") != null) display = attributes.find( m => m.name == "display").value;
             if(attributes.find(m => m.name == "image") != null) image = attributes.find( m => m.name == "image").value;
 
+            // Return values
             var obj = { success: true, language: lang, words, ascii: asciiMath, display, imagepath: image, alix };
             return obj;
         }
