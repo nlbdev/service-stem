@@ -274,8 +274,6 @@ function ParseNode(node, words) {
                 case "none":
                 case "mmultiscripts":
                 case "mstyle":
-                    // Just used for visual representation
-                    break;
                 case "mpadded":
                 case "menclose":
                 case "math":
