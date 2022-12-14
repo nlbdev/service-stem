@@ -329,6 +329,7 @@ function ParseNode(node, words, indexes) {
                 case "merror":
                 case "msline":
                 case "none":
+                    break;
                 case "mstyle":
                 case "mprescripts":
                 case "mpadded":
