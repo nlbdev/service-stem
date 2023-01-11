@@ -39,6 +39,11 @@ const { GenerateSvg } = require("./conversions/svg");
         });
         server.validator(Joi);
 
+        // Log every request
+        server.events.on('response', (request) => {
+            console.info(`${new Date().toISOString()}\tReceived request from ${request.info.remoteAddress}: ${request.method.toUpperCase()} ${request.url} and responded with ${request.response.statusCode}`);
+        });
+
         server.route({
             method: 'GET',
             path: '/health',
@@ -46,7 +51,7 @@ const { GenerateSvg } = require("./conversions/svg");
                 return { name: Pack.name, version: Pack.version, timestamp: new Date().toISOString() };
             }
         });
-        console.info(`${Pack.name} health service is running on ${server.info.uri}/health`);
+        console.info(`${new Date().toISOString()}\t${Pack.name} health service is running on ${server.info.uri}/health`);
 
         server.route({
             method: 'GET',
@@ -69,7 +74,6 @@ const { GenerateSvg } = require("./conversions/svg");
             },
             handler: async (request, h) => {
                 var payload = request.payload;
-
                 if (payload.contentType == "math") {
                     var p = [
                         GenerateMath(payload.content).then(res => res).catch(err => err)
@@ -83,7 +87,7 @@ const { GenerateSvg } = require("./conversions/svg");
                             var obj = {
                                 success: values[0].success,
                                 generated: {
-                                    text: values[0],
+                                    text: values[0].words,
                                     ascii: values[0].ascii,
                                     alix: values[0].alix
                                 },
@@ -117,7 +121,7 @@ const { GenerateSvg } = require("./conversions/svg");
                         })
                         .then((result) => {
                             // Return data
-                            return { success: true, data: result };
+                            return result;
                         });
                 }
                 else if (payload.contentType == "chemistry" || payload.contentType == "physics" || payload.contentType == "other") {
@@ -129,7 +133,7 @@ const { GenerateSvg } = require("./conversions/svg");
         });
 
         await server.start();
-        console.info(`${Pack.name} running on ${server.info.uri}/`);
+        console.info(`${new Date().toISOString()}\t${Pack.name} running on ${server.info.uri}/`);
     };
 
     process.on('unhandledRejection', (err) => {
