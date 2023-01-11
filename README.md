@@ -7,7 +7,7 @@ A microservice to generate text content and images based on MathML.
 ### For local development
 
 1. Clone this repository
-    - Install: GitKraken and follow their guide on how to clone a repo: <https://www.gitkraken.com/learn/git/git-clone>
+    - Install: GitKraken and follow their guide on [how to clone a repo](https://www.gitkraken.com/learn/git/git-clone)
 2. Install pre-requisites: NodeJS 14.19.3 <https://nodejs.org/en/blog/release/v14.19.3/> (Due to a bug in SSL, we cannot use the latest stable)
 2. Create a new file in the root folder for the repo called: `.env` and copy the content from `config.env.example` and fill in the required environment variables
 3. Inside the repo in GitKraken, press "Show/hide terminal"
@@ -26,12 +26,14 @@ A microservice to generate text content and images based on MathML.
 ## Usage
 
 Use "curl" from the command-line: to test this service.
+
 Replace `[HOST]` and `[PORT]` with appropriate values from the `.env` file.
+
 Replace "content" with appropriate MathML that you want to test.
 
 ```bash
 curl -H 'Content-Type: application/json' \
       -d '{ "contentType": "math", "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"en\" altimg=\"img\" alttext=\"3-2=1\" display=\"block\" class=\"math\"><m:mn>3</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:mo>=</m:mo><m:mn>1</m:mn></m:math>" }' \
       -X POST \
-      http://localhost:47700/
+      http://[HOST]:[PORT]/
 ```
