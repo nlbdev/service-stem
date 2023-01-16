@@ -213,7 +213,7 @@ const { GenerateSvg } = require("./conversions/svg");
                                             alttext: asciiStr,
                                             svg: null,
                                             alix: mathObj.alix,
-                                            alixThresholdNoImage: 15
+                                            alixThresholdNoImage: 25
                                         }),
                                     },
                                     "image": {
@@ -260,7 +260,7 @@ const { GenerateSvg } = require("./conversions/svg");
                                                     alttext: asciiStr,
                                                     svg: svgXml,
                                                     alix: mathObj.alix,
-                                                    alixThresholdNoImage: 15
+                                                    alixThresholdNoImage: 25
                                                 }),
                                             },
                                             "image": {
