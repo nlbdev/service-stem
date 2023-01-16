@@ -186,7 +186,12 @@ const { GenerateSvg } = require("./conversions/svg");
                     var payload = request.payload;
                     if (payload.contentType == "math") {
                         var mathml = payload.content;
-                        var doc = new DOMParser().parseFromString(mathml);
+                        var doc = new DOMParser({
+                            locator: {},
+                            errorHandler: { warning: function (w) { }, 
+                            error: function (e) { }, 
+                            fatalError: function (e) { console.error(e) } }
+                        }).parseFromString(mathml);
 
                         return GenerateMath(mathml).then(async mathObj => {
                             var parMath = PreProcessMathML(mathml);
