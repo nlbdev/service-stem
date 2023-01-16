@@ -14,7 +14,7 @@
     "ejs": "^3.1.8",
     "he": "^1.2.0",
     "jquery": "^3.5.0",
-    "jsdom": "^15.2.1",
+    "jsdom": "^16.5.0",
     "mathjax-full": "^3.2.2",
     "mathml-to-asciimath": "^1.4.0",
     "mathml-to-latex": "^1.2.0",
