@@ -28,6 +28,10 @@ const { GenerateSvg } = require("./conversions/svg");
      * @returns {String} Processed MathML
      */
     const PreProcessMathML = (payload) => {
+        // Replace \\ with \ in MathML
+        payload = payload.replace(/\\\\/g, '\\');
+
+        // Load into Cheerio
         const $ = cheerio.load(payload, {
             xmlMode: true,
             decodeEntities: false
@@ -39,8 +43,7 @@ const { GenerateSvg } = require("./conversions/svg");
         $.root().children().first().removeAttr('altimg');
         $.root().children().first().removeAttr('alttext');
         $.root().children().first().removeAttr('xml:lang');
-        
-        console.log($.xml());
+        $.root().children().first().removeAttr('lang');
 
         // Removes namespace from elements
         $.root().find('m\\:math').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
