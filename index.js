@@ -186,7 +186,6 @@ const { GenerateSvg } = require("./conversions/svg");
                     var payload = request.payload;
                     if (payload.contentType == "math") {
                         var mathml = payload.content;
-                        console.debug(mathml);
                         const dom = new DOMParser({
                             locator: {},
                             errorHandler: { warning: function (w) { }, 
@@ -194,18 +193,13 @@ const { GenerateSvg } = require("./conversions/svg");
                             fatalError: function (e) { console.error(e) } }
                         });
                         var doc = dom.parseFromString(mathml, "text/xml");
-                        console.debug(doc);
-
                         return GenerateMath(mathml).then(async mathObj => {
                             console.debug(mathObj);
                             var parMath = PreProcessMathML(mathml);
                             console.debug(parMath);
                             const latexStr = MathML2Latex.convert(parMath);
-                            console.debug(latexStr);
                             const asciiStr = GenerateAsciiMath({"mathml": parMath, ...mathObj});
-                            console.debug(asciiStr);
                             const translatedStr = TranslateText(mathObj.words, mathObj.language);
-                            console.debug(translatedStr);
 
                             var returnObj = {
                                 "success": mathObj.success,
@@ -287,9 +281,8 @@ const { GenerateSvg } = require("./conversions/svg");
                                         },
                                     };
                                 });
-                            } else {
-                                return returnObj;
                             }
+                            return returnObj;
                         });
                     }
                     else if (payload.contentType == "chemistry" || payload.contentType == "physics" || payload.contentType == "other") {
