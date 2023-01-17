@@ -28,6 +28,7 @@ const { GenerateSvg } = require("./conversions/svg");
      * @returns {String} Processed MathML
      */
     const PreProcessMathML = (payload) => {
+        console.log(payload);
         const $ = cheerio.load(payload, {
             xmlMode: true,
             decodeEntities: false
@@ -63,7 +64,9 @@ const { GenerateSvg } = require("./conversions/svg");
         $.root().find('m\\:mrow').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
         $.root().find('m\\:semantics').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
 
-        return $.xml();
+        var xml = $.xml();
+        console.log(xml);
+        return xml;
     }
 
     /**
@@ -82,12 +85,42 @@ const { GenerateSvg } = require("./conversions/svg");
 
     /**
      * Transforms MathML to Accessible HTML with ALIX
-     * @param {Object} opts options
+     * @param {{language: String;disp: String;txt: String;altimg: String;alttext: String;svg: String;alix: Number;alixThresholdNoImage: Number;}} opts options
      * @returns {Promise<String>} Accessible HTML with ALIX
      */
     const GenerateHtmlFromTemplate = async (opts) => {
         var filename = Resolve('./templates/accessibleHtmlWithAlix.ejs');
 
+        // Validate opts
+        if (opts === undefined) {
+            opts = {};
+        }
+        if (opts.language === undefined) {
+            opts.language = "no";
+        }
+        if (opts.disp === undefined) {
+            opts.disp = "block";
+        }
+        if (opts.txt === undefined) {
+            opts.txt = "";
+        }
+        if (opts.altimg === undefined) {
+            opts.altimg = "";
+        }
+        if (opts.alttext === undefined) {
+            opts.alttext = "";
+        }
+        if (opts.svg === undefined) {
+            opts.svg = "";
+        }
+        if (opts.alix === undefined) {
+            opts.alix = 0;
+        }
+        if (opts.alixThresholdNoImage === undefined) {
+            opts.alixThresholdNoImage = 25;
+        }
+
+        // Render template
         return ejs.renderFile(filename, opts).then(res => {
             return res;
         });
@@ -194,9 +227,7 @@ const { GenerateSvg } = require("./conversions/svg");
                         });
                         var doc = dom.parseFromString(mathml, "text/xml");
                         return GenerateMath(mathml).then(async mathObj => {
-                            console.debug(mathObj);
                             var parMath = PreProcessMathML(mathml);
-                            console.debug(parMath);
                             const latexStr = MathML2Latex.convert(parMath);
                             const asciiStr = GenerateAsciiMath({"mathml": parMath, ...mathObj});
                             const translatedStr = TranslateText(mathObj.words, mathObj.language);
