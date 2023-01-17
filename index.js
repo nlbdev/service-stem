@@ -186,18 +186,26 @@ const { GenerateSvg } = require("./conversions/svg");
                     var payload = request.payload;
                     if (payload.contentType == "math") {
                         var mathml = payload.content;
-                        var doc = new DOMParser({
+                        console.debug(mathml);
+                        const dom = new DOMParser({
                             locator: {},
                             errorHandler: { warning: function (w) { }, 
                             error: function (e) { }, 
                             fatalError: function (e) { console.error(e) } }
-                        }).parseFromString(mathml);
+                        });
+                        var doc = dom.parseFromString(mathml, "text/xml");
+                        console.debug(doc);
 
                         return GenerateMath(mathml).then(async mathObj => {
+                            console.debug(mathObj);
                             var parMath = PreProcessMathML(mathml);
+                            console.debug(parMath);
                             const latexStr = MathML2Latex.convert(parMath);
+                            console.debug(latexStr);
                             const asciiStr = GenerateAsciiMath({"mathml": parMath, ...mathObj});
+                            console.debug(asciiStr);
                             const translatedStr = TranslateText(mathObj.words, mathObj.language);
+                            console.debug(translatedStr);
 
                             var returnObj = {
                                 "success": mathObj.success,
@@ -230,6 +238,7 @@ const { GenerateSvg } = require("./conversions/svg");
                                     }
                                 },
                             };
+                            console.debug(returnObj);
                             
                             if (!doc.documentElement.getAttribute("altimg")) {
                                 // Post-processing SVG
