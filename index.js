@@ -74,12 +74,12 @@ const { GenerateSvg } = require("./conversions/svg");
      * @param {{mathml: string;success: boolean;language: string;words: any[];ascii: string;display: string;imagepath: string;alix: number;}} mathObj Math Object
      * @returns {String} AsciiMath
      */
-    const GenerateAsciiMath = (mathObj) => {
+    const GenerateAsciiMath = (mathml, ascii) => {
         try {
-            return MathML2Ascii(mathObj.mathml);
+            return MathML2Ascii(mathml);
         }
         catch(err) {
-            return mathObj.ascii;
+            return ascii;
         }
     }
 
@@ -229,7 +229,7 @@ const { GenerateSvg } = require("./conversions/svg");
                         return GenerateMath(mathml).then(async mathObj => {
                             var parMath = PreProcessMathML(mathml);
                             const latexStr = MathML2Latex.convert(parMath);
-                            const asciiStr = GenerateAsciiMath({"mathml": parMath, ...mathObj});
+                            const asciiStr = GenerateAsciiMath(parMath, mathObj.ascii);
                             const translatedStr = TranslateText(mathObj.words, mathObj.language);
 
                             var returnObj = {
