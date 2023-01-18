@@ -44,7 +44,7 @@ const { GenerateSvg } = require("./conversions/svg");
 
         // Replace the m:math element with a new blank math element, but keep its content
         $.root().find('m\\:math').each((i, item) => {
-            const content = $(item).xml();
+            const content = $(item).html();
             $(item).replaceWith(`<math>${content}</math>`);
         });
 
