@@ -42,13 +42,11 @@ const { GenerateSvg } = require("./conversions/svg");
             decodeEntities: false
         });
 
-        // Removes attributes from m:math
-        $.root().children().first().removeAttr('xmlns:m');
-        $.root().children().first().removeAttr('display');
-        $.root().children().first().removeAttr('altimg');
-        $.root().children().first().removeAttr('alttext');
-        $.root().children().first().removeAttr('xml:lang');
-        $.root().children().first().removeAttr('lang');
+        // Replace the m:math element with a new blank math element, but keep its content
+        $.root().find('m\\:math').each((i, item) => {
+            const content = $(item).xml();
+            $(item).replaceWith(`<math>${content}</math>`);
+        });
 
         // Removes namespace from elements
         $.root().find('m\\:math').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
