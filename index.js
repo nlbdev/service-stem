@@ -28,8 +28,13 @@ const { GenerateSvg } = require("./conversions/svg");
      * @returns {String} Processed MathML
      */
     const PreProcessMathML = (payload) => {
-        // Replace \\ with \ in MathML
-        payload = payload.replace(/\\\\/g, '\\');
+        // If payload is empty, return empty string
+        if (!payload) return "";
+        
+        // If payload contains \\, replace with \ otherwise parser will fail
+        if (payload.includes("\\\\")) {
+            payload = payload.replace(/\\\\/g, '\\');
+        }
 
         // Load into Cheerio
         const $ = cheerio.load(payload, {
