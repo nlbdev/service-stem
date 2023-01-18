@@ -30,11 +30,6 @@ const { GenerateSvg } = require("./conversions/svg");
     const PreProcessMathML = (payload) => {
         // If payload is empty, return empty string
         if (!payload) return "";
-        
-        // If payload contains \\, replace with \ otherwise parser will fail
-        if (payload.includes("\\\\")) {
-            payload = payload.replace(/\\\\/g, '\\');
-        }
 
         // Load into Cheerio
         const $ = cheerio.load(payload, {
@@ -73,7 +68,6 @@ const { GenerateSvg } = require("./conversions/svg");
         $.root().find('m\\:semantics').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
 
         var xml = $.xml();
-        console.log(xml);
         return xml;
     }
 
@@ -227,6 +221,12 @@ const { GenerateSvg } = require("./conversions/svg");
                     var payload = request.payload;
                     if (payload.contentType == "math") {
                         var mathml = payload.content;
+        
+                        // If mathml contains \\, replace with \
+                        if (mathml.includes("\\\\")) {
+                            mathml = mathml.replace(/\\\\/g, '\\');
+                        }
+
                         const dom = new DOMParser({
                             locator: {},
                             errorHandler: { warning: function (w) { }, 
