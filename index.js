@@ -222,9 +222,9 @@ const { GenerateSvg } = require("./conversions/svg");
                     if (payload.contentType == "math") {
                         var mathml = payload.content;
         
-                        // If mathml contains \\, replace with \
-                        if (mathml.includes("\\\\")) {
-                            mathml = mathml.replace(/\\\\/g, '\\');
+                        // If mathml contains \\, remove it
+                        if (mathml.includes("\\")) {
+                            mathml = mathml.replace(/\\/g, '');
                         }
 
                         const dom = new DOMParser({
