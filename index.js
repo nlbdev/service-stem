@@ -227,6 +227,9 @@ const { GenerateSvg } = require("./conversions/svg");
                         var XMLObject = parser.parse(content);
                         var XMLContent = builder.build(XMLObject);
 
+                        console.log(XMLObject);
+                        console.log(XMLContent);
+
                         return GenerateMath(content).then(async mathObj => {
                             const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
                             const asciiStr = GenerateAsciiMath(XMLContent, mathObj.ascii);
@@ -263,6 +266,7 @@ const { GenerateSvg } = require("./conversions/svg");
                                     }
                                 },
                             };
+                            console.log(returnObj);
                             
                             if (mathObj.imagepath === null) {
                                 // Post-processing SVG
