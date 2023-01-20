@@ -10,12 +10,12 @@ const Boom = require("@hapi/boom");
 const cheerio = require("cheerio");
 const ejs = require('ejs');
 const Resolve = require("path").resolve;
+const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 
 const MathML2Latex = require('mathml-to-latex');
 const MathML2Ascii = require('mathml-to-asciimath');
 
 const { PORT, HOST } = require("./configurations/appConfig");
-const { DOMParser } = require("xmldom");
 const { GenerateMath } = require("./conversions/text");
 const { GenerateSvg } = require("./conversions/svg");
 
@@ -218,28 +218,24 @@ const { GenerateSvg } = require("./conversions/svg");
             },
             handler: async (request, h) => {
                 try {
-                    var payload = request.payload;
-                    if (payload.contentType == "math") {
-                        // Clean up MathML
-                        const DOMParser = require('xmldom').DOMParser;
-                        const dom = new DOMParser({
-                            locator: {},
-                            errorHandler: { warning: function (w) { }, 
-                            error: function (e) { }, 
-                            fatalError: function (e) { console.error(e) } }
-                        });
-                        var doc = dom.parseFromString(payload.content, "text/xml");
-                        var mathml = doc.documentElement.innerHTML;
-                        return GenerateMath(mathml).then(async mathObj => {
-                            var parMath = PreProcessMathML(mathml);
-                            const latexStr = MathML2Latex.convert(parMath);
-                            const asciiStr = GenerateAsciiMath(parMath, mathObj.ascii);
+                    const { payload } = request;
+                    const { content, contentType } = payload;
+                    if (contentType == "math") {
+                        const parser = new XMLParser();
+                        const builder = new XMLBuilder();
+
+                        var XMLObject = parser.parse(content);
+                        var XMLContent = builder.build(XMLObject);
+
+                        return GenerateMath(content).then(async mathObj => {
+                            const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
+                            const asciiStr = GenerateAsciiMath(XMLContent, mathObj.ascii);
                             const translatedStr = TranslateText(mathObj.words, mathObj.language);
 
                             var returnObj = {
                                 "success": mathObj.success,
                                 "input": {
-                                    "mathml": mathml,
+                                    "mathml": content,
                                 },
                                 "output": {
                                     "text": {
@@ -267,11 +263,10 @@ const { GenerateSvg } = require("./conversions/svg");
                                     }
                                 },
                             };
-                            console.debug(returnObj);
                             
-                            if (!doc.documentElement.getAttribute("altimg")) {
+                            if (mathObj.imagepath === null) {
                                 // Post-processing SVG
-                                return GenerateSvg(mathml).then(async svgObj => {
+                                return GenerateSvg(XMLContent).then(async svgObj => {
                                     var x2js = new X2JS(), xmlDoc = x2js.xml2js(svgObj), svgDoc = xmlDoc.div;
 
                                     svgDoc.svg._class = "visual-math";
@@ -287,7 +282,7 @@ const { GenerateSvg } = require("./conversions/svg");
                                     return {
                                         "success": mathObj.success,
                                         "input": {
-                                            "mathml": mathml,
+                                            "mathml": content,
                                         },
                                         "output": {
                                             "text": {
@@ -320,9 +315,13 @@ const { GenerateSvg } = require("./conversions/svg");
                             return returnObj;
                         });
                     }
-                    else if (payload.contentType == "chemistry" || payload.contentType == "physics" || payload.contentType == "other") {
+                    else if (contentType == "chemistry" || contentType == "physics" || contentType == "other") {
                         // Return data
                         return { success: false, error: "non-mathematical formula" };
+                    }
+                    else {
+                        // Return data
+                        return { success: false, error: "unknown content type" };
                     }
                 } catch(appicationError) {
                     console.error(appicationError);
