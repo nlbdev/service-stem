@@ -220,20 +220,16 @@ const { GenerateSvg } = require("./conversions/svg");
                 try {
                     var payload = request.payload;
                     if (payload.contentType == "math") {
-                        var mathml = payload.content;
-        
-                        // If mathml contains \\, remove it
-                        if (mathml.includes("\\")) {
-                            mathml = mathml.replace(/\\/g, '');
-                        }
-
+                        // Clean up MathML
+                        const DOMParser = require('xmldom').DOMParser;
                         const dom = new DOMParser({
                             locator: {},
                             errorHandler: { warning: function (w) { }, 
                             error: function (e) { }, 
                             fatalError: function (e) { console.error(e) } }
                         });
-                        var doc = dom.parseFromString(mathml, "text/xml");
+                        var doc = dom.parseFromString(payload.content, "text/xml");
+                        var mathml = doc.documentElement.innerHTML;
                         return GenerateMath(mathml).then(async mathObj => {
                             var parMath = PreProcessMathML(mathml);
                             const latexStr = MathML2Latex.convert(parMath);
