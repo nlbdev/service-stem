@@ -7,7 +7,6 @@ const Joi = require("@hapi/joi");
 const Pack = require("./package.json");
 const X2JS = require("x2js");
 const Boom = require("@hapi/boom");
-const cheerio = require("cheerio");
 const ejs = require('ejs');
 const Resolve = require("path").resolve;
 const { XMLParser, XMLBuilder } = require("fast-xml-parser");
@@ -21,55 +20,6 @@ const { GenerateSvg } = require("./conversions/svg");
 
 (() => {
     'use strict';
-
-    /**
-     * Transforms MathML so that parser can handle it
-     * @param {String} payload Unprocessed MathML
-     * @returns {String} Processed MathML
-     */
-    const PreProcessMathML = (payload) => {
-        // If payload is empty, return empty string
-        if (!payload) return "";
-
-        // Load into Cheerio
-        const $ = cheerio.load(payload, {
-            xmlMode: true,
-            decodeEntities: false
-        });
-
-        // Replace the m:math element with a new blank math element, but keep its content
-        $.root().find('m\\:math').each((i, item) => {
-            const content = $(item).html();
-            $(item).replaceWith(`<math>${content}</math>`);
-        });
-
-        // Removes namespace from elements
-        $.root().find('m\\:math').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mn').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mo').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mi').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mtext').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mfrac').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mroot').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:msqrt').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mfenced').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:msubsup').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:munderover').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:munder').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mover').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:msup').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:msub').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mtd').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mlabeledtr').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mtr').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mtable').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mmultiscripts').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:mrow').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-        $.root().find('m\\:semantics').each((i, item) => (item.tagName = item.tagName.replace(/m:/g, "")));
-
-        var xml = $.xml();
-        return xml;
-    }
 
     /**
      * Transforms MathML to AsciiMath
@@ -185,7 +135,7 @@ const { GenerateSvg } = require("./conversions/svg");
 
         // Log every request
         server.events.on('response', (request) => {
-            console.info(`${new Date().toISOString()}\tReceived request from ${request.info.remoteAddress}: ${request.method.toUpperCase()} ${request.url} and responded with ${request.response.statusCode}`);
+            console.info(`${new Date().toISOString()}\tA request from ${request.info.remoteAddress} (${request.method.toUpperCase()} ${request.url}) ended with ${request.response.statusCode}`);
         });
 
         server.route({
@@ -224,100 +174,109 @@ const { GenerateSvg } = require("./conversions/svg");
                         const parser = new XMLParser();
                         const builder = new XMLBuilder();
 
-                        var XMLObject = parser.parse(content);
-                        var XMLContent = builder.build(XMLObject);
-
-                        console.log(XMLObject);
-                        console.log(XMLContent);
-
-                        return GenerateMath(content).then(async mathObj => {
-                            const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
-                            const asciiStr = GenerateAsciiMath(XMLContent, mathObj.ascii);
-                            const translatedStr = TranslateText(mathObj.words, mathObj.language);
-
-                            var returnObj = {
-                                "success": mathObj.success,
-                                "input": {
-                                    "mathml": content,
-                                },
-                                "output": {
-                                    "text": {
-                                        "words": mathObj.words,
-                                        "translated": translatedStr,
-                                        "latex": latexStr,
-                                        "ascii": asciiStr,
-                                        "html": await GenerateHtmlFromTemplate({
-                                            language: mathObj.lang,
-                                            disp: mathObj.display,
-                                            txt: translatedStr,
-                                            altimg: mathObj.imagepath,
-                                            alttext: asciiStr,
-                                            svg: null,
-                                            alix: mathObj.alix,
-                                            alixThresholdNoImage: 25
-                                        }),
-                                    },
-                                    "image": {
-                                        "path": mathObj.imagepath
-                                    },
-                                    "attributes": {
-                                        "language": mathObj.language,
-                                        "alix": mathObj.alix,
-                                    }
-                                },
-                            };
-                            console.log(returnObj);
-                            
-                            if (mathObj.imagepath === null) {
-                                // Post-processing SVG
-                                return GenerateSvg(XMLContent).then(async svgObj => {
-                                    var x2js = new X2JS(), xmlDoc = x2js.xml2js(svgObj), svgDoc = xmlDoc.div;
-
-                                    svgDoc.svg._class = "visual-math";
-                                    svgDoc.svg["_aria-hidden"] = true;
-        
-                                    var domDoc = x2js.js2dom(svgDoc);
-        
-                                    var titleEl = domDoc.createElement("title"), titleText = domDoc.createTextNode(mathObj.ascii);
-                                    titleEl.appendChild(titleText);
-                                    domDoc.firstChild.insertBefore(titleEl);
-                                    var tmpDoc = x2js.dom2js(domDoc);
-                                    var svgXml = x2js.js2xml(tmpDoc);
-                                    return {
-                                        "success": mathObj.success,
-                                        "input": {
-                                            "mathml": content,
-                                        },
-                                        "output": {
-                                            "text": {
-                                                "words": mathObj.words,
-                                                "translated": translatedStr,
-                                                "latex": latexStr,
-                                                "ascii": asciiStr,
-                                                "html": await GenerateHtmlFromTemplate({ 
-                                                    language: mathObj.lang,
-                                                    disp: mathObj.display,
-                                                    txt: translatedStr,
-                                                    altimg: mathObj.imagepath,
-                                                    alttext: asciiStr,
-                                                    svg: svgXml,
-                                                    alix: mathObj.alix,
-                                                    alixThresholdNoImage: 25
-                                                }),
-                                            },
-                                            "image": {
-                                                "svg": svgXml,
-                                            },
-                                            "attributes": {
-                                                "language": mathObj.language,
-                                                "alix": mathObj.alix,
-                                            }
-                                        },
-                                    };
-                                });
-                            }
-                            return returnObj;
+                        var XMLObject = parser.parse(content, {
+                            ignoreAttributes: false,
+                            ignoreNameSpace: false,
                         });
+                        var XMLContent = builder.build(XMLObject);
+                        var mathObj = GenerateMath(content);
+                        var x2js = new X2JS();
+                        var xmlDom = x2js.xml2dom(content);
+
+                        // Extract language from m:math attribute
+                        const languageStr = xmlDom.documentElement.getAttribute("xml:lang") || xmlDom.documentElement.getAttribute("lang") || "en";
+                        // Extract display from m:math attribute
+                        const displayStr = xmlDom.documentElement.getAttribute("display") || "block";
+                        // Extract altimg from m:math attribute
+                        const altimgStr = xmlDom.documentElement.getAttribute("altimg") || "";
+                        // Extract alttext from m:math attribute
+                        const alttextStr = xmlDom.documentElement.getAttribute("alttext") || "";
+
+                        const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
+                        const asciiStr = GenerateAsciiMath(XMLContent, alttextStr);
+                        const translatedStr = TranslateText(mathObj.words, languageStr);
+
+                        var returnObj = {
+                            "success": mathObj.success,
+                            "input": {
+                                "mathml": content,
+                            },
+                            "output": {
+                                "text": {
+                                    "words": mathObj.words,
+                                    "translated": translatedStr,
+                                    "latex": latexStr,
+                                    "ascii": asciiStr,
+                                    "html": await GenerateHtmlFromTemplate({
+                                        language: languageStr,
+                                        disp: displayStr,
+                                        txt: translatedStr,
+                                        altimg: altimgStr,
+                                        alttext: asciiStr,
+                                        svg: null,
+                                        alix: mathObj.alix,
+                                        alixThresholdNoImage: 25
+                                    }),
+                                },
+                                "image": {
+                                    "path": altimgStr
+                                },
+                                "attributes": {
+                                    "language": languageStr,
+                                    "alix": mathObj.alix,
+                                }
+                            },
+                        };
+                        
+                        if (altimgStr === "") {
+                            // Post-processing SVG
+                            return GenerateSvg(XMLContent).then(async svgObj => {
+                                var x2js = new X2JS(), xmlDoc = x2js.xml2js(svgObj), svgDoc = xmlDoc.div;
+
+                                svgDoc.svg._class = "visual-math";
+                                svgDoc.svg["_aria-hidden"] = true;
+    
+                                var domDoc = x2js.js2dom(svgDoc);
+    
+                                var titleEl = domDoc.createElement("title"), titleText = domDoc.createTextNode(asciiStr);
+                                titleEl.appendChild(titleText);
+                                domDoc.firstChild.insertBefore(titleEl);
+                                var tmpDoc = x2js.dom2js(domDoc);
+                                var svgXml = x2js.js2xml(tmpDoc);
+                                return {
+                                    "success": mathObj.success,
+                                    "input": {
+                                        "mathml": content,
+                                    },
+                                    "output": {
+                                        "text": {
+                                            "words": mathObj.words,
+                                            "translated": translatedStr,
+                                            "latex": latexStr,
+                                            "ascii": asciiStr,
+                                            "html": await GenerateHtmlFromTemplate({ 
+                                                language: languageStr,
+                                                disp: displayStr,
+                                                txt: translatedStr,
+                                                altimg: altimgStr,
+                                                alttext: asciiStr,
+                                                svg: svgXml,
+                                                alix: mathObj.alix,
+                                                alixThresholdNoImage: 25
+                                            }),
+                                        },
+                                        "image": {
+                                            "svg": svgXml,
+                                        },
+                                        "attributes": {
+                                            "language": languageStr,
+                                            "alix": mathObj.alix,
+                                        }
+                                    },
+                                };
+                            });
+                        }
+                        return returnObj;
                     }
                     else if (contentType == "chemistry" || contentType == "physics" || contentType == "other") {
                         // Return data

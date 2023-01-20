@@ -4,7 +4,7 @@
 const operators = require("./data/text-operators.json");
 const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
-const DOMParser = require("xmldom").DOMParser;
+const X2JS = require("x2js");
 const { GetALIX, GetDefaultIndexes, GetDefaultModifiers } = require("./alix");
 const modifiers = GetDefaultModifiers();
 
@@ -49,20 +49,6 @@ function AddWord(word, words) {
         console.error(ex);
     }
     return success;
-}
-
-/**
- * Extracts attributes from document
- * @param {HTMLElement} root The document to work with
- * @returns {Array<{name:String,value:String|null}>} The extracted attributes
- */
-function ExtractAttributes(root) {
-    return [
-        {name: "language", value: root.getAttribute("xml:lang") || null },
-        {name: "ascii", value: root.getAttribute("alttext") || null },
-        {name: "display", value: root.getAttribute("display") || null },
-        {name: "image", value: root.getAttribute("altimg") || null }
-    ];
 }
 
 /**
@@ -734,12 +720,13 @@ function ParseNode(node, words, indexes) {
 }
 
 module.exports = {
-    GenerateMath: async (content) => {
+    GenerateMath: (content) => {
         var words = [];
         var indexes = GetDefaultIndexes();
 
         try {
-            var dom = new DOMParser().parseFromString(content);
+            var x2js = new X2JS();
+            var dom = x2js.xml2dom(content);
 
             var root = dom.documentElement;
 
@@ -748,24 +735,15 @@ module.exports = {
             ParseNode(root, words, indexes);
             AddWord("equation end", words);
 
-            // Generate "Algoritme LesbarhetsIndeX (ALIX)"
+            // Generate ALIX
             var alix = GetALIX(indexes, modifiers);
-            var attributes = ExtractAttributes(root);
-
-            // Defaults
-            var lang = "no", asciiMath = "", display = "block", image = "";
-
-            if(attributes.find(m => m.name == "language") != null) lang = attributes.find(m => m.name == "language").value;
-            if(attributes.find(m => m.name == "ascii") != null) asciiMath = attributes.find( m => m.name == "ascii").value;
-            if(attributes.find(m => m.name == "display") != null) display = attributes.find( m => m.name == "display").value;
-            if(attributes.find(m => m.name == "image") != null) image = attributes.find( m => m.name == "image").value;
 
             // Return values
-            var obj = { success: true, language: lang, words, ascii: asciiMath, display, imagepath: image, alix };
+            var obj = { success: true, words, alix };
             return obj;
         }
         catch (ex) {
-            throw ex;
+            return { success: false, error: ex }
         }
     }
 };
