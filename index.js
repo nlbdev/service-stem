@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
 require("dotenv").config();
+const Airbrake = require('@airbrake/node');
+
+new Airbrake.Notifier({
+    projectId: 257349,
+    projectKey: '9331de259df466d79c1d0e786be78051',
+    environment: process.env.NODE_ENV || 'development'
+});
 
 const Hapi = require('@hapi/hapi');
 const Joi = require("@hapi/joi");

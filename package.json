@@ -4,7 +4,7 @@
   "description": "A service to generate text content based on markup",
   "main": "index.js",
   "dependencies": {
-    "@airbrake/node": "^1.0.6",
+    "@airbrake/node": "^2.1.8",
     "@hapi/hapi": "^19.1.1",
     "@hapi/joi": "^15.0.1",
     "cheerio": "^1.0.0-rc.12",
