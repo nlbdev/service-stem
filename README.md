@@ -12,8 +12,9 @@ A microservice to generate text content and images based on MathML.
 2. Create a new file in the root folder for the repo called: `.env` and copy the content from `config.env.example` and fill in the required environment variables
 3. Inside the repo in GitKraken, press "Show/hide terminal"
 4. Type `npm i -g nodemon yarn`
-5. Type `yarn serve`
-6. The service should now be running locally with the host details specified in the `.env` file - you can edit the files and it will update the service continuously.
+5. Type `yarn install`
+6. Type `yarn serve`
+7. The service should now be running locally with the host details specified in the `.env` file - you can edit the files and it will update the service continuously.
 
 ### For live servers
 
