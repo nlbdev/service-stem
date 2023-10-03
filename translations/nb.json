@@ -51,8 +51,6 @@
     { "search": "fraction with counter", "replace": "brøk med teller"},
     { "search": "and denominator", "replace": "og med nevner"},
     { "search": "the square root of", "replace": "kvadratroten av"},
-    { "search": "to the power of", "replace": "opphøyd i"},
-    { "search": "opphøyd i to the power of", "replace": "opphøyd i"},
     { "search": "of the expression", "replace": "av uttrykket"},
     { "search": "with the lower index", "replace": "med nedre indeks"},
     { "search": "capital degrees C", "replace": "grader celcius"},
@@ -192,5 +190,8 @@
     { "search": "with", "replace": "med"},
     { "search": "math", "replace": "matematisk"},
     { "search": "den naturlige logaritmen til av", "replace": "den naturlige logaritmen til"},
+    { "search": "to the power of", "replace": "opphøyd i"},
+    { "search": "times to the power of", "replace": "opphøyd i"},
+    { "search": "opphøyd i to the power of", "replace": "opphøyd i"},
     { "search": "undefined", "replace": ""}
 ]
