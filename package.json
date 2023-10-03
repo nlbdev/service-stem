@@ -33,6 +33,7 @@
   },
   "scripts": {
     "serve": "nodemon index.js",
+    "start": "nodemon index.js",
     "build": "docker build -t service-stem ."
   },
   "repository": {
