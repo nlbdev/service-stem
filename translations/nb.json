@@ -1,4 +1,5 @@
 [
+    { "search": "and times and", "replace": "ganger"},
     { "search": "prior to", "replace": "før"},
     { "search": "is less than", "replace": "er mindre enn"},
     { "search": "is more than", "replace": "er større enn"},
