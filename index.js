@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 /*jshint esversion: 8 */
-/**
- * This is the main entry point for the service-stem application.
- * It requires all the necessary modules and starts the server.
- * @module index
- */
 require("dotenv").config();
 const Airbrake = require('@airbrake/node');
 
