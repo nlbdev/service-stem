@@ -557,9 +557,6 @@ function ParseNode(node, words, indexes) {
                                 case 8242:
                                 case 8243:
                                     break;
-                                case 8290:
-                                    AddWord(GetText("the", misc), words);
-                                    break;
                                 case 8592:
                                     if (node.parentNode != null && node.parentNode.localName == "mrow") {
                                         AddWord(mo_text, words);
