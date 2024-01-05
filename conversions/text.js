@@ -509,9 +509,7 @@ function ParseNode(node, words, indexes) {
                     ParenthesisTextOpen(node, words);
                     for (var l = 0; l < node.childNodes.length; l++) {
                         ParseNode(node.childNodes[l], words, indexes);
-                        AddWord(GetText("and", misc), words);
                     }
-                    words.pop(); // remove extra 'and'
                     ParenthesisTextClose(node, words);
                     RaisedLoweredText(node, words);
                     break;
@@ -558,6 +556,9 @@ function ParseNode(node, words, indexes) {
                             switch(mo_code) {
                                 case 8242:
                                 case 8243:
+                                    break;
+                                case 8290:
+                                    AddWord(GetText("the", misc), words);
                                     break;
                                 case 8592:
                                     if (node.parentNode != null && node.parentNode.localName == "mrow") {
@@ -720,7 +721,7 @@ function ParseNode(node, words, indexes) {
 }
 
 module.exports = {
-    GenerateMath: (content) => {
+    GenerateMath: (content, alixThresholds) => {
         var words = [];
         var indexes = GetDefaultIndexes();
 
@@ -737,6 +738,12 @@ module.exports = {
 
             // Generate ALIX
             var alix = GetALIX(indexes, modifiers);
+
+            // if ALIX is lower than threshold value 12, remove "equation" ... "equation end" wording
+            if (alix < alixThresholds["noEquationText"]) {
+                words.shift();
+                words.pop();
+            }
 
             // Return values
             var obj = { success: true, words, alix };
