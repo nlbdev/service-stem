@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-/*jshint esversion: 8 */
 require("dotenv").config();
 const Airbrake = require('@airbrake/node');
 
@@ -9,24 +7,21 @@ new Airbrake.Notifier({
     environment: process.env.NODE_ENV || 'development'
 });
 
-const Hapi = require('@hapi/hapi');
-const Joi = require("@hapi/joi");
-const Pack = require("./package.json");
-const X2JS = require("x2js");
-const Boom = require("@hapi/boom");
-const ejs = require('ejs');
-const Resolve = require("path").resolve;
-const { XMLParser, XMLBuilder } = require("fast-xml-parser");
-
-const MathML2Latex = require('mathml-to-latex');
-const MathML2Ascii = require('mathml-to-asciimath');
-
-const { PORT, HOST } = require("./configurations/appConfig");
-const { GenerateMath } = require("./conversions/text");
-const { GenerateSvg } = require("./conversions/svg");
-
 (() => {
     'use strict';
+
+    const Pack = require("./package.json");
+    const X2JS = require("x2js");
+    const ejs = require('ejs');
+    const Resolve = require("path").resolve;
+    const { XMLParser, XMLBuilder } = require("fast-xml-parser");
+
+    const MathML2Latex = require('mathml-to-latex');
+    const MathML2Ascii = require('mathml-to-asciimath');
+
+    const { PORT, HOST } = require("./configurations/appConfig");
+    const { GenerateMath } = require("./conversions/text");
+    // const { GenerateSvg } = require("./conversions/svg");
 
     /**
      * Transforms MathML to AsciiMath
@@ -118,196 +113,149 @@ const { GenerateSvg } = require("./conversions/svg");
         return text;
     };
 
-    const init = async () => {
-        const server = Hapi.server({
-            port: PORT,
-            host: HOST,
-            routes: {
-                validate: {
-                    failAction: async (request, h, err) => {
-                      if (process.env.NODE_ENV === 'production') {
-                        // In prod, log a limited error message and throw the default Bad Request error.
-                        console.error('ValidationError:', err.message);
-                        throw Boom.badRequest(`Invalid request payload input`);
-                      } else {
-                        // During development, log and respond with the full error.
-                        console.error(err);
-                        throw err;
-                      }
-                    }
-                }
-            }
-        });
-        server.validator(Joi);
-
-        // Log every request
-        server.events.on('response', (request) => {
-            console.info(`${new Date().toISOString()}\tA request from ${request.info.remoteAddress} (${request.method.toUpperCase()} ${request.url}) ended with ${request.response.statusCode}`);
-        });
-
-        server.route({
-            method: 'GET',
-            path: '/health',
-            handler: async (request, h) => {
-                return { name: Pack.name, version: Pack.version, timestamp: new Date().toISOString() };
-            }
-        });
-        console.info(`${new Date().toISOString()}\t${Pack.name} health service is running on ${server.info.uri}/health`);
-
-        server.route({
-            method: 'GET',
-            path: '/',
-            handler: async (request, h) => {
-                return { success: false, name: Pack.name, version: Pack.version, message: "Use POST instead of GET" };
-            }
-        });
-        
-        server.route({
-            method: 'POST',
-            path: '/',
-            options: {
-                validate: {
-                    payload: {
-                        content: Joi.string().required(),
-                        contentType: Joi.string().allow(['math', 'chemistry', 'physics', 'other']).default('math').required()
-                    }
-                }
-            },
-            handler: async (request, h) => {
-                try {
-                    const { payload } = request;
-                    const { content, contentType } = payload;
-                    if (contentType == "math") {
-                        const parser = new XMLParser();
-                        const builder = new XMLBuilder();
-
-                        var XMLObject = parser.parse(content, {
-                            ignoreAttributes: false,
-                            ignoreNameSpace: false,
-                        });
-                        var XMLContent = builder.build(XMLObject);
-                        var mathObj = GenerateMath(content);
-                        var x2js = new X2JS();
-                        var xmlDom = x2js.xml2dom(content);
-
-                        // Extract language from m:math attribute
-                        const languageStr = xmlDom.documentElement.getAttribute("xml:lang") || xmlDom.documentElement.getAttribute("lang") || "en";
-                        // Extract display from m:math attribute
-                        const displayStr = xmlDom.documentElement.getAttribute("display") || "block";
-                        // Extract altimg from m:math attribute
-                        const altimgStr = xmlDom.documentElement.getAttribute("altimg") || "";
-                        // Extract alttext from m:math attribute
-                        const alttextStr = xmlDom.documentElement.getAttribute("alttext") || "";
-
-                        const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
-                        const asciiStr = GenerateAsciiMath(XMLContent, alttextStr);
-                        const translatedStr = TranslateText(mathObj.words, languageStr);
-
-                        var returnObj = {
-                            "success": mathObj.success,
-                            "input": {
-                                "mathml": content,
-                            },
-                            "output": {
-                                "text": {
-                                    "words": mathObj.words,
-                                    "translated": translatedStr,
-                                    "latex": latexStr,
-                                    "ascii": asciiStr,
-                                    "html": await GenerateHtmlFromTemplate({
-                                        language: languageStr,
-                                        disp: displayStr,
-                                        txt: translatedStr,
-                                        altimg: altimgStr,
-                                        alttext: asciiStr,
-                                        svg: null,
-                                        alix: mathObj.alix,
-                                        alixThresholdNoImage: 25
-                                    }),
-                                },
-                                "image": {
-                                    "path": altimgStr
-                                },
-                                "attributes": {
-                                    "language": languageStr,
-                                    "alix": mathObj.alix,
-                                }
-                            },
-                        };
-                        
-                        if (altimgStr === "") {
-                            // Post-processing SVG
-                            return GenerateSvg(XMLContent).then(async svgObj => {
-                                var x2js = new X2JS(), xmlDoc = x2js.xml2js(svgObj), svgDoc = xmlDoc.div;
-
-                                svgDoc.svg._class = "visual-math";
-                                svgDoc.svg["_aria-hidden"] = true;
+    const express = require('express');
+    const app = express();
+    const bodyParser = require('body-parser');
     
-                                var domDoc = x2js.js2dom(svgDoc);
+    // create application/json parser
+    const jsonParser = bodyParser.json()
     
-                                var titleEl = domDoc.createElement("title"), titleText = domDoc.createTextNode(asciiStr);
-                                titleEl.appendChild(titleText);
-                                domDoc.firstChild.insertBefore(titleEl);
-                                var tmpDoc = x2js.dom2js(domDoc);
-                                var svgXml = x2js.js2xml(tmpDoc);
-                                return {
-                                    "success": mathObj.success,
-                                    "input": {
-                                        "mathml": content,
-                                    },
-                                    "output": {
-                                        "text": {
-                                            "words": mathObj.words,
-                                            "translated": translatedStr,
-                                            "latex": latexStr,
-                                            "ascii": asciiStr,
-                                            "html": await GenerateHtmlFromTemplate({ 
-                                                language: languageStr,
-                                                disp: displayStr,
-                                                txt: translatedStr,
-                                                altimg: altimgStr,
-                                                alttext: asciiStr,
-                                                svg: svgXml,
-                                                alix: mathObj.alix,
-                                                alixThresholdNoImage: 25
-                                            }),
-                                        },
-                                        "image": {
-                                            "svg": svgXml,
-                                        },
-                                        "attributes": {
-                                            "language": languageStr,
-                                            "alix": mathObj.alix,
-                                        }
-                                    },
-                                };
-                            });
-                        }
-                        return returnObj;
-                    }
-                    else if (contentType == "chemistry" || contentType == "physics" || contentType == "other") {
-                        // Return data
-                        return { success: false, error: "non-mathematical formula" };
-                    }
-                    else {
-                        // Return data
-                        return { success: false, error: "unknown content type" };
-                    }
-                } catch(appicationError) {
-                    console.error(appicationError);
-                    return { success: false, error: appicationError.message };
-                }
-            }
-        });
+    app.set('view engine', 'ejs');
+    app.set("view options", { layout: true });
 
-        await server.start();
-        console.info(`${new Date().toISOString()}\t${Pack.name} running on ${server.info.uri}/`);
-    };
-
-    process.on('unhandledRejection', (err) => {
-        console.info(err);
-        process.exit(1);
+    // On all requests, log the it
+    app.use((request, response, next) => {
+        console.info(`${new Date().toISOString()}\tA request from ${request.ip} (${request.method.toUpperCase()} ${request.url}) ended with ${response.statusCode}`);
+        next();
     });
 
-    init();
+    // Define routes
+    app.get('/health', jsonParser, (req, res) => {
+        res.send({
+            name: Pack.name,
+            version: Pack.version,
+            timestamp: new Date().toISOString()
+        });
+    });
+
+    app.get('/', jsonParser, (req, res) => {
+        res.status(400).send({
+            success: false,
+            name: Pack.name,
+            version: Pack.version,
+            message: "Use POST instead of GET with payload: { \"contentType\": \"math|chemistry|physics|other\", \"content\": \"...\" }"
+        });
+    });
+
+    // POST / payload: { "contentType": "math|chemistry|physics|other", "content": "..." } 
+    app.post('/', jsonParser, async (req, res) => {
+        const { contentType, content } = req.body;
+        const { noImage, noEquationText } = req.query;
+        const noImageInt = parseInt(noImage) | 25;
+        const noEquationTextInt = parseInt(noEquationText) | 12;
+
+        const alixThresholds = {
+            "noImage": noImageInt,
+            "noEquationText": noEquationTextInt
+        };
+        if (!contentType || !content) {
+            res.status(400).send("Missing contentType or content");
+            return;
+        }
+
+        let result = null;
+        switch (contentType) {
+            case "math":
+                result = GenerateMath(content, alixThresholds);
+                break;
+            case "chemistry":
+                result = GenerateMath(content, alixThresholds);
+                break;
+            case "physics":
+                result = GenerateMath(content, alixThresholds);
+                break;
+            case "other":
+                res.status(501).json({ success: false, error: "non-mathematical formula" });
+                break;
+            default:
+                res.status(400).json({ success: false, error: "unknown content type" });
+                return;
+        }
+
+        if (result === null) {
+            res.status(400).send("Invalid content");
+            return;
+        }
+        
+        if (result.success === false) {
+            res.status(500).send(result.message);
+            return;
+        }
+
+        // IF we got here, all is well
+        const parser = new XMLParser();
+        const builder = new XMLBuilder();
+        
+        var x2js = new X2JS();
+        var xmlDom = x2js.xml2dom(content);
+        var XMLObject = parser.parse(content, {
+            ignoreAttributes: false,
+            ignoreNameSpace: false,
+        });
+        var XMLContent = builder.build(XMLObject);
+
+        // Extract language from m:math attribute
+        const languageStr = xmlDom.documentElement.getAttribute("xml:lang") || xmlDom.documentElement.getAttribute("lang") || "en";
+        // Extract display from m:math attribute
+        const displayStr = xmlDom.documentElement.getAttribute("display") || "block";
+        // Extract altimg from m:math attribute
+        const altimgStr = xmlDom.documentElement.getAttribute("altimg") || "";
+        // Extract alttext from m:math attribute
+        const alttextStr = xmlDom.documentElement.getAttribute("alttext") || "";
+
+        const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
+        const asciiStr = GenerateAsciiMath(XMLContent, alttextStr);
+        const translatedStr = TranslateText(result.words, languageStr);        
+
+        var returnObj = {
+            "success": result.success,
+            "input": {
+                "mathml": content,
+            },
+            "output": {
+                "text": {
+                    "words": result.words,
+                    "translated": translatedStr,
+                    "latex": latexStr,
+                    "ascii": asciiStr,
+                    "html": await GenerateHtmlFromTemplate({
+                        language: languageStr,
+                        disp: displayStr,
+                        txt: translatedStr,
+                        altimg: altimgStr,
+                        alttext: asciiStr,
+                        svg: null,
+                        alix: result.alix,
+                        alixThresholdNoImage: alixThresholds.noImage
+                    }),
+                },
+                "image": {
+                    "path": altimgStr
+                },
+                "attributes": {
+                    "language": languageStr,
+                    "alix": result.alix,
+                    "alixThresholdNoImage": alixThresholds.noImage,
+                    "alixThresholdNoEquationText": alixThresholds.noEquationText,
+                }
+            },
+        };
+
+        res.json(returnObj);
+    });
+
+    // Start the server
+    app.listen(PORT, () => {
+        console.info(`${new Date().toISOString()}\t${Pack.name} running on ${HOST}:${PORT}`);
+    });
 })();
