@@ -143,7 +143,7 @@ new Airbrake.Notifier({
             success: false,
             name: Pack.name,
             version: Pack.version,
-            message: "Use POST instead of GET with payload: { \"contentType\": \"math|chemistry|physics|other\", \"content\": \"...\" }"
+            message: "Use POST instead of GET with optional query variables: 'noImage' (ALIX threshold number) and 'noEquationText' (ALIX threshold number), and payload: { \"contentType\": \"math|chemistry|physics|other\", \"content\": \"...\" }"
         });
     });
 
@@ -151,8 +151,8 @@ new Airbrake.Notifier({
     app.post('/', jsonParser, async (req, res) => {
         const { contentType, content } = req.body;
         const { noImage, noEquationText } = req.query;
-        const noImageInt = parseInt(noImage) | 25;
-        const noEquationTextInt = parseInt(noEquationText) | 12;
+        const noImageInt = parseInt(noImage) || 25;
+        const noEquationTextInt = parseInt(noEquationText) || 12;
 
         const alixThresholds = {
             "noImage": noImageInt,
@@ -169,10 +169,10 @@ new Airbrake.Notifier({
                 result = GenerateMath(content, alixThresholds);
                 break;
             case "chemistry":
-                result = GenerateMath(content, alixThresholds);
+                res.status(501).json({ success: false, error: "non-mathematical formula" });
                 break;
             case "physics":
-                result = GenerateMath(content, alixThresholds);
+                res.status(501).json({ success: false, error: "non-mathematical formula" });
                 break;
             case "other":
                 res.status(501).json({ success: false, error: "non-mathematical formula" });
