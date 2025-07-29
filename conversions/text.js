@@ -321,7 +321,6 @@ function ParseNode(node, words, indexes) {
                 case "mpadded":
                 case "menclose":
                 case "math":
-                case "semantics":
                 case "mstack":
                 case "msgroup":
                 case "msrow":
@@ -329,6 +328,13 @@ function ParseNode(node, words, indexes) {
                 case "mscarry":
                 case "mlongdiv":
                     StandardLoop(node, words, 0, indexes);
+                    break;
+                // Remove support for deprecated semantics and annotation elements
+                // These should not be used according to new guidelines unless specifically requested
+                case "semantics":
+                case "annotation":
+                case "annotation-xml":
+                    // Skip these elements entirely - they are deprecated
                     break;
                 case "mmultiscripts":
                     if (node.firstChild.localName === "mtext" && node.firstChild.nextSibling.localName === "mprescripts") {
@@ -505,13 +511,22 @@ function ParseNode(node, words, indexes) {
                     }
                     break;
                 case "mfenced":
-                    DividendText(node, words);
-                    ParenthesisTextOpen(node, words);
-                    for (var l = 0; l < node.childNodes.length; l++) {
-                        ParseNode(node.childNodes[l], words, indexes);
-                    }
-                    ParenthesisTextClose(node, words);
-                    RaisedLoweredText(node, words);
+                    // mfenced is deprecated according to new Nordic MathML Guidelines
+                    // Should be replaced with mo elements for parentheses
+                    console.warn("Warning: <mfenced> element is deprecated. Use <mo> elements for parentheses instead.");
+                    
+                    // Extract open and close attributes for backward compatibility
+                    const openAttr = node.getAttribute("open") || "(";
+                    const closeAttr = node.getAttribute("close") || ")";
+                    
+                    // Add opening parenthesis text
+                    ParenthesisTextOpen({ getAttribute: () => openAttr }, words);
+                    
+                    // Process children
+                    StandardLoop(node, words, 0, indexes);
+                    
+                    // Add closing parenthesis text
+                    ParenthesisTextClose({ getAttribute: () => closeAttr }, words);
                     break;
                 case "mrow":
                     DividendText(node, words);
@@ -546,91 +561,98 @@ function ParseNode(node, words, indexes) {
                     if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mo":
+                    // Handle operators including parentheses
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    if(node.firstChild !== null) {
-                        var mo_val = node.firstChild.nodeValue;
-                        var mo_text = GetText(mo_val, operators);
-                        var mo_code = mo_val.charCodeAt();
-                        if(mo_text != undefined) {
-                            switch(mo_code) {
-                                case 8242:
-                                case 8243:
-                                    break;
-                                case 8592:
-                                    if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                        AddWord(mo_text, words);
-                                    }
-                                    else {
-                                        AddWord(GetText("larr", identifiers), words);
-                                    }
-                                    break;
-                                case 8594:
-                                    if (node.parentNode != null ) {
-                                        if(node.parentNode.localName == "mrow") {
-                                            AddWord(mo_text, words);
-                                        }
-                                        else if(node.parentNode.localName == "mover") {
-                                            // It's a vector, do nothing
-                                        }
-                                    }
-                                    else {
-                                        AddWord(GetText("rarr", identifiers), words);
-                                    }
-                                    break;
-                                default:
-                                    AddWord(mo_text, words);
-                                    break;
+                    
+                    if (node.firstChild !== null) {
+                        const moValue = node.firstChild.nodeValue;
+                        const moCode = moValue.charCodeAt(0);
+                        
+                        // Check if this is a parenthesis
+                        if (moCode === 40 || moCode === 41 || moCode === 91 || moCode === 93 || 
+                            moCode === 123 || moCode === 125 || moCode === 124) {
+                            // Handle as parenthesis
+                            if (moCode === 40 || moCode === 91 || moCode === 123 || moCode === 124) {
+                                // Opening parenthesis
+                                ParenthesisTextOpen({ getAttribute: () => moValue }, words);
+                            } else {
+                                // Closing parenthesis
+                                ParenthesisTextClose({ getAttribute: () => moValue }, words);
                             }
-                        }
-                        else {
-                            var mo_c = GetText(mo_code, operators);
-                            if(mo_c != undefined) {
-                                switch(mo_code) {
+                        } else {
+                            // Handle as regular operator (original logic)
+                            var mo_text = GetText(moValue, operators);
+                            if (mo_text != undefined) {
+                                switch (moCode) {
                                     case 8242:
                                     case 8243:
                                         break;
                                     case 8592:
                                         if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                            AddWord(mo_c, words);
-                                        }
-                                        else {
+                                            AddWord(mo_text, words);
+                                        } else {
                                             AddWord(GetText("larr", identifiers), words);
                                         }
                                         break;
                                     case 8594:
-                                        if (node.parentNode != null ) {
-                                            if(node.parentNode.localName == "mrow") {
-                                                AddWord(mo_c, words);
-                                            }
-                                            else if(node.parentNode.localName == "mover") {
+                                        if (node.parentNode != null) {
+                                            if (node.parentNode.localName == "mrow") {
+                                                AddWord(mo_text, words);
+                                            } else if (node.parentNode.localName == "mover") {
                                                 // It's a vector, do nothing
                                             }
-                                        }
-                                        else {
+                                        } else {
                                             AddWord(GetText("rarr", identifiers), words);
                                         }
                                         break;
                                     default:
-                                        AddWord(mo_c, words);
+                                        AddWord(mo_text, words);
                                         break;
                                 }
-                            }
-                            else {
-                                if (mo_code > 127) console.warn(` [ WARNING ] Missing text-operator: ${mo_val} (char code: ${mo_code})`);
-                                
-                                var value = 1;
-                                if ( mo_code === 176) {
-                                    try {
-                                        value = node.previousSibling.firstChild.nodeValue;
+                            } else {
+                                var mo_c = GetText(moCode, operators);
+                                if (mo_c != undefined) {
+                                    switch (moCode) {
+                                        case 8242:
+                                        case 8243:
+                                            break;
+                                        case 8592:
+                                            if (node.parentNode != null && node.parentNode.localName == "mrow") {
+                                                AddWord(mo_c, words);
+                                            } else {
+                                                AddWord(GetText("larr", identifiers), words);
+                                            }
+                                            break;
+                                        case 8594:
+                                            if (node.parentNode != null) {
+                                                if (node.parentNode.localName == "mrow") {
+                                                    AddWord(mo_c, words);
+                                                } else if (node.parentNode.localName == "mover") {
+                                                    // It's a vector, do nothing
+                                                }
+                                            } else {
+                                                AddWord(GetText("rarr", identifiers), words);
+                                            }
+                                            break;
+                                        default:
+                                            AddWord(mo_c, words);
+                                            break;
                                     }
-                                    catch(ex) {
-                                        // Do nothing
+                                } else {
+                                    if (moCode > 127) console.warn(` [ WARNING ] Missing text-operator: ${moValue} (char code: ${moCode})`);
+                                    
+                                    var value = 1;
+                                    if (moCode === 176) {
+                                        try {
+                                            value = node.previousSibling.firstChild.nodeValue;
+                                        } catch (ex) {
+                                            // Do nothing
+                                        }
+                                        AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
+                                    } else {
+                                        AddWord(moValue, words);
                                     }
-                                    AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
-                                }
-                                else {
-                                    AddWord(mo_val, words);
                                 }
                             }
                         }
@@ -727,6 +749,18 @@ module.exports = {
             var dom = x2js.xml2dom(content);
 
             var root = dom.documentElement;
+
+            // Validate that we have a math element (supports both old and new namespace formats)
+            if (root.localName !== "math") {
+                throw new Error("Invalid MathML: root element must be 'math'");
+            }
+
+            // Validate namespace (supports both old and new formats)
+            const xmlns = root.getAttribute("xmlns");
+            const xmlnsM = root.getAttribute("xmlns:m");
+            if (!xmlns && !xmlnsM) {
+                console.warn("Warning: MathML namespace not explicitly declared. This may cause parsing issues.");
+            }
 
             // Build words array
             AddWord("equation", words);
