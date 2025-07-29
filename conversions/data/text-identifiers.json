@@ -141,7 +141,8 @@
         { "code": 9824, "value": "spades" },
         { "code": 9827, "value": "clubs" },
         { "code": 9829, "value": "hearts" },
-        { "code": 9830, "value": "diamonds" }
+        { "code": 9830, "value": "diamonds" },
+        { "code": 9109, "value": "blank space" }
     ],
     "unicode": [
         
