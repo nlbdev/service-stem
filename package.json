@@ -26,12 +26,18 @@
     "xml": "^1.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.0"
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.5",
+    "nodemon": "^3.0.0",
+    "supertest": "^7.1.4"
   },
   "scripts": {
     "dev": "nodemon index.js",
     "build": "docker build -t service-stem .",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

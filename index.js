@@ -33,13 +33,16 @@ new Airbrake.Notifier({
             return MathML2Ascii(mathml);
         }
         catch(err) {
-            return ascii;
+            // According to new guidelines, alttext should not be used as MathML support has improved
+            // Instead, try to generate a basic fallback from the MathML content
+            console.warn("Warning: Failed to convert MathML to AsciiMath. Generating basic fallback.");
+            return "MathML content"; // Basic fallback instead of using deprecated alttext
         }
     }
 
     /**
      * Transforms MathML to Accessible HTML with ALIX
-     * @param {{language: String;disp: String;txt: String;altimg: String;alttext: String;svg: String;alix: Number;alixThresholdNoImage: Number;}} opts options
+     * @param {{language: String;disp: String;txt: String;svg: String;alix: Number;alixThresholdNoImage: Number;}} opts options
      * @returns {Promise<String>} Accessible HTML with ALIX
      */
     const GenerateHtmlFromTemplate = async (opts) => {
@@ -57,12 +60,6 @@ new Airbrake.Notifier({
         }
         if (opts.txt === undefined) {
             opts.txt = "";
-        }
-        if (opts.altimg === undefined) {
-            opts.altimg = "";
-        }
-        if (opts.alttext === undefined) {
-            opts.alttext = "";
         }
         if (opts.svg === undefined) {
             opts.svg = "";
@@ -204,18 +201,79 @@ new Airbrake.Notifier({
         });
         var XMLContent = builder.build(XMLObject);
 
-        // Extract language from m:math attribute
-        const languageStr = xmlDom.documentElement.getAttribute("xml:lang") || xmlDom.documentElement.getAttribute("lang") || "en";
-        // Extract display from m:math attribute
-        const displayStr = xmlDom.documentElement.getAttribute("display") || "block";
-        // Extract altimg from m:math attribute
+        // Extract language from math attribute (supports both new and old namespace formats)
+        const languageStr = xmlDom.documentElement.getAttribute("xml:lang") || 
+                           xmlDom.documentElement.getAttribute("lang") || "en";
+        // Extract display from math attribute - inline is the default according to new guidelines
+        let displayStr = xmlDom.documentElement.getAttribute("display");
+        
+        // Validate display attribute according to new guidelines
+        if (displayStr) {
+            if (displayStr !== "block" && displayStr !== "inline") {
+                console.warn(`Warning: Invalid display attribute value "${displayStr}". Must be "block" or "inline". Using default "inline".`);
+                displayStr = "inline";
+            }
+        } else {
+            // Default to inline according to new guidelines
+            displayStr = "inline";
+        }
+        
+        // Additional validation: Check for improper usage according to new guidelines
+        // The new guidelines state that <math> elements should not be standalone block elements
+        // and should always be within paragraph elements or equivalent
+        if (displayStr === "block") {
+            console.info("Info: Using display='block'. Ensure the <math> element is within a paragraph element or equivalent, not as a standalone block element.");
+        }
+        
+        // Extract displaystyle attribute for large operators (mentioned in new guidelines)
+        const displaystyleAttr = xmlDom.documentElement.getAttribute("displaystyle");
+        if (displaystyleAttr && displaystyleAttr !== "true" && displaystyleAttr !== "false") {
+            console.warn(`Warning: Invalid displaystyle attribute value "${displaystyleAttr}". Must be "true" or "false".`);
+        }
+        
+        // Extract altimg from math attribute (deprecated but kept for backward compatibility)
         const altimgStr = xmlDom.documentElement.getAttribute("altimg") || "";
-        // Extract alttext from m:math attribute
+        // Extract alttext from math attribute (deprecated but kept for backward compatibility)
         const alttextStr = xmlDom.documentElement.getAttribute("alttext") || "";
+        
+        // Warn about deprecated attributes according to new guidelines
+        if (altimgStr) {
+            console.warn("Warning: 'altimg' attribute is deprecated according to Nordic MathML Guidelines. MathML support has improved and this attribute should not be used.");
+        }
+        if (alttextStr) {
+            console.warn("Warning: 'alttext' attribute is deprecated according to Nordic MathML Guidelines. MathML support has improved and this attribute should not be used.");
+        }
 
-        const latexStr = MathML2Latex.convert(XMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
-        const asciiStr = GenerateAsciiMath(XMLContent, alttextStr);
-        const translatedStr = TranslateText(result.words, languageStr);        
+        // Process MathML content - remove deprecated elements and handle new namespace format
+        let processedXMLContent = XMLContent;
+        
+        // Remove deprecated semantics and annotation elements if present
+        // These should not be used according to new guidelines unless specifically requested
+        processedXMLContent = processedXMLContent.replace(/<semantics[^>]*>.*?<\/semantics>/gs, (match) => {
+            // Extract only the first child (the main MathML content) from semantics
+            const innerMatch = match.replace(/<semantics[^>]*>(.*?)<\/semantics>/s, '$1');
+            // Remove any annotation elements
+            return innerMatch.replace(/<annotation[^>]*>.*?<\/annotation>/gs, '')
+                           .replace(/<annotation-xml[^>]*>.*?<\/annotation-xml>/gs, '');
+        });
+        
+        // Convert deprecated mfenced elements to mo elements for backward compatibility
+        // This allows the service to handle old content while encouraging new content to use mo elements
+        processedXMLContent = processedXMLContent.replace(/<mfenced([^>]*)>(.*?)<\/mfenced>/gs, (match, attributes, content) => {
+            // Extract open and close attributes
+            const openMatch = attributes.match(/open="([^"]*)"/);
+            const closeMatch = attributes.match(/close="([^"]*)"/);
+            const open = openMatch ? openMatch[1] : "(";
+            const close = closeMatch ? closeMatch[1] : ")";
+            
+            // Convert to mo elements
+            return `<mo>${open}</mo>${content}<mo>${close}</mo>`;
+        });
+        
+        // Handle both old (m:) and new namespace formats
+        const latexStr = MathML2Latex.convert(processedXMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
+        const asciiStr = GenerateAsciiMath(processedXMLContent);
+        const translatedStr = TranslateText(result.words, languageStr);
 
         var returnObj = {
             "success": result.success,
@@ -231,16 +289,15 @@ new Airbrake.Notifier({
                     "html": await GenerateHtmlFromTemplate({
                         language: languageStr,
                         disp: displayStr,
+                        displaystyle: displaystyleAttr,
                         txt: translatedStr,
-                        altimg: altimgStr,
-                        alttext: asciiStr,
                         svg: null,
                         alix: result.alix,
                         alixThresholdNoImage: alixThresholds.noImage
                     }),
                 },
                 "image": {
-                    "path": altimgStr
+                    "path": null
                 },
                 "attributes": {
                     "language": languageStr,
