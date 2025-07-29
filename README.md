@@ -126,3 +126,46 @@ The Nordic MathML Guidelines specify the use of invisible operators to make math
 ```
 
 **Backward Compatibility:** The legacy ring operator (`&#x2218;`) is still supported for backward compatibility.
+
+### Special Character Handling
+
+The Nordic MathML Guidelines emphasize the importance of using correct Unicode characters for proper accessibility. The service supports proper handling of:
+
+**Mathematical Symbols:**
+
+- **Minus sign** (`&#x2212;`) vs hyphen (`-`): Both are handled as "minus"
+- **Prime** (`&#x2032;`) vs apostrophe (`'`): Prime is read as "prime", apostrophe as "apostrophe"
+- **Derivative symbol** (`&#x2146;`): Read as "derivative"
+- **Micro symbol** (`&#x00B5;`): Read as "micro"
+
+**Greek Letters vs Latin Letters:**
+
+- Greek gamma (`&#x03B3;`) vs Latin y: Properly distinguished
+- Greek rho (`&#x03C1;`) vs Latin p: Properly distinguished
+- Greek omega (`&#x03C9;`) vs Latin w: Properly distinguished
+- Greek chi (`&#x03C7;`) vs Latin x: Properly distinguished
+
+**Element of Symbol vs Epsilon:**
+
+- Element of (`&#x2208;`): Read as "element of"
+- Epsilon (`&#x03B5;`): Read as "epsilon"
+
+```bash
+# Proper minus sign
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mn>3</mn><mo>&#x2212;</mo><mn>2</mn>
+</math>
+
+# Prime vs apostrophe
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>x</mi><mo>&#x2032;</mo>  <!-- prime -->
+  <mi>x</mi><mo>&#x27;</mo><mi>y</mi>  <!-- apostrophe -->
+</math>
+
+# Greek letters
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>&#x3B1;</mi><mo>+</mo><mi>&#x3B2;</mi><mo>=</mo><mi>&#x3B3;</mi>
+</math>
+```
+
+**Note:** Using the correct Unicode characters ensures that screen readers and braille displays can properly interpret mathematical expressions.

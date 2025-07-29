@@ -587,6 +587,8 @@ function ParseNode(node, words, indexes) {
                                 switch (moCode) {
                                     case 8242:
                                     case 8243:
+                                        // Handle prime symbols properly
+                                        AddWord(mo_text, words);
                                         break;
                                     case 8592:
                                         if (node.parentNode != null && node.parentNode.localName == "mrow") {
@@ -616,6 +618,8 @@ function ParseNode(node, words, indexes) {
                                     switch (moCode) {
                                         case 8242:
                                         case 8243:
+                                            // Handle prime symbols properly
+                                            AddWord(mo_c, words);
                                             break;
                                         case 8592:
                                             if (node.parentNode != null && node.parentNode.localName == "mrow") {
@@ -720,7 +724,17 @@ function ParseNode(node, words, indexes) {
                 case "mn":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    if(node.firstChild !== null) AddWord(node.firstChild.nodeValue, words);
+                    if(node.firstChild !== null) {
+                        const numValue = node.firstChild.nodeValue;
+                        // Check if the number starts with a minus sign
+                        if (numValue.startsWith('−') || numValue.startsWith('-')) {
+                            // Handle negative numbers by separating the minus sign
+                            AddWord('minus', words);
+                            AddWord(numValue.substring(1), words);
+                        } else {
+                            AddWord(numValue, words);
+                        }
+                    }
                     break;
                 case "mspace":
                     break;
