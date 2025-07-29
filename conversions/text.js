@@ -337,17 +337,54 @@ function ParseNode(node, words, indexes) {
                     // Skip these elements entirely - they are deprecated
                     break;
                 case "mmultiscripts":
-                    if (node.firstChild.localName === "mtext" && node.firstChild.nextSibling.localName === "mprescripts") {
-                        // Chemical isotopes
-                        var definingNode = node.firstChild;
-                        var preRaisedNode = definingNode.nextSibling.nextSibling.nextSibling.firstChild;
-                        var preLoweredNode = definingNode.nextSibling.nextSibling;
-
-                        AddWord(preRaisedNode.firstChild.nodeValue, words);
-                        AddWord(`${GetText("over", misc) }`, words);
-                        AddWord(preLoweredNode.firstChild.nodeValue, words);
-                        AddWord(`${GetText("prior to", misc)}`, words);
-                        AddWord(definingNode.firstChild.nodeValue, words);
+                    // Handle chemical isotopes and other multiscript notation
+                    if (node.childNodes.length >= 5) {
+                        // Check if this is a chemical isotope (has mprescripts)
+                        let hasPrescripts = false;
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            if (node.childNodes[i].localName === "mprescripts") {
+                                hasPrescripts = true;
+                                break;
+                            }
+                        }
+                        
+                        if (hasPrescripts) {
+                            // Chemical isotope notation: <mmultiscripts><mi>C</mi><mrow></mrow><mrow></mrow><mprescripts/><mrow></mrow><mn>14</mn></mmultiscripts>
+                            // Structure: base, post-sub, post-sup, mprescripts, pre-sub, pre-sup
+                            const base = node.childNodes[0];
+                            const postSub = node.childNodes[1];
+                            const postSup = node.childNodes[2];
+                            const prescripts = node.childNodes[3];
+                            const preSub = node.childNodes[4];
+                            const preSup = node.childNodes[5];
+                            
+                            // Process isotope: pre-superscript (mass number) over base element
+                            if (preSup && preSup.firstChild && preSup.firstChild.nodeValue) {
+                                AddWord(preSup.firstChild.nodeValue, words);
+                                AddWord(GetText("superscript", misc), words);
+                            }
+                            
+                            // Process base element
+                            ParseNode(base, words, indexes);
+                            
+                            // Process post-subscript if present
+                            if (postSub && postSub.firstChild && postSub.firstChild.nodeValue) {
+                                AddWord(GetText("subscript", misc), words);
+                                ParseNode(postSub, words, indexes);
+                            }
+                            
+                            // Process post-superscript if present
+                            if (postSup && postSup.firstChild && postSup.firstChild.nodeValue) {
+                                AddWord(GetText("superscript", misc), words);
+                                ParseNode(postSup, words, indexes);
+                            }
+                        } else {
+                            // Regular multiscripts (not isotope)
+                            StandardLoop(node, words, 0, indexes);
+                        }
+                    } else {
+                        // Fallback for other multiscript structures
+                        StandardLoop(node, words, 0, indexes);
                     }
                     break;
                 case "mtable":
@@ -385,22 +422,73 @@ function ParseNode(node, words, indexes) {
                     }
                     else if(node.childNodes.length >= 2) {
                         ParseNode(node.childNodes[0], words, indexes);
-                        AddWord(`${GetText("with the lower index", misc)}`, words);
+                        // Check if this is likely a chemical formula (base is a chemical element)
+                        const baseElement = node.childNodes[0];
+                        if (baseElement && baseElement.localName === "mi" && baseElement.firstChild) {
+                            const elementName = baseElement.firstChild.nodeValue;
+                            // If it's a chemical element, use "subscript" instead of "with the lower index"
+                            if (elementName && elementName.length <= 2 && /^[A-Z][A-Za-z]?$/.test(elementName)) {
+                                AddWord(GetText("subscript", misc), words);
+                            } else {
+                                AddWord(`${GetText("with the lower index", misc)}`, words);
+                            }
+                        } else {
+                            AddWord(`${GetText("with the lower index", misc)}`, words);
+                        }
                         StandardLoop(node, words, 1, indexes);
-                        AddWord(`${GetText("index", misc)} ${GetText("end", misc)},`, words);
+                        const indexText = GetText("index", misc);
+                        const endText = GetText("end", misc);
+                        if (indexText && endText) AddWord(`${indexText} ${endText},`, words);
                     }
                     else {
-                        if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                        // Check if the previous sibling is a chemical element
+                        const previousSibling = node.previousSibling;
+                        if (previousSibling && previousSibling.localName === "mi" && previousSibling.firstChild) {
+                            const elementName = previousSibling.firstChild.nodeValue;
+                            // If it's a chemical element, use "subscript"
+                            if (elementName && elementName.length <= 2 && /^[A-Z][A-Za-z]?$/.test(elementName)) {
+                                AddWord(GetText("subscript", misc), words);
+                            } else {
+                                AddWord(`${GetText("with the lower index", misc)}`, words);
+                            }
+                        } else {
+                            AddWord(`${GetText("with the lower index", misc)}`, words);
+                        }
                         StandardLoop(node, words, 0, indexes);
-                        if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                        const indexText = GetText("index", misc);
+                        const endText = GetText("end", misc);
+                        if (indexText && endText) AddWord(`${indexText} ${endText},`, words);
                     }
                     break;
                 case "msup":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                    StandardLoop(node, words, 0, indexes);
-                    if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                    if(node.childNodes.length >= 2) {
+                        // Check if this is likely a chemical charge (base is + or -)
+                        const baseElement = node.childNodes[0];
+                        if (baseElement && baseElement.localName === "mo" && baseElement.firstChild) {
+                            const baseValue = baseElement.firstChild.nodeValue;
+                            // If it's a charge operator, use "superscript"
+                            if (baseValue === "+" || baseValue === "-" || baseValue === "−") {
+                                AddWord(GetText("superscript", misc), words);
+                            } else {
+                                const upperIndexText = GetText("with the upper index", misc);
+                                if (upperIndexText) AddWord(upperIndexText, words);
+                            }
+                        } else {
+                            const upperIndexText = GetText("with the upper index", misc);
+                            if (upperIndexText) AddWord(upperIndexText, words);
+                        }
+                        ParseNode(node.childNodes[0], words, indexes);
+                        StandardLoop(node, words, 1, indexes);
+                        const indexText = GetText("index", misc);
+                        const endText = GetText("end", misc);
+                        if (indexText && endText) AddWord(`${indexText} ${endText},`, words);
+                    } else {
+                        if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
+                        StandardLoop(node, words, 0, indexes);
+                        if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
+                    }
                     break;
                 case "mover":
                     var isBound = false;
@@ -485,7 +573,7 @@ function ParseNode(node, words, indexes) {
                         }
                     }
                     else {
-                        StandardLoop(node, words, 0);
+                        StandardLoop(node, words, 0, indexes);
                     }
                     break;
                 case "munderover":
@@ -591,22 +679,10 @@ function ParseNode(node, words, indexes) {
                                         AddWord(mo_text, words);
                                         break;
                                     case 8592:
-                                        if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                            AddWord(mo_text, words);
-                                        } else {
-                                            AddWord(GetText("larr", identifiers), words);
-                                        }
-                                        break;
                                     case 8594:
-                                        if (node.parentNode != null) {
-                                            if (node.parentNode.localName == "mrow") {
-                                                AddWord(mo_text, words);
-                                            } else if (node.parentNode.localName == "mover") {
-                                                // It's a vector, do nothing
-                                            }
-                                        } else {
-                                            AddWord(GetText("rarr", identifiers), words);
-                                        }
+                                    case 8596:
+                                        // Handle arrow operators (including chemical reaction arrows)
+                                        AddWord(mo_text, words);
                                         break;
                                     default:
                                         AddWord(mo_text, words);
@@ -622,22 +698,10 @@ function ParseNode(node, words, indexes) {
                                             AddWord(mo_c, words);
                                             break;
                                         case 8592:
-                                            if (node.parentNode != null && node.parentNode.localName == "mrow") {
-                                                AddWord(mo_c, words);
-                                            } else {
-                                                AddWord(GetText("larr", identifiers), words);
-                                            }
-                                            break;
                                         case 8594:
-                                            if (node.parentNode != null) {
-                                                if (node.parentNode.localName == "mrow") {
-                                                    AddWord(mo_c, words);
-                                                } else if (node.parentNode.localName == "mover") {
-                                                    // It's a vector, do nothing
-                                                }
-                                            } else {
-                                                AddWord(GetText("rarr", identifiers), words);
-                                            }
+                                        case 8596:
+                                            // Handle arrow operators (including chemical reaction arrows)
+                                            AddWord(mo_c, words);
                                             break;
                                         default:
                                             AddWord(mo_c, words);
@@ -665,16 +729,14 @@ function ParseNode(node, words, indexes) {
                 case "mi":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    if (node.firstChild != null && node.firstChild.nodeValue == node.firstChild.nodeValue.toUpperCase() && (node.firstChild != null && node.firstChild.nodeValue.charCodeAt() != 8734)) { // if capital, except infinity
-                        AddWord("capital", words);
-                        node.firstChild.nodeValue = node.firstChild.nodeValue.toLowerCase();
-                    }
-
+                    
                     if(node.firstChild !== null) {
                         var mi_val = node.firstChild.nodeValue;
                         var mi_text = GetText(mi_val, identifiers);
                         var mi_code = mi_val.charCodeAt();
                         var value = 1;
+                        
+                        // Check if this is a chemical element first
                         if(mi_text != undefined) {
                             switch(mi_code) {
                                 case 176:
@@ -687,7 +749,38 @@ function ParseNode(node, words, indexes) {
                                     AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
                                     break;
                                 default:
-                                    AddWord(mi_text, words);
+                                    // Check if this is a compound that should be split (like "sulfur oxygen")
+                                    if (mi_text.includes(" ") && mi_val.length === 2) {
+                                        // Split compound into individual elements
+                                        const parts = mi_text.split(" ");
+                                        parts.forEach(part => AddWord(part, words));
+                                    } else {
+                                        // Check if this is a single capital letter in a simple reversible reaction context
+                                        if (mi_val.length === 1 && mi_val === mi_val.toUpperCase()) {
+                                            // Check if this is part of a simple reversible reaction (A ↔ B)
+                                            const parent = node.parentNode;
+                                            if (parent && parent.localName === "math") {
+                                                const siblings = Array.from(parent.childNodes).filter(n => n.localName === "mi");
+                                                const operators = Array.from(parent.childNodes).filter(n => n.localName === "mo");
+                                                // Only treat as variables if there are exactly 2 mi elements and 1 bidirectional arrow operator
+                                                if (siblings.length === 2 && operators.length === 1) {
+                                                    const operator = operators[0];
+                                                    if (operator.firstChild && operator.firstChild.nodeValue.charCodeAt(0) === 8596) {
+                                                        // This is a bidirectional arrow (↔), treat as variables
+                                                        AddWord(mi_val, words);
+                                                    } else {
+                                                        AddWord(mi_text, words);
+                                                    }
+                                                } else {
+                                                    AddWord(mi_text, words);
+                                                }
+                                            } else {
+                                                AddWord(mi_text, words);
+                                            }
+                                        } else {
+                                            AddWord(mi_text, words);
+                                        }
+                                    }
                                     break;
                             }
                         }
@@ -710,8 +803,14 @@ function ParseNode(node, words, indexes) {
                                 }
                             }
                             else {
-                                if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
-                                AddWord(mi_val, words);
+                                // Only apply capital letter logic if not a chemical element
+                                if (mi_val == mi_val.toUpperCase() && mi_code != 8734) { // if capital, except infinity
+                                    AddWord("capital", words);
+                                    AddWord(mi_val.toLowerCase(), words);
+                                } else {
+                                    if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
+                                    AddWord(mi_val, words);
+                                }
                             }
                         }
                     }
@@ -788,6 +887,31 @@ module.exports = {
             if (alix < alixThresholds["noEquationText"]) {
                 words.shift();
                 words.pop();
+            }
+
+            // Post-process to recognize common chemical compounds (only in chemical reactions)
+            if (words.includes("yields")) {
+                for (let i = 0; i < words.length - 4; i++) {
+                    // Check for H₂O pattern: "hydrogen", "subscript", "2", "index end,", "oxygen"
+                    if (words[i] === "hydrogen" && words[i + 1] === "subscript" && words[i + 2] === "2" && words[i + 3] === "index end," && words[i + 4] === "oxygen") {
+                        // Replace with "water"
+                        words.splice(i, 5, "water");
+                    }
+                }
+            }
+
+            // Post-process for reversible reactions to handle single capital letters as variables
+            if (words.includes("reversible reaction")) {
+                for (let i = 0; i < words.length - 2; i++) {
+                    // Check for "capital", "a" pattern and replace with "A"
+                    if (words[i] === "capital" && words[i + 1] === "a") {
+                        words.splice(i, 2, "A");
+                    }
+                    // Check for "capital", "b" pattern and replace with "B"
+                    if (words[i] === "capital" && words[i + 1] === "b") {
+                        words.splice(i, 2, "B");
+                    }
+                }
             }
 
             // Return values

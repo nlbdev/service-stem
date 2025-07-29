@@ -48,7 +48,16 @@
         { "name": "of a set of values", "value": "of a set of values" },
         { "name": "parenthesis", "value": "parenthesis" },
         { "name": "square bracket", "value": "square bracket" },
-        { "name": "curly bracket", "value": "curly bracket" }
+        { "name": "curly bracket", "value": "curly bracket" },
+        { "name": "chemical formula", "value": "chemical formula" },
+        { "name": "molecule", "value": "molecule" },
+        { "name": "isotope", "value": "isotope" },
+        { "name": "chemical reaction", "value": "chemical reaction" },
+        { "name": "reacts to form", "value": "reacts to form" },
+        { "name": "yields", "value": "yields" },
+        { "name": "plus", "value": "plus" },
+        { "name": "subscript", "value": "subscript" },
+        { "name": "superscript", "value": "superscript" }
     ],
     "chars": [
         { "code": 40, "value": "left parenthesis" },
