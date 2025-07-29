@@ -22,7 +22,104 @@ new Airbrake.Notifier({
     const { PORT, HOST } = require("./configurations/appConfig");
     const { GenerateMath } = require("./conversions/text");
     const { validateMathML } = require("./validation");
+    const { 
+        detectMathMLVersion, 
+        migrateMathML, 
+        validateMigratedContent, 
+        getMigrationRecommendations 
+    } = require("./backward-compatibility");
     // const { GenerateSvg } = require("./conversions/svg");
+
+    // Create reusable parser instances for better performance
+    const xmlParser = new XMLParser({
+        ignoreAttributes: false,
+        ignoreNameSpace: false,
+    });
+    const xmlBuilder = new XMLBuilder();
+    const x2js = new X2JS();
+
+    // Pre-compile regex patterns for better performance
+    const SEMANTICS_REGEX = /<semantics[^>]*>.*?<\/semantics>/gs;
+    const ANNOTATION_REGEX = /<annotation[^>]*>.*?<\/annotation>/gs;
+    const ANNOTATION_XML_REGEX = /<annotation-xml[^>]*>.*?<\/annotation-xml>/gs;
+    const MFENCED_REGEX = /<mfenced([^>]*)>(.*?)<\/mfenced>/gs;
+    const OLD_NAMESPACE_REGEX = /<m:/g;
+    const OLD_NAMESPACE_CLOSE_REGEX = /<\/m:/g;
+
+    /**
+     * Optimized MathML processing function with backward compatibility support
+     * @param {string} content - Raw MathML content
+     * @param {string} version - Optional version parameter for compatibility mode
+     * @returns {Object} Processed MathML and extracted attributes
+     */
+    const processMathML = (content, version = null) => {
+        // Detect MathML version and compatibility requirements
+        const versionInfo = detectMathMLVersion(content);
+        const compatibilityMode = version === "1.0.0" || versionInfo.compatibilityMode;
+
+        // Parse XML once and reuse
+        const xmlDom = x2js.xml2dom(content);
+        const XMLObject = xmlParser.parse(content);
+        const XMLContent = xmlBuilder.build(XMLObject);
+
+        // Extract attributes efficiently
+        const rootElement = xmlDom.documentElement;
+        const languageStr = rootElement.getAttribute("xml:lang") || 
+                           rootElement.getAttribute("lang") || "en";
+        
+        let displayStr = rootElement.getAttribute("display");
+        if (displayStr && displayStr !== "block" && displayStr !== "inline") {
+            console.warn(`Warning: Invalid display attribute value "${displayStr}". Must be "block" or "inline". Using default "inline".`);
+            displayStr = "inline";
+        } else if (!displayStr) {
+            displayStr = "inline";
+        }
+
+        const displaystyleAttr = rootElement.getAttribute("displaystyle");
+        if (displaystyleAttr && displaystyleAttr !== "true" && displaystyleAttr !== "false") {
+            console.warn(`Warning: Invalid displaystyle attribute value "${displaystyleAttr}". Must be "true" or "false".`);
+        }
+
+        const altimgStr = rootElement.getAttribute("altimg") || "";
+        const alttextStr = rootElement.getAttribute("alttext") || "";
+
+        // Warn about deprecated attributes
+        if (altimgStr) {
+            console.warn("Warning: 'altimg' attribute is deprecated according to Nordic MathML Guidelines. MathML support has improved and this attribute should not be used.");
+        }
+        if (alttextStr) {
+            console.warn("Warning: 'alttext' attribute is deprecated according to Nordic MathML Guidelines. MathML support has improved and this attribute should not be used.");
+        }
+
+        // Process MathML content efficiently
+        let processedXMLContent = XMLContent;
+        
+        // Remove deprecated semantics and annotation elements
+        processedXMLContent = processedXMLContent.replace(SEMANTICS_REGEX, (match) => {
+            const innerMatch = match.replace(/<semantics[^>]*>(.*?)<\/semantics>/s, '$1');
+            return innerMatch.replace(ANNOTATION_REGEX, '').replace(ANNOTATION_XML_REGEX, '');
+        });
+        
+        // Convert deprecated mfenced elements to mo elements
+        processedXMLContent = processedXMLContent.replace(MFENCED_REGEX, (match, attributes, content) => {
+            const openMatch = attributes.match(/open="([^"]*)"/);
+            const closeMatch = attributes.match(/close="([^"]*)"/);
+            const open = openMatch ? openMatch[1] : "(";
+            const close = closeMatch ? closeMatch[1] : ")";
+            return `<mo>${open}</mo>${content}<mo>${close}</mo>`;
+        });
+
+        return {
+            processedXMLContent,
+            languageStr,
+            displayStr,
+            displaystyleAttr,
+            altimgStr,
+            alttextStr,
+            versionInfo,
+            compatibilityMode
+        };
+    };
 
     /**
      * Transforms MathML to AsciiMath
@@ -145,10 +242,118 @@ new Airbrake.Notifier({
         });
     });
 
+    // Cache statistics endpoint for performance monitoring
+    app.get('/cache-stats', (req, res) => {
+        const { mathMLCache } = require('./cache');
+        const stats = mathMLCache.getStats();
+        
+        res.json({
+            success: true,
+            cache: {
+                size: stats.size,
+                maxSize: stats.maxSize,
+                hitRate: Math.round(stats.hitRate * 100) + '%',
+                hitCount: stats.hitCount,
+                missCount: stats.missCount,
+                totalRequests: stats.hitCount + stats.missCount
+            },
+            performance: {
+                memoryUsage: process.memoryUsage(),
+                uptime: process.uptime()
+            }
+        });
+    });
+
+    // Clear cache endpoint for maintenance
+    app.post('/cache-clear', (req, res) => {
+        const { mathMLCache } = require('./cache');
+        mathMLCache.clear();
+        
+        res.json({
+            success: true,
+            message: 'Cache cleared successfully'
+        });
+    });
+
+    // Migration assistance endpoint
+    app.post('/migrate', jsonParser, (req, res) => {
+        const { content } = req.body;
+        
+        if (!content) {
+            res.status(400).json({
+                success: false,
+                error: "Missing content parameter"
+            });
+            return;
+        }
+
+        try {
+            // Detect version and get migration info
+            const versionInfo = detectMathMLVersion(content);
+            const migrationResult = migrateMathML(content);
+            const validationResult = validateMigratedContent(migrationResult.migratedContent);
+            const recommendations = getMigrationRecommendations(versionInfo);
+
+            res.json({
+                success: true,
+                originalContent: content,
+                migratedContent: migrationResult.migratedContent,
+                versionInfo: versionInfo,
+                migrationResult: {
+                    changes: migrationResult.changes,
+                    warnings: migrationResult.warnings,
+                    success: migrationResult.success
+                },
+                validationResult: validationResult,
+                recommendations: recommendations,
+                timestamp: new Date().toISOString()
+            });
+        } catch (error) {
+            console.error('Migration error:', error);
+            res.status(500).json({
+                success: false,
+                error: "Migration failed",
+                message: error.message
+            });
+        }
+    });
+
+    // Version detection endpoint
+    app.post('/detect-version', jsonParser, (req, res) => {
+        const { content } = req.body;
+        
+        if (!content) {
+            res.status(400).json({
+                success: false,
+                error: "Missing content parameter"
+            });
+            return;
+        }
+
+        try {
+            const versionInfo = detectMathMLVersion(content);
+            const recommendations = getMigrationRecommendations(versionInfo);
+
+            res.json({
+                success: true,
+                versionInfo: versionInfo,
+                recommendations: recommendations,
+                timestamp: new Date().toISOString()
+            });
+        } catch (error) {
+            console.error('Version detection error:', error);
+            res.status(500).json({
+                success: false,
+                error: "Version detection failed",
+                message: error.message
+            });
+        }
+    });
+
     // POST / payload: { "contentType": "math|chemistry|physics|other", "content": "..." } 
     app.post('/', jsonParser, async (req, res) => {
         const { contentType, content } = req.body;
-        const { noImage, noEquationText } = req.query;
+        const { noImage, noEquationText, version } = req.query;
         const noImageInt = parseInt(noImage) || 25;
         const noEquationTextInt = parseInt(noEquationText) || 12;
 
@@ -163,7 +368,14 @@ new Airbrake.Notifier({
 
         // Validate MathML content according to Nordic MathML Guidelines
         if (contentType === "math") {
-            const validationResult = validateMathML(content);
+            // Detect version first to determine validation mode
+            const versionInfo = detectMathMLVersion(content);
+            const validationOptions = {
+                strictMode: !versionInfo.compatibilityMode,
+                allowLegacy: true
+            };
+            
+            const validationResult = validateMathML(content, validationOptions);
             
             // Log validation warnings
             if (validationResult.warnings.length > 0) {
@@ -178,7 +390,8 @@ new Airbrake.Notifier({
                     success: false,
                     error: "MathML validation failed",
                     validationErrors: validationResult.errors,
-                    validationWarnings: validationResult.warnings
+                    validationWarnings: validationResult.warnings,
+                    legacyFeatures: validationResult.legacyFeatures
                 });
                 return;
             }
@@ -214,95 +427,29 @@ new Airbrake.Notifier({
         }
 
         // IF we got here, all is well
-        const parser = new XMLParser();
-        const builder = new XMLBuilder();
-        
-        var x2js = new X2JS();
-        var xmlDom = x2js.xml2dom(content);
-        var XMLObject = parser.parse(content, {
-            ignoreAttributes: false,
-            ignoreNameSpace: false,
-        });
-        var XMLContent = builder.build(XMLObject);
+        const { 
+            processedXMLContent, 
+            languageStr, 
+            displayStr, 
+            displaystyleAttr, 
+            altimgStr, 
+            alttextStr,
+            versionInfo,
+            compatibilityMode
+        } = processMathML(content, version);
 
-        // Extract language from math attribute (supports both new and old namespace formats)
-        const languageStr = xmlDom.documentElement.getAttribute("xml:lang") || 
-                           xmlDom.documentElement.getAttribute("lang") || "en";
-        // Extract display from math attribute - inline is the default according to new guidelines
-        let displayStr = xmlDom.documentElement.getAttribute("display");
-        
-        // Validate display attribute according to new guidelines
-        if (displayStr) {
-            if (displayStr !== "block" && displayStr !== "inline") {
-                console.warn(`Warning: Invalid display attribute value "${displayStr}". Must be "block" or "inline". Using default "inline".`);
-                displayStr = "inline";
-            }
-        } else {
-            // Default to inline according to new guidelines
-            displayStr = "inline";
-        }
-        
-        // Additional validation: Check for improper usage according to new guidelines
-        // The new guidelines state that <math> elements should not be standalone block elements
-        // and should always be within paragraph elements or equivalent
-        if (displayStr === "block") {
-            console.info("Info: Using display='block'. Ensure the <math> element is within a paragraph element or equivalent, not as a standalone block element.");
-        }
-        
-        // Extract displaystyle attribute for large operators (mentioned in new guidelines)
-        const displaystyleAttr = xmlDom.documentElement.getAttribute("displaystyle");
-        if (displaystyleAttr && displaystyleAttr !== "true" && displaystyleAttr !== "false") {
-            console.warn(`Warning: Invalid displaystyle attribute value "${displaystyleAttr}". Must be "true" or "false".`);
-        }
-        
-        // Extract altimg from math attribute (deprecated but kept for backward compatibility)
-        const altimgStr = xmlDom.documentElement.getAttribute("altimg") || "";
-        // Extract alttext from math attribute (deprecated but kept for backward compatibility)
-        const alttextStr = xmlDom.documentElement.getAttribute("alttext") || "";
-        
-        // Warn about deprecated attributes according to new guidelines
-        if (altimgStr) {
-            console.warn("Warning: 'altimg' attribute is deprecated according to Nordic MathML Guidelines. MathML support has improved and this attribute should not be used.");
-        }
-        if (alttextStr) {
-            console.warn("Warning: 'alttext' attribute is deprecated according to Nordic MathML Guidelines. MathML support has improved and this attribute should not be used.");
-        }
-
-        // Process MathML content - remove deprecated elements and handle new namespace format
-        let processedXMLContent = XMLContent;
-        
-        // Remove deprecated semantics and annotation elements if present
-        // These should not be used according to new guidelines unless specifically requested
-        processedXMLContent = processedXMLContent.replace(/<semantics[^>]*>.*?<\/semantics>/gs, (match) => {
-            // Extract only the first child (the main MathML content) from semantics
-            const innerMatch = match.replace(/<semantics[^>]*>(.*?)<\/semantics>/s, '$1');
-            // Remove any annotation elements
-            return innerMatch.replace(/<annotation[^>]*>.*?<\/annotation>/gs, '')
-                           .replace(/<annotation-xml[^>]*>.*?<\/annotation-xml>/gs, '');
-        });
-        
-        // Convert deprecated mfenced elements to mo elements for backward compatibility
-        // This allows the service to handle old content while encouraging new content to use mo elements
-        processedXMLContent = processedXMLContent.replace(/<mfenced([^>]*)>(.*?)<\/mfenced>/gs, (match, attributes, content) => {
-            // Extract open and close attributes
-            const openMatch = attributes.match(/open="([^"]*)"/);
-            const closeMatch = attributes.match(/close="([^"]*)"/);
-            const open = openMatch ? openMatch[1] : "(";
-            const close = closeMatch ? closeMatch[1] : ")";
-            
-            // Convert to mo elements
-            return `<mo>${open}</mo>${content}<mo>${close}</mo>`;
-        });
-        
-        // Handle both old (m:) and new namespace formats
-        const latexStr = MathML2Latex.convert(processedXMLContent.replace(/<m:/g, "<").replace(/<\/m:/g, "</"));
+        const latexStr = MathML2Latex.convert(processedXMLContent.replace(OLD_NAMESPACE_REGEX, "<").replace(OLD_NAMESPACE_CLOSE_REGEX, "</"));
         const asciiStr = GenerateAsciiMath(processedXMLContent);
         const translatedStr = TranslateText(result.words, languageStr);
+
+        // Get migration recommendations if legacy features are detected
+        const migrationRecommendations = getMigrationRecommendations(versionInfo);
 
         var returnObj = {
             "success": result.success,
             "input": {
                 "mathml": content,
+                "version": version || "2.0.0"
             },
             "output": {
                 "text": {
@@ -328,9 +475,21 @@ new Airbrake.Notifier({
                     "alix": result.alix,
                     "alixThresholdNoImage": alixThresholds.noImage,
                     "alixThresholdNoEquationText": alixThresholds.noEquationText,
+                    "compatibilityMode": compatibilityMode
                 }
-            },
+            }
         };
+
+        // Add backward compatibility information if legacy features are detected
+        if (versionInfo.isLegacy || versionInfo.legacyFeatures.length > 0) {
+            returnObj.backwardCompatibility = {
+                "isLegacy": versionInfo.isLegacy,
+                "legacyFeatures": versionInfo.legacyFeatures,
+                "migrationHints": versionInfo.migrationHints,
+                "migrationRecommendations": migrationRecommendations,
+                "compatibilityMode": compatibilityMode
+            };
+        }
 
         res.json(returnObj);
     });

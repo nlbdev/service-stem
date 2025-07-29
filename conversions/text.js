@@ -5,6 +5,7 @@ const operators = require("./data/text-operators.json");
 const identifiers = require("./data/text-identifiers.json");
 const misc = require("./data/text-misc.json");
 const X2JS = require("x2js");
+const { mathMLCache } = require('../cache');
 const { GetALIX, GetDefaultIndexes, GetDefaultModifiers } = require("./alix");
 const modifiers = GetDefaultModifiers();
 
@@ -1393,6 +1394,17 @@ function ParseNode(node, words, indexes) {
 
 module.exports = {
     GenerateMath: (content, alixThresholds) => {
+        // Check cache first for performance optimization
+        const cacheKey = mathMLCache.generateKey(content, alixThresholds);
+        const cachedResult = mathMLCache.get(cacheKey);
+        
+        if (cachedResult) {
+            mathMLCache.trackAccess(true); // Cache hit
+            return cachedResult;
+        }
+        
+        mathMLCache.trackAccess(false); // Cache miss
+        
         var words = [];
         var indexes = GetDefaultIndexes();
 
@@ -1455,6 +1467,10 @@ module.exports = {
 
             // Return values
             var obj = { success: true, words, alix };
+            
+            // Cache the result for future use
+            mathMLCache.set(cacheKey, obj);
+            
             return obj;
         }
         catch (ex) {

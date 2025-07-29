@@ -6,19 +6,33 @@ const { XMLParser } = require("fast-xml-parser");
 /**
  * Validates MathML content according to Nordic MathML Guidelines
  * @param {string} mathML - The MathML content to validate
+ * @param {Object} options - Validation options
  * @returns {Object} Validation result with isValid, errors, and warnings arrays
  */
-function validateMathML(mathML) {
+function validateMathML(mathML, options = {}) {
+    const { strictMode = true, allowLegacy = true } = options;
+    
     const result = {
         isValid: true,
         errors: [],
-        warnings: []
+        warnings: [],
+        legacyFeatures: []
     };
 
     // Check for required input
     if (!mathML || typeof mathML !== 'string' || mathML.trim() === '') {
         result.isValid = false;
         result.errors.push('MathML content is required.');
+        return result;
+    }
+
+    // Check for legacy namespace first before XML structure validation
+    const hasLegacyNamespace = mathML.includes('xmlns:m="http://www.w3.org/1998/Math/MathML"') ||
+                              (mathML.includes('<m:math') && mathML.includes('xmlns:m='));
+    
+    if (hasLegacyNamespace && !allowLegacy) {
+        result.isValid = false;
+        result.errors.push('Legacy m: namespace is not allowed in strict mode. Use xmlns="http://www.w3.org/1998/Math/MathML" instead.');
         return result;
     }
 
@@ -33,34 +47,55 @@ function validateMathML(mathML) {
         // Parse XML to check structure
         const parser = new XMLParser({
             ignoreAttributes: false,
-            attributeNamePrefix: "@_"
+            attributeNamePrefix: "@_",
+            ignoreNameSpace: false,
+            processEntities: false
         });
         
         const parsed = parser.parse(mathML);
         
         // Check if we have a valid math element
-        if (!parsed.math) {
+        if (!parsed.math && !parsed['m:math']) {
             result.isValid = false;
             result.errors.push('Invalid XML structure. Please check your MathML syntax.');
             return result;
         }
         
-        // Validate namespace
-        validateNamespace(parsed, result);
+        // Validate namespace with backward compatibility
+        validateNamespace(parsed, result, allowLegacy, mathML);
         
         // Validate display attribute
         validateDisplayAttribute(parsed, result);
         
         // Validate deprecated attributes
-        validateDeprecatedAttributes(parsed, result);
+        validateDeprecatedAttributes(parsed, result, strictMode);
         
         // Validate deprecated elements
-        validateDeprecatedElements(parsed, result);
+        validateDeprecatedElements(parsed, result, strictMode);
         
     } catch (error) {
-        result.isValid = false;
-        result.errors.push('Invalid XML structure. Please check your MathML syntax.');
-        console.error('XML parsing error:', error.message);
+        // If XML parsing fails, try to validate namespace from raw content
+        console.warn('XML parsing failed, attempting raw content validation:', error.message);
+        
+        // Check if it's a legacy namespace issue
+        if (allowLegacy && hasLegacyNamespace) {
+            result.legacyFeatures.push('m: namespace prefix');
+            result.warnings.push('Legacy m: namespace detected. Consider migrating to direct xmlns declaration.');
+            // Try to validate other aspects from raw content
+            validateRawContent(mathML, result, strictMode);
+            // If there are no errors after raw validation, mark as valid
+            if (result.errors.length === 0) {
+                result.isValid = true;
+            }
+        } else if (!allowLegacy && hasLegacyNamespace) {
+            result.isValid = false;
+            result.errors.push('Legacy m: namespace is not allowed in strict mode. Use xmlns="http://www.w3.org/1998/Math/MathML" instead.');
+            return result;
+        } else {
+            result.isValid = false;
+            result.errors.push('Invalid XML structure. Please check your MathML syntax.');
+            return result;
+        }
     }
 
     return result;
@@ -72,9 +107,9 @@ function validateMathML(mathML) {
  * @returns {boolean} True if XML structure appears valid
  */
 function isValidXMLStructure(xml) {
-    // Check for balanced tags
+    // Check for balanced tags, including namespaced tags
     const openTags = [];
-    const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9]*)[^>]*>/g;
+    const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9]*:?[a-zA-Z0-9]*)[^>]*>/g;
     let match;
     
     while ((match = tagRegex.exec(xml)) !== null) {
@@ -94,23 +129,60 @@ function isValidXMLStructure(xml) {
 }
 
 /**
- * Validates MathML namespace declaration
+ * Validates MathML namespace declaration with backward compatibility support
  * @param {Object} parsed - Parsed XML object
  * @param {Object} result - Validation result object
+ * @param {boolean} allowLegacy - Whether to allow legacy m: namespace
+ * @param {string} originalMathML - Original MathML content for additional checks
  */
-function validateNamespace(parsed, result) {
-    if (!parsed.math) {
+function validateNamespace(parsed, result, allowLegacy = true, originalMathML = '') {
+    // Check for both math and m:math elements
+    const mathElement = parsed.math || parsed['m:math'];
+    
+    if (!mathElement) {
         result.isValid = false;
         result.errors.push('MathML must include a <math> root element.');
         return;
     }
 
-    const xmlns = parsed.math['@_xmlns'];
+    const xmlns = mathElement['@_xmlns'];
+    const xmlnsM = mathElement['@_xmlns:m'];
     const expectedNamespace = 'http://www.w3.org/1998/Math/MathML';
     
-    if (!xmlns || xmlns !== expectedNamespace) {
+    // Check if this is a legacy m:math element
+    const isLegacyMath = parsed['m:math'] !== undefined;
+    
+    // Check for new format (preferred)
+    if (xmlns === expectedNamespace && !isLegacyMath) {
+        // New format is correct
+        return;
+    }
+    
+    // Check for legacy format
+    const hasLegacyNamespace = xmlnsM === expectedNamespace || isLegacyMath || 
+                              originalMathML.includes('xmlns:m="http://www.w3.org/1998/Math/MathML"') ||
+                              (originalMathML.includes('<m:math') && originalMathML.includes('xmlns:m='));
+    
+    if (allowLegacy && hasLegacyNamespace) {
+        result.legacyFeatures.push('m: namespace prefix');
+        result.warnings.push('Legacy m: namespace detected. Consider migrating to direct xmlns declaration.');
+        return;
+    }
+    
+    // Check for incorrect namespace
+    if (xmlns && xmlns !== expectedNamespace) {
         result.isValid = false;
         result.errors.push('MathML must include xmlns="http://www.w3.org/1998/Math/MathML" namespace declaration.');
+        return;
+    }
+    
+    // No valid namespace found
+    if (!xmlns && !hasLegacyNamespace) {
+        result.isValid = false;
+        result.errors.push('MathML must include xmlns="http://www.w3.org/1998/Math/MathML" namespace declaration.');
+    } else if (!allowLegacy && hasLegacyNamespace) {
+        result.isValid = false;
+        result.errors.push('Legacy m: namespace is not allowed in strict mode. Use xmlns="http://www.w3.org/1998/Math/MathML" instead.');
     }
 }
 
@@ -120,9 +192,10 @@ function validateNamespace(parsed, result) {
  * @param {Object} result - Validation result object
  */
 function validateDisplayAttribute(parsed, result) {
-    if (!parsed.math) return;
+    const mathElement = parsed.math || parsed['m:math'];
+    if (!mathElement) return;
 
-    const display = parsed.math['@_display'];
+    const display = mathElement['@_display'];
     if (display && display !== 'block' && display !== 'inline') {
         result.isValid = false;
         result.errors.push(`Invalid display attribute value "${display}". Must be "block" or "inline".`);
@@ -133,19 +206,33 @@ function validateDisplayAttribute(parsed, result) {
  * Validates deprecated attributes and generates warnings
  * @param {Object} parsed - Parsed XML object
  * @param {Object} result - Validation result object
+ * @param {boolean} strictMode - Whether to treat deprecated attributes as errors
  */
-function validateDeprecatedAttributes(parsed, result) {
-    if (!parsed.math) return;
+function validateDeprecatedAttributes(parsed, result, strictMode = true) {
+    const mathElement = parsed.math || parsed['m:math'];
+    if (!mathElement) return;
 
-    const alttext = parsed.math['@_alttext'];
-    const altimg = parsed.math['@_altimg'];
+    const alttext = mathElement['@_alttext'];
+    const altimg = mathElement['@_altimg'];
 
     if (alttext) {
-        result.warnings.push('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        result.legacyFeatures.push('alttext attribute');
+        if (strictMode) {
+            result.isValid = false;
+            result.errors.push('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        } else {
+            result.warnings.push('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        }
     }
 
     if (altimg) {
-        result.warnings.push('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        result.legacyFeatures.push('altimg attribute');
+        if (strictMode) {
+            result.isValid = false;
+            result.errors.push('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        } else {
+            result.warnings.push('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        }
     }
 }
 
@@ -153,8 +240,9 @@ function validateDeprecatedAttributes(parsed, result) {
  * Validates deprecated elements recursively
  * @param {Object} parsed - Parsed XML object
  * @param {Object} result - Validation result object
+ * @param {boolean} strictMode - Whether to treat deprecated elements as errors
  */
-function validateDeprecatedElements(parsed, result) {
+function validateDeprecatedElements(parsed, result, strictMode = true) {
     const deprecatedElements = [
         'mfenced',
         'semantics', 
@@ -163,7 +251,7 @@ function validateDeprecatedElements(parsed, result) {
     ];
 
     // Check for deprecated elements in the parsed structure
-    checkForDeprecatedElements(parsed, deprecatedElements, result);
+    checkForDeprecatedElements(parsed, deprecatedElements, result, strictMode);
 }
 
 /**
@@ -171,23 +259,30 @@ function validateDeprecatedElements(parsed, result) {
  * @param {Object} obj - Object to check
  * @param {Array} deprecatedElements - Array of deprecated element names
  * @param {Object} result - Validation result object
+ * @param {boolean} strictMode - Whether to treat deprecated elements as errors
  */
-function checkForDeprecatedElements(obj, deprecatedElements, result) {
+function checkForDeprecatedElements(obj, deprecatedElements, result, strictMode = true) {
     if (!obj || typeof obj !== 'object') return;
 
     // Check if current object is a deprecated element
     for (const elementName of deprecatedElements) {
         if (obj[elementName]) {
+            result.legacyFeatures.push(`${elementName} element`);
             const errorMessage = getDeprecatedElementErrorMessage(elementName);
-            result.isValid = false;
-            result.errors.push(errorMessage);
+            
+            if (strictMode) {
+                result.isValid = false;
+                result.errors.push(errorMessage);
+            } else {
+                result.warnings.push(errorMessage);
+            }
         }
     }
 
-    // Recursively check all properties
+    // Recursively check all object properties
     for (const key in obj) {
         if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
-            checkForDeprecatedElements(obj[key], deprecatedElements, result);
+            checkForDeprecatedElements(obj[key], deprecatedElements, result, strictMode);
         }
     }
 }
@@ -207,6 +302,59 @@ function getDeprecatedElementErrorMessage(elementName) {
             return `Deprecated element <${elementName}> is not allowed unless specifically requested by the Ordering Agency.`;
         default:
             return `Deprecated element <${elementName}> is not allowed.`;
+    }
+}
+
+/**
+ * Validates MathML content from raw XML when parsing fails
+ * @param {string} mathML - Raw MathML content
+ * @param {Object} result - Validation result object
+ * @param {boolean} strictMode - Whether to treat deprecated elements as errors
+ */
+function validateRawContent(mathML, result, strictMode = true) {
+    // Check for deprecated elements
+    const deprecatedElements = ['mfenced', 'semantics', 'annotation', 'annotation-xml'];
+    
+    deprecatedElements.forEach(element => {
+        if (mathML.includes(`<${element}`)) {
+            result.legacyFeatures.push(`${element} element`);
+            const errorMessage = getDeprecatedElementErrorMessage(element);
+            
+            if (strictMode) {
+                result.isValid = false;
+                result.errors.push(errorMessage);
+            } else {
+                result.warnings.push(errorMessage);
+            }
+        }
+    });
+    
+    // Check for deprecated attributes
+    if (mathML.includes('alttext=')) {
+        result.legacyFeatures.push('alttext attribute');
+        if (strictMode) {
+            result.isValid = false;
+            result.errors.push('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        } else {
+            result.warnings.push('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        }
+    }
+    
+    if (mathML.includes('altimg=')) {
+        result.legacyFeatures.push('altimg attribute');
+        if (strictMode) {
+            result.isValid = false;
+            result.errors.push('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        } else {
+            result.warnings.push('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
+        }
+    }
+    
+    // Check for display attribute
+    const displayMatch = mathML.match(/display\s*=\s*["']([^"']*)["']/);
+    if (displayMatch && !['block', 'inline'].includes(displayMatch[1])) {
+        result.isValid = false;
+        result.errors.push(`Invalid display attribute value "${displayMatch[1]}". Must be "block" or "inline".`);
     }
 }
 
