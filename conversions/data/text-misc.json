@@ -59,7 +59,9 @@
         { "name": "subscript", "value": "subscript" },
         { "name": "superscript", "value": "superscript" },
         { "name": "equation", "value": "equation" },
-        { "name": "label", "value": "label" }
+        { "name": "label", "value": "label" },
+        { "name": "crossed", "value": "crossed" },
+        { "name": "out", "value": "out" }
     ],
     "chars": [
         { "code": 40, "value": "left parenthesis" },

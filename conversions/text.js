@@ -86,7 +86,10 @@ function ParenthesisTextOpen(node, words) {
         try {
             charCode = Attr.charCodeAt();
         } catch(ex) {
-            // Do nothing
+            // Handle mo elements that don't have open/close attributes
+            if (node.firstChild && node.firstChild.nodeValue) {
+                charCode = node.firstChild.nodeValue.charCodeAt(0);
+            }
         }
 
         try {
@@ -105,12 +108,31 @@ function ParenthesisTextOpen(node, words) {
             // Do nothing
         }
 
+        // Check if this is inside crossed out math
+        let isInCrossedOutMath = false;
+        let parent = node.parentNode;
+        while (parent) {
+            if (parent.localName === "menclose") {
+                const notation = parent.getAttribute("notation");
+                if (notation) {
+                    isInCrossedOutMath = true;
+                    break;
+                }
+            }
+            parent = parent.parentNode;
+        }
+
         switch (charCode) {
             case 40:
                 if ((IsPreviousSiblingFunction && IsSiblingMo) || IsFirstChildMtable ) {
                     // Its does not require parenthesis text
                 } else {
-                    AddWord(GetText(charCode, misc), words);
+                    if (isInCrossedOutMath) {
+                        AddWord("left", words);
+                        AddWord("parenthesis", words);
+                    } else {
+                        AddWord(GetText(charCode, misc), words);
+                    }
                 }
                 break;
             case 91:
@@ -120,7 +142,12 @@ function ParenthesisTextOpen(node, words) {
                 break;
             default:
                 console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
-                AddWord(GetText(40, misc), words);
+                if (isInCrossedOutMath) {
+                    AddWord("left", words);
+                    AddWord("parenthesis", words);
+                } else {
+                    AddWord(GetText(40, misc), words);
+                }
                 break;
         }
     }
@@ -146,7 +173,10 @@ function ParenthesisTextClose(node, words) {
         try {
             charCode = Attr.charCodeAt();
         } catch(ex) {
-            // Do nothing
+            // Handle mo elements that don't have open/close attributes
+            if (node.firstChild && node.firstChild.nodeValue) {
+                charCode = node.firstChild.nodeValue.charCodeAt(0);
+            }
         }
 
         try {
@@ -165,27 +195,47 @@ function ParenthesisTextClose(node, words) {
             // Do nothing
         }
 
+        // Check if this is inside crossed out math
+        let isInCrossedOutMath = false;
+        let parent = node.parentNode;
+        while (parent) {
+            if (parent.localName === "menclose") {
+                const notation = parent.getAttribute("notation");
+                if (notation) {
+                    isInCrossedOutMath = true;
+                    break;
+                }
+            }
+            parent = parent.parentNode;
+        }
+
         switch (charCode) {
             case 41:
                 if ((IsPreviousSiblingFunction && IsSiblingMo) || IsFirstChildMtable ) {
                     // Its does not require parenthesis text
                 } else {
-                    AddWord(GetText(charCode, misc), words);
+                    if (isInCrossedOutMath) {
+                        AddWord("right", words);
+                        AddWord("parenthesis", words);
+                    } else {
+                        AddWord(GetText(charCode, misc), words);
+                    }
                 }
                 break;
             case 93:
             case 125:
                 AddWord(GetText(charCode, misc), words);
                 break;
-            case 124:
-                AddWord(`${GetText(charCode, misc)} ${GetText("end", misc)},`, words);
-                break;
             default:
                 console.warn(` [ WARNING ] Missing text for PAREN: ${Attr} (char code: ${charCode})`);
-                AddWord(GetText(41, misc), words);
+                if (isInCrossedOutMath) {
+                    AddWord("right", words);
+                    AddWord("parenthesis", words);
+                } else {
+                    AddWord(GetText(41, misc), words);
+                }
                 break;
         }
-        charCode = 0;
     }
 }
 
@@ -350,7 +400,6 @@ function ParseNode(node, words, indexes) {
                 case "mstyle":
                 case "mprescripts":
                 case "mpadded":
-                case "menclose":
                 case "math":
                 case "mstack":
                 case "msgroup":
@@ -358,6 +407,16 @@ function ParseNode(node, words, indexes) {
                 case "mscarries":
                 case "mscarry":
                 case "mlongdiv":
+                    StandardLoop(node, words, 0, indexes);
+                    break;
+                case "menclose":
+                    // Handle crossed out math
+                    const notation = node.getAttribute("notation");
+                    if (notation) {
+                        // Add "crossed out" text for all notation types
+                        AddWord(GetText("crossed", misc), words);
+                        AddWord(GetText("out", misc), words);
+                    }
                     StandardLoop(node, words, 0, indexes);
                     break;
                 // Remove support for deprecated semantics and annotation elements
@@ -632,9 +691,23 @@ function ParseNode(node, words, indexes) {
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
                     if(node.childNodes.length >= 2) {
+                        // Check if this is inside crossed out math
+                        let isInCrossedOutMath = false;
+                        let parent = node.parentNode;
+                        while (parent) {
+                            if (parent.localName === "menclose") {
+                                const notation = parent.getAttribute("notation");
+                                if (notation) {
+                                    isInCrossedOutMath = true;
+                                    break;
+                                }
+                            }
+                            parent = parent.parentNode;
+                        }
+                        
                         // Check if this is inside a labeled equation
                         let isInLabeledEquation = false;
-                        let parent = node.parentNode;
+                        parent = node.parentNode;
                         while (parent) {
                             if (parent.localName === "mtable") {
                                 // Check if this mtable is a labeled equation
@@ -661,8 +734,19 @@ function ParseNode(node, words, indexes) {
                             parent = parent.parentNode;
                         }
                         
-                        if (isInLabeledEquation) {
-                            AddWord(GetText("superscript", misc), words);
+                        if (isInCrossedOutMath || isInLabeledEquation) {
+                            if (isInCrossedOutMath) {
+                                // Check if the superscript is "2" and use "squared" for crossed out math
+                                const superscriptElement = node.childNodes[1];
+                                if (superscriptElement && superscriptElement.firstChild && superscriptElement.firstChild.nodeValue === "2") {
+                                    AddWord("squared", words);
+                                } else {
+                                    AddWord(GetText("superscript", misc), words);
+                                }
+                            } else {
+                                // For labeled equations, always use "superscript"
+                                AddWord(GetText("superscript", misc), words);
+                            }
                         } else {
                             // Check if this is likely a chemical charge (base is + or -)
                             const baseElement = node.childNodes[0];
@@ -845,39 +929,84 @@ function ParseNode(node, words, indexes) {
                     RaisedLoweredText(node, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
                     
-                    // Check if this is inside a labeled equation
-                    let isInLabeledEquation = false;
+                    // Check if this is inside crossed out math
+                    let isInCrossedOutMath = false;
                     let parent = node.parentNode;
                     while (parent) {
-                        if (parent.localName === "mtable") {
-                            // Check if this mtable is a labeled equation
-                            if (parent.childNodes.length > 0) {
-                                const firstRow = parent.childNodes[0];
-                                if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
-                                    const firstCell = firstRow.childNodes[0];
-                                    if (firstCell && firstCell.localName === "mtd") {
-                                        const intent = firstCell.getAttribute("intent");
-                                        if (intent === ":equation-label") {
-                                            isInLabeledEquation = true;
-                                            break;
-                                        } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
-                                            const labelText = firstCell.firstChild.firstChild.nodeValue;
-                                            if (labelText && /^\([^)]+\)$/.test(labelText)) {
-                                                isInLabeledEquation = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
+                        if (parent.localName === "menclose") {
+                            const notation = parent.getAttribute("notation");
+                            if (notation) {
+                                isInCrossedOutMath = true;
+                                break;
                             }
                         }
                         parent = parent.parentNode;
                     }
                     
-                    if (isInLabeledEquation) {
+                    // Also check if this fraction contains crossed out math
+                    if (!isInCrossedOutMath) {
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            const child = node.childNodes[i];
+                            if (child && child.localName === "menclose") {
+                                const notation = child.getAttribute("notation");
+                                if (notation) {
+                                    isInCrossedOutMath = true;
+                                    break;
+                                }
+                            }
+                            // Check recursively in child elements
+                            if (child && child.childNodes) {
+                                for (let j = 0; j < child.childNodes.length; j++) {
+                                    const grandChild = child.childNodes[j];
+                                    if (grandChild && grandChild.localName === "menclose") {
+                                        const notation = grandChild.getAttribute("notation");
+                                        if (notation) {
+                                            isInCrossedOutMath = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (isInCrossedOutMath) {
                         AddWord(GetText("fraction", misc), words);
                     } else {
-                        AddWord(GetText("fraction with counter", misc), words);
+                        // Check if this is inside a labeled equation
+                        let isInLabeledEquation = false;
+                        parent = node.parentNode;
+                        while (parent) {
+                            if (parent.localName === "mtable") {
+                                // Check if this mtable is a labeled equation
+                                if (parent.childNodes.length > 0) {
+                                    const firstRow = parent.childNodes[0];
+                                    if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                                        const firstCell = firstRow.childNodes[0];
+                                        if (firstCell && firstCell.localName === "mtd") {
+                                            const intent = firstCell.getAttribute("intent");
+                                            if (intent === ":equation-label") {
+                                                isInLabeledEquation = true;
+                                                break;
+                                            } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                                                const labelText = firstCell.firstChild.firstChild.nodeValue;
+                                                if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                                    isInLabeledEquation = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            parent = parent.parentNode;
+                        }
+                        
+                        if (isInLabeledEquation) {
+                            AddWord(GetText("fraction", misc), words);
+                        } else {
+                            AddWord(GetText("fraction with counter", misc), words);
+                        }
                     }
                     
                     StandardLoop(node, words, 0, indexes);
@@ -899,10 +1028,10 @@ function ParseNode(node, words, indexes) {
                             // Handle as parenthesis
                             if (moCode === 40 || moCode === 91 || moCode === 123 || moCode === 124) {
                                 // Opening parenthesis
-                                ParenthesisTextOpen({ getAttribute: () => moValue }, words);
+                                ParenthesisTextOpen(node, words);
                             } else {
                                 // Closing parenthesis
-                                ParenthesisTextClose({ getAttribute: () => moValue }, words);
+                                ParenthesisTextClose(node, words);
                             }
                         } else {
                             // Handle as regular operator (original logic)
