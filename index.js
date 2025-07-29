@@ -21,6 +21,7 @@ new Airbrake.Notifier({
 
     const { PORT, HOST } = require("./configurations/appConfig");
     const { GenerateMath } = require("./conversions/text");
+    const { validateMathML } = require("./validation");
     // const { GenerateSvg } = require("./conversions/svg");
 
     /**
@@ -158,6 +159,29 @@ new Airbrake.Notifier({
         if (!contentType || !content) {
             res.status(400).send("Missing contentType or content");
             return;
+        }
+
+        // Validate MathML content according to Nordic MathML Guidelines
+        if (contentType === "math") {
+            const validationResult = validateMathML(content);
+            
+            // Log validation warnings
+            if (validationResult.warnings.length > 0) {
+                validationResult.warnings.forEach(warning => {
+                    console.warn(`Validation Warning: ${warning}`);
+                });
+            }
+            
+            // Return validation errors if any
+            if (!validationResult.isValid) {
+                res.status(400).json({
+                    success: false,
+                    error: "MathML validation failed",
+                    validationErrors: validationResult.errors,
+                    validationWarnings: validationResult.warnings
+                });
+                return;
+            }
         }
 
         let result = null;

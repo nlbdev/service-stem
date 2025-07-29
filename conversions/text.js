@@ -426,6 +426,25 @@ function ParseNode(node, words, indexes) {
                 case "annotation-xml":
                     // Skip these elements entirely - they are deprecated
                     break;
+                case "mfenced":
+                    // mfenced is deprecated according to new Nordic MathML Guidelines
+                    // Validation should catch this before processing reaches here
+                    // For backward compatibility, still process but log warning
+                    console.warn("Warning: <mfenced> element is deprecated. Use <mo> elements for parentheses instead.");
+                    
+                    // Extract open and close attributes for backward compatibility
+                    const openAttr = node.getAttribute("open") || "(";
+                    const closeAttr = node.getAttribute("close") || ")";
+                    
+                    // Add opening parenthesis text
+                    ParenthesisTextOpen({ getAttribute: () => openAttr }, words);
+                    
+                    // Process children
+                    StandardLoop(node, words, 0, indexes);
+                    
+                    // Add closing parenthesis text
+                    ParenthesisTextClose({ getAttribute: () => closeAttr }, words);
+                    break;
                 case "mmultiscripts":
                     // Handle chemical isotopes and other multiscript notation
                     if (node.childNodes.length >= 5) {
@@ -882,24 +901,6 @@ function ParseNode(node, words, indexes) {
                     } else {
                         StandardLoop(node, words, 0, indexes);
                     }
-                    break;
-                case "mfenced":
-                    // mfenced is deprecated according to new Nordic MathML Guidelines
-                    // Should be replaced with mo elements for parentheses
-                    console.warn("Warning: <mfenced> element is deprecated. Use <mo> elements for parentheses instead.");
-                    
-                    // Extract open and close attributes for backward compatibility
-                    const openAttr = node.getAttribute("open") || "(";
-                    const closeAttr = node.getAttribute("close") || ")";
-                    
-                    // Add opening parenthesis text
-                    ParenthesisTextOpen({ getAttribute: () => openAttr }, words);
-                    
-                    // Process children
-                    StandardLoop(node, words, 0, indexes);
-                    
-                    // Add closing parenthesis text
-                    ParenthesisTextClose({ getAttribute: () => closeAttr }, words);
                     break;
                 case "mrow":
                     DividendText(node, words);

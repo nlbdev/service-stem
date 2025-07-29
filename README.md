@@ -1,6 +1,13 @@
 # service-stem
 
-A microservice to generate text content and images based on MathML.
+A microservice to generate text content and images based on MathML, following the Nordic MathML Guidelines for accessibility and compliance.
+
+## Documentation
+
+- **[API Documentation](docs/API.md)** - Complete API reference and usage examples
+- **[Developer Documentation](docs/DEVELOPER.md)** - Internal implementation details and guidelines
+- **[MathML Examples](docs/MATHML_EXAMPLES.md)** - Comprehensive examples of MathML markup patterns
+- **[Nordic MathML Guidelines](https://github.com/nlbdev/mathml-guidelines)** - Official guidelines repository
 
 ## Installation
 
@@ -24,17 +31,15 @@ A microservice to generate text content and images based on MathML.
 4. Run the Docker image in any Docker environment, the health check will report if the container is healthy or not
 5. You can access the container through your normal production environment with the host details specified in the `.env` file
 
-## Usage
+## Quick Start
 
-Use "curl" from the command-line: to test this service.
+### Basic Usage
 
-Replace `[HOST]` and `[PORT]` with appropriate values from the `.env` file.
+Use "curl" from the command-line to test this service. Replace `[HOST]` and `[PORT]` with appropriate values from the `.env` file.
 
-Replace "content" with appropriate MathML that you want to test.
+### New MathML Format (Required)
 
-### New MathML Format (Recommended)
-
-The new Nordic MathML Guidelines recommend using the direct namespace declaration:
+The Nordic MathML Guidelines require using the direct namespace declaration:
 
 ```bash
 curl -H 'Content-Type: application/json' \
@@ -43,129 +48,107 @@ curl -H 'Content-Type: application/json' \
       http://[HOST]:[PORT]/
 ```
 
-**Important:** The `<mfenced>` element is deprecated according to the Nordic MathML Guidelines. Use `<mo>` elements for parentheses instead:
+### Key Requirements
 
-```bash
-# Recommended (new format)
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mo>(</mo>
-  <mn>3</mn>
-  <mo>+</mo>
-  <mn>2</mn>
-  <mo>)</mo>
-</math>
+**Namespace Declaration:**
 
-# Deprecated (old format)
+```xml
+<!-- REQUIRED - New format -->
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mfenced open="(" close=")">
-    <mn>3</mn>
-    <mo>+</mo>
-    <mn>2</mn>
-  </mfenced>
-</math>
+
+<!-- DEPRECATED - Old format (no longer supported) -->
+<m:math xmlns:m="http://www.w3.org/1998/Math/MathML">
 ```
 
-**Display Attribute Guidelines:**
+**Display Attribute:**
 
-According to the Nordic MathML Guidelines:
-
-- The default value for `display` is `inline` (no need to specify it for inline math)
-- Use `display="block"` only for standalone mathematical expressions
-- Use `display="inline"` for mathematical expressions within text
-- The `<math>` element should never be a standalone block element - it should always be within a paragraph element or equivalent
-
-```bash
-# Inline math (default - no display attribute needed)
+```xml
+<!-- Inline math (default) -->
 <math xmlns="http://www.w3.org/1998/Math/MathML">
   <mn>3</mn><mo>+</mo><mn>2</mn>
 </math>
 
-# Block math (explicitly specified)
+<!-- Block math -->
 <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
   <mn>3</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>5</mn>
 </math>
 ```
 
-### Legacy MathML Format (Deprecated)
+**Important:** The `<math>` element should never be a standalone block element. Always place it within a paragraph element or equivalent.
 
-The old format used the `m:` namespace prefix:
+### Deprecated Elements
 
-```bash
-curl -H 'Content-Type: application/json' \
-      -d '{ "contentType": "math", "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"en\" display=\"block\" class=\"math\"><m:mn>3</m:mn><m:mo>-</m:mo><m:mn>2</m:mn><m:mo>=</mo><m:mn>1</m:mn></m:math>" }' \
-      -X POST \
-      http://[HOST]:[PORT]/
-```
+The following elements are deprecated and will cause validation errors:
 
-**Note:** The `alttext` and `altimg` attributes are deprecated and should not be used in new content according to the Nordic MathML Guidelines. MathML support has improved significantly, making these fallback attributes unnecessary.
+- `<mfenced>` - Use `<mo>` elements for parentheses instead
+- `<semantics>` - Not required unless specifically requested
+- `<annotation>` - Not required unless specifically requested
+- `<annotation-xml>` - Not required unless specifically requested
 
 ### Invisible Operators
 
-The Nordic MathML Guidelines specify the use of invisible operators to make mathematical expressions unambiguous:
+The Nordic MathML Guidelines specify invisible operators for unambiguous mathematical expressions:
 
-- **Invisible multiplication** (`&#x2062;`): Used between numbers and variables, or between variables
-- **Invisible function application** (`&#x2061;`): Used to indicate function application
-- **Invisible plus** (`&#x2064;`): Used for implicit addition
-- **Invisible comma** (`&#x2063;`): Used for implicit separation
+```xml
+<!-- Invisible multiplication -->
+<mn>3</mn><mo>&#x2062;</mo><mi>x</mi>
 
-```bash
-# Invisible multiplication
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mn>3</mn><mo>&#x2062;</mo><mi>x</mi>
-</math>
+<!-- Invisible function application -->
+<mi>f</mi><mo>&#x2061;</mo><mo>(</mo><mi>x</mi><mo>)</mo>
 
-# Invisible function application
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mi>f</mi><mo>&#x2061;</mo><mo>(</mo><mi>x</mi><mo>)</mo>
-</math>
-
-# Numbers with units using invisible multiplication
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mn>100</mn><mo>&#x2062;</mo><mi mathvariant="normal">m</mi>
-</math>
+<!-- Numbers with units -->
+<mn>100</mn><mo>&#x2062;</mo><mi mathvariant="normal">m</mi>
 ```
-
-**Backward Compatibility:** The legacy ring operator (`&#x2218;`) is still supported for backward compatibility.
 
 ### Special Character Handling
 
-The Nordic MathML Guidelines emphasize the importance of using correct Unicode characters for proper accessibility. The service supports proper handling of:
+Use proper Unicode characters for mathematical symbols:
 
-**Mathematical Symbols:**
+```xml
+<!-- Minus sign (not hyphen) -->
+<mo>&#x2212;</mo>
 
-- **Minus sign** (`&#x2212;`) vs hyphen (`-`): Both are handled as "minus"
-- **Prime** (`&#x2032;`) vs apostrophe (`'`): Prime is read as "prime", apostrophe as "apostrophe"
-- **Derivative symbol** (`&#x2146;`): Read as "derivative"
-- **Micro symbol** (`&#x00B5;`): Read as "micro"
+<!-- Prime -->
+<mo>&#x2032;</mo>
 
-**Greek Letters vs Latin Letters:**
-
-- Greek gamma (`&#x03B3;`) vs Latin y: Properly distinguished
-- Greek rho (`&#x03C1;`) vs Latin p: Properly distinguished
-- Greek omega (`&#x03C9;`) vs Latin w: Properly distinguished
-- Greek chi (`&#x03C7;`) vs Latin x: Properly distinguished
-
-**Element of Symbol vs Epsilon:**
-
-- Element of (`&#x2208;`): Read as "element of"
-- Epsilon (`&#x03B5;`): Read as "epsilon"
-
-```bash
-# Proper minus sign
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mn>3</mn><mo>&#x2212;</mo><mn>2</mn>
-</math>
-
-# Prime vs apostrophe
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mi>x</mi><mo>&#x2032;</mo>  <!-- prime -->
-  <mi>x</mi><mo>&#x27;</mo><mi>y</mi>  <!-- apostrophe -->
-</math>
-
-# Greek letters
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mi>&#x3B1;</mi><mo>+</mo><mi>&#x3B2;</mi><mo>=</mo><mi>&#x3B3;</mi>
-</math>
+<!-- Greek letters -->
+<mi>&#x3B1;</mi>  <!-- alpha -->
+<mi>&#x3B2;</mi>  <!-- beta -->
 ```
 
-**Note:** Using the correct Unicode characters ensures that screen readers and braille displays can properly interpret mathematical expressions.
+## Testing
+
+Run the test suite to validate functionality:
+
+```bash
+pnpm test
+```
+
+The test suite includes:
+
+- Unit tests for validation and conversion logic
+- Integration tests for API endpoints
+- Documentation tests for MathML examples
+
+## API Reference
+
+For complete API documentation, examples, and best practices, see:
+
+- **[API Documentation](docs/API.md)** - Complete API reference
+- **[MathML Examples](docs/MATHML_EXAMPLES.md)** - Comprehensive examples
+- **[Developer Documentation](docs/DEVELOPER.md)** - Implementation details
+
+## Compliance
+
+This service implements the Nordic MathML Guidelines to ensure:
+
+- Proper accessibility for screen readers and braille displays
+- Consistent mathematical content interpretation
+- Compliance with international MathML standards
+- Support for multiple languages (en, no, da, sv, fi, nl, nn)
+
+## Support
+
+For issues and questions related to the Nordic MathML Guidelines, please refer to the official documentation or contact the Nordic agencies.
+
+For technical support with this service, please check the documentation or create an issue in the repository.
