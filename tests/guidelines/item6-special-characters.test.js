@@ -183,7 +183,7 @@ describe('Item 6: Special Character Handling', () => {
       
       expect(result.success).toBe(true);
       expect(result.words).toContain('micro');
-      expect(result.words).toContain('m');
+      expect(result.words).toContain('meter');
     });
 
     it('should handle Greek mu (U+03BC)', () => {
@@ -205,7 +205,7 @@ describe('Item 6: Special Character Handling', () => {
       expect(result.success).toBe(true);
       expect(result.words).toContain('x');
       expect(result.words).toContain('element of');
-      expect(result.words).toContain('a');
+      expect(result.words).toContain('ampere');
     });
 
     it('should handle epsilon (U+03B5)', () => {

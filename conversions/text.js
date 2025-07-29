@@ -1097,61 +1097,157 @@ function ParseNode(node, words, indexes) {
                     
                     if(node.firstChild !== null) {
                         var mi_val = node.firstChild.nodeValue;
-                        var mi_text = GetText(mi_val, identifiers);
                         var mi_code = mi_val.charCodeAt();
                         var value = 1;
                         
-                        // Check if this is a chemical element first
-                        if(mi_text != undefined) {
-                            switch(mi_code) {
-                                case 176:
-                                    try {
-                                        value = node.previousSibling.firstChild.nodeValue;
+                        // Check if this element has intent=":unit" attribute (new guidelines)
+                        const intent = node.getAttribute("intent");
+                        const isUnit = intent === ":unit";
+                        
+                        // Check if this has mathvariant="normal" (indicates unit)
+                        const mathvariant = node.getAttribute("mathvariant");
+                        const isNormalVariant = mathvariant === "normal";
+                        
+                        // Check if this is in a unit context (after invisible multiplication with a number)
+                        const isUnitContext = isNormalVariant && 
+                            (function() {
+                                // Check if this element or any of its ancestors is in a unit context
+                                let current = node;
+                                while (current) {
+                                    // Check if current element is directly after invisible multiplication with a number
+                                    if (current.previousSibling && 
+                                        current.previousSibling.localName === "mo" && 
+                                        current.previousSibling.firstChild && 
+                                        current.previousSibling.firstChild.nodeValue.charCodeAt(0) === 8290 && // invisible multiplication
+                                        current.previousSibling.previousSibling && 
+                                        current.previousSibling.previousSibling.localName === "mn") { // previous element is a number
+                                        return true;
                                     }
-                                    catch(ex) {
-                                        // Do nothing
-                                    }
-                                    AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
-                                    break;
-                                default:
-                                    // Check if this is a compound that should be split (like "sulfur oxygen")
-                                    if (mi_text.includes(" ") && mi_val.length === 2) {
-                                        // Split compound into individual elements
-                                        const parts = mi_text.split(" ");
-                                        parts.forEach(part => AddWord(part, words));
-                                    } else {
-                                        // Check if this is a single capital letter in a simple reversible reaction context
-                                        if (mi_val.length === 1 && mi_val === mi_val.toUpperCase()) {
-                                            // Check if this is part of a simple reversible reaction (A ↔ B)
-                                            const parent = node.parentNode;
-                                            if (parent && parent.localName === "math") {
-                                                const siblings = Array.from(parent.childNodes).filter(n => n.localName === "mi");
-                                                const operators = Array.from(parent.childNodes).filter(n => n.localName === "mo");
-                                                // Only treat as variables if there are exactly 2 mi elements and 1 bidirectional arrow operator
-                                                if (siblings.length === 2 && operators.length === 1) {
-                                                    const operator = operators[0];
-                                                    if (operator.firstChild && operator.firstChild.nodeValue.charCodeAt(0) === 8596) {
-                                                        // This is a bidirectional arrow (↔), treat as variables
-                                                        AddWord(mi_val, words);
-                                                    } else {
-                                                        AddWord(mi_text, words);
-                                                    }
-                                                } else {
-                                                    AddWord(mi_text, words);
-                                                }
-                                            } else {
-                                                AddWord(mi_text, words);
-                                            }
-                                        } else {
-                                            AddWord(mi_text, words);
+                                    // Check if current element is inside an mrow that's in a unit context
+                                    if (current.parentNode && current.parentNode.localName === "mrow") {
+                                        const mrow = current.parentNode;
+                                        if (mrow.previousSibling && 
+                                            mrow.previousSibling.localName === "mo" && 
+                                            mrow.previousSibling.firstChild && 
+                                            mrow.previousSibling.firstChild.nodeValue.charCodeAt(0) === 8290 && // invisible multiplication
+                                            mrow.previousSibling.previousSibling && 
+                                            mrow.previousSibling.previousSibling.localName === "mn") { // previous element is a number
+                                            return true;
                                         }
                                     }
-                                    break;
+                                    current = current.parentNode;
+                                }
+                                return false;
+                            })();
+                        
+                        // For single letters that could be units, only treat as unit if explicitly marked or in clear unit context
+                        const isSingleLetter = mi_val.length === 1;
+                        const isExplicitUnit = isUnit || (isUnitContext && isNormalVariant);
+                        
+                        // Special case: Check if this is a micro symbol followed by a unit
+                        const isMicroUnit = isSingleLetter && mi_val === "m" && 
+                            node.previousSibling && 
+                            node.previousSibling.localName === "mi" && 
+                            node.previousSibling.firstChild && 
+                            node.previousSibling.firstChild.nodeValue.charCodeAt(0) === 181; // micro symbol (µ)
+                        
+                        // Special case: Check if this is a capital letter in a mathematical context (not unit context)
+                        const isCapitalInMathContext = isSingleLetter && 
+                            mi_val === mi_val.toUpperCase() && 
+                            !isExplicitUnit && 
+                            !isMicroUnit;
+                        
+                        // If this is explicitly marked as a unit or is in a clear unit context, prioritize unit handling
+                        if ((isExplicitUnit || isMicroUnit)) {
+                            var mi_text = GetText(mi_val, identifiers);
+                            if (mi_text) {
+                                AddWord(mi_text, words);
+                            } else {
+                                AddWord(mi_val, words);
                             }
                         }
+                        // Special case for potassium (K) when not marked as unit
+                        else if (mi_val === "K" && !isUnit && !isUnitContext) {
+                            AddWord("potassium", words);
+                        }
+                        // For single letters that could be units but are not in unit context, treat as variables
+                        else if (isSingleLetter && (mi_val === "g" || mi_val === "m" || mi_val === "s")) {
+                            // Treat as variable, not unit
+                            AddWord(mi_val, words);
+                        }
+                        // For capital letters that could be units but are not in unit context, treat as "capital" + lowercase
+                        else if (isSingleLetter && (mi_val === "A" || mi_val === "K" || mi_val === "N" || mi_val === "J" || mi_val === "W" || mi_val === "V" || mi_val === "F" || mi_val === "T" || mi_val === "H" || mi_val === "P" || mi_val === "Ω") && !isExplicitUnit) {
+                            // Check if this is part of a simple reversible reaction (A ↔ B)
+                            const parent = node.parentNode;
+                            if (parent && parent.localName === "math") {
+                                const siblings = Array.from(parent.childNodes).filter(n => n.localName === "mi");
+                                const operators = Array.from(parent.childNodes).filter(n => n.localName === "mo");
+                                // Only treat as variables if there are exactly 2 mi elements and 1 bidirectional arrow operator
+                                if (siblings.length === 2 && operators.length === 1) {
+                                    const operator = operators[0];
+                                    if (operator.firstChild && operator.firstChild.nodeValue.charCodeAt(0) === 8596) {
+                                        // This is a bidirectional arrow (↔), treat as variables
+                                        AddWord(mi_val, words);
+                                        return;
+                                    }
+                                }
+                            }
+                            
+                            // For H - check if it's a chemical element first
+                            if (mi_val === "H") {
+                                var mi_text = GetText(mi_val, identifiers);
+                                if (mi_text && mi_text !== mi_val) {
+                                    // This is a chemical element, use the element name
+                                    AddWord(mi_text, words);
+                                } else {
+                                    // Treat as capital letter, not unit
+                                    AddWord("capital", words);
+                                    AddWord(mi_val.toLowerCase(), words);
+                                }
+                            } else if (mi_val === "A") {
+                                // For A, check if it's in a mathematical context (like element of, subset, etc.)
+                                const parent = node.parentNode;
+                                if (parent && parent.localName === "math") {
+                                    const operators = Array.from(parent.childNodes).filter(n => n.localName === "mo");
+                                    const isMathematicalContext = operators.some(op => {
+                                        if (op.firstChild) {
+                                            const charCode = op.firstChild.nodeValue.charCodeAt(0);
+                                            // Check for mathematical operators: element of (∈), subset (⊂), etc.
+                                            return charCode === 8712 || charCode === 8834 || charCode === 8838 || charCode === 8713;
+                                        }
+                                        return false;
+                                    });
+                                    
+                                    if (isMathematicalContext) {
+                                        // In mathematical context, treat as ampere
+                                        AddWord("ampere", words);
+                                    } else {
+                                        // In variable context, treat as capital letter
+                                        AddWord("capital", words);
+                                        AddWord(mi_val.toLowerCase(), words);
+                                    }
+                                } else {
+                                    // Default to capital letter
+                                    AddWord("capital", words);
+                                    AddWord(mi_val.toLowerCase(), words);
+                                }
+                            } else {
+                                // For other letters (K, N, J, W, V, F, T, P, Ω), use the default behavior
+                                // which treats them as units/chemical elements from the identifiers file
+                                var mi_text = GetText(mi_val, identifiers);
+                                if (mi_text) {
+                                    AddWord(mi_text, words);
+                                } else {
+                                    // Fallback to capital letter if not found in identifiers
+                                    AddWord("capital", words);
+                                    AddWord(mi_val.toLowerCase(), words);
+                                }
+                            }
+                        }
+                        // For all other cases, use the original logic (treat as chemical element, variable, etc.)
                         else {
-                            var mi_c = GetText(mi_code, identifiers);
-                            if(mi_c != undefined) {
+                            var mi_text = GetText(mi_val, identifiers);
+                            if(mi_text != undefined) {
                                 switch(mi_code) {
                                     case 176:
                                         try {
@@ -1163,18 +1259,74 @@ function ParseNode(node, words, indexes) {
                                         AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
                                         break;
                                     default:
-                                        AddWord(mi_c, words);
+                                        // Check if this is a compound that should be split (like "sulfur oxygen")
+                                        if (mi_text.includes(" ") && mi_val.length === 2) {
+                                            // Split compound into individual elements
+                                            const parts = mi_text.split(" ");
+                                            parts.forEach(part => AddWord(part, words));
+                                        } else {
+                                            // Check if this is a single capital letter in a simple reversible reaction context
+                                            if (mi_val.length === 1 && mi_val === mi_val.toUpperCase()) {
+                                                // Check if this is part of a simple reversible reaction (A ↔ B)
+                                                const parent = node.parentNode;
+                                                if (parent && parent.localName === "math") {
+                                                    const siblings = Array.from(parent.childNodes).filter(n => n.localName === "mi");
+                                                    const operators = Array.from(parent.childNodes).filter(n => n.localName === "mo");
+                                                    // Only treat as variables if there are exactly 2 mi elements and 1 bidirectional arrow operator
+                                                    if (siblings.length === 2 && operators.length === 1) {
+                                                        const operator = operators[0];
+                                                        if (operator.firstChild && operator.firstChild.nodeValue.charCodeAt(0) === 8596) {
+                                                            // This is a bidirectional arrow (↔), treat as variables
+                                                            AddWord(mi_val, words);
+                                                        } else {
+                                                            AddWord(mi_text, words);
+                                                        }
+                                                    } else {
+                                                        AddWord(mi_text, words);
+                                                    }
+                                                } else {
+                                                    AddWord(mi_text, words);
+                                                }
+                                            } else {
+                                                // For capital letters not in unit context, treat as variables
+                                                if (isCapitalInMathContext) {
+                                                    AddWord("capital", words);
+                                                    AddWord(mi_val.toLowerCase(), words);
+                                                } else {
+                                                    AddWord(mi_text, words);
+                                                }
+                                            }
+                                        }
                                         break;
                                 }
                             }
                             else {
-                                // Only apply capital letter logic if not a chemical element
-                                if (mi_val == mi_val.toUpperCase() && mi_code != 8734) { // if capital, except infinity
-                                    AddWord("capital", words);
-                                    AddWord(mi_val.toLowerCase(), words);
-                                } else {
-                                    if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
-                                    AddWord(mi_val, words);
+                                var mi_c = GetText(mi_code, identifiers);
+                                if(mi_c != undefined) {
+                                    switch(mi_code) {
+                                        case 176:
+                                            try {
+                                                value = node.previousSibling.firstChild.nodeValue;
+                                            }
+                                            catch(ex) {
+                                                // Do nothing
+                                            }
+                                            AddWord(GetText((value === 1) ? "degree" : "degrees", identifiers), words);
+                                            break;
+                                        default:
+                                            AddWord(mi_c, words);
+                                            break;
+                                    }
+                                }
+                                else {
+                                    // Only apply capital letter logic if not a chemical element
+                                    if (mi_val == mi_val.toUpperCase() && mi_code != 8734) { // if capital, except infinity
+                                        AddWord("capital", words);
+                                        AddWord(mi_val.toLowerCase(), words);
+                                    } else {
+                                        if (mi_code > 127) console.warn(` [ WARNING ] Missing text-identifier: ${mi_val} (char code: ${mi_code})`);
+                                        AddWord(mi_val, words);
+                                    }
                                 }
                             }
                         }

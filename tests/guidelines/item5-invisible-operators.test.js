@@ -147,7 +147,7 @@ describe('Item 5: Invisible Operators Updates', () => {
       expect(result.success).toBe(true);
       expect(result.words).toContain('100');
       expect(result.words).toContain('times');
-      expect(result.words).toContain('m');
+      expect(result.words).toContain('meter');
     });
 
     it('should handle complex units with invisible multiplication', () => {
@@ -159,8 +159,8 @@ describe('Item 5: Invisible Operators Updates', () => {
       expect(result.success).toBe(true);
       expect(result.words).toContain('10');
       expect(result.words).toContain('times');
-      expect(result.words).toContain('m');
-      expect(result.words).toContain('s');
+      expect(result.words).toContain('meter');
+      expect(result.words).toContain('second');
     });
   });
 
