@@ -57,7 +57,9 @@
         { "name": "yields", "value": "yields" },
         { "name": "plus", "value": "plus" },
         { "name": "subscript", "value": "subscript" },
-        { "name": "superscript", "value": "superscript" }
+        { "name": "superscript", "value": "superscript" },
+        { "name": "equation", "value": "equation" },
+        { "name": "label", "value": "label" }
     ],
     "chars": [
         { "code": 40, "value": "left parenthesis" },

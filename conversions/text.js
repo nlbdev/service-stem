@@ -195,23 +195,54 @@ function ParenthesisTextClose(node, words) {
  * @param {Array<String>} words The words array
  */
 function RaisedLoweredText(node, words) {
-    if (node.parentNode != null && node.parentNode.localName == "msup") {
-        if(node.previousSibling != null && (node.previousSibling.localName == "mi" || node.previousSibling.localName == "mn" || node.previousSibling.localName == "mrow" || node.previousSibling.localName == "mfenced")) {
-            if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
-                // Derivative is handled elsewhere
-                AddWord(GetText("derivative", misc), words);
+    // Check if this is inside a labeled equation
+    let isInLabeledEquation = false;
+    let parent = node.parentNode;
+    while (parent) {
+        if (parent.localName === "mtable") {
+            // Check if this mtable is a labeled equation
+            if (parent.childNodes.length > 0) {
+                const firstRow = parent.childNodes[0];
+                if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                    const firstCell = firstRow.childNodes[0];
+                    if (firstCell && firstCell.localName === "mtd") {
+                        const intent = firstCell.getAttribute("intent");
+                        if (intent === ":equation-label") {
+                            isInLabeledEquation = true;
+                            break;
+                        } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                            const labelText = firstCell.firstChild.firstChild.nodeValue;
+                            if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                isInLabeledEquation = true;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
-                // Double derivative is handled elsewhere
-                AddWord(GetText("double derivative", misc), words);
-            }
-            else {
+        }
+        parent = parent.parentNode;
+    }
+    
+    if (node.parentNode != null && node.parentNode.localName == "msup" && node == node.parentNode.firstChild) {
+        if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8242) {
+            // Derivative is handled elsewhere
+            AddWord(GetText("derivative", misc), words);
+        }
+        else if (node.firstChild.nodeValue != null && node.firstChild.nodeValue.charCodeAt() == 8243) {
+            // Double derivative is handled elsewhere
+            AddWord(GetText("double derivative", misc), words);
+        }
+        else {
+            if (!isInLabeledEquation) {
                 AddWord(GetText("to the power of", misc), words);
             }
         }
     }
     if(node.parentNode != null && node.parentNode.localName == "mrow" && node.parentNode.parentNode != null && node.parentNode.parentNode.localName == "msup" && node == node.parentNode.firstChild) {
-        AddWord(GetText("to the power of", misc), words);
+        if (!isInLabeledEquation) {
+            AddWord(GetText("to the power of", misc), words);
+        }
     }
 }
 
@@ -388,9 +419,88 @@ function ParseNode(node, words, indexes) {
                     }
                     break;
                 case "mtable":
-                    AddWord(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`, words);
-                    StandardLoop(node, words, 0, indexes);
-                    AddWord(`${GetText("matrix", misc)} ${GetText("end", misc)},`, words);
+                    // Check if this is a labeled equation (has intent=":equation-label" in first cell)
+                    let isLabeledEquation = false;
+                    if (node.childNodes.length > 0) {
+                        const firstRow = node.childNodes[0];
+                        if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                            const firstCell = firstRow.childNodes[0];
+                            if (firstCell && firstCell.localName === "mtd") {
+                                const intent = firstCell.getAttribute("intent");
+                                if (intent === ":equation-label") {
+                                    isLabeledEquation = true;
+                                } else {
+                                    // Check if first cell contains text that looks like a label (e.g., "(1.4)")
+                                    if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                                        const labelText = firstCell.firstChild.firstChild.nodeValue;
+                                        if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                            isLabeledEquation = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (isLabeledEquation) {
+                        // Handle as labeled equation - simpler approach
+                        AddWord(`${GetText("equation", misc)} ${GetText("start", misc)},`, words);
+                        // Process each row directly without detailed cell breakdown
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            const row = node.childNodes[i];
+                            if (row && row.localName === "mtr") {
+                                // Process each cell in the row
+                                for (let j = 0; j < row.childNodes.length; j++) {
+                                    const cell = row.childNodes[j];
+                                    if (cell && cell.localName === "mtd") {
+                                        ParseNode(cell, words, indexes);
+                                    }
+                                }
+                            }
+                        }
+                        AddWord(`${GetText("equation", misc)} ${GetText("end", misc)},`, words);
+                    } else {
+                        // Check if this is inside a labeled equation (for nested matrices)
+                        let isInsideLabeledEquation = false;
+                        let parent = node.parentNode;
+                        while (parent) {
+                            if (parent.localName === "mtable") {
+                                // Check if this parent mtable is a labeled equation
+                                if (parent.childNodes.length > 0) {
+                                    const firstRow = parent.childNodes[0];
+                                    if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                                        const firstCell = firstRow.childNodes[0];
+                                        if (firstCell && firstCell.localName === "mtd") {
+                                            const intent = firstCell.getAttribute("intent");
+                                            if (intent === ":equation-label") {
+                                                isInsideLabeledEquation = true;
+                                                break;
+                                            } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                                                const labelText = firstCell.firstChild.firstChild.nodeValue;
+                                                if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                                    isInsideLabeledEquation = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            parent = parent.parentNode;
+                        }
+                        
+                        if (isInsideLabeledEquation) {
+                            // Use simpler matrix text when inside labeled equations
+                            AddWord(GetText("matrix", misc), words);
+                            StandardLoop(node, words, 0, indexes);
+                        } else {
+                            // Handle as regular matrix
+                            AddWord(GetText("matrix", misc), words);
+                            AddWord(`${GetText("matrix", misc)} ${GetText("start", misc)}, ${GetText("the matrix contains", misc)} ${node.childNodes.length} ${GetText("rows", misc)},`, words);
+                            StandardLoop(node, words, 0, indexes);
+                            AddWord(`${GetText("matrix", misc)} ${GetText("end", misc)},`, words);
+                        }
+                    }
                     break;
                 case "mtr":
                 case "mlabeledtr":
@@ -399,12 +509,70 @@ function ParseNode(node, words, indexes) {
                     for (var y = 0; y < node.childNodes.length; y++) {
                         AddWord(`${GetText("cell", misc)} ${y+1} ${GetText("contains", misc)}`, words);
                         ParseNode(node.childNodes[y], words, indexes);
-                        words[words.length-1] = `${words[words.length-1]},`;
+                        
+                        // Only add commas for equation label cells (not for regular matrices)
+                        const cellNode = node.childNodes[y];
+                        if (cellNode && cellNode.localName === "mtd") {
+                            const intent = cellNode.getAttribute("intent");
+                            if (intent === ":equation-label") {
+                                // Don't add comma for equation labels
+                            } else {
+                                // Add comma for other cells in labeled equations
+                                let isInLabeledEquation = false;
+                                let parent = node.parentNode;
+                                while (parent) {
+                                    if (parent.localName === "mtable") {
+                                        if (parent.childNodes.length > 0) {
+                                            const firstRow = parent.childNodes[0];
+                                            if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                                                const firstCell = firstRow.childNodes[0];
+                                                if (firstCell && firstCell.localName === "mtd") {
+                                                    const intent = firstCell.getAttribute("intent");
+                                                    if (intent === ":equation-label") {
+                                                        isInLabeledEquation = true;
+                                                        break;
+                                                    } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                                                        const labelText = firstCell.firstChild.firstChild.nodeValue;
+                                                        if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                                            isInLabeledEquation = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    parent = parent.parentNode;
+                                }
+                                
+                                if (isInLabeledEquation) {
+                                    words[words.length-1] = `${words[words.length-1]},`;
+                                }
+                            }
+                        }
                     }
                     AddWord(`${GetText("row", misc)} ${GetText("end", misc)},`, words);
                     break;
                 case "mtd":
-                    StandardLoop(node, words, 0, indexes);
+                    // Check if this is an equation label
+                    const intent = node.getAttribute("intent");
+                    if (intent === ":equation-label") {
+                        AddWord(`${GetText("label", misc)}`, words);
+                        StandardLoop(node, words, 0, indexes);
+                    } else {
+                        // Check if this cell contains text that looks like a label (e.g., "(1.4)")
+                        if (node.firstChild && node.firstChild.localName === "mtext") {
+                            const labelText = node.firstChild.firstChild.nodeValue;
+                            if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                AddWord(`${GetText("label", misc)}`, words);
+                                StandardLoop(node, words, 0, indexes);
+                            } else {
+                                StandardLoop(node, words, 0, indexes);
+                            }
+                        } else {
+                            StandardLoop(node, words, 0, indexes);
+                        }
+                    }
                     break;
                 case "msub":
                     DividendText(node, words);
@@ -464,20 +632,53 @@ function ParseNode(node, words, indexes) {
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
                     if(node.childNodes.length >= 2) {
-                        // Check if this is likely a chemical charge (base is + or -)
-                        const baseElement = node.childNodes[0];
-                        if (baseElement && baseElement.localName === "mo" && baseElement.firstChild) {
-                            const baseValue = baseElement.firstChild.nodeValue;
-                            // If it's a charge operator, use "superscript"
-                            if (baseValue === "+" || baseValue === "-" || baseValue === "−") {
-                                AddWord(GetText("superscript", misc), words);
+                        // Check if this is inside a labeled equation
+                        let isInLabeledEquation = false;
+                        let parent = node.parentNode;
+                        while (parent) {
+                            if (parent.localName === "mtable") {
+                                // Check if this mtable is a labeled equation
+                                if (parent.childNodes.length > 0) {
+                                    const firstRow = parent.childNodes[0];
+                                    if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                                        const firstCell = firstRow.childNodes[0];
+                                        if (firstCell && firstCell.localName === "mtd") {
+                                            const intent = firstCell.getAttribute("intent");
+                                            if (intent === ":equation-label") {
+                                                isInLabeledEquation = true;
+                                                break;
+                                            } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                                                const labelText = firstCell.firstChild.firstChild.nodeValue;
+                                                if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                                    isInLabeledEquation = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            parent = parent.parentNode;
+                        }
+                        
+                        if (isInLabeledEquation) {
+                            AddWord(GetText("superscript", misc), words);
+                        } else {
+                            // Check if this is likely a chemical charge (base is + or -)
+                            const baseElement = node.childNodes[0];
+                            if (baseElement && baseElement.localName === "mo" && baseElement.firstChild) {
+                                const baseValue = baseElement.firstChild.nodeValue;
+                                // If it's a charge operator, use "superscript"
+                                if (baseValue === "+" || baseValue === "-" || baseValue === "−") {
+                                    AddWord(GetText("superscript", misc), words);
+                                } else {
+                                    const upperIndexText = GetText("with the upper index", misc);
+                                    if (upperIndexText) AddWord(upperIndexText, words);
+                                }
                             } else {
                                 const upperIndexText = GetText("with the upper index", misc);
                                 if (upperIndexText) AddWord(upperIndexText, words);
                             }
-                        } else {
-                            const upperIndexText = GetText("with the upper index", misc);
-                            if (upperIndexText) AddWord(upperIndexText, words);
                         }
                         ParseNode(node.childNodes[0], words, indexes);
                         StandardLoop(node, words, 1, indexes);
@@ -643,7 +844,42 @@ function ParseNode(node, words, indexes) {
                 case "mfrac":
                     RaisedLoweredText(node, words);
                     if(IsExp(node)) AddWord(`${GetText("the", misc)} ${GetText("expression", misc)}`, words);
-                    AddWord(GetText("fraction with counter", misc), words);
+                    
+                    // Check if this is inside a labeled equation
+                    let isInLabeledEquation = false;
+                    let parent = node.parentNode;
+                    while (parent) {
+                        if (parent.localName === "mtable") {
+                            // Check if this mtable is a labeled equation
+                            if (parent.childNodes.length > 0) {
+                                const firstRow = parent.childNodes[0];
+                                if (firstRow && firstRow.localName === "mtr" && firstRow.childNodes.length > 0) {
+                                    const firstCell = firstRow.childNodes[0];
+                                    if (firstCell && firstCell.localName === "mtd") {
+                                        const intent = firstCell.getAttribute("intent");
+                                        if (intent === ":equation-label") {
+                                            isInLabeledEquation = true;
+                                            break;
+                                        } else if (firstCell.firstChild && firstCell.firstChild.localName === "mtext") {
+                                            const labelText = firstCell.firstChild.firstChild.nodeValue;
+                                            if (labelText && /^\([^)]+\)$/.test(labelText)) {
+                                                isInLabeledEquation = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        parent = parent.parentNode;
+                    }
+                    
+                    if (isInLabeledEquation) {
+                        AddWord(GetText("fraction", misc), words);
+                    } else {
+                        AddWord(GetText("fraction with counter", misc), words);
+                    }
+                    
                     StandardLoop(node, words, 0, indexes);
                     AddWord(`${GetText("fraction", misc)} ${GetText("end", misc)},`, words);
                     if(IsExp(node)) AddWord(`${GetText("expression", misc)} ${GetText("end", misc)},`, words);
@@ -818,7 +1054,28 @@ function ParseNode(node, words, indexes) {
                 case "mtext":
                     DividendText(node, words);
                     RaisedLoweredText(node, words);
-                    if(node.firstChild !== null) AddWord(node.firstChild.nodeValue, words);
+                    if(node.firstChild !== null) {
+                        let textValue = node.firstChild.nodeValue;
+                        
+                        // Check if this mtext is being used as an equation label
+                        // (parent is mtd with intent=":equation-label")
+                        const parent = node.parentNode;
+                        if (parent && parent.localName === "mtd") {
+                            const intent = parent.getAttribute("intent");
+                            if (intent === ":equation-label") {
+                                // Strip parentheses from equation labels
+                                textValue = textValue.replace(/^\(|\)$/g, '');
+                            } else {
+                                // Check if this looks like a label pattern (e.g., "(1.4)")
+                                if (/^\([^)]+\)$/.test(textValue)) {
+                                    // Strip parentheses from equation labels
+                                    textValue = textValue.replace(/^\(|\)$/g, '');
+                                }
+                            }
+                        }
+                        
+                        AddWord(textValue, words);
+                    }
                     break;
                 case "mn":
                     DividendText(node, words);
