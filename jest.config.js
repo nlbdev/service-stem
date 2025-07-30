@@ -11,10 +11,10 @@ module.exports = {
   
   // Coverage configuration
   collectCoverageFrom: [
-    'index.js',
     'conversions/**/*.js',
     '!**/node_modules/**',
-    '!**/tests/**'
+    '!**/tests/**',
+    '!index.js'
   ],
   
   // Coverage thresholds
