@@ -34,12 +34,16 @@ jobs:
       
     - name: Run linting
       id: lint
-      run: pnpm lint
+      run: |
+        pnpm lint
+        echo "exit_code=$?" >> $GITHUB_OUTPUT
       continue-on-error: true
       
     - name: Run tests
       id: test
-      run: pnpm test:coverage
+      run: |
+        pnpm test:coverage
+        echo "exit_code=$?" >> $GITHUB_OUTPUT
       continue-on-error: true
       
     - name: Check test coverage
@@ -79,8 +83,8 @@ jobs:
             console.error('Error reading coverage file:', error);
           }
           
-          const lintStatus = process.env.LINT_EXIT_CODE === '0' ? '✅ Passed' : '❌ Failed';
-          const testStatus = process.env.TEST_EXIT_CODE === '0' ? '✅ Passed' : '❌ Failed';
+          const lintStatus = '${{ steps.lint.outputs.exit_code }}' === '0' ? '✅ Passed' : '❌ Failed';
+          const testStatus = '${{ steps.test.outputs.exit_code }}' === '0' ? '✅ Passed' : '❌ Failed';
           
           const comment = `## PR Check Results
           
