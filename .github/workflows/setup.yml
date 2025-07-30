@@ -85,7 +85,7 @@ jobs:
         **Environment:**
         - OS: [e.g. Ubuntu 20.04]
         - Node.js version: [e.g. 20.x]
-        - Package manager: [e.g. pnpm 10.12.4]
+        - Package manager: [e.g. pnpm 10.13.1]
         
         **Additional context**
         Add any other context about the problem here.
