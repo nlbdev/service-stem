@@ -9,6 +9,50 @@ module.exports = {
     '**/__tests__/**/*.js'
   ],
   
+  // Test organization
+  projects: [
+    {
+      displayName: 'unit',
+      testMatch: ['<rootDir>/tests/unit/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'integration',
+      testMatch: ['<rootDir>/tests/integration/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'api',
+      testMatch: ['<rootDir>/tests/api/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'performance',
+      testMatch: ['<rootDir>/tests/performance/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'validation',
+      testMatch: ['<rootDir>/tests/validation/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'backward-compatibility',
+      testMatch: ['<rootDir>/tests/backward-compatibility/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'translations',
+      testMatch: ['<rootDir>/tests/translations/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'guidelines',
+      testMatch: ['<rootDir>/tests/guidelines/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    }
+  ],
+  
   // Coverage configuration
   collectCoverageFrom: [
     'conversions/**/*.js',

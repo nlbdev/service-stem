@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../conversions/text');
+const { GenerateMath } = require('../../../conversions/text');
 
 describe('Item 6: Special Character Handling', () => {
   beforeEach(() => {

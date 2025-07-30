@@ -7,14 +7,14 @@ describe('Norwegian Translation Integration Tests', () => {
 
     beforeAll(() => {
         // Load translation files
-        const translationsDir = path.join(__dirname, '..', 'translations');
+        const translationsDir = path.join(__dirname, '..', '..', 'translations');
         noTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'no.json'), 'utf8'));
         nbTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'nb.json'), 'utf8'));
         nnTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'nn.json'), 'utf8'));
         enTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'en.json'), 'utf8'));
 
         // Load data files
-        const dataDir = path.join(__dirname, '..', 'conversions', 'data');
+        const dataDir = path.join(__dirname, '..', '..', 'conversions', 'data');
         textIdentifiers = JSON.parse(fs.readFileSync(path.join(dataDir, 'text-identifiers.json'), 'utf8'));
         textMisc = JSON.parse(fs.readFileSync(path.join(dataDir, 'text-misc.json'), 'utf8'));
         textOperators = JSON.parse(fs.readFileSync(path.join(dataDir, 'text-operators.json'), 'utf8'));

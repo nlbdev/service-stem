@@ -8,7 +8,7 @@ const createTestApp = () => {
     const jsonParser = bodyParser.json();
     
     // Mock the required modules
-    jest.mock('../conversions/text', () => ({
+    jest.mock('../../conversions/text', () => ({
         GenerateMath: jest.fn((content, alixThresholds) => {
             // Mock different responses based on content
             if (content.includes('invisible multiplication')) {
@@ -39,7 +39,7 @@ const createTestApp = () => {
         })
     }));
     
-    jest.mock('../validation', () => ({
+    jest.mock('../../validation', () => ({
         validateMathML: jest.fn((content) => {
             // Mock validation based on content
             if (content.includes('<mfenced>') || content.includes('<m:math')) {
@@ -84,7 +84,7 @@ const createTestApp = () => {
         }
 
         // Mock validation
-        const { validateMathML } = require('../validation');
+        const { validateMathML } = require('../../validation');
         const validationResult = validateMathML(content);
         
         if (!validationResult.isValid) {

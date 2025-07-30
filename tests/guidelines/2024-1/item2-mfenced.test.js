@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../conversions/text');
+const { GenerateMath } = require('../../../conversions/text');
 
 describe('Item 2: mfenced Deprecation Handling', () => {
   beforeEach(() => {

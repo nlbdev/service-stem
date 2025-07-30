@@ -1,4 +1,4 @@
-const { validateMathML } = require('../validation');
+const { validateMathML } = require('../../validation');
 
 describe('MathML Validation', () => {
   describe('Deprecated Elements Validation', () => {

@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Import the actual processing functions for performance testing
-const { GenerateMath } = require('../conversions/text');
-const { validateMathML } = require('../validation');
+const { GenerateMath } = require('../../conversions/text');
+const { validateMathML } = require('../../validation');
 
 describe('Performance Tests', () => {
     let app;

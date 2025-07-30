@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Mock dependencies for testing
-jest.mock('../conversions/text', () => ({
+jest.mock('../../conversions/text', () => ({
     GenerateMath: jest.fn((content, alixThresholds) => {
         return {
             success: true,
@@ -13,7 +13,7 @@ jest.mock('../conversions/text', () => ({
     })
 }));
 
-jest.mock('../validation', () => ({
+jest.mock('../../validation', () => ({
     validateMathML: jest.fn((content, options) => {
         return {
             isValid: true,

@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../conversions/text.js');
+const { GenerateMath } = require('../../../conversions/text');
 
 describe('Item 8: Labeled Equations Support', () => {
   describe('Basic Labeled Equations', () => {
