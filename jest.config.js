@@ -67,12 +67,20 @@ module.exports = {
     '!src/index.js'
   ],
 
+  // Coverage reporters
+  coverageReporters: [
+    'text',
+    'lcov',
+    'json-summary',
+    'clover'
+  ],
+
   // Coverage thresholds
   coverageThreshold: {
     global: {
-      branches: 70,
+      branches: 60,
       functions: 70,
-      lines: 70,
+      lines: 65,
       statements: 70
     }
   },

@@ -43,7 +43,7 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "ci": "npm run lint && npm run test:coverage"
+    "ci": "pnpm run lint && pnpm run test:coverage"
   },
   "repository": {
     "type": "git",
