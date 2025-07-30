@@ -1,334 +1,5098 @@
 [
-    { "search": "prior to", "replace": "før"},
-    { "search": "is less than", "replace": "er mindre enn"},
-    { "search": "is more than", "replace": "er større enn"},
-    { "search": "the derivative of the expression", "replace": "den deriverte av uttrykket"},
-    { "search": "the double derivative of the expression", "replace": "den dobbeltderiverte av uttrykket"},
-    { "search": "withdraws", "replace": "trekker seg tilbake frå"},
-    { "search": "leftwards double arrow", "replace": "dobbelt venstrepil"},
-    { "search": "leftward arrow", "replace": "venstrepil"},
-    { "search": "rightward arrow", "replace": "høyrepil"},
-    { "search": "arrow", "replace": "pil"},
-    { "search": "upwards double", "replace": "dobbelt oppovergåande"},
-    { "search": "downwards double", "replace": "dobbelt nedovergåande"},
-    { "search": "upwards", "replace": "oppovergåande"},
-    { "search": "downwards", "replace": "nedovergåande"},
-    { "search": "left right double", "replace": "dobbel venstre-høgre"},
-    { "search": "left right", "replace": "venstre-høgre"},
-    { "search": "left-right", "replace": "venstre-høgre"},
-    { "search": "with corner", "replace": "med hjørne"},
-    { "search": "leftwards", "replace": "til venstre"},
-    { "search": "leftward", "replace": "til venstre"},
-    { "search": "left parenthesis matrix start,", "replace": "matrise start,"},
-    { "search": "matrix end right parenthesis", "replace": "matrise slutt,"},
-    { "search": "left parenthesis", "replace": "venstreparentes"},
-    { "search": "right parenthesis", "replace": "høgreparentes"},
-    { "search": "left square bracket", "replace": "venstre hakeparentes"},
-    { "search": "right square bracket", "replace": "høgre hakeparentes"},
-    { "search": "left curly bracket", "replace": "venstre krøllparentes"},
-    { "search": "right curly bracket", "replace": "høgre krøllparentes"},
-    { "search": "absolute value", "replace": "absoluttverdi"},
-    { "search": "parenthesis", "replace": "parentes"},
-    { "search": "square bracket", "replace": "hakeparentes"},
-    { "search": "curly bracket", "replace": "krøllparentes"},
-    { "search": "proportional to angla", "replace": "proporsjonal til vinkel"},
-    { "search": "divided by", "replace": "delt på"},
-    { "search": "dot operator", "replace": "gonger"},
-    { "search": "asterisk operator", "replace": "gonger"},
-    { "search": "tilde operator", "replace": "ca"},
-    { "search": "the matrix contains", "replace": "matrisen inneheld"},
-    { "search": "physics formula", "replace": "fysikkformel"},
-    { "search": "chemical formula", "replace": "kjemisk formel"},
-    { "search": "contour integral", "replace": "konturintegralet av"},
-    { "search": "double integral", "replace": "dobbeltintegral"},
-    { "search": "triple integral", "replace": "trippeltintegral"},
-    { "search": "the integral", "replace": "integralen"},
-    { "search": "integral", "replace": "integral"},
-    { "search": "differential", "replace": "differensial"},
-    { "search": "the natural logarithm", "replace": "den naturlege logaritmen til"},
-    { "search": "the natural logarithm of", "replace": "den naturlege logaritmen til"},
-    { "search": "the logarithm", "replace": "logaritmen"},
-    { "search": "logarithm", "replace": "logaritme"},
-    { "search": "the function", "replace": "funksjonen"},
-    { "search": "fraction with counter", "replace": "brøk med tel"},
-    { "search": "and denominator", "replace": "og med nemnar"},
-    { "search": "the square root of", "replace": "kvadratroten av"},
-    { "search": "to the power of", "replace": "opphøgt i"},
-    { "search": "power", "replace": "potens"},
-    { "search": "opphøgt i to the power of", "replace": "opphøgt i"},
-    { "search": "of the expression", "replace": "av uttrykket"},
-    { "search": "limit with the lower index", "replace": "grense for"},
-    { "search": "lim with the lower index", "replace": "grense for"},
-    { "search": "with the lower limit", "replace": "med nedre grense"},
-    { "search": "with the lower lim", "replace": "med nedre grense"},
-    { "search": "and with the upper limit", "replace": "og med øvre grense"},
-    { "search": "and with the upper lim", "replace": "og med øvre grense"},
-    { "search": "limit", "replace": "grense"},
-    { "search": "lim", "replace": "grense"},
-    { "search": "capital degrees C", "replace": "grader celcius"},
-    { "search": "capital degrees F", "replace": "grader fahrenheit"},
-    { "search": "capital degrees", "replace": "grader"},
-    { "search": "large degrees C", "replace": "grader celcius"},
-    { "search": "large degrees F", "replace": "grader fahrenheit"},
-    { "search": "large degrees", "replace": "grader"},
-    { "search": "approaches", "replace": "som beveger seg mot"},
-    { "search": "the double derivative", "replace": "den dobbelderiverte"},
-    { "search": "double derivative", "replace": "dobbelderivert"},
-    { "search": "the derivative", "replace": "han deriverte"},
-    { "search": "derivative", "replace": "derivert"},
-    { "search": "vector", "replace": "vektor"},
-    { "search": "with respect to", "replace": "med omsyn til"},
-    { "search": "for every", "replace": "for kvar"},
-    { "search": "implies", "replace": "tilseier"},
-    { "search": "function", "replace": "funksjon"},
-    { "search": "partial", "replace": "partielle"},
-    { "search": "there exist", "replace": "som eksisterer"},
-    { "search": "rows", "replace": "rader"},
-    { "search": "contains", "replace": "inneheld"},
-    { "search": "row", "replace": "rad"},
-    { "search": "cells", "replace": "kolonnar"},
-    { "search": "cell", "replace": "celle"},
-    { "search": "degrees", "replace": "grader"},
-    { "search": "degree", "replace": "grad"},
-    { "search": "logical and", "replace": "logisk og"},
-    { "search": "logical or", "replace": "logisk eller"},
-    { "search": "less-than or equal to", "replace": "er mindre enn eller lik,"},
-    { "search": "greater-than or equal to", "replace": "er større enn eller lik,"},
-    { "search": "fraction", "replace": "brøk"},
-    { "search": "up tack", "replace": "stift"},
-    { "search": "index", "replace": "indeks"},
-    { "search": "the lower", "replace": "nedre"},
-    { "search": "the upper", "replace": "øvre"},
-    { "search": "intersection", "replace": "kryssning"},
-    { "search": "square root", "replace": "kvadratrot"},
-    { "search": "root", "replace": "rot"},
-    { "search": "the expression", "replace": "uttrykket"},
-    { "search": "expression", "replace": "uttrykk"},
-    { "search": "therefore", "replace": "derfor"},
-    { "search": "sine", "replace": "sinus"},
-    { "search": "cosine", "replace": "cosinus"},
-    { "search": "tangent", "replace": "tangens"},
-    { "search": "cotangent", "replace": "cotangens"},
-    { "search": "hyperbolic", "replace": "hyperbolsk"},
-    { "search": "capital", "replace": "stor"},
-    { "search": "large", "replace": "stor"},
-    { "search": "left ceiling", "replace": "venstre tak"},
-    { "search": "right ceiling", "replace": "høgre tak"},
-    { "search": "left floor", "replace": "venstre golv"},
-    { "search": "right floor", "replace": "høgre golv"},
-    { "search": "left-pointing", "replace": "venstre-pekende"},
-    { "search": "right-pointing", "replace": "høyre-pekende"},
-    { "search": "angl bracket", "replace": "vinkelbrakett"},
-    { "search": "bracket", "replace": "brakett"},
-    { "search": "alpha", "replace": "alfa"},
-    { "search": "beta", "replace": "beta"},
-    { "search": "gamma", "replace": "gamma"},
-    { "search": "delta", "replace": "delta"},
-    { "search": "theta", "replace": "theta"},
-    { "search": "pi", "replace": "pi"},
-    { "search": "final sigma", "replace": "endeleg sigma"},
-    { "search": "upsilon with hook", "replace": "upsilon med krok"},
-    { "search": "bullet point", "replace": "kulepunkt"},
-    { "search": "et cetera", "replace": "og så vidare"},
-    { "search": "overline", "replace": "overlinje"},
-    { "search": "fraction slash", "replace": "brøkstrek"},
-    { "search": "imaginary part", "replace": "imaginær del"},
-    { "search": "real part", "replace": "ekte del"},
-    { "search": "trade mark", "replace": "varemerke"},
-    { "search": "first transfinite cardinal", "replace": "første transfinite kardinal"},
-    { "search": "infinity", "replace": "uendeleg"},
-    { "search": "spades", "replace": "spar"},
-    { "search": "clubs", "replace": "kløver"},
-    { "search": "hearts", "replace": "hjarte"},
-    { "search": "diamonds", "replace": "ruter"},
-    { "search": "K ", "replace": "kelvin "},
-    { "search": "a subset", "replace": "ei undergruppe"},
-    { "search": "subset", "replace": "undergruppe"},
-    { "search": "a superset", "replace": "ein overgruppe"},
-    { "search": "superset", "replace": "overgruppe"},
-    { "search": "approximately equal to", "replace": "er tilnærma lik,"},
-    { "search": "almost equal to", "replace": "er nesten lik,"},
-    { "search": "identical to", "replace": "er identisk til,"},
-    { "search": "equal to", "replace": "er lik,"},
-    { "search": "equals", "replace": "er lik,"},
-    { "search": "formula", "replace": "formel"},
-    { "search": "end,", "replace": "slutt,"},
-    { "search": "end", "replace": "slutt"},
-    { "search": "radical", "replace": "radikal"},
-    { "search": "square", "replace": "kvadrat"},
-    { "search": "cube", "replace": "kube"},
-    { "search": "fourth", "replace": "fjerde"},
-    { "search": "fifth", "replace": "femte"},
-    { "search": "sixth", "replace": "sjette"},
-    { "search": "seventh", "replace": "sjuande"},
-    { "search": "eight", "replace": "åttande"},
-    { "search": "ninth", "replace": "niande"},
-    { "search": "tenth", "replace": "tiande"},
-    { "search": "macron", "replace": "makronteikn"},
-    { "search": "apostrophe", "replace": "apostrof"},
-    { "search": "the arithmetic mean", "replace": "det aritmetiske gjennomsnittet"},
-    { "search": "of a set of values", "replace": "av eit verdisett"},
-    { "search": "nth", "replace": "-ende"},
-    { "search": "uttrykk slutt, derivert", "replace": "uttrykk slutt,"},
-    { "search": "uttrykk slutt, dobbelderivert", "replace": "uttrykk slutt,"},
-    { "search": "uttrykk slutt, trippelderivert", "replace": "uttrykk slutt,"},
-    { "search": "matrix", "replace": "matrise"},
-    { "search": "opphøgt i 2", "replace": "i annan"},
-    { "search": "opphøgt i i annan", "replace": "i annan"},
-    { "search": "opphøgt i opphøgt i", "replace": "opphøgt i"},
-    { "search": "stor et cetera", "replace": "og så vidare,"},
-    { "search": "stor og så vidare", "replace": "og så vidare,"},
-    { "search": "grader stor c", "replace": "grader celcius"},
-    { "search": "grader stor f", "replace": "grader fahrenheit"},
-    { "search": "det aritmetiske gjennomsnittet det aritmetiske gjennomsnittet", "replace": "det aritmetiske gjennomsnittet"},
-    { "search": "av eit verdisett av eit verdisett", "replace": "av eit verdisett"},
-    { "search": "circled plus", "replace": "sirkel rundt plussteikn"},
-    { "search": "plus", "replace": "pluss"},
-    { "search": "minus", "replace": "minus"},
-    { "search": "circled times", "replace": "sirkel rundt gongeteikn"},
-    { "search": "times", "replace": "gonger"},
-    { "search": "multiplied by", "replace": "gonger"},
-    { "search": "not", "replace": "ikkje"},
-    { "search": "stor grad", "replace": "grad"},
-    { "search": "stor gradar", "replace": "grader"},
-    { "search": "an element", "replace": "eit element"},
-    { "search": "product", "replace": "produkt"},
-    { "search": "of", "replace": "av"},
-    { "search": "and", "replace": "og"},
-    { "search": "or", "replace": "eller"},
-    { "search": "with", "replace": "med"},
-    { "search": "equation", "replace": "ligning"},
-    { "search": "math", "replace": "matematisk"},
-    { "search": "den naturlege logaritmen til av", "replace": "den naturlege logaritmen til"},
-    { "search": "undefined", "replace": ""},
-    { "search": "expression end derivative", "replace": "uttrykk slutt, derivert"},
-    { "search": "expression end double derivative", "replace": "uttrykk slutt, dobbelderivert"},
-    { "search": "to the power of to the power of", "replace": "opphøgt i"},
-    { "search": "to the power of 2", "replace": "i annan"},
-    { "search": "of a set of values, of a set of values,", "replace": "av eit verdisett"},
-    { "search": "start ", "replace": "start, "},
-    { "search": "arcus sine", "replace": "arcus sinus"},
-    { "search": "arcus cosine", "replace": "arcus cosinus"},
-    { "search": "arcus tangent", "replace": "arcus tangens"},
-    { "search": "hyperbolic sine", "replace": "hyperbolsk sinus"},
-    { "search": "hyperbolic cosine", "replace": "hyperbolsk cosinus"},
-    { "search": "hyperbolic tangent", "replace": "hyperbolsk tangens"},
-    { "search": "hyperbolic cotangent", "replace": "hyperbolsk cotangens"},
-    { "search": "hyperbolic secant", "replace": "hyperbolsk sekant"},
-    { "search": "hyperbolic cosecant", "replace": "hyperbolsk cosekant"},
-    { "search": "hyperbolic arcus sine", "replace": "hyperbolsk arcus sinus"},
-    { "search": "hyperbolic arcus cosine", "replace": "hyperbolsk arcus cosinus"},
-    { "search": "hyperbolic arcus tangent", "replace": "hyperbolsk arcus tangens"},
-    { "search": "hyperbolic arcus cotangent", "replace": "hyperbolsk arcus cotangens"},
-    { "search": "secant", "replace": "sekant"},
-    { "search": "cosecant", "replace": "cosekant"},
-    { "search": "arcus cotangent", "replace": "arcus cotangens"},
-    { "search": "arcus secant", "replace": "arcus sekant"},
-    { "search": "arcus cosecant", "replace": "arcus cosekant"},
-    { "search": "leftward arrow", "replace": "venstrepil"},
-    { "search": "rightward arrow", "replace": "høyrepil"},
-    { "search": "hydrogen", "replace": "hydrogen"},
-    { "search": "helium", "replace": "helium"},
-    { "search": "lithium", "replace": "litium"},
-    { "search": "beryllium", "replace": "beryllium"},
-    { "search": "boron", "replace": "bor"},
-    { "search": "carbon", "replace": "karbon"},
-    { "search": "nitrogen", "replace": "nitrogen"},
-    { "search": "oxygen", "replace": "oksygen"},
-    { "search": "fluorine", "replace": "fluor"},
-    { "search": "neon", "replace": "neon"},
-    { "search": "sodium", "replace": "natrium"},
-    { "search": "magnesium", "replace": "magnesium"},
-    { "search": "aluminum", "replace": "aluminium"},
-    { "search": "silicon", "replace": "silisium"},
-    { "search": "phosphorus", "replace": "fosfor"},
-    { "search": "sulfur", "replace": "svovel"},
-    { "search": "chlorine", "replace": "klor"},
-    { "search": "argon", "replace": "argon"},
-    { "search": "potassium", "replace": "kalium"},
-    { "search": "calcium", "replace": "kalsium"},
-    { "search": "iron", "replace": "jarn"},
-    { "search": "copper", "replace": "kopar"},
-    { "search": "silver", "replace": "sølv"},
-    { "search": "gold", "replace": "gull"},
-    { "search": "zinc", "replace": "sink"},
-    { "search": "lead", "replace": "bly"},
-    { "search": "mercury", "replace": "kvikksølv"},
-    { "search": "uranium", "replace": "uran"},
-    { "search": "carbon hydrogen", "replace": "karbon hydrogen"},
-    { "search": "carbon oxygen", "replace": "karbon oksygen"},
-    { "search": "sulfur oxygen", "replace": "svovel oksygen"},
-    { "search": "nitrogen oxygen", "replace": "nitrogen oksygen"},
-    { "search": "nitrogen hydrogen", "replace": "nitrogen hydrogen"},
-    { "search": "oxygen hydrogen", "replace": "oksygen hydrogen"},
-    { "search": "phosphorus oxygen", "replace": "fosfor oksygen"},
-    { "search": "silicon oxygen", "replace": "silisium oksygen"},
-    { "search": "water", "replace": "vatn"},
-    { "search": "meter", "replace": "meter"},
-    { "search": "kilogram", "replace": "kilogram"},
-    { "search": "second", "replace": "sekund"},
-    { "search": "ampere", "replace": "ampere"},
-    { "search": "kelvin", "replace": "kelvin"},
-    { "search": "mole", "replace": "mol"},
-    { "search": "candela", "replace": "candela"},
-    { "search": "kilometer", "replace": "kilometer"},
-    { "search": "centimeter", "replace": "centimeter"},
-    { "search": "millimeter", "replace": "millimeter"},
-    { "search": "gram", "replace": "gram"},
-    { "search": "milligram", "replace": "milligram"},
-    { "search": "minute", "replace": "minutt"},
-    { "search": "hour", "replace": "time"},
-    { "search": "hertz", "replace": "hertz"},
-    { "search": "newton", "replace": "newton"},
-    { "search": "pascal", "replace": "pascal"},
-    { "search": "joule", "replace": "joule"},
-    { "search": "watt", "replace": "watt"},
-    { "search": "volt", "replace": "volt"},
-    { "search": "ohm", "replace": "ohm"},
-    { "search": "farad", "replace": "farad"},
-    { "search": "tesla", "replace": "tesla"},
-    { "search": "henry", "replace": "henry"},
-    { "search": "degrees celsius", "replace": "grader celsius"},
-    { "search": "degrees fahrenheit", "replace": "grader fahrenheit"},
-    { "search": "epsilon", "replace": "epsilon"},
-    { "search": "zeta", "replace": "zeta"},
-    { "search": "eta", "replace": "eta"},
-    { "search": "iota", "replace": "iota"},
-    { "search": "kappa", "replace": "kappa"},
-    { "search": "lambda", "replace": "lambda"},
-    { "search": "mu", "replace": "my"},
-    { "search": "nu", "replace": "ny"},
-    { "search": "xi", "replace": "ksi"},
-    { "search": "omicron", "replace": "omikron"},
-    { "search": "rho", "replace": "rho"},
-    { "search": "sigma", "replace": "sigma"},
-    { "search": "tau", "replace": "tau"},
-    { "search": "upsilon", "replace": "ypsilon"},
-    { "search": "phi", "replace": "phi"},
-    { "search": "chi", "replace": "chi"},
-    { "search": "psi", "replace": "psi"},
-    { "search": "omega", "replace": "omega"},
-    { "search": "thetasym", "replace": "theta"},
-    { "search": "Weierstrass p", "replace": "Weierstrass p"},
-    { "search": "micro", "replace": "mikro"},
-    { "search": "blank space", "replace": "tomrom"},
-    { "search": "for", "replace": "for"},
-    { "search": "over", "replace": "over"},
-    { "search": "under", "replace": "under"},
-    { "search": "the", "replace": "den"},
-    { "search": "start", "replace": "start"},
-    { "search": "with the lower index", "replace": "med nedre indeks"},
-    { "search": " squared ", "replace": " i annan "},
-    { "search": " matrix start ", "replace": " matrise start "},
-    { "search": " matrix end ", "replace": " matrise slutt "},
-    { "search": "molecule", "replace": "molekyl"},
-    { "search": "isotope", "replace": "isotop"},
-    { "search": "chemical reaction", "replace": "kjemisk reaksjon"},
-    { "search": "reacts to form", "replace": "reagerer for å danne"},
-    { "search": "yields", "replace": "gir"},
-    { "search": "subscript", "replace": "senka skrift"},
-    { "search": "superscript", "replace": "heva skrift"},
-    { "search": "label", "replace": "merke"},
-    { "search": "crossed", "replace": "kryssa"},
-    { "search": "out", "replace": "ut"}
+    {
+        "search": "prior to",
+        "replace": "før"
+    },
+    {
+        "search": "is less than",
+        "replace": "er mindre enn"
+    },
+    {
+        "search": "is more than",
+        "replace": "er større enn"
+    },
+    {
+        "search": "the derivative of the expression",
+        "replace": "den deriverte av uttrykket"
+    },
+    {
+        "search": "the double derivative of the expression",
+        "replace": "den dobbeltderiverte av uttrykket"
+    },
+    {
+        "search": "withdraws",
+        "replace": "trekker seg tilbake frå"
+    },
+    {
+        "search": "leftwards double arrow",
+        "replace": "dobbelt venstrepil"
+    },
+    {
+        "search": "leftward arrow",
+        "replace": "venstrepil"
+    },
+    {
+        "search": "rightward arrow",
+        "replace": "høyrepil"
+    },
+    {
+        "search": "arrow",
+        "replace": "pil"
+    },
+    {
+        "search": "upwards double",
+        "replace": "dobbelt oppovergåande"
+    },
+    {
+        "search": "downwards double",
+        "replace": "dobbelt nedovergåande"
+    },
+    {
+        "search": "upwards",
+        "replace": "oppovergåande"
+    },
+    {
+        "search": "downwards",
+        "replace": "nedovergåande"
+    },
+    {
+        "search": "left right double",
+        "replace": "dobbel venstre-høgre"
+    },
+    {
+        "search": "left right",
+        "replace": "venstre-høgre"
+    },
+    {
+        "search": "left-right",
+        "replace": "venstre-høgre"
+    },
+    {
+        "search": "with corner",
+        "replace": "med hjørne"
+    },
+    {
+        "search": "leftwards",
+        "replace": "til venstre"
+    },
+    {
+        "search": "leftward",
+        "replace": "til venstre"
+    },
+    {
+        "search": "left parenthesis matrix start,",
+        "replace": "matrise start,"
+    },
+    {
+        "search": "matrix end right parenthesis",
+        "replace": "matrise slutt,"
+    },
+    {
+        "search": "left parenthesis",
+        "replace": "venstreparentes"
+    },
+    {
+        "search": "right parenthesis",
+        "replace": "høgreparentes"
+    },
+    {
+        "search": "left square bracket",
+        "replace": "venstre hakeparentes"
+    },
+    {
+        "search": "right square bracket",
+        "replace": "høgre hakeparentes"
+    },
+    {
+        "search": "left curly bracket",
+        "replace": "venstre krøllparentes"
+    },
+    {
+        "search": "right curly bracket",
+        "replace": "høgre krøllparentes"
+    },
+    {
+        "search": "absolute value",
+        "replace": "absoluttverdi"
+    },
+    {
+        "search": "parenthesis",
+        "replace": "parentes"
+    },
+    {
+        "search": "square bracket",
+        "replace": "hakeparentes"
+    },
+    {
+        "search": "curly bracket",
+        "replace": "krøllparentes"
+    },
+    {
+        "search": "proportional to angla",
+        "replace": "proporsjonal til vinkel"
+    },
+    {
+        "search": "divided by",
+        "replace": "delt på"
+    },
+    {
+        "search": "dot operator",
+        "replace": "gonger"
+    },
+    {
+        "search": "asterisk operator",
+        "replace": "gonger"
+    },
+    {
+        "search": "tilde operator",
+        "replace": "ca"
+    },
+    {
+        "search": "the matrix contains",
+        "replace": "matrisen inneheld"
+    },
+    {
+        "search": "physics formula",
+        "replace": "fysikkformel"
+    },
+    {
+        "search": "chemical formula",
+        "replace": "kjemisk formel"
+    },
+    {
+        "search": "contour integral",
+        "replace": "konturintegralet av"
+    },
+    {
+        "search": "double integral",
+        "replace": "dobbeltintegral"
+    },
+    {
+        "search": "triple integral",
+        "replace": "trippeltintegral"
+    },
+    {
+        "search": "the integral",
+        "replace": "integralen"
+    },
+    {
+        "search": "integral",
+        "replace": "integral"
+    },
+    {
+        "search": "differential",
+        "replace": "differensial"
+    },
+    {
+        "search": "the natural logarithm",
+        "replace": "den naturlege logaritmen til"
+    },
+    {
+        "search": "the natural logarithm of",
+        "replace": "den naturlege logaritmen til"
+    },
+    {
+        "search": "the logarithm",
+        "replace": "logaritmen"
+    },
+    {
+        "search": "logarithm",
+        "replace": "logaritme"
+    },
+    {
+        "search": "the function",
+        "replace": "funksjonen"
+    },
+    {
+        "search": "fraction with counter",
+        "replace": "brøk med tel"
+    },
+    {
+        "search": "and denominator",
+        "replace": "og med nemnar"
+    },
+    {
+        "search": "the square root of",
+        "replace": "kvadratroten av"
+    },
+    {
+        "search": "to the power of",
+        "replace": "opphøgt i"
+    },
+    {
+        "search": "power",
+        "replace": "potens"
+    },
+    {
+        "search": "opphøgt i to the power of",
+        "replace": "opphøgt i"
+    },
+    {
+        "search": "of the expression",
+        "replace": "av uttrykket"
+    },
+    {
+        "search": "limit with the lower index",
+        "replace": "grense for"
+    },
+    {
+        "search": "lim with the lower index",
+        "replace": "grense for"
+    },
+    {
+        "search": "with the lower limit",
+        "replace": "med nedre grense"
+    },
+    {
+        "search": "with the lower lim",
+        "replace": "med nedre grense"
+    },
+    {
+        "search": "and with the upper limit",
+        "replace": "og med øvre grense"
+    },
+    {
+        "search": "and with the upper lim",
+        "replace": "og med øvre grense"
+    },
+    {
+        "search": "limit",
+        "replace": "grense"
+    },
+    {
+        "search": "lim",
+        "replace": "grense"
+    },
+    {
+        "search": "capital degrees C",
+        "replace": "grader celcius"
+    },
+    {
+        "search": "capital degrees F",
+        "replace": "grader fahrenheit"
+    },
+    {
+        "search": "capital degrees",
+        "replace": "grader"
+    },
+    {
+        "search": "large degrees C",
+        "replace": "grader celcius"
+    },
+    {
+        "search": "large degrees F",
+        "replace": "grader fahrenheit"
+    },
+    {
+        "search": "large degrees",
+        "replace": "grader"
+    },
+    {
+        "search": "approaches",
+        "replace": "som beveger seg mot"
+    },
+    {
+        "search": "the double derivative",
+        "replace": "den dobbelderiverte"
+    },
+    {
+        "search": "double derivative",
+        "replace": "dobbelderivert"
+    },
+    {
+        "search": "the derivative",
+        "replace": "han deriverte"
+    },
+    {
+        "search": "derivative",
+        "replace": "derivert"
+    },
+    {
+        "search": "vector",
+        "replace": "vektor"
+    },
+    {
+        "search": "with respect to",
+        "replace": "med omsyn til"
+    },
+    {
+        "search": "for every",
+        "replace": "for kvar"
+    },
+    {
+        "search": "implies",
+        "replace": "tilseier"
+    },
+    {
+        "search": "function",
+        "replace": "funksjon"
+    },
+    {
+        "search": "partial",
+        "replace": "partielle"
+    },
+    {
+        "search": "there exist",
+        "replace": "som eksisterer"
+    },
+    {
+        "search": "rows",
+        "replace": "rader"
+    },
+    {
+        "search": "contains",
+        "replace": "inneheld"
+    },
+    {
+        "search": "row",
+        "replace": "rad"
+    },
+    {
+        "search": "cells",
+        "replace": "kolonnar"
+    },
+    {
+        "search": "cell",
+        "replace": "celle"
+    },
+    {
+        "search": "degrees",
+        "replace": "grader"
+    },
+    {
+        "search": "degree",
+        "replace": "grad"
+    },
+    {
+        "search": "logical and",
+        "replace": "logisk og"
+    },
+    {
+        "search": "logical or",
+        "replace": "logisk eller"
+    },
+    {
+        "search": "less-than or equal to",
+        "replace": "er mindre enn eller lik,"
+    },
+    {
+        "search": "greater-than or equal to",
+        "replace": "er større enn eller lik,"
+    },
+    {
+        "search": "fraction",
+        "replace": "brøk"
+    },
+    {
+        "search": "up tack",
+        "replace": "stift"
+    },
+    {
+        "search": "index",
+        "replace": "indeks"
+    },
+    {
+        "search": "the lower",
+        "replace": "nedre"
+    },
+    {
+        "search": "the upper",
+        "replace": "øvre"
+    },
+    {
+        "search": "intersection",
+        "replace": "kryssning"
+    },
+    {
+        "search": "square root",
+        "replace": "kvadratrot"
+    },
+    {
+        "search": "root",
+        "replace": "rot"
+    },
+    {
+        "search": "the expression",
+        "replace": "uttrykket"
+    },
+    {
+        "search": "expression",
+        "replace": "uttrykk"
+    },
+    {
+        "search": "therefore",
+        "replace": "derfor"
+    },
+    {
+        "search": "sine",
+        "replace": "sinus"
+    },
+    {
+        "search": "cosine",
+        "replace": "cosinus"
+    },
+    {
+        "search": "tangent",
+        "replace": "tangens"
+    },
+    {
+        "search": "cotangent",
+        "replace": "cotangens"
+    },
+    {
+        "search": "hyperbolic",
+        "replace": "hyperbolsk"
+    },
+    {
+        "search": "capital",
+        "replace": "stor"
+    },
+    {
+        "search": "large",
+        "replace": "stor"
+    },
+    {
+        "search": "left ceiling",
+        "replace": "venstre tak"
+    },
+    {
+        "search": "right ceiling",
+        "replace": "høgre tak"
+    },
+    {
+        "search": "left floor",
+        "replace": "venstre golv"
+    },
+    {
+        "search": "right floor",
+        "replace": "høgre golv"
+    },
+    {
+        "search": "left-pointing",
+        "replace": "venstre-pekende"
+    },
+    {
+        "search": "right-pointing",
+        "replace": "høyre-pekende"
+    },
+    {
+        "search": "angl bracket",
+        "replace": "vinkelbrakett"
+    },
+    {
+        "search": "bracket",
+        "replace": "brakett"
+    },
+    {
+        "search": "alpha",
+        "replace": "alfa"
+    },
+    {
+        "search": "beta",
+        "replace": "beta"
+    },
+    {
+        "search": "gamma",
+        "replace": "gamma"
+    },
+    {
+        "search": "delta",
+        "replace": "delta"
+    },
+    {
+        "search": "theta",
+        "replace": "theta"
+    },
+    {
+        "search": "pi",
+        "replace": "pi"
+    },
+    {
+        "search": "final sigma",
+        "replace": "endeleg sigma"
+    },
+    {
+        "search": "upsilon with hook",
+        "replace": "upsilon med krok"
+    },
+    {
+        "search": "bullet point",
+        "replace": "kulepunkt"
+    },
+    {
+        "search": "et cetera",
+        "replace": "og så vidare"
+    },
+    {
+        "search": "overline",
+        "replace": "overlinje"
+    },
+    {
+        "search": "fraction slash",
+        "replace": "brøkstrek"
+    },
+    {
+        "search": "imaginary part",
+        "replace": "imaginær del"
+    },
+    {
+        "search": "real part",
+        "replace": "ekte del"
+    },
+    {
+        "search": "trade mark",
+        "replace": "varemerke"
+    },
+    {
+        "search": "first transfinite cardinal",
+        "replace": "første transfinite kardinal"
+    },
+    {
+        "search": "infinity",
+        "replace": "uendeleg"
+    },
+    {
+        "search": "spades",
+        "replace": "spar"
+    },
+    {
+        "search": "clubs",
+        "replace": "kløver"
+    },
+    {
+        "search": "hearts",
+        "replace": "hjarte"
+    },
+    {
+        "search": "diamonds",
+        "replace": "ruter"
+    },
+    {
+        "search": "K ",
+        "replace": "kelvin "
+    },
+    {
+        "search": "a subset",
+        "replace": "ei undergruppe"
+    },
+    {
+        "search": "subset",
+        "replace": "undergruppe"
+    },
+    {
+        "search": "a superset",
+        "replace": "ein overgruppe"
+    },
+    {
+        "search": "superset",
+        "replace": "overgruppe"
+    },
+    {
+        "search": "approximately equal to",
+        "replace": "er tilnærma lik,"
+    },
+    {
+        "search": "almost equal to",
+        "replace": "er nesten lik,"
+    },
+    {
+        "search": "identical to",
+        "replace": "er identisk til,"
+    },
+    {
+        "search": "equal to",
+        "replace": "er lik,"
+    },
+    {
+        "search": "equals",
+        "replace": "er lik,"
+    },
+    {
+        "search": "formula",
+        "replace": "formel"
+    },
+    {
+        "search": "end,",
+        "replace": "slutt,"
+    },
+    {
+        "search": "end",
+        "replace": "slutt"
+    },
+    {
+        "search": "radical",
+        "replace": "radikal"
+    },
+    {
+        "search": "square",
+        "replace": "kvadrat"
+    },
+    {
+        "search": "cube",
+        "replace": "kube"
+    },
+    {
+        "search": "fourth",
+        "replace": "fjerde"
+    },
+    {
+        "search": "fifth",
+        "replace": "femte"
+    },
+    {
+        "search": "sixth",
+        "replace": "sjette"
+    },
+    {
+        "search": "seventh",
+        "replace": "sjuande"
+    },
+    {
+        "search": "eight",
+        "replace": "åttande"
+    },
+    {
+        "search": "ninth",
+        "replace": "niande"
+    },
+    {
+        "search": "tenth",
+        "replace": "tiande"
+    },
+    {
+        "search": "macron",
+        "replace": "makronteikn"
+    },
+    {
+        "search": "apostrophe",
+        "replace": "apostrof"
+    },
+    {
+        "search": "the arithmetic mean",
+        "replace": "det aritmetiske gjennomsnittet"
+    },
+    {
+        "search": "of a set of values",
+        "replace": "av eit verdisett"
+    },
+    {
+        "search": "nth",
+        "replace": "-ende"
+    },
+    {
+        "search": "uttrykk slutt, derivert",
+        "replace": "uttrykk slutt,"
+    },
+    {
+        "search": "uttrykk slutt, dobbelderivert",
+        "replace": "uttrykk slutt,"
+    },
+    {
+        "search": "uttrykk slutt, trippelderivert",
+        "replace": "uttrykk slutt,"
+    },
+    {
+        "search": "matrix",
+        "replace": "matrise"
+    },
+    {
+        "search": "opphøgt i 2",
+        "replace": "i annan"
+    },
+    {
+        "search": "opphøgt i i annan",
+        "replace": "i annan"
+    },
+    {
+        "search": "opphøgt i opphøgt i",
+        "replace": "opphøgt i"
+    },
+    {
+        "search": "stor et cetera",
+        "replace": "og så vidare,"
+    },
+    {
+        "search": "stor og så vidare",
+        "replace": "og så vidare,"
+    },
+    {
+        "search": "grader stor c",
+        "replace": "grader celcius"
+    },
+    {
+        "search": "grader stor f",
+        "replace": "grader fahrenheit"
+    },
+    {
+        "search": "det aritmetiske gjennomsnittet det aritmetiske gjennomsnittet",
+        "replace": "det aritmetiske gjennomsnittet"
+    },
+    {
+        "search": "av eit verdisett av eit verdisett",
+        "replace": "av eit verdisett"
+    },
+    {
+        "search": "circled plus",
+        "replace": "sirkel rundt plussteikn"
+    },
+    {
+        "search": "plus",
+        "replace": "pluss"
+    },
+    {
+        "search": "minus",
+        "replace": "minus"
+    },
+    {
+        "search": "circled times",
+        "replace": "sirkel rundt gongeteikn"
+    },
+    {
+        "search": "times",
+        "replace": "gonger"
+    },
+    {
+        "search": "multiplied by",
+        "replace": "gonger"
+    },
+    {
+        "search": "not",
+        "replace": "ikkje"
+    },
+    {
+        "search": "stor grad",
+        "replace": "grad"
+    },
+    {
+        "search": "stor gradar",
+        "replace": "grader"
+    },
+    {
+        "search": "an element",
+        "replace": "eit element"
+    },
+    {
+        "search": "product",
+        "replace": "produkt"
+    },
+    {
+        "search": "of",
+        "replace": "av"
+    },
+    {
+        "search": "and",
+        "replace": "og"
+    },
+    {
+        "search": "or",
+        "replace": "eller"
+    },
+    {
+        "search": "with",
+        "replace": "med"
+    },
+    {
+        "search": "equation",
+        "replace": "ligning"
+    },
+    {
+        "search": "math",
+        "replace": "matematisk"
+    },
+    {
+        "search": "den naturlege logaritmen til av",
+        "replace": "den naturlege logaritmen til"
+    },
+    {
+        "search": "undefined",
+        "replace": ""
+    },
+    {
+        "search": "expression end derivative",
+        "replace": "uttrykk slutt, derivert"
+    },
+    {
+        "search": "expression end double derivative",
+        "replace": "uttrykk slutt, dobbelderivert"
+    },
+    {
+        "search": "to the power of to the power of",
+        "replace": "opphøgt i"
+    },
+    {
+        "search": "to the power of 2",
+        "replace": "i annan"
+    },
+    {
+        "search": "of a set of values, of a set of values,",
+        "replace": "av eit verdisett"
+    },
+    {
+        "search": "start ",
+        "replace": "start, "
+    },
+    {
+        "search": "arcus sine",
+        "replace": "arcus sinus"
+    },
+    {
+        "search": "arcus cosine",
+        "replace": "arcus cosinus"
+    },
+    {
+        "search": "arcus tangent",
+        "replace": "arcus tangens"
+    },
+    {
+        "search": "hyperbolic sine",
+        "replace": "hyperbolsk sinus"
+    },
+    {
+        "search": "hyperbolic cosine",
+        "replace": "hyperbolsk cosinus"
+    },
+    {
+        "search": "hyperbolic tangent",
+        "replace": "hyperbolsk tangens"
+    },
+    {
+        "search": "hyperbolic cotangent",
+        "replace": "hyperbolsk cotangens"
+    },
+    {
+        "search": "hyperbolic secant",
+        "replace": "hyperbolsk sekant"
+    },
+    {
+        "search": "hyperbolic cosecant",
+        "replace": "hyperbolsk cosekant"
+    },
+    {
+        "search": "hyperbolic arcus sine",
+        "replace": "hyperbolsk arcus sinus"
+    },
+    {
+        "search": "hyperbolic arcus cosine",
+        "replace": "hyperbolsk arcus cosinus"
+    },
+    {
+        "search": "hyperbolic arcus tangent",
+        "replace": "hyperbolsk arcus tangens"
+    },
+    {
+        "search": "hyperbolic arcus cotangent",
+        "replace": "hyperbolsk arcus cotangens"
+    },
+    {
+        "search": "secant",
+        "replace": "sekant"
+    },
+    {
+        "search": "cosecant",
+        "replace": "cosekant"
+    },
+    {
+        "search": "arcus cotangent",
+        "replace": "arcus cotangens"
+    },
+    {
+        "search": "arcus secant",
+        "replace": "arcus sekant"
+    },
+    {
+        "search": "arcus cosecant",
+        "replace": "arcus cosekant"
+    },
+    {
+        "search": "hydrogen",
+        "replace": "hydrogen"
+    },
+    {
+        "search": "helium",
+        "replace": "helium"
+    },
+    {
+        "search": "lithium",
+        "replace": "litium"
+    },
+    {
+        "search": "beryllium",
+        "replace": "beryllium"
+    },
+    {
+        "search": "boron",
+        "replace": "bor"
+    },
+    {
+        "search": "carbon",
+        "replace": "karbon"
+    },
+    {
+        "search": "nitrogen",
+        "replace": "nitrogen"
+    },
+    {
+        "search": "oxygen",
+        "replace": "oksygen"
+    },
+    {
+        "search": "fluorine",
+        "replace": "fluor"
+    },
+    {
+        "search": "neon",
+        "replace": "neon"
+    },
+    {
+        "search": "sodium",
+        "replace": "natrium"
+    },
+    {
+        "search": "magnesium",
+        "replace": "magnesium"
+    },
+    {
+        "search": "aluminum",
+        "replace": "aluminium"
+    },
+    {
+        "search": "silicon",
+        "replace": "silisium"
+    },
+    {
+        "search": "phosphorus",
+        "replace": "fosfor"
+    },
+    {
+        "search": "sulfur",
+        "replace": "svovel"
+    },
+    {
+        "search": "chlorine",
+        "replace": "klor"
+    },
+    {
+        "search": "argon",
+        "replace": "argon"
+    },
+    {
+        "search": "potassium",
+        "replace": "kalium"
+    },
+    {
+        "search": "calcium",
+        "replace": "kalsium"
+    },
+    {
+        "search": "iron",
+        "replace": "jarn"
+    },
+    {
+        "search": "copper",
+        "replace": "kopar"
+    },
+    {
+        "search": "silver",
+        "replace": "sølv"
+    },
+    {
+        "search": "gold",
+        "replace": "gull"
+    },
+    {
+        "search": "zinc",
+        "replace": "sink"
+    },
+    {
+        "search": "lead",
+        "replace": "bly"
+    },
+    {
+        "search": "mercury",
+        "replace": "kvikksølv"
+    },
+    {
+        "search": "uranium",
+        "replace": "uran"
+    },
+    {
+        "search": "carbon hydrogen",
+        "replace": "karbon hydrogen"
+    },
+    {
+        "search": "carbon oxygen",
+        "replace": "karbon oksygen"
+    },
+    {
+        "search": "sulfur oxygen",
+        "replace": "svovel oksygen"
+    },
+    {
+        "search": "nitrogen oxygen",
+        "replace": "nitrogen oksygen"
+    },
+    {
+        "search": "nitrogen hydrogen",
+        "replace": "nitrogen hydrogen"
+    },
+    {
+        "search": "oxygen hydrogen",
+        "replace": "oksygen hydrogen"
+    },
+    {
+        "search": "phosphorus oxygen",
+        "replace": "fosfor oksygen"
+    },
+    {
+        "search": "silicon oxygen",
+        "replace": "silisium oksygen"
+    },
+    {
+        "search": "water",
+        "replace": "vatn"
+    },
+    {
+        "search": "meter",
+        "replace": "meter"
+    },
+    {
+        "search": "kilogram",
+        "replace": "kilogram"
+    },
+    {
+        "search": "second",
+        "replace": "sekund"
+    },
+    {
+        "search": "ampere",
+        "replace": "ampere"
+    },
+    {
+        "search": "kelvin",
+        "replace": "kelvin"
+    },
+    {
+        "search": "mole",
+        "replace": "mol"
+    },
+    {
+        "search": "candela",
+        "replace": "candela"
+    },
+    {
+        "search": "kilometer",
+        "replace": "kilometer"
+    },
+    {
+        "search": "centimeter",
+        "replace": "centimeter"
+    },
+    {
+        "search": "millimeter",
+        "replace": "millimeter"
+    },
+    {
+        "search": "gram",
+        "replace": "gram"
+    },
+    {
+        "search": "milligram",
+        "replace": "milligram"
+    },
+    {
+        "search": "minute",
+        "replace": "minutt"
+    },
+    {
+        "search": "hour",
+        "replace": "time"
+    },
+    {
+        "search": "hertz",
+        "replace": "hertz"
+    },
+    {
+        "search": "newton",
+        "replace": "newton"
+    },
+    {
+        "search": "pascal",
+        "replace": "pascal"
+    },
+    {
+        "search": "joule",
+        "replace": "joule"
+    },
+    {
+        "search": "watt",
+        "replace": "watt"
+    },
+    {
+        "search": "volt",
+        "replace": "volt"
+    },
+    {
+        "search": "ohm",
+        "replace": "ohm"
+    },
+    {
+        "search": "farad",
+        "replace": "farad"
+    },
+    {
+        "search": "tesla",
+        "replace": "tesla"
+    },
+    {
+        "search": "henry",
+        "replace": "henry"
+    },
+    {
+        "search": "degrees celsius",
+        "replace": "grader celsius"
+    },
+    {
+        "search": "degrees fahrenheit",
+        "replace": "grader fahrenheit"
+    },
+    {
+        "search": "epsilon",
+        "replace": "epsilon"
+    },
+    {
+        "search": "zeta",
+        "replace": "zeta"
+    },
+    {
+        "search": "eta",
+        "replace": "eta"
+    },
+    {
+        "search": "iota",
+        "replace": "iota"
+    },
+    {
+        "search": "kappa",
+        "replace": "kappa"
+    },
+    {
+        "search": "lambda",
+        "replace": "lambda"
+    },
+    {
+        "search": "mu",
+        "replace": "my"
+    },
+    {
+        "search": "nu",
+        "replace": "ny"
+    },
+    {
+        "search": "xi",
+        "replace": "ksi"
+    },
+    {
+        "search": "omicron",
+        "replace": "omikron"
+    },
+    {
+        "search": "rho",
+        "replace": "rho"
+    },
+    {
+        "search": "sigma",
+        "replace": "sigma"
+    },
+    {
+        "search": "tau",
+        "replace": "tau"
+    },
+    {
+        "search": "upsilon",
+        "replace": "ypsilon"
+    },
+    {
+        "search": "phi",
+        "replace": "phi"
+    },
+    {
+        "search": "chi",
+        "replace": "chi"
+    },
+    {
+        "search": "psi",
+        "replace": "psi"
+    },
+    {
+        "search": "omega",
+        "replace": "omega"
+    },
+    {
+        "search": "thetasym",
+        "replace": "theta"
+    },
+    {
+        "search": "Weierstrass p",
+        "replace": "Weierstrass p"
+    },
+    {
+        "search": "micro",
+        "replace": "mikro"
+    },
+    {
+        "search": "blank space",
+        "replace": "tomrom"
+    },
+    {
+        "search": "for",
+        "replace": "for"
+    },
+    {
+        "search": "over",
+        "replace": "over"
+    },
+    {
+        "search": "under",
+        "replace": "under"
+    },
+    {
+        "search": "the",
+        "replace": "den"
+    },
+    {
+        "search": "start",
+        "replace": "start"
+    },
+    {
+        "search": "with the lower index",
+        "replace": "med nedre indeks"
+    },
+    {
+        "search": " squared ",
+        "replace": " i annan "
+    },
+    {
+        "search": " matrix start ",
+        "replace": " matrise start "
+    },
+    {
+        "search": " matrix end ",
+        "replace": " matrise slutt "
+    },
+    {
+        "search": "molecule",
+        "replace": "molekyl"
+    },
+    {
+        "search": "isotope",
+        "replace": "isotop"
+    },
+    {
+        "search": "chemical reaction",
+        "replace": "kjemisk reaksjon"
+    },
+    {
+        "search": "reacts to form",
+        "replace": "reagerer for å danne"
+    },
+    {
+        "search": "yields",
+        "replace": "gir"
+    },
+    {
+        "search": "subscript",
+        "replace": "senka skrift"
+    },
+    {
+        "search": "superscript",
+        "replace": "heva skrift"
+    },
+    {
+        "search": "label",
+        "replace": "merke"
+    },
+    {
+        "search": "crossed",
+        "replace": "kryssa"
+    },
+    {
+        "search": "out",
+        "replace": "ut"
+    },
+    {
+        "search": "with umlaut",
+        "replace": "med umlaut"
+    },
+    {
+        "search": "prime",
+        "replace": "prim"
+    },
+    {
+        "search": "double prime",
+        "replace": "dobbelt prim"
+    },
+    {
+        "search": "differential with respect to",
+        "replace": "differensial med omsyn til"
+    },
+    {
+        "search": "upward arrow",
+        "replace": "opppil"
+    },
+    {
+        "search": "downward arrow",
+        "replace": "nedpil"
+    },
+    {
+        "search": "left right arrow",
+        "replace": "venstre høgre pil"
+    },
+    {
+        "search": "downwards arrow with corner leftwards",
+        "replace": "nedpil med hjørne venstre"
+    },
+    {
+        "search": "upwards double arrow",
+        "replace": "dobbelt opppil"
+    },
+    {
+        "search": "downwards double arrow",
+        "replace": "dobbelt nedpil"
+    },
+    {
+        "search": "equivalent to",
+        "replace": "ekvivalent med"
+    },
+    {
+        "search": "partial differential",
+        "replace": "partiell differensial"
+    },
+    {
+        "search": "there exists",
+        "replace": "det finst"
+    },
+    {
+        "search": "is an empty set",
+        "replace": "er ei tom mengd"
+    },
+    {
+        "search": "backward difference",
+        "replace": "bakover differanse"
+    },
+    {
+        "search": "is an element of",
+        "replace": "er eit element i"
+    },
+    {
+        "search": "is not an element of",
+        "replace": "er ikkje eit element i"
+    },
+    {
+        "search": "contains as member",
+        "replace": "inneheld som medlem"
+    },
+    {
+        "search": "sum",
+        "replace": "sum"
+    },
+    {
+        "search": "asterisk",
+        "replace": "asterisk"
+    },
+    {
+        "search": "proportional to",
+        "replace": "proporsjonal med"
+    },
+    {
+        "search": "angle",
+        "replace": "vinkel"
+    },
+    {
+        "search": "union",
+        "replace": "union"
+    },
+    {
+        "search": "the integral of",
+        "replace": "integralet av"
+    },
+    {
+        "search": "the double integral of",
+        "replace": "dobbeltintegralet av"
+    },
+    {
+        "search": "the triple integral of",
+        "replace": "trippelintegralet av"
+    },
+    {
+        "search": "the contour integral of",
+        "replace": "konturintegralet av"
+    },
+    {
+        "search": "is similar to",
+        "replace": "er lik"
+    },
+    {
+        "search": "is approximately equal to",
+        "replace": "er omtrent lik"
+    },
+    {
+        "search": "is almost equal to",
+        "replace": "er nesten lik"
+    },
+    {
+        "search": "is not equal to",
+        "replace": "er ikkje lik"
+    },
+    {
+        "search": "is identical to",
+        "replace": "er identisk med"
+    },
+    {
+        "search": "is less than or equal to",
+        "replace": "er mindre enn eller lik"
+    },
+    {
+        "search": "is greater than or equal to",
+        "replace": "er større enn eller lik"
+    },
+    {
+        "search": "subset of",
+        "replace": "delmengd av"
+    },
+    {
+        "search": "superset of",
+        "replace": "overmengd av"
+    },
+    {
+        "search": "not a subset of",
+        "replace": "ikkje ei delmengd av"
+    },
+    {
+        "search": "subset of or equal to",
+        "replace": "delmengd av eller lik"
+    },
+    {
+        "search": "superset of or equal to",
+        "replace": "overmengd av eller lik"
+    },
+    {
+        "search": "direct sum",
+        "replace": "direkte sum"
+    },
+    {
+        "search": "vector product",
+        "replace": "vektorprodukt"
+    },
+    {
+        "search": "orthogonal to",
+        "replace": "ortogonal på"
+    },
+    {
+        "search": "left-pointing angle bracket",
+        "replace": "venstrepeikande vinkelparentes"
+    },
+    {
+        "search": "right-pointing angle bracket",
+        "replace": "høgrepeikande vinkelparentes"
+    },
+    {
+        "search": "lozenge",
+        "replace": "rombe"
+    },
+    {
+        "search": "is greater than",
+        "replace": "er større enn"
+    },
+    {
+        "search": "vertical line",
+        "replace": "vertikal linje"
+    },
+    {
+        "search": "tilde",
+        "replace": "tilde"
+    },
+    {
+        "search": "plus or minus",
+        "replace": "pluss eller minus"
+    },
+    {
+        "search": "greek reversed lunate epsilon symbol",
+        "replace": "gresk omvendt lunat epsilon-symbol"
+    },
+    {
+        "search": "arabic-indic cube root",
+        "replace": "arabisk-indisk kubikkrot"
+    },
+    {
+        "search": "arabic-indic fourth root",
+        "replace": "arabisk-indisk fjerderot"
+    },
+    {
+        "search": "arabic ray",
+        "replace": "arabisk stråle"
+    },
+    {
+        "search": "comma",
+        "replace": "komma"
+    },
+    {
+        "search": "superscript plus",
+        "replace": "heva pluss"
+    },
+    {
+        "search": "superscript minus",
+        "replace": "heva minus"
+    },
+    {
+        "search": "superscript equals",
+        "replace": "heva lik"
+    },
+    {
+        "search": "subscript plus",
+        "replace": "senka pluss"
+    },
+    {
+        "search": "subscript minus",
+        "replace": "senka minus"
+    },
+    {
+        "search": "subscript equals",
+        "replace": "senka lik"
+    },
+    {
+        "search": "script capital p",
+        "replace": "skript stor p"
+    },
+    {
+        "search": "turned sans-serif capital g",
+        "replace": "vendt sans-serif stor g"
+    },
+    {
+        "search": "turned sans-serif capital l",
+        "replace": "vendt sans-serif stor l"
+    },
+    {
+        "search": "reversed sans-serif capital l",
+        "replace": "omvendt sans-serif stor l"
+    },
+    {
+        "search": "turned sans-serif capital y",
+        "replace": "vendt sans-serif stor y"
+    },
+    {
+        "search": "turned ampersand",
+        "replace": "vendt og-teikn"
+    },
+    {
+        "search": "upwards arrow",
+        "replace": "opppil"
+    },
+    {
+        "search": "downwards arrow",
+        "replace": "nedpil"
+    },
+    {
+        "search": "reversible reaction",
+        "replace": "reversibel reaksjon"
+    },
+    {
+        "search": "leftwards arrow with stroke",
+        "replace": "venstrepil med strek"
+    },
+    {
+        "search": "rightwards arrow with stroke",
+        "replace": "høgrepil med strek"
+    },
+    {
+        "search": "rightwards two headed arrow",
+        "replace": "høgre tohodet pil"
+    },
+    {
+        "search": "rightwards arrow with tail",
+        "replace": "høgrepil med hale"
+    },
+    {
+        "search": "rightwards arrow from bar",
+        "replace": "høgrepil frå strek"
+    },
+    {
+        "search": "left right arrow with stroke",
+        "replace": "venstre høgre pil med strek"
+    },
+    {
+        "search": "left right double arrow with stroke",
+        "replace": "venstre høgre dobbeltpil med strek"
+    },
+    {
+        "search": "rightwards double arrow with stroke",
+        "replace": "høgre dobbeltpil med strek"
+    },
+    {
+        "search": "if and only if",
+        "replace": "viss og berre viss"
+    },
+    {
+        "search": "right arrow with small circle",
+        "replace": "høgrepil med liten sirkel"
+    },
+    {
+        "search": "downwards arrow leftwards of upwards arrow",
+        "replace": "nedpil venstre for opppil"
+    },
+    {
+        "search": "three rightwards arrows",
+        "replace": "tre høgrepiler"
+    },
+    {
+        "search": "leftwards arrow with vertical stroke",
+        "replace": "venstrepil med vertikal strek"
+    },
+    {
+        "search": "rightwards arrow with vertical stroke",
+        "replace": "høgrepil med vertikal strek"
+    },
+    {
+        "search": "left right arrow with vertical stroke",
+        "replace": "venstre høgre pil med vertikal strek"
+    },
+    {
+        "search": "leftwards arrow with double vertical stroke",
+        "replace": "venstrepil med dobbel vertikal strek"
+    },
+    {
+        "search": "rightwards arrow with double vertical stroke",
+        "replace": "høgrepil med dobbel vertikal strek"
+    },
+    {
+        "search": "left right arrow with double vertical stroke",
+        "replace": "venstre høgre pil med dobbel vertikal strek"
+    },
+    {
+        "search": "leftwards open-headed arrow",
+        "replace": "venstrepil med open hovud"
+    },
+    {
+        "search": "rightwards open-headed arrow",
+        "replace": "høgrepil med open hovud"
+    },
+    {
+        "search": "left right open-headed arrow",
+        "replace": "venstre høgre pil med open hovud"
+    },
+    {
+        "search": "complement",
+        "replace": "komplement"
+    },
+    {
+        "search": "there does not exist",
+        "replace": "det finst ikkje"
+    },
+    {
+        "search": "empty set",
+        "replace": "tom mengd"
+    },
+    {
+        "search": "increment",
+        "replace": "aukning"
+    },
+    {
+        "search": "nabla",
+        "replace": "nabla"
+    },
+    {
+        "search": "element of",
+        "replace": "element i"
+    },
+    {
+        "search": "not an element of",
+        "replace": "ikkje element i"
+    },
+    {
+        "search": "small element of",
+        "replace": "lite element i"
+    },
+    {
+        "search": "does not contains as member",
+        "replace": "inneheld ikkje som medlem"
+    },
+    {
+        "search": "small contains as member",
+        "replace": "lite inneheld som medlem"
+    },
+    {
+        "search": "end of proof",
+        "replace": "slutt på bevis"
+    },
+    {
+        "search": "coproduct",
+        "replace": "koprodukt"
+    },
+    {
+        "search": "minus or plus",
+        "replace": "minus eller pluss"
+    },
+    {
+        "search": "dot plus",
+        "replace": "punkt pluss"
+    },
+    {
+        "search": "minus the element",
+        "replace": "minus elementet"
+    },
+    {
+        "search": "ring operator",
+        "replace": "ringoperator"
+    },
+    {
+        "search": "bullet operator",
+        "replace": "kuleoperator"
+    },
+    {
+        "search": "cube root",
+        "replace": "kubikkrot"
+    },
+    {
+        "search": "fourth root",
+        "replace": "fjerderot"
+    },
+    {
+        "search": "right angle",
+        "replace": "rett vinkel"
+    },
+    {
+        "search": "measured angle",
+        "replace": "målt vinkel"
+    },
+    {
+        "search": "spherical angle",
+        "replace": "sfærisk vinkel"
+    },
+    {
+        "search": "divides",
+        "replace": "deler"
+    },
+    {
+        "search": "does not divide",
+        "replace": "deler ikkje"
+    },
+    {
+        "search": "parallel to",
+        "replace": "parallell med"
+    },
+    {
+        "search": "not parallel to",
+        "replace": "ikkje parallell med"
+    },
+    {
+        "search": "surface integral",
+        "replace": "overflateintegral"
+    },
+    {
+        "search": "volume integral",
+        "replace": "volumintegral"
+    },
+    {
+        "search": "clockwise integral",
+        "replace": "medursintegral"
+    },
+    {
+        "search": "clockwise contour integral",
+        "replace": "medurs konturintegral"
+    },
+    {
+        "search": "anticlockwise contour integral",
+        "replace": "moturs konturintegral"
+    },
+    {
+        "search": "because",
+        "replace": "fordi"
+    },
+    {
+        "search": "ration",
+        "replace": "rasjon"
+    },
+    {
+        "search": "proportion",
+        "replace": "proporsjon"
+    },
+    {
+        "search": "dot minus",
+        "replace": "punkt minus"
+    },
+    {
+        "search": "excess",
+        "replace": "overskott"
+    },
+    {
+        "search": "geometric proportion",
+        "replace": "geometrisk proporsjon"
+    },
+    {
+        "search": "homothetic",
+        "replace": "homotetisk"
+    },
+    {
+        "search": "reversed tilde",
+        "replace": "omvendt tilde"
+    },
+    {
+        "search": "inverted lazy s",
+        "replace": "invertert lat s"
+    },
+    {
+        "search": "sine wave",
+        "replace": "sinusbølgje"
+    },
+    {
+        "search": "wreath product",
+        "replace": "kransprodukt"
+    },
+    {
+        "search": "not tilde",
+        "replace": "ikkje tilde"
+    },
+    {
+        "search": "minus tilde",
+        "replace": "minus tilde"
+    },
+    {
+        "search": "asymptotically equal to",
+        "replace": "asymptotisk lik"
+    },
+    {
+        "search": "not asymptotically equal to",
+        "replace": "ikkje asymptotisk lik"
+    },
+    {
+        "search": "approximately but not actually equal to",
+        "replace": "omtrent men ikkje faktisk lik"
+    },
+    {
+        "search": "neither approximately nor actually equal to",
+        "replace": "verken omtrent eller faktisk lik"
+    },
+    {
+        "search": "not almost equal to",
+        "replace": "ikkje nesten lik"
+    },
+    {
+        "search": "almost equal or equal to",
+        "replace": "nesten lik eller lik"
+    },
+    {
+        "search": "triple tilde",
+        "replace": "trippel tilde"
+    },
+    {
+        "search": "all equal to",
+        "replace": "alle lik"
+    },
+    {
+        "search": "geometrically equivalent to",
+        "replace": "geometrisk ekvivalent med"
+    },
+    {
+        "search": "difference between",
+        "replace": "skilnad mellom"
+    },
+    {
+        "search": "approaches the limit",
+        "replace": "nærmar seg grensa"
+    },
+    {
+        "search": "geometrically equal to",
+        "replace": "geometrisk lik"
+    },
+    {
+        "search": "approximately equal to or the image of",
+        "replace": "omtrent lik eller biletet av"
+    },
+    {
+        "search": "image of or approximately equal to",
+        "replace": "bilet av eller omtrent lik"
+    },
+    {
+        "search": "colon equals",
+        "replace": "kolon lik"
+    },
+    {
+        "search": "equals colon",
+        "replace": "lik kolon"
+    },
+    {
+        "search": "ring in equal to",
+        "replace": "ring i lik"
+    },
+    {
+        "search": "ring equal to",
+        "replace": "ring lik"
+    },
+    {
+        "search": "corresponds to",
+        "replace": "svarar til"
+    },
+    {
+        "search": "estimates",
+        "replace": "estimerer"
+    },
+    {
+        "search": "equiangular to",
+        "replace": "likvinklet med"
+    },
+    {
+        "search": "star equals",
+        "replace": "stjerne lik"
+    },
+    {
+        "search": "delta equal to",
+        "replace": "delta lik"
+    },
+    {
+        "search": "equal to by definition",
+        "replace": "lik per definisjon"
+    },
+    {
+        "search": "measured by",
+        "replace": "målt av"
+    },
+    {
+        "search": "questioned equal to",
+        "replace": "spørsmålsteikn lik"
+    },
+    {
+        "search": "not equal to",
+        "replace": "ikkje lik"
+    },
+    {
+        "search": "not identical to",
+        "replace": "ikkje identisk med"
+    },
+    {
+        "search": "strictly equivalent to",
+        "replace": "strengt ekvivalent med"
+    },
+    {
+        "search": "less-than over equal to",
+        "replace": "mindre-enn over lik"
+    },
+    {
+        "search": "greater-than over equal to",
+        "replace": "større-enn over lik"
+    },
+    {
+        "search": "less-than but not equal to",
+        "replace": "mindre-enn men ikkje lik"
+    },
+    {
+        "search": "greater-than but not equal to",
+        "replace": "større-enn men ikkje lik"
+    },
+    {
+        "search": "much less-than",
+        "replace": "mykje mindre-enn"
+    },
+    {
+        "search": "much greater-than",
+        "replace": "mykje større-enn"
+    },
+    {
+        "search": "between",
+        "replace": "mellom"
+    },
+    {
+        "search": "not equivalent to",
+        "replace": "ikkje ekvivalent med"
+    },
+    {
+        "search": "not less-than",
+        "replace": "ikkje mindre-enn"
+    },
+    {
+        "search": "not greater-than",
+        "replace": "ikkje større-enn"
+    },
+    {
+        "search": "neither less-than nor equal to",
+        "replace": "verken mindre-enn eller lik"
+    },
+    {
+        "search": "neither greater-than nor equal to",
+        "replace": "verken større-enn eller lik"
+    },
+    {
+        "search": "less-than or equivalent to",
+        "replace": "mindre-enn eller ekvivalent med"
+    },
+    {
+        "search": "greater-than or equivalent to",
+        "replace": "større-enn eller ekvivalent med"
+    },
+    {
+        "search": "neither less-than nor equivalent to",
+        "replace": "verken mindre-enn eller ekvivalent med"
+    },
+    {
+        "search": "neither greater-than nor equivalent to",
+        "replace": "verken større-enn eller ekvivalent med"
+    },
+    {
+        "search": "less-than or greater-than",
+        "replace": "mindre-enn eller større-enn"
+    },
+    {
+        "search": "greater-than or less-than",
+        "replace": "større-enn eller mindre-enn"
+    },
+    {
+        "search": "neither less-than nor greater-than",
+        "replace": "verken mindre-enn eller større-enn"
+    },
+    {
+        "search": "neither greater-than nor less-than",
+        "replace": "verken større-enn eller mindre-enn"
+    },
+    {
+        "search": "precedes",
+        "replace": "føregår"
+    },
+    {
+        "search": "succeeds",
+        "replace": "etterfylgjer"
+    },
+    {
+        "search": "precedes or equal to",
+        "replace": "føregår eller lik"
+    },
+    {
+        "search": "succeeds or equal to",
+        "replace": "etterfylgjer eller lik"
+    },
+    {
+        "search": "precedes or equivalent to",
+        "replace": "føregår eller ekvivalent med"
+    },
+    {
+        "search": "succeeds or equivalent to",
+        "replace": "etterfylgjer eller ekvivalent med"
+    },
+    {
+        "search": "does not precede",
+        "replace": "føregår ikkje"
+    },
+    {
+        "search": "does not succeed",
+        "replace": "etterfylgjer ikkje"
+    },
+    {
+        "search": "not a superset of",
+        "replace": "ikkje ei overmengd av"
+    },
+    {
+        "search": "neither a subset of nor equal to",
+        "replace": "verken ei delmengd av eller lik"
+    },
+    {
+        "search": "neither a superset of nor equal to",
+        "replace": "verken ei overmengd av eller lik"
+    },
+    {
+        "search": "subset of with not equal to",
+        "replace": "delmengd av med ikkje lik"
+    },
+    {
+        "search": "superset of with not equal to",
+        "replace": "overmengd av med ikkje lik"
+    },
+    {
+        "search": "multiset",
+        "replace": "multimengd"
+    },
+    {
+        "search": "multiset multiplication",
+        "replace": "multimengd multiplikasjon"
+    },
+    {
+        "search": "multiset union",
+        "replace": "multimengd union"
+    },
+    {
+        "search": "square image of",
+        "replace": "kvadratbilet av"
+    },
+    {
+        "search": "square original of",
+        "replace": "kvadratoriginal av"
+    },
+    {
+        "search": "square image of or equal to",
+        "replace": "kvadratbilet av eller lik"
+    },
+    {
+        "search": "square original of or equal to",
+        "replace": "kvadratoriginal av eller lik"
+    },
+    {
+        "search": "square cap",
+        "replace": "kvadratkapp"
+    },
+    {
+        "search": "square cup",
+        "replace": "kvadratkopp"
+    },
+    {
+        "search": "circled minus",
+        "replace": "sirklet minus"
+    },
+    {
+        "search": "circled division slash",
+        "replace": "sirklet divisjonsstrek"
+    },
+    {
+        "search": "circled dot operator",
+        "replace": "sirklet punktoperator"
+    },
+    {
+        "search": "circled ring operator",
+        "replace": "sirklet ringoperator"
+    },
+    {
+        "search": "circled asterisk operator",
+        "replace": "sirklet asteriskoperator"
+    },
+    {
+        "search": "circled equals",
+        "replace": "sirklet lik"
+    },
+    {
+        "search": "circled dash",
+        "replace": "sirklet bindestrek"
+    },
+    {
+        "search": "squared plus",
+        "replace": "kvadrert pluss"
+    },
+    {
+        "search": "squared minus",
+        "replace": "kvadrert minus"
+    },
+    {
+        "search": "squared times",
+        "replace": "kvadrert gonger"
+    },
+    {
+        "search": "squared dot operator",
+        "replace": "kvadrert punktoperator"
+    },
+    {
+        "search": "right tack",
+        "replace": "høgre stift"
+    },
+    {
+        "search": "left tack",
+        "replace": "venstre stift"
+    },
+    {
+        "search": "down tack",
+        "replace": "ned stift"
+    },
+    {
+        "search": "assertion",
+        "replace": "påstand"
+    },
+    {
+        "search": "models",
+        "replace": "modellerer"
+    },
+    {
+        "search": "true",
+        "replace": "sant"
+    },
+    {
+        "search": "forces",
+        "replace": "tvinger"
+    },
+    {
+        "search": "triple vertical bar right turnstile",
+        "replace": "trippel vertikal strek høgre turnstile"
+    },
+    {
+        "search": "double vertical bar double right turnstile",
+        "replace": "dobbelt vertikal strek dobbelt høgre turnstile"
+    },
+    {
+        "search": "does not prove",
+        "replace": "beviser ikkje"
+    },
+    {
+        "search": "not true",
+        "replace": "ikkje sant"
+    },
+    {
+        "search": "does not force",
+        "replace": "tvinger ikkje"
+    },
+    {
+        "search": "negated double vertical bar double right turnstile",
+        "replace": "negert dobbelt vertikal strek dobbelt høgre turnstile"
+    },
+    {
+        "search": "precedes under relation",
+        "replace": "føregår under relasjon"
+    },
+    {
+        "search": "succeeds under relation",
+        "replace": "etterfylgjer under relasjon"
+    },
+    {
+        "search": "normal subgroup of",
+        "replace": "normal undergruppe av"
+    },
+    {
+        "search": "contains as normal subgroup",
+        "replace": "inneheld som normal undergruppe"
+    },
+    {
+        "search": "normal subgroup of or equal to",
+        "replace": "normal undergruppe av eller lik"
+    },
+    {
+        "search": "contains as normal subgroup or equal to",
+        "replace": "inneheld som normal undergruppe eller lik"
+    },
+    {
+        "search": "original of",
+        "replace": "original av"
+    },
+    {
+        "search": "image of",
+        "replace": "bilet av"
+    },
+    {
+        "search": "multimap",
+        "replace": "multikart"
+    },
+    {
+        "search": "hermitian conjugate matrix",
+        "replace": "hermitisk konjugert matrise"
+    },
+    {
+        "search": "intercalate",
+        "replace": "interkalere"
+    },
+    {
+        "search": "x-or",
+        "replace": "x-eller"
+    },
+    {
+        "search": "n-and",
+        "replace": "n-og"
+    },
+    {
+        "search": "n-or",
+        "replace": "n-eller"
+    },
+    {
+        "search": "right angle with arc",
+        "replace": "rett vinkel med boge"
+    },
+    {
+        "search": "right triangle",
+        "replace": "rettvinklet trekant"
+    },
+    {
+        "search": "n-ary logical and",
+        "replace": "n-ær logisk og"
+    },
+    {
+        "search": "n-ary logical or",
+        "replace": "n-ær logisk eller"
+    },
+    {
+        "search": "n-ary intersection",
+        "replace": "n-ær snitt"
+    },
+    {
+        "search": "n-ary union",
+        "replace": "n-ær union"
+    },
+    {
+        "search": "diamond operator",
+        "replace": "diamantoperator"
+    },
+    {
+        "search": "star operator",
+        "replace": "stjerneoperator"
+    },
+    {
+        "search": "division times",
+        "replace": "divisjon gonger"
+    },
+    {
+        "search": "bowtie",
+        "replace": "sløyfe"
+    },
+    {
+        "search": "left normal factor semidirect product",
+        "replace": "venstre normal faktor semidirekte produkt"
+    },
+    {
+        "search": "right normal factor semidirect product",
+        "replace": "høgre normal faktor semidirekte produkt"
+    },
+    {
+        "search": "left semidirect product",
+        "replace": "venstre semidirekte produkt"
+    },
+    {
+        "search": "right semidirect product",
+        "replace": "høgre semidirekte produkt"
+    },
+    {
+        "search": "reversed tilde equals",
+        "replace": "omvendt tilde lik"
+    },
+    {
+        "search": "curly logical or",
+        "replace": "krøllet logisk eller"
+    },
+    {
+        "search": "curly logical and",
+        "replace": "krøllet logisk og"
+    },
+    {
+        "search": "double subset",
+        "replace": "dobbelt delmengd"
+    },
+    {
+        "search": "double superset",
+        "replace": "dobbelt overmengd"
+    },
+    {
+        "search": "double intersection",
+        "replace": "dobbelt snitt"
+    },
+    {
+        "search": "double union",
+        "replace": "dobbelt union"
+    },
+    {
+        "search": "pitchfork",
+        "replace": "gaffel"
+    },
+    {
+        "search": "equal and parallel to",
+        "replace": "lik og parallell med"
+    },
+    {
+        "search": "less-than with dot",
+        "replace": "mindre-enn med punkt"
+    },
+    {
+        "search": "greater-than with dot",
+        "replace": "større-enn med punkt"
+    },
+    {
+        "search": "very much less-than",
+        "replace": "veldig mykje mindre-enn"
+    },
+    {
+        "search": "very much greater-than",
+        "replace": "veldig mykje større-enn"
+    },
+    {
+        "search": "less-than equal to or greater-than",
+        "replace": "mindre-enn lik eller større-enn"
+    },
+    {
+        "search": "greater-than equal to or less-than",
+        "replace": "større-enn lik eller mindre-enn"
+    },
+    {
+        "search": "equal to or less-than",
+        "replace": "lik eller mindre-enn"
+    },
+    {
+        "search": "equal to or greater-than",
+        "replace": "lik eller større-enn"
+    },
+    {
+        "search": "equal to or precedes",
+        "replace": "lik eller føregår"
+    },
+    {
+        "search": "equal to or succeeds",
+        "replace": "lik eller etterfylgjer"
+    },
+    {
+        "search": "does not precede or equal",
+        "replace": "føregår ikkje eller lik"
+    },
+    {
+        "search": "does not succeed or equal",
+        "replace": "etterfylgjer ikkje eller lik"
+    },
+    {
+        "search": "not square image of or equal to",
+        "replace": "ikkje kvadratbilet av eller lik"
+    },
+    {
+        "search": "not square original of or equal to",
+        "replace": "ikkje kvadratoriginal av eller lik"
+    },
+    {
+        "search": "square image of or not equal to",
+        "replace": "kvadratbilet av eller ikkje lik"
+    },
+    {
+        "search": "square original of or not equal to",
+        "replace": "kvadratoriginal av eller ikkje lik"
+    },
+    {
+        "search": "less-than but not equivalent to",
+        "replace": "mindre-enn men ikkje ekvivalent med"
+    },
+    {
+        "search": "greater-than but not equivalent to",
+        "replace": "større-enn men ikkje ekvivalent med"
+    },
+    {
+        "search": "precedes but not equivalent to",
+        "replace": "føregår men ikkje ekvivalent med"
+    },
+    {
+        "search": "succeeds but not equivalent to",
+        "replace": "etterfylgjer men ikkje ekvivalent med"
+    },
+    {
+        "search": "not normal subgroup of",
+        "replace": "ikkje normal undergruppe av"
+    },
+    {
+        "search": "does not contain as normal subgroup",
+        "replace": "inneheld ikkje som normal undergruppe"
+    },
+    {
+        "search": "not normal subgroup of or equal to",
+        "replace": "ikkje normal undergruppe av eller lik"
+    },
+    {
+        "search": "does not contain as normal subgroup or equal",
+        "replace": "inneheld ikkje som normal undergruppe eller lik"
+    },
+    {
+        "search": "vertical ellipsis",
+        "replace": "vertikal ellipsis"
+    },
+    {
+        "search": "midline horizontal ellipsis",
+        "replace": "midtlinje horisontal ellipsis"
+    },
+    {
+        "search": "up right diagonal ellipsis",
+        "replace": "opp høgre diagonal ellipsis"
+    },
+    {
+        "search": "down right diagonal ellipsis",
+        "replace": "ned høgre diagonal ellipsis"
+    },
+    {
+        "search": "element of with long horizontal stroke",
+        "replace": "element av med lang horisontal strek"
+    },
+    {
+        "search": "element of with vertical bar at end of horizontal stroke",
+        "replace": "element av med vertikal strek ved slutten av horisontal strek"
+    },
+    {
+        "search": "small element of with vertical bar at end of horizontal stroke",
+        "replace": "lite element av med vertikal strek ved slutten av horisontal strek"
+    },
+    {
+        "search": "element of with dot above",
+        "replace": "element av med punkt over"
+    },
+    {
+        "search": "element of with overbar",
+        "replace": "element av med overstrek"
+    },
+    {
+        "search": "small element of with overbar",
+        "replace": "lite element av med overstrek"
+    },
+    {
+        "search": "element of with underbar",
+        "replace": "element av med understrek"
+    },
+    {
+        "search": "element of with two horizontal strokes",
+        "replace": "element av med to horisontale streker"
+    },
+    {
+        "search": "contains with long horizontal stroke",
+        "replace": "inneheld med lang horisontal strek"
+    },
+    {
+        "search": "contains with vertical bar at end of horizontal stroke",
+        "replace": "inneheld med vertikal strek ved slutten av horisontal strek"
+    },
+    {
+        "search": "small contains with vertical bar at end of horizontal stroke",
+        "replace": "lite inneheld med vertikal strek ved slutten av horisontal strek"
+    },
+    {
+        "search": "contains with overbar",
+        "replace": "inneheld med overstrek"
+    },
+    {
+        "search": "small contains with overbar",
+        "replace": "lite inneheld med overstrek"
+    },
+    {
+        "search": "z notation bag membership",
+        "replace": "z-notasjon pose-medlemskap"
+    },
+    {
+        "search": "top half integral",
+        "replace": "øvre halvdel integral"
+    },
+    {
+        "search": "bottom half integral",
+        "replace": "nedre halvdel integral"
+    },
+    {
+        "search": "right angle with downwards zigzag arrow",
+        "replace": "rett vinkel med nedover sikksakkpil"
+    },
+    {
+        "search": "left parenthesis upper hook",
+        "replace": "venstreparentes øvre krok"
+    },
+    {
+        "search": "left parenthesis extension",
+        "replace": "venstreparentes forlengelse"
+    },
+    {
+        "search": "left parenthesis lower hook",
+        "replace": "venstreparentes nedre krok"
+    },
+    {
+        "search": "right parenthesis upper hook",
+        "replace": "høgreparentes øvre krok"
+    },
+    {
+        "search": "right parenthesis extension",
+        "replace": "høgreparentes forlengelse"
+    },
+    {
+        "search": "right parenthesis lower hook",
+        "replace": "høgreparentes nedre krok"
+    },
+    {
+        "search": "left square bracket upper corner",
+        "replace": "venstre hakeparentes øvre hjørne"
+    },
+    {
+        "search": "left square bracket extension",
+        "replace": "venstre hakeparentes forlengelse"
+    },
+    {
+        "search": "left square bracket lower corner",
+        "replace": "venstre hakeparentes nedre hjørne"
+    },
+    {
+        "search": "right square bracket upper corner",
+        "replace": "høgre hakeparentes øvre hjørne"
+    },
+    {
+        "search": "right square bracket extension",
+        "replace": "høgre hakeparentes forlengelse"
+    },
+    {
+        "search": "right square bracket lower corner",
+        "replace": "høgre hakeparentes nedre hjørne"
+    },
+    {
+        "search": "left curly bracket upper hook",
+        "replace": "venstre krøllparentes øvre krok"
+    },
+    {
+        "search": "left curly bracket middle piece",
+        "replace": "venstre krøllparentes midtstykke"
+    },
+    {
+        "search": "left curly bracket lower hook",
+        "replace": "venstre krøllparentes nedre krok"
+    },
+    {
+        "search": "curly bracket extension",
+        "replace": "krøllparentes forlengelse"
+    },
+    {
+        "search": "right curly bracket upper hook",
+        "replace": "høgre krøllparentes øvre krok"
+    },
+    {
+        "search": "right curly bracket middle piece",
+        "replace": "høgre krøllparentes midtstykke"
+    },
+    {
+        "search": "right curly bracket lower hook",
+        "replace": "høgre krøllparentes nedre krok"
+    },
+    {
+        "search": "integral extension",
+        "replace": "integral forlengelse"
+    },
+    {
+        "search": "horizontal line extension",
+        "replace": "horisontal linje forlengelse"
+    },
+    {
+        "search": "upper left or lower right curly bracket section",
+        "replace": "øvre venstre eller nedre høgre krøllparentes seksjon"
+    },
+    {
+        "search": "upper right or lower left curly bracket section",
+        "replace": "øvre høgre eller nedre venstre krøllparentes seksjon"
+    },
+    {
+        "search": "summation top",
+        "replace": "summering topp"
+    },
+    {
+        "search": "summation bottom",
+        "replace": "summering bunn"
+    },
+    {
+        "search": "top parenthesis",
+        "replace": "topp parentes"
+    },
+    {
+        "search": "bottom parenthesis",
+        "replace": "bunn parentes"
+    },
+    {
+        "search": "top curly bracket",
+        "replace": "topp krøllparentes"
+    },
+    {
+        "search": "bottom curly bracket",
+        "replace": "bunn krøllparentes"
+    },
+    {
+        "search": "top tortoise shell bracket",
+        "replace": "topp skilpaddeparentes"
+    },
+    {
+        "search": "bottom tortoise shell bracket",
+        "replace": "bunn skilpaddeparentes"
+    },
+    {
+        "search": "white right-pointing triangle",
+        "replace": "kvit høgrepeikande trekant"
+    },
+    {
+        "search": "white left-pointing triangle",
+        "replace": "kvit venstrepeikande trekant"
+    },
+    {
+        "search": "upper left triangle",
+        "replace": "øvre venstre trekant"
+    },
+    {
+        "search": "upper right triangle",
+        "replace": "øvre høgre trekant"
+    },
+    {
+        "search": "lower left triangle",
+        "replace": "nedre venstre trekant"
+    },
+    {
+        "search": "white medium square",
+        "replace": "kvit medium firkant"
+    },
+    {
+        "search": "black medium square",
+        "replace": "svart medium firkant"
+    },
+    {
+        "search": "white medium small square",
+        "replace": "kvit medium liten firkant"
+    },
+    {
+        "search": "black medium small square",
+        "replace": "svart medium liten firkant"
+    },
+    {
+        "search": "lower right triangle",
+        "replace": "nedre høgre trekant"
+    },
+    {
+        "search": "music sharp sign",
+        "replace": "musikk kryss-teikn"
+    },
+    {
+        "search": "three dimensional angle",
+        "replace": "tredimensjonal vinkel"
+    },
+    {
+        "search": "white triangle containing small white triangle",
+        "replace": "kvit trekant som inneheld liten kvit trekant"
+    },
+    {
+        "search": "perpendicular",
+        "replace": "vinkelrett"
+    },
+    {
+        "search": "open subset",
+        "replace": "open delmengd"
+    },
+    {
+        "search": "open superset",
+        "replace": "open overmengd"
+    },
+    {
+        "search": "or with dot inside",
+        "replace": "eller med punkt inni"
+    },
+    {
+        "search": "reverse solidus preceding subset",
+        "replace": "omvendt solidus føregår delmengd"
+    },
+    {
+        "search": "superset preceding solidus",
+        "replace": "overmengd føregår solidus"
+    },
+    {
+        "search": "vertical bar with horizontal stroke",
+        "replace": "vertikal strek med horisontal strek"
+    },
+    {
+        "search": "mathematical rising diagonal",
+        "replace": "matematisk stigande diagonal"
+    },
+    {
+        "search": "long division",
+        "replace": "lang divisjon"
+    },
+    {
+        "search": "mathematical falling diagonal",
+        "replace": "matematisk fallande diagonal"
+    },
+    {
+        "search": "squared logical and",
+        "replace": "kvadrert logisk og"
+    },
+    {
+        "search": "squared logical or",
+        "replace": "kvadrert logisk eller"
+    },
+    {
+        "search": "white diamond with centred dot",
+        "replace": "kvit diamant med sentrert punkt"
+    },
+    {
+        "search": "and with dot",
+        "replace": "og med punkt"
+    },
+    {
+        "search": "element of opening upwards",
+        "replace": "element av som opnar oppover"
+    },
+    {
+        "search": "lower right corner with dot",
+        "replace": "nedre høgre hjørne med punkt"
+    },
+    {
+        "search": "upper left corner with dot",
+        "replace": "øvre venstre hjørne med punkt"
+    },
+    {
+        "search": "left outer join",
+        "replace": "venstre ytre join"
+    },
+    {
+        "search": "right outer join",
+        "replace": "høgre ytre join"
+    },
+    {
+        "search": "full outer join",
+        "replace": "full ytre join"
+    },
+    {
+        "search": "large up tack",
+        "replace": "stor opp stift"
+    },
+    {
+        "search": "large down tack",
+        "replace": "stor ned stift"
+    },
+    {
+        "search": "left and right double turnstile",
+        "replace": "venstre og høgre dobbel turnstile"
+    },
+    {
+        "search": "left and right tack",
+        "replace": "venstre og høgre stift"
+    },
+    {
+        "search": "left multimap",
+        "replace": "venstre multikart"
+    },
+    {
+        "search": "long right tack",
+        "replace": "lang høgre stift"
+    },
+    {
+        "search": "long left tack",
+        "replace": "lang venstre stift"
+    },
+    {
+        "search": "up tack with circle above",
+        "replace": "opp stift med sirkel over"
+    },
+    {
+        "search": "lozenge divided by horizontal rule",
+        "replace": "rombe delt med horisontal regel"
+    },
+    {
+        "search": "white concave-sided diamond",
+        "replace": "kvit konkavsidig diamant"
+    },
+    {
+        "search": "white concave-sided diamond with leftwards tick",
+        "replace": "kvit konkavsidig diamant med venstre hake"
+    },
+    {
+        "search": "white concave-sided diamond with rightwards tick",
+        "replace": "kvit konkavsidig diamant med høgre hake"
+    },
+    {
+        "search": "white square with leftwards tick",
+        "replace": "kvit firkant med venstre hake"
+    },
+    {
+        "search": "white square with rightwards tick",
+        "replace": "kvit firkant med høgre hake"
+    },
+    {
+        "search": "upwards quadruple arrow",
+        "replace": "oppover firedobbel pil"
+    },
+    {
+        "search": "downwards quadruple arrow",
+        "replace": "nedover firedobbel pil"
+    },
+    {
+        "search": "anticlockwise gapped circle arrow",
+        "replace": "moturs gapet sirkelpil"
+    },
+    {
+        "search": "clockwise gapped circle arrow",
+        "replace": "medurs gapet sirkelpil"
+    },
+    {
+        "search": "right arrow with circled plus",
+        "replace": "høgrepil med sirklet pluss"
+    },
+    {
+        "search": "long leftwards arrow",
+        "replace": "lang venstrepil"
+    },
+    {
+        "search": "long rightwards arrow",
+        "replace": "lang høgrepil"
+    },
+    {
+        "search": "long left right arrow",
+        "replace": "lang venstre høgre pil"
+    },
+    {
+        "search": "long leftwards double arrow",
+        "replace": "lang venstre dobbeltpil"
+    },
+    {
+        "search": "long rightwards double arrow",
+        "replace": "lang høgre dobbeltpil"
+    },
+    {
+        "search": "long left right double arrow",
+        "replace": "lang venstre høgre dobbeltpil"
+    },
+    {
+        "search": "acute angle",
+        "replace": "spiss vinkel"
+    },
+    {
+        "search": "almost equal to with circumflex accent",
+        "replace": "nesten lik med sirkumfleks aksent"
+    },
+    {
+        "search": "amalgamation or coproduct",
+        "replace": "amalgamering eller koprodukt"
+    },
+    {
+        "search": "angle with s inside",
+        "replace": "vinkel med s inni"
+    },
+    {
+        "search": "angle with underbar",
+        "replace": "vinkel med understrek"
+    },
+    {
+        "search": "anticlockwise closed circle arrow",
+        "replace": "moturs lukket sirkelpil"
+    },
+    {
+        "search": "anticlockwise integration",
+        "replace": "moturs integrasjon"
+    },
+    {
+        "search": "approximately equal or equal to",
+        "replace": "omtrent lik eller lik"
+    },
+    {
+        "search": "arabic mathematical operator hah with dal",
+        "replace": "arabisk matematisk operator hah med dal"
+    },
+    {
+        "search": "arabic mathematical operator meem with hah with tatweel",
+        "replace": "arabisk matematisk operator meem med hah med tatweel"
+    },
+    {
+        "search": "arrow pointing downwards then curving leftwards",
+        "replace": "pil som peikar nedover deretter bøyer til venstre"
+    },
+    {
+        "search": "arrow pointing downwards then curving rightwards",
+        "replace": "pil som peikar nedover deretter bøyer til høgre"
+    },
+    {
+        "search": "arrow pointing rightwards then curving downwards",
+        "replace": "pil som peikar til høgre deretter bøyer nedover"
+    },
+    {
+        "search": "arrow pointing rightwards then curving upwards",
+        "replace": "pil som peikar til høgre deretter bøyer oppover"
+    },
+    {
+        "search": "big reverse solidus",
+        "replace": "stor omvendt solidus"
+    },
+    {
+        "search": "big solidus",
+        "replace": "stor solidus"
+    },
+    {
+        "search": "black bowtie",
+        "replace": "svart sløyfe"
+    },
+    {
+        "search": "black circle with down arrow",
+        "replace": "svart sirkel med nedpil"
+    },
+    {
+        "search": "black diamond with down arrow",
+        "replace": "svart diamant med nedpil"
+    },
+    {
+        "search": "black hourglass",
+        "replace": "svart timeglass"
+    },
+    {
+        "search": "black lozenge",
+        "replace": "svart rombe"
+    },
+    {
+        "search": "bottom arc anticlockwise arrow",
+        "replace": "botnboge moturs pil"
+    },
+    {
+        "search": "bowtie with left half black",
+        "replace": "sløyfe med venstre halvdel svart"
+    },
+    {
+        "search": "bowtie with right half black",
+        "replace": "sløyfe med høgre halvdel svart"
+    },
+    {
+        "search": "circle divided by horizontal bar and top half divided by vertical bar",
+        "replace": "sirkel delt med horisontal strek og øvre halvdel delt med vertikal strek"
+    },
+    {
+        "search": "circle with horizontal bar",
+        "replace": "sirkel med horisontal strek"
+    },
+    {
+        "search": "circle with small circle to the right",
+        "replace": "sirkel med liten sirkel til høgre"
+    },
+    {
+        "search": "circle with superimposed x",
+        "replace": "sirkel med overlagret x"
+    },
+    {
+        "search": "circle with two horizontal strokes to the right",
+        "replace": "sirkel med to horisontale streker til høgre"
+    },
+    {
+        "search": "circled anticlockwise-rotated division sign",
+        "replace": "sirklet moturs-rotert divisjonsteikn"
+    },
+    {
+        "search": "circled bullet",
+        "replace": "sirklet kule"
+    },
+    {
+        "search": "circled division sign",
+        "replace": "sirklet divisjonsteikn"
+    },
+    {
+        "search": "circled greater-than",
+        "replace": "sirklet større enn"
+    },
+    {
+        "search": "circled less-than",
+        "replace": "sirklet mindre enn"
+    },
+    {
+        "search": "circled multiplication sign with circumflex accent",
+        "replace": "sirklet multiplikasjonsteikn med sirkumfleks aksent"
+    },
+    {
+        "search": "circled parallel",
+        "replace": "sirklet parallell"
+    },
+    {
+        "search": "circled perpendicular",
+        "replace": "sirklet vinkelrett"
+    },
+    {
+        "search": "circled reverse solidus",
+        "replace": "sirklet omvendt solidus"
+    },
+    {
+        "search": "circled vertical bar",
+        "replace": "sirklet vertikal strek"
+    },
+    {
+        "search": "circled white bullet",
+        "replace": "sirklet kvit kule"
+    },
+    {
+        "search": "circulation function",
+        "replace": "sirkulasjonsfunksjon"
+    },
+    {
+        "search": "clockwise closed circle arrow",
+        "replace": "medurs lukket sirkelpil"
+    },
+    {
+        "search": "closed intersection with serifs",
+        "replace": "lukket snitt med seriffer"
+    },
+    {
+        "search": "closed subset",
+        "replace": "lukket delmengd"
+    },
+    {
+        "search": "closed subset or equal to",
+        "replace": "lukket delmengd eller lik"
+    },
+    {
+        "search": "closed superset",
+        "replace": "lukket overmengd"
+    },
+    {
+        "search": "closed superset or equal to",
+        "replace": "lukket overmengd eller lik"
+    },
+    {
+        "search": "closed union with serifs",
+        "replace": "lukket union med seriffer"
+    },
+    {
+        "search": "closed union with serifs and smash product",
+        "replace": "lukket union med seriffer og smash-produkt"
+    },
+    {
+        "search": "congruent with dot above",
+        "replace": "kongruent med punkt over"
+    },
+    {
+        "search": "does not divide with reversed negation slash",
+        "replace": "deler ikkje med omvendt negasjon skråstrek"
+    },
+    {
+        "search": "dotted fence",
+        "replace": "prikka gjerde"
+    },
+    {
+        "search": "double colon equal",
+        "replace": "dobbelt kolon lik"
+    },
+    {
+        "search": "double down tack",
+        "replace": "dobbelt ned stift"
+    },
+    {
+        "search": "double logical and",
+        "replace": "dobbelt logisk og"
+    },
+    {
+        "search": "double logical or",
+        "replace": "dobbelt logisk eller"
+    },
+    {
+        "search": "double nested greater-than",
+        "replace": "dobbelt nestet større enn"
+    },
+    {
+        "search": "double nested less-than",
+        "replace": "dobbelt nestet mindre enn"
+    },
+    {
+        "search": "double nested less-than with underbar",
+        "replace": "dobbelt nestet mindre enn med understrek"
+    },
+    {
+        "search": "double plus",
+        "replace": "dobbelt pluss"
+    },
+    {
+        "search": "double precedes",
+        "replace": "dobbelt føregår"
+    },
+    {
+        "search": "double solidus operator",
+        "replace": "dobbelt solidus operator"
+    },
+    {
+        "search": "double square intersection",
+        "replace": "dobbelt kvadratisk snitt"
+    },
+    {
+        "search": "double square union",
+        "replace": "dobbelt kvadratisk union"
+    },
+    {
+        "search": "double stroke not sign",
+        "replace": "dobbelt strek ikkje-teikn"
+    },
+    {
+        "search": "double succeeds",
+        "replace": "dobbelt etterfylgjar"
+    },
+    {
+        "search": "double up tack",
+        "replace": "dobbelt opp stift"
+    },
+    {
+        "search": "double vertical bar double left turnstile",
+        "replace": "dobbelt vertikal strek dobbelt venstre turnstile"
+    },
+    {
+        "search": "double vertical bar left turnstile",
+        "replace": "dobbelt vertikal strek venstre turnstile"
+    },
+    {
+        "search": "double-ended multimap",
+        "replace": "dobbelt-ende multikart"
+    },
+    {
+        "search": "double-line equal to or greater-than",
+        "replace": "dobbelt-linje lik eller større enn"
+    },
+    {
+        "search": "double-line equal to or less-than",
+        "replace": "dobbelt-linje lik eller mindre enn"
+    },
+    {
+        "search": "double-line slanted equal to or greater-than",
+        "replace": "dobbelt-linje skrå lik eller større enn"
+    },
+    {
+        "search": "double-line slanted equal to or less-than",
+        "replace": "dobbelt-linje skrå lik eller mindre enn"
+    },
+    {
+        "search": "double-line slanted greater-than or equal to",
+        "replace": "dobbelt-linje skrå større enn eller lik"
+    },
+    {
+        "search": "double-line slanted less-than or equal to",
+        "replace": "dobbelt-linje skrå mindre enn eller lik"
+    },
+    {
+        "search": "down fish tail",
+        "replace": "ned fiskestjert"
+    },
+    {
+        "search": "down tack with circle below",
+        "replace": "ned stift med sirkel under"
+    },
+    {
+        "search": "down-pointing triangle with left half black",
+        "replace": "nedpeikande trekant med venstre halvdel svart"
+    },
+    {
+        "search": "down-pointing triangle with right half black",
+        "replace": "nedpeikande trekant med høgre halvdel svart"
+    },
+    {
+        "search": "downwards arrow to bar",
+        "replace": "nedpil til strek"
+    },
+    {
+        "search": "downwards arrow with horizontal stroke",
+        "replace": "nedpil med horisontal strek"
+    },
+    {
+        "search": "downwards harpoon with barb left beside downwards harpoon with barb right",
+        "replace": "nedpil med krok til venstre ved sida av nedpil med krok til høgre"
+    },
+    {
+        "search": "downwards harpoon with barb left beside upwards harpoon with barb right",
+        "replace": "nedpil med krok til venstre ved sida av opppil med krok til høgre"
+    },
+    {
+        "search": "downwards harpoon with barb left from bar",
+        "replace": "nedpil med krok til venstre frå strek"
+    },
+    {
+        "search": "downwards harpoon with barb left to bar",
+        "replace": "nedpil med krok til venstre til strek"
+    },
+    {
+        "search": "downwards harpoon with barb right from bar",
+        "replace": "nedpil med krok til høgre frå strek"
+    },
+    {
+        "search": "downwards harpoon with barb right to bar",
+        "replace": "nedpil med krok til høgre til strek"
+    },
+    {
+        "search": "downwards triple arrow",
+        "replace": "nedover trippel pil"
+    },
+    {
+        "search": "element of opening downwards",
+        "replace": "element av som opnar nedover"
+    },
+    {
+        "search": "empty set with left arrow above",
+        "replace": "tom mengd med venstre pil over"
+    },
+    {
+        "search": "empty set with overbar",
+        "replace": "tom mengd med overstrek"
+    },
+    {
+        "search": "empty set with right arrow above",
+        "replace": "tom mengd med høgre pil over"
+    },
+    {
+        "search": "empty set with small circle above",
+        "replace": "tom mengd med liten sirkel over"
+    },
+    {
+        "search": "equals sign above leftwards arrow",
+        "replace": "likskapsteikn over venstre pil"
+    },
+    {
+        "search": "equals sign above plus sign",
+        "replace": "likskapsteikn over plussteikn"
+    },
+    {
+        "search": "equals sign above rightwards arrow",
+        "replace": "likskapsteikn over høgre pil"
+    },
+    {
+        "search": "equals sign above tilde operator",
+        "replace": "likskapsteikn over tilde operator"
+    },
+    {
+        "search": "equals sign and slanted parallel",
+        "replace": "likskapsteikn og skrå parallell"
+    },
+    {
+        "search": "equals sign and slanted parallel with tilde above",
+        "replace": "likskapsteikn og skrå parallell med tilde over"
+    },
+    {
+        "search": "equals sign with bumpy above",
+        "replace": "likskapsteikn med ujevn over"
+    },
+    {
+        "search": "equals sign with dot below",
+        "replace": "likskapsteikn med punkt under"
+    },
+    {
+        "search": "equals sign with two dots above and two dots below",
+        "replace": "likskapsteikn med to punkt over og to punkt under"
+    },
+    {
+        "search": "equals with asterisk",
+        "replace": "lik med asterisk"
+    },
+    {
+        "search": "equivalent with four dots above",
+        "replace": "ekvivalent med fire punkt over"
+    },
+    {
+        "search": "error-barred black circle",
+        "replace": "feilstreket svart sirkel"
+    },
+    {
+        "search": "error-barred black diamond",
+        "replace": "feilstreket svart diamant"
+    },
+    {
+        "search": "error-barred black square",
+        "replace": "feilstreket svart firkant"
+    },
+    {
+        "search": "error-barred white circle",
+        "replace": "feilstreket kvit sirkel"
+    },
+    {
+        "search": "error-barred white diamond",
+        "replace": "feilstreket kvit diamant"
+    },
+    {
+        "search": "error-barred white square",
+        "replace": "feilstreket kvit firkant"
+    },
+    {
+        "search": "falling diagonal crossing north east arrow",
+        "replace": "fallande diagonal som kryssar nordaustpil"
+    },
+    {
+        "search": "falling diagonal crossing rising diagonal",
+        "replace": "fallande diagonal som kryssar stigande diagonal"
+    },
+    {
+        "search": "finite part integral",
+        "replace": "endeleg del integral"
+    },
+    {
+        "search": "forking",
+        "replace": "forgrening"
+    },
+    {
+        "search": "fullwidth equals sign",
+        "replace": "fullbreidd likskapsteikn"
+    },
+    {
+        "search": "fullwidth greater-than sign",
+        "replace": "fullbreidd større enn-teikn"
+    },
+    {
+        "search": "fullwidth less-than sign",
+        "replace": "fullbreidd mindre enn-teikn"
+    },
+    {
+        "search": "fullwidth not sign",
+        "replace": "fullbreidd ikkje-teikn"
+    },
+    {
+        "search": "fullwidth plus sign",
+        "replace": "fullbreidd plussteikn"
+    },
+    {
+        "search": "fullwidth tilde",
+        "replace": "fullbreidd tilde"
+    },
+    {
+        "search": "fullwidth vertical line",
+        "replace": "fullbreidd vertikal linje"
+    },
+    {
+        "search": "gleich stark",
+        "replace": "gleich stark"
+    },
+    {
+        "search": "greater-than above double-line equal above less-than",
+        "replace": "større enn over dobbelt-linje lik over mindre enn"
+    },
+    {
+        "search": "greater-than above less-than above double-line equal",
+        "replace": "større enn over mindre enn over dobbelt-linje lik"
+    },
+    {
+        "search": "greater-than above rightwards arrow",
+        "replace": "større enn over høgre pil"
+    },
+    {
+        "search": "greater-than above similar above less-than",
+        "replace": "større enn over liknande over mindre enn"
+    },
+    {
+        "search": "greater-than above similar or equal",
+        "replace": "større enn over liknande eller lik"
+    },
+    {
+        "search": "greater-than above slanted equal above less-than above slanted equal",
+        "replace": "større enn over skrå lik over mindre enn over skrå lik"
+    },
+    {
+        "search": "greater-than and not approximate",
+        "replace": "større enn og ikkje omtrent"
+    },
+    {
+        "search": "greater-than and single-line not equal to",
+        "replace": "større enn og enkelt-linje ikkje lik"
+    },
+    {
+        "search": "greater-than beside less-than",
+        "replace": "større enn ved sida av mindre enn"
+    },
+    {
+        "search": "greater-than closed by curve",
+        "replace": "større enn lukka av kurve"
+    },
+    {
+        "search": "greater-than closed by curve above slanted equal",
+        "replace": "større enn lukka av kurve over skrå lik"
+    },
+    {
+        "search": "greater-than or approximate",
+        "replace": "større enn eller omtrent"
+    },
+    {
+        "search": "greater-than or slanted equal to",
+        "replace": "større enn eller skrå lik"
+    },
+    {
+        "search": "greater-than or slanted equal to with dot above",
+        "replace": "større enn eller skrå lik med punkt over"
+    },
+    {
+        "search": "greater-than or slanted equal to with dot above left",
+        "replace": "større enn eller skrå lik med punkt over venstre"
+    },
+    {
+        "search": "greater-than or slanted equal to with dot inside",
+        "replace": "større enn eller skrå lik med punkt inni"
+    },
+    {
+        "search": "greater-than overlapping less-than",
+        "replace": "større enn som overlappar mindre enn"
+    },
+    {
+        "search": "greater-than with circle inside",
+        "replace": "større enn med sirkel inni"
+    },
+    {
+        "search": "greater-than with question mark above",
+        "replace": "større enn med spørsmålsteikn over"
+    },
+    {
+        "search": "halfwidth downwards arrow",
+        "replace": "halvbreidd nedpil"
+    },
+    {
+        "search": "halfwidth leftwards arrow",
+        "replace": "halvbreidd venstre pil"
+    },
+    {
+        "search": "halfwidth rightwards arrow",
+        "replace": "halvbreidd høgre pil"
+    },
+    {
+        "search": "halfwidth upwards arrow",
+        "replace": "halvbreidd opppil"
+    },
+    {
+        "search": "hebrew letter alternative plus sign",
+        "replace": "hebraisk bokstav alternativt plussteikn"
+    },
+    {
+        "search": "identical to and slanted parallel",
+        "replace": "identisk med og skrå parallell"
+    },
+    {
+        "search": "identical with dot above",
+        "replace": "identisk med punkt over"
+    },
+    {
+        "search": "incomplete infinity",
+        "replace": "ufullstendig uendeleg"
+    },
+    {
+        "search": "increases as",
+        "replace": "aukar som"
+    },
+    {
+        "search": "infinity negated with vertical bar",
+        "replace": "uendeleg negert med vertikal strek"
+    },
+    {
+        "search": "integral around a point operator",
+        "replace": "integral rundt eit punkt operator"
+    },
+    {
+        "search": "integral average with slash",
+        "replace": "integral gjennomsnitt med skråstrek"
+    },
+    {
+        "search": "integral with double stroke",
+        "replace": "integral med dobbelt strek"
+    },
+    {
+        "search": "integral with intersection",
+        "replace": "integral med snitt"
+    },
+    {
+        "search": "integral with leftwards arrow with hook",
+        "replace": "integral med venstre pil med krok"
+    },
+    {
+        "search": "integral with overbar",
+        "replace": "integral med overstrek"
+    },
+    {
+        "search": "integral with times sign",
+        "replace": "integral med gangeteikn"
+    },
+    {
+        "search": "integral with underbar",
+        "replace": "integral med understrek"
+    },
+    {
+        "search": "integral with union",
+        "replace": "integral med union"
+    },
+    {
+        "search": "interior product",
+        "replace": "indre produkt"
+    },
+    {
+        "search": "intersection above bar above union",
+        "replace": "snitt over strek over union"
+    },
+    {
+        "search": "intersection above union",
+        "replace": "snitt over union"
+    },
+    {
+        "search": "intersection beside and joined with intersection",
+        "replace": "snitt ved sida av og forbunde med snitt"
+    },
+    {
+        "search": "intersection with dot",
+        "replace": "snitt med punkt"
+    },
+    {
+        "search": "intersection with logical and",
+        "replace": "snitt med logisk og"
+    },
+    {
+        "search": "intersection with overbar",
+        "replace": "snitt med overstrek"
+    },
+    {
+        "search": "join",
+        "replace": "join"
+    },
+    {
+        "search": "large left triangle operator",
+        "replace": "stor venstre trekant operator"
+    },
+    {
+        "search": "large triple vertical bar operator",
+        "replace": "stor trippel vertikal strek operator"
+    },
+    {
+        "search": "larger than",
+        "replace": "større enn"
+    },
+    {
+        "search": "larger than or equal to",
+        "replace": "større enn eller lik"
+    },
+    {
+        "search": "left arrow with circled plus",
+        "replace": "venstre pil med sirklet pluss"
+    },
+    {
+        "search": "left arrow with small circle",
+        "replace": "venstre pil med liten sirkel"
+    },
+    {
+        "search": "left barb down right barb down harpoon",
+        "replace": "venstre krok ned høgre krok ned harpun"
+    },
+    {
+        "search": "left barb down right barb up harpoon",
+        "replace": "venstre krok ned høgre krok opp harpun"
+    },
+    {
+        "search": "left barb up right barb down harpoon",
+        "replace": "venstre krok opp høgre krok ned harpun"
+    },
+    {
+        "search": "left barb up right barb up harpoon",
+        "replace": "venstre krok opp høgre krok opp harpun"
+    },
+    {
+        "search": "left fish tail",
+        "replace": "venstre fiskestjert"
+    },
+    {
+        "search": "left right arrow through small circle",
+        "replace": "venstre høgre pil gjennom liten sirkel"
+    },
+    {
+        "search": "left right double arrow with vertical stroke",
+        "replace": "venstre høgre dobbeltpil med vertikal strek"
+    },
+    {
+        "search": "left triangle beside vertical bar",
+        "replace": "venstre trekant ved sida av vertikal strek"
+    },
+    {
+        "search": "left-side arc anticlockwise arrow",
+        "replace": "venstre-side boge moturs pil"
+    },
+    {
+        "search": "leftwards arrow above almost equal to",
+        "replace": "venstre pil over nesten lik"
+    },
+    {
+        "search": "leftwards arrow above reverse almost equal to",
+        "replace": "venstre pil over omvendt nesten lik"
+    },
+    {
+        "search": "leftwards arrow above reverse tilde operator",
+        "replace": "venstre pil over omvendt tilde operator"
+    },
+    {
+        "search": "leftwards arrow above short rightwards arrow",
+        "replace": "venstre pil over kort høgre pil"
+    },
+    {
+        "search": "leftwards arrow above tilde operator",
+        "replace": "venstre pil over tilde operator"
+    },
+    {
+        "search": "leftwards arrow from bar to black diamond",
+        "replace": "venstre pil frå strek til svart diamant"
+    },
+    {
+        "search": "leftwards arrow through less-than",
+        "replace": "venstre pil gjennom mindre enn"
+    },
+    {
+        "search": "leftwards arrow through subset",
+        "replace": "venstre pil gjennom delmengd"
+    },
+    {
+        "search": "leftwards arrow through x",
+        "replace": "venstre pil gjennom x"
+    },
+    {
+        "search": "leftwards arrow to black diamond",
+        "replace": "venstre pil til svart diamant"
+    },
+    {
+        "search": "leftwards arrow with dotted stem",
+        "replace": "venstre pil med prikka stamme"
+    },
+    {
+        "search": "leftwards arrow with plus below",
+        "replace": "venstre pil med pluss under"
+    },
+    {
+        "search": "leftwards arrow with tail with double vertical stroke",
+        "replace": "venstre pil med hale med dobbelt vertikal strek"
+    },
+    {
+        "search": "leftwards arrow with tail with vertical stroke",
+        "replace": "venstre pil med hale med vertikal strek"
+    },
+    {
+        "search": "leftwards arrow-tail",
+        "replace": "venstre pil-hale"
+    },
+    {
+        "search": "leftwards double arrow from bar",
+        "replace": "venstre dobbeltpil frå strek"
+    },
+    {
+        "search": "long leftwards arrow from bar",
+        "replace": "lang venstre pil frå strek"
+    },
+    {
+        "search": "long rightwards arrow from bar",
+        "replace": "lang høgre pil frå strek"
+    },
+    {
+        "search": "long leftwards double arrow from bar",
+        "replace": "lang venstre dobbeltpil frå strek"
+    },
+    {
+        "search": "long rightwards double arrow from bar",
+        "replace": "lang høgre dobbeltpil frå strek"
+    },
+    {
+        "search": "long rightwards squiggle arrow",
+        "replace": "lang høgre sikksakkpil"
+    },
+    {
+        "search": "rightwards two-headed arrow with vertical stroke",
+        "replace": "høgre tohodet pil med vertikal strek"
+    },
+    {
+        "search": "rightwards two-headed arrow with double vertical stroke",
+        "replace": "høgre tohodet pil med dobbelt vertikal strek"
+    },
+    {
+        "search": "leftwards double arrow with vertical stroke",
+        "replace": "venstre dobbeltpil med vertikal strek"
+    },
+    {
+        "search": "rightwards double arrow with vertical stroke",
+        "replace": "høgre dobbeltpil med vertikal strek"
+    },
+    {
+        "search": "rightwards two-headed arrow from bar",
+        "replace": "høgre tohodet pil frå strek"
+    },
+    {
+        "search": "rightwards double arrow from bar",
+        "replace": "høgre dobbeltpil frå strek"
+    },
+    {
+        "search": "upwards arrow with horizontal stroke",
+        "replace": "opppil med horisontal strek"
+    },
+    {
+        "search": "upwards triple arrow",
+        "replace": "oppover trippel pil"
+    },
+    {
+        "search": "leftwards double dash arrow",
+        "replace": "venstre dobbeltstrek pil"
+    },
+    {
+        "search": "rightwards double dash arrow",
+        "replace": "høgre dobbeltstrek pil"
+    },
+    {
+        "search": "leftwards triple dash arrow",
+        "replace": "venstre trippelstrek pil"
+    },
+    {
+        "search": "rightwards triple dash arrow",
+        "replace": "høgre trippelstrek pil"
+    },
+    {
+        "search": "rightwards two-headed triple dash arrow",
+        "replace": "høgre tohodet trippelstrek pil"
+    },
+    {
+        "search": "rightwards arrow with dotted stem",
+        "replace": "høgre pil med prikka stamme"
+    },
+    {
+        "search": "upwards arrow to bar",
+        "replace": "opppil til strek"
+    },
+    {
+        "search": "rightwards arrow with tail with vertical stroke",
+        "replace": "høgre pil med hale med vertikal strek"
+    },
+    {
+        "search": "rightwards arrow with tail with double vertical stroke",
+        "replace": "høgre pil med hale med dobbelt vertikal strek"
+    },
+    {
+        "search": "rightwards two-headed arrow with tail",
+        "replace": "høgre tohodet pil med hale"
+    },
+    {
+        "search": "rightwards two-headed arrow with tail with vertical stroke",
+        "replace": "høgre tohodet pil med hale med vertikal strek"
+    },
+    {
+        "search": "rightwards two-headed arrow with tail with double vertical stroke",
+        "replace": "høgre tohodet pil med hale med dobbelt vertikal strek"
+    },
+    {
+        "search": "rightwards arrow-tail",
+        "replace": "høgre pil-hale"
+    },
+    {
+        "search": "leftwards double arrow-tail",
+        "replace": "venstre dobbeltpil-hale"
+    },
+    {
+        "search": "rightwards double arrow-tail",
+        "replace": "høgre dobbeltpil-hale"
+    },
+    {
+        "search": "rightwards arrow to black diamond",
+        "replace": "høgre pil til svart diamant"
+    },
+    {
+        "search": "rightwards arrow from bar to black diamond",
+        "replace": "høgre pil frå strek til svart diamant"
+    },
+    {
+        "search": "north west and south east arrow",
+        "replace": "nordvest og søraust pil"
+    },
+    {
+        "search": "north east and south west arrow",
+        "replace": "nordaust og sørvest pil"
+    },
+    {
+        "search": "north west arrow with hook",
+        "replace": "nordvest pil med krok"
+    },
+    {
+        "search": "north east arrow with hook",
+        "replace": "nordaust pil med krok"
+    },
+    {
+        "search": "south east arrow with hook",
+        "replace": "søraust pil med krok"
+    },
+    {
+        "search": "south west arrow with hook",
+        "replace": "sørvest pil med krok"
+    },
+    {
+        "search": "north west arrow and north east arrow",
+        "replace": "nordvest pil og nordaust pil"
+    },
+    {
+        "search": "north east arrow and south east arrow",
+        "replace": "nordaust pil og søraust pil"
+    },
+    {
+        "search": "south east arrow and south west arrow",
+        "replace": "søraust pil og sørvest pil"
+    },
+    {
+        "search": "south west arrow and north west arrow",
+        "replace": "sørvest pil og nordvest pil"
+    },
+    {
+        "search": "rising diagonal crossing falling diagonal",
+        "replace": "stigande diagonal som kryssar fallande diagonal"
+    },
+    {
+        "search": "south east arrow crossing north east arrow",
+        "replace": "søraust pil som kryssar nordaust pil"
+    },
+    {
+        "search": "north east arrow crossing south east arrow",
+        "replace": "nordaust pil som kryssar søraust pil"
+    },
+    {
+        "search": "rising diagonal crossing south east arrow",
+        "replace": "stigande diagonal som kryssar søraust pil"
+    },
+    {
+        "search": "north east arrow crossing north west arrow",
+        "replace": "nordaust pil som kryssar nordvest pil"
+    },
+    {
+        "search": "north west arrow crossing north east arrow",
+        "replace": "nordvest pil som kryssar nordaust pil"
+    },
+    {
+        "search": "wave arrow pointing directly right",
+        "replace": "bølgjepil som peikar direkte til høgre"
+    },
+    {
+        "search": "right-side arc clockwise arrow",
+        "replace": "høgre-side boge medurs pil"
+    },
+    {
+        "search": "top arc anticlockwise arrow",
+        "replace": "toppboge moturs pil"
+    },
+    {
+        "search": "top arc clockwise arrow with minus",
+        "replace": "toppboge medurs pil med minus"
+    },
+    {
+        "search": "top arc anticlockwise arrow with plus",
+        "replace": "toppboge moturs pil med pluss"
+    },
+    {
+        "search": "lower right semicircular clockwise arrow",
+        "replace": "nedre høgre halvsirkulær medurs pil"
+    },
+    {
+        "search": "lower left semicircular anticlockwise arrow",
+        "replace": "nedre venstre halvsirkulær moturs pil"
+    },
+    {
+        "search": "rightwards arrow above short leftwards arrow",
+        "replace": "høgre pil over kort venstre pil"
+    },
+    {
+        "search": "short rightwards arrow above leftwards arrow",
+        "replace": "kort høgre pil over venstre pil"
+    },
+    {
+        "search": "rightwards arrow with plus below",
+        "replace": "høgre pil med pluss under"
+    },
+    {
+        "search": "rightwards arrow through x",
+        "replace": "høgre pil gjennom x"
+    },
+    {
+        "search": "upwards two-headed arrow from small circle",
+        "replace": "oppover tohodet pil frå liten sirkel"
+    },
+    {
+        "search": "up barb right down barb left harpoon",
+        "replace": "opp krok høgre ned krok venstre harpun"
+    },
+    {
+        "search": "up barb left down barb right harpoon",
+        "replace": "opp krok venstre ned krok høgre harpun"
+    },
+    {
+        "search": "up barb right down barb right harpoon",
+        "replace": "opp krok høgre ned krok høgre harpun"
+    },
+    {
+        "search": "up barb left down barb left harpoon",
+        "replace": "opp krok venstre ned krok venstre harpun"
+    },
+    {
+        "search": "leftwards harpoon with barb up to bar",
+        "replace": "venstre harpun med krok opp til strek"
+    },
+    {
+        "search": "rightwards harpoon with barb up to bar",
+        "replace": "høgre harpun med krok opp til strek"
+    },
+    {
+        "search": "upwards harpoon with barb right to bar",
+        "replace": "opp harpun med krok høgre til strek"
+    },
+    {
+        "search": "leftwards harpoon with barb down to bar",
+        "replace": "venstre harpun med krok ned til strek"
+    },
+    {
+        "search": "rightwards harpoon with barb down to bar",
+        "replace": "høgre harpun med krok ned til strek"
+    },
+    {
+        "search": "upwards harpoon with barb left to bar",
+        "replace": "opp harpun med krok venstre til strek"
+    },
+    {
+        "search": "leftwards harpoon with barb up from bar",
+        "replace": "venstre harpun med krok opp frå strek"
+    },
+    {
+        "search": "rightwards harpoon with barb up from bar",
+        "replace": "høgre harpun med krok opp frå strek"
+    },
+    {
+        "search": "upwards harpoon with barb right from bar",
+        "replace": "opp harpun med krok høgre frå strek"
+    },
+    {
+        "search": "leftwards harpoon with barb down from bar",
+        "replace": "venstre harpun med krok ned frå strek"
+    },
+    {
+        "search": "rightwards harpoon with barb down from bar",
+        "replace": "høgre harpun med krok ned frå strek"
+    },
+    {
+        "search": "upwards harpoon with barb left from bar",
+        "replace": "opp harpun med krok venstre frå strek"
+    },
+    {
+        "search": "leftwards harpoon with barb up above leftwards harpoon with barb down",
+        "replace": "venstre harpun med krok opp over venstre harpun med krok ned"
+    },
+    {
+        "search": "upwards harpoon with barb left beside upwards harpoon with barb right",
+        "replace": "opp harpun med krok venstre ved sida av opp harpun med krok høgre"
+    },
+    {
+        "search": "rightwards harpoon with barb up above rightwards harpoon with barb down",
+        "replace": "høgre harpun med krok opp over høgre harpun med krok ned"
+    },
+    {
+        "search": "leftwards harpoon with barb up above rightwards harpoon with barb up",
+        "replace": "venstre harpun med krok opp over høgre harpun med krok opp"
+    },
+    {
+        "search": "leftwards harpoon with barb down above rightwards harpoon with barb down",
+        "replace": "venstre harpun med krok ned over høgre harpun med krok ned"
+    },
+    {
+        "search": "rightwards harpoon with barb up above leftwards harpoon with barb up",
+        "replace": "høgre harpun med krok opp over venstre harpun med krok opp"
+    },
+    {
+        "search": "rightwards harpoon with barb down above leftwards harpoon with barb down",
+        "replace": "høgre harpun med krok ned over venstre harpun med krok ned"
+    },
+    {
+        "search": "leftwards harpoon with barb up above long dash",
+        "replace": "venstre harpun med krok opp over lang strek"
+    },
+    {
+        "search": "leftwards harpoon with barb down below long dash",
+        "replace": "venstre harpun med krok ned under lang strek"
+    },
+    {
+        "search": "rightwards harpoon with barb up above long dash",
+        "replace": "høgre harpun med krok opp over lang strek"
+    },
+    {
+        "search": "rightwards harpoon with barb down below long dash",
+        "replace": "høgre harpun med krok ned under lang strek"
+    },
+    {
+        "search": "upwards harpoon with barb left beside downwards harpoon with barb right",
+        "replace": "opp harpun med krok venstre ved sida av ned harpun med krok høgre"
+    },
+    {
+        "search": "right double arrow with rounded head",
+        "replace": "høgre dobbeltpil med rundet hovud"
+    },
+    {
+        "search": "tilde operator above rightwards arrow",
+        "replace": "tilde operator over høgre pil"
+    },
+    {
+        "search": "rightwards arrow above tilde operator",
+        "replace": "høgre pil over tilde operator"
+    },
+    {
+        "search": "rightwards arrow above almost equal to",
+        "replace": "høgre pil over nesten lik"
+    },
+    {
+        "search": "less-than above leftwards arrow",
+        "replace": "mindre enn over venstre pil"
+    },
+    {
+        "search": "subset above rightwards arrow",
+        "replace": "delmengd over høgre pil"
+    },
+    {
+        "search": "superset above leftwards arrow",
+        "replace": "overmengd over venstre pil"
+    },
+    {
+        "search": "right fish tail",
+        "replace": "høgre fiskestjert"
+    },
+    {
+        "search": "up fish tail",
+        "replace": "opp fiskestjert"
+    },
+    {
+        "search": "triple vertical bar delimiter",
+        "replace": "trippel vertikal strek avgrensar"
+    },
+    {
+        "search": "z notation spot",
+        "replace": "z-notasjon flekk"
+    },
+    {
+        "search": "z notation type colon",
+        "replace": "z-notasjon type kolon"
+    },
+    {
+        "search": "vertical zigzag line",
+        "replace": "vertikal sikksakklinje"
+    },
+    {
+        "search": "measured angle opening left",
+        "replace": "målt vinkel som opnar til venstre"
+    },
+    {
+        "search": "right angle variant with square",
+        "replace": "rett vinkel variant med firkant"
+    },
+    {
+        "search": "measured right angle with dot",
+        "replace": "målt rett vinkel med punkt"
+    },
+    {
+        "search": "spherical angle opening left",
+        "replace": "sfærisk vinkel som opnar til venstre"
+    },
+    {
+        "search": "spherical angle opening up",
+        "replace": "sfærisk vinkel som opnar opp"
+    },
+    {
+        "search": "turned angle",
+        "replace": "vendt vinkel"
+    },
+    {
+        "search": "reversed angle",
+        "replace": "omvendt vinkel"
+    },
+    {
+        "search": "reversed angle with underbar",
+        "replace": "omvendt vinkel med understrek"
+    },
+    {
+        "search": "oblique angle opening up",
+        "replace": "skrå vinkel som opnar opp"
+    },
+    {
+        "search": "oblique angle opening down",
+        "replace": "skrå vinkel som opnar ned"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing up and right",
+        "replace": "målt vinkel med open arm som endar i pil som peikar opp og høgre"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing up and left",
+        "replace": "målt vinkel med open arm som endar i pil som peikar opp og venstre"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing down and right",
+        "replace": "målt vinkel med open arm som endar i pil som peikar ned og høgre"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing down and left",
+        "replace": "målt vinkel med open arm som endar i pil som peikar ned og venstre"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing right and up",
+        "replace": "målt vinkel med open arm som endar i pil som peikar høgre og opp"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing left and up",
+        "replace": "målt vinkel med open arm som endar i pil som peikar venstre og opp"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing right and down",
+        "replace": "målt vinkel med open arm som endar i pil som peikar høgre og ned"
+    },
+    {
+        "search": "measured angle with open arm ending in arrow pointing left and down",
+        "replace": "målt vinkel med open arm som endar i pil som peikar venstre og ned"
+    },
+    {
+        "search": "reversed empty set",
+        "replace": "omvendt tom mengd"
+    },
+    {
+        "search": "up arrow through circle",
+        "replace": "opppil gjennom sirkel"
+    },
+    {
+        "search": "squared rising diagonal slash",
+        "replace": "kvadratisk stigande diagonal skråstrek"
+    },
+    {
+        "search": "squared falling diagonal slash",
+        "replace": "kvadratisk fallande diagonal skråstrek"
+    },
+    {
+        "search": "squared asterisk",
+        "replace": "kvadratisk asterisk"
+    },
+    {
+        "search": "squared small circle",
+        "replace": "kvadratisk liten sirkel"
+    },
+    {
+        "search": "squared square",
+        "replace": "kvadratisk firkant"
+    },
+    {
+        "search": "two joined squares",
+        "replace": "to forbundne firkanter"
+    },
+    {
+        "search": "triangle with dot above",
+        "replace": "trekant med punkt over"
+    },
+    {
+        "search": "triangle with underbar",
+        "replace": "trekant med understrek"
+    },
+    {
+        "search": "s in triangle",
+        "replace": "s i trekant"
+    },
+    {
+        "search": "triangle with serifs at bottom",
+        "replace": "trekant med seriffer nederst"
+    },
+    {
+        "search": "right triangle above left triangle",
+        "replace": "høgre trekant over venstre trekant"
+    },
+    {
+        "search": "vertical bar beside right triangle",
+        "replace": "vertikal strek ved sida av høgre trekant"
+    },
+    {
+        "search": "times with left half black",
+        "replace": "gange med venstre halvdel svart"
+    },
+    {
+        "search": "times with right half black",
+        "replace": "gange med høgre halvdel svart"
+    },
+    {
+        "search": "white hourglass",
+        "replace": "kvit timeglass"
+    },
+    {
+        "search": "tie over infinity",
+        "replace": "bind over uendeleg"
+    },
+    {
+        "search": "square with contoured outline",
+        "replace": "firkant med konturert omriss"
+    },
+    {
+        "search": "shuffle product",
+        "replace": "blandingsprodukt"
+    },
+    {
+        "search": "thermodynamic",
+        "replace": "termodynamisk"
+    },
+    {
+        "search": "white circle with down arrow",
+        "replace": "kvit sirkel med nedpil"
+    },
+    {
+        "search": "rule-delayed",
+        "replace": "regel-forsinket"
+    },
+    {
+        "search": "reverse solidus operator",
+        "replace": "omvendt solidus operator"
+    },
+    {
+        "search": "solidus with overbar",
+        "replace": "solidus med overstrek"
+    },
+    {
+        "search": "reverse solidus with horizontal stroke",
+        "replace": "omvendt solidus med horisontal strek"
+    },
+    {
+        "search": "triple plus",
+        "replace": "trippel pluss"
+    },
+    {
+        "search": "tiny",
+        "replace": "bitteliten"
+    },
+    {
+        "search": "miny",
+        "replace": "miny"
+    },
+    {
+        "search": "n-ary circled dot operator",
+        "replace": "n-ær sirklet punkt operator"
+    },
+    {
+        "search": "n-ary circled plus operator",
+        "replace": "n-ær sirklet pluss operator"
+    },
+    {
+        "search": "n-ary circled times operator",
+        "replace": "n-ær sirklet gange operator"
+    },
+    {
+        "search": "n-ary union operator with dot",
+        "replace": "n-ær union operator med punkt"
+    },
+    {
+        "search": "n-ary union operator with plus",
+        "replace": "n-ær union operator med pluss"
+    },
+    {
+        "search": "n-ary square intersection operator",
+        "replace": "n-ær kvadratisk snitt operator"
+    },
+    {
+        "search": "n-ary square union operator",
+        "replace": "n-ær kvadratisk union operator"
+    },
+    {
+        "search": "two logical and operator",
+        "replace": "to logisk og operator"
+    },
+    {
+        "search": "two logical or operator",
+        "replace": "to logisk eller operator"
+    },
+    {
+        "search": "n-ary times operator",
+        "replace": "n-ær gange operator"
+    },
+    {
+        "search": "modulo two sum",
+        "replace": "modulo to sum"
+    },
+    {
+        "search": "summation with integral",
+        "replace": "summering med integral"
+    },
+    {
+        "search": "quadruple integral operator",
+        "replace": "firedobbel integral operator"
+    },
+    {
+        "search": "line integration with rectangular path around pole",
+        "replace": "linjeintegrasjon med rektangulær sti rundt pol"
+    },
+    {
+        "search": "line integration with semicircular path around pole",
+        "replace": "linjeintegrasjon med halvsirkulær sti rundt pol"
+    },
+    {
+        "search": "line integration not including the pole",
+        "replace": "linjeintegrasjon som ikkje inkluderer polen"
+    },
+    {
+        "search": "quaternion integral operator",
+        "replace": "kvaternion integral operator"
+    },
+    {
+        "search": "z notation schema composition",
+        "replace": "z-notasjon skjema komposisjon"
+    },
+    {
+        "search": "z notation schema piping",
+        "replace": "z-notasjon skjema rørlegging"
+    },
+    {
+        "search": "z notation schema projection",
+        "replace": "z-notasjon skjema projeksjon"
+    },
+    {
+        "search": "plus sign with small circle above",
+        "replace": "plussteikn med liten sirkel over"
+    },
+    {
+        "search": "plus sign with circumflex accent above",
+        "replace": "plussteikn med sirkumfleks aksent over"
+    },
+    {
+        "search": "plus sign with tilde above",
+        "replace": "plussteikn med tilde over"
+    },
+    {
+        "search": "plus sign with dot below",
+        "replace": "plussteikn med punkt under"
+    },
+    {
+        "search": "plus sign with tilde below",
+        "replace": "plussteikn med tilde under"
+    },
+    {
+        "search": "plus sign with subscript two",
+        "replace": "plussteikn med senket to"
+    },
+    {
+        "search": "plus sign with black triangle",
+        "replace": "plussteikn med svart trekant"
+    },
+    {
+        "search": "minus sign with comma above",
+        "replace": "minusteikn med komma over"
+    },
+    {
+        "search": "minus sign with dot below",
+        "replace": "minusteikn med punkt under"
+    },
+    {
+        "search": "minus sign with falling dots",
+        "replace": "minusteikn med fallande punkt"
+    },
+    {
+        "search": "minus sign with rising dots",
+        "replace": "minusteikn med stigande punkt"
+    },
+    {
+        "search": "plus sign in left half circle",
+        "replace": "plussteikn i venstre halvsirkel"
+    },
+    {
+        "search": "plus sign in right half circle",
+        "replace": "plussteikn i høgre halvsirkel"
+    },
+    {
+        "search": "vector or cross product",
+        "replace": "vektor eller kryssprodukt"
+    },
+    {
+        "search": "multiplication sign with dot above",
+        "replace": "multiplikasjonsteikn med punkt over"
+    },
+    {
+        "search": "multiplication sign with underbar",
+        "replace": "multiplikasjonsteikn med understrek"
+    },
+    {
+        "search": "semidirect product with bottom closed",
+        "replace": "semidirekte produkt med botnen lukka"
+    },
+    {
+        "search": "smash product",
+        "replace": "smash produkt"
+    },
+    {
+        "search": "multiplication sign in left half circle",
+        "replace": "multiplikasjonsteikn i venstre halvsirkel"
+    },
+    {
+        "search": "multiplication sign in right half circle",
+        "replace": "multiplikasjonsteikn i høgre halvsirkel"
+    },
+    {
+        "search": "multiplication sign in double circle",
+        "replace": "multiplikasjonsteikn i dobbel sirkel"
+    },
+    {
+        "search": "plus sign in triangle",
+        "replace": "plussteikn i trekant"
+    },
+    {
+        "search": "minus sign in triangle",
+        "replace": "minusteikn i trekant"
+    },
+    {
+        "search": "multiplication sign in triangle",
+        "replace": "multiplikasjonsteikn i trekant"
+    },
+    {
+        "search": "righthand interior product",
+        "replace": "høgre hand indre produkt"
+    },
+    {
+        "search": "z notation relational composition",
+        "replace": "z-notasjon relasjonell komposisjon"
+    },
+    {
+        "search": "union with minus sign",
+        "replace": "union med minusteikn"
+    },
+    {
+        "search": "union with overbar",
+        "replace": "union med overstrek"
+    },
+    {
+        "search": "union with logical or",
+        "replace": "union med logisk eller"
+    },
+    {
+        "search": "union above intersection",
+        "replace": "union over snitt"
+    },
+    {
+        "search": "union above bar above intersection",
+        "replace": "union over strek over snitt"
+    },
+    {
+        "search": "union beside and joined with union",
+        "replace": "union ved sida av og forbunde med union"
+    },
+    {
+        "search": "logical and with dot above",
+        "replace": "logisk og med punkt over"
+    },
+    {
+        "search": "logical or with dot above",
+        "replace": "logisk eller med punkt over"
+    },
+    {
+        "search": "two intersecting logical and",
+        "replace": "to kryssande logisk og"
+    },
+    {
+        "search": "two intersecting logical or",
+        "replace": "to kryssande logisk eller"
+    },
+    {
+        "search": "sloping large or",
+        "replace": "skrå stor eller"
+    },
+    {
+        "search": "sloping large and",
+        "replace": "skrå stor og"
+    },
+    {
+        "search": "logical and with middle stem",
+        "replace": "logisk og med midtre stamme"
+    },
+    {
+        "search": "logical or with middle stem",
+        "replace": "logisk eller med midtre stamme"
+    },
+    {
+        "search": "logical and with horizontal dash",
+        "replace": "logisk og med horisontal strek"
+    },
+    {
+        "search": "logical or with horizontal dash",
+        "replace": "logisk eller med horisontal strek"
+    },
+    {
+        "search": "logical and with double overbar",
+        "replace": "logisk og med dobbelt overstrek"
+    },
+    {
+        "search": "logical and with underbar",
+        "replace": "logisk og med understrek"
+    },
+    {
+        "search": "logical and with double underbar",
+        "replace": "logisk og med dobbelt understrek"
+    },
+    {
+        "search": "small vee with underbar",
+        "replace": "liten vee med understrek"
+    },
+    {
+        "search": "logical or with double overbar",
+        "replace": "logisk eller med dobbelt overstrek"
+    },
+    {
+        "search": "logical or with double underbar",
+        "replace": "logisk eller med dobbelt understrek"
+    },
+    {
+        "search": "z notation domain antirestriction",
+        "replace": "z-notasjon domene antirestriksjon"
+    },
+    {
+        "search": "z notation range antirestriction",
+        "replace": "z-notasjon område antirestriksjon"
+    },
+    {
+        "search": "triple horizontal bar with double vertical stroke",
+        "replace": "trippel horisontal strek med dobbelt vertikal strek"
+    },
+    {
+        "search": "triple horizontal bar with triple vertical stroke",
+        "replace": "trippel horisontal strek med trippel vertikal strek"
+    },
+    {
+        "search": "tilde operator with dot above",
+        "replace": "tilde operator med punkt over"
+    },
+    {
+        "search": "tilde operator with rising dots",
+        "replace": "tilde operator med stigande punkt"
+    },
+    {
+        "search": "similar minus similar",
+        "replace": "liknande minus liknande"
+    },
+    {
+        "search": "plus sign above equals sign",
+        "replace": "plussteikn over likskapsteikn"
+    },
+    {
+        "search": "two consecutive equals signs",
+        "replace": "to påfølgande likskapsteikn"
+    },
+    {
+        "search": "three consecutive equals signs",
+        "replace": "tre påfølgande likskapsteikn"
+    },
+    {
+        "search": "less-than with circle inside",
+        "replace": "mindre enn med sirkel inni"
+    },
+    {
+        "search": "less-than with question mark above",
+        "replace": "mindre enn med spørsmålsteikn over"
+    },
+    {
+        "search": "less-than or slanted equal to",
+        "replace": "mindre enn eller skrå lik"
+    },
+    {
+        "search": "less-than or slanted equal to with dot inside",
+        "replace": "mindre enn eller skrå lik med punkt inni"
+    },
+    {
+        "search": "less-than or slanted equal to with dot above",
+        "replace": "mindre enn eller skrå lik med punkt over"
+    },
+    {
+        "search": "less-than or slanted equal to with dot above right",
+        "replace": "mindre enn eller skrå lik med punkt over høgre"
+    },
+    {
+        "search": "less-than or approximate",
+        "replace": "mindre enn eller omtrent"
+    },
+    {
+        "search": "less-than and single-line not equal to",
+        "replace": "mindre enn og enkelt-linje ikkje lik"
+    },
+    {
+        "search": "less-than and not approximate",
+        "replace": "mindre enn og ikkje omtrent"
+    },
+    {
+        "search": "less-than above double-line equal above greater-than",
+        "replace": "mindre enn over dobbelt-linje lik over større enn"
+    },
+    {
+        "search": "less-than above similar or equal",
+        "replace": "mindre enn over liknande eller lik"
+    },
+    {
+        "search": "less-than above similar above greater-than",
+        "replace": "mindre enn over liknande over større enn"
+    },
+    {
+        "search": "less-than above greater-than above double-line equal",
+        "replace": "mindre enn over større enn over dobbelt-linje lik"
+    },
+    {
+        "search": "less-than above slanted equal above greater-than above slanted equal",
+        "replace": "mindre enn over skrå lik over større enn over skrå lik"
+    },
+    {
+        "search": "slanted equal to or less-than",
+        "replace": "skrå lik eller mindre enn"
+    },
+    {
+        "search": "slanted equal to or greater-than",
+        "replace": "skrå lik eller større enn"
+    },
+    {
+        "search": "slanted equal to or less-than with dot inside",
+        "replace": "skrå lik eller mindre enn med punkt inni"
+    },
+    {
+        "search": "slanted equal to or greater-than with dot inside",
+        "replace": "skrå lik eller større enn med punkt inni"
+    },
+    {
+        "search": "similar or less-than",
+        "replace": "liknande eller mindre enn"
+    },
+    {
+        "search": "similar or greater-than",
+        "replace": "liknande eller større enn"
+    },
+    {
+        "search": "similar above less-than above equals sign",
+        "replace": "liknande over mindre enn over likskapsteikn"
+    },
+    {
+        "search": "similar above greater-than above equals sign",
+        "replace": "liknande over større enn over likskapsteikn"
+    },
+    {
+        "search": "less-than closed by curve",
+        "replace": "mindre enn lukka av kurve"
+    },
+    {
+        "search": "less-than closed by curve above slanted equal",
+        "replace": "mindre enn lukka av kurve over skrå lik"
+    },
+    {
+        "search": "smaller than",
+        "replace": "mindre enn"
+    },
+    {
+        "search": "smaller than or equal to",
+        "replace": "mindre enn eller lik"
+    },
+    {
+        "search": "precedes above single-line equals sign",
+        "replace": "forutgår over enkelt-linje likskapsteikn"
+    },
+    {
+        "search": "succeeds above single-line equals sign",
+        "replace": "etterfølgjar over enkelt-linje likskapsteikn"
+    },
+    {
+        "search": "precedes above single-line not equal to",
+        "replace": "forutgår over enkelt-linje ikkje lik"
+    },
+    {
+        "search": "succeeds above single-line not equal to",
+        "replace": "etterfølgjar over enkelt-linje ikkje lik"
+    },
+    {
+        "search": "precedes above equals sign",
+        "replace": "forutgår over likskapsteikn"
+    },
+    {
+        "search": "succeeds above equals sign",
+        "replace": "etterfølgjar over likskapsteikn"
+    },
+    {
+        "search": "precedes above not equal to",
+        "replace": "forutgår over ikkje lik"
+    },
+    {
+        "search": "succeeds above not equal to",
+        "replace": "etterfølgjar over ikkje lik"
+    },
+    {
+        "search": "precedes above almost equal to",
+        "replace": "forutgår over nesten lik"
+    },
+    {
+        "search": "succeeds above almost equal to",
+        "replace": "etterfølgjar over nesten lik"
+    },
+    {
+        "search": "precedes above not almost equal to",
+        "replace": "forutgår over ikkje nesten lik"
+    },
+    {
+        "search": "succeeds above not almost equal to",
+        "replace": "etterfølgjar over ikkje nesten lik"
+    },
+    {
+        "search": "subset with dot",
+        "replace": "delmengd med punkt"
+    },
+    {
+        "search": "superset with dot",
+        "replace": "overmengd med punkt"
+    },
+    {
+        "search": "subset with plus sign below",
+        "replace": "delmengd med plussteikn under"
+    },
+    {
+        "search": "superset with plus sign below",
+        "replace": "overmengd med plussteikn under"
+    },
+    {
+        "search": "subset with multiplication sign below",
+        "replace": "delmengd med multiplikasjonsteikn under"
+    },
+    {
+        "search": "superset with multiplication sign below",
+        "replace": "overmengd med multiplikasjonsteikn under"
+    },
+    {
+        "search": "subset of or equal to with dot above",
+        "replace": "delmengd av eller lik med punkt over"
+    },
+    {
+        "search": "superset of or equal to with dot above",
+        "replace": "overmengd av eller lik med punkt over"
+    },
+    {
+        "search": "subset of above equals sign",
+        "replace": "delmengd av over likskapsteikn"
+    },
+    {
+        "search": "superset of above equals sign",
+        "replace": "overmengd av over likskapsteikn"
+    },
+    {
+        "search": "subset of above tilde operator",
+        "replace": "delmengd av over tilde operator"
+    },
+    {
+        "search": "superset of above tilde operator",
+        "replace": "overmengd av over tilde operator"
+    },
+    {
+        "search": "subset of above almost equal to",
+        "replace": "delmengd av over nesten lik"
+    },
+    {
+        "search": "superset of above almost equal to",
+        "replace": "overmengd av over nesten lik"
+    },
+    {
+        "search": "subset of above not equal to",
+        "replace": "delmengd av over ikkje lik"
+    },
+    {
+        "search": "superset of above not equal to",
+        "replace": "overmengd av over ikkje lik"
+    },
+    {
+        "search": "square left open box operator",
+        "replace": "kvadratisk venstre open boks operator"
+    },
+    {
+        "search": "square right open box operator",
+        "replace": "kvadratisk høgre open boks operator"
+    },
+    {
+        "search": "subset above superset",
+        "replace": "delmengd over overmengd"
+    },
+    {
+        "search": "superset above subset",
+        "replace": "overmengd over delmengd"
+    },
+    {
+        "search": "subset above subset",
+        "replace": "delmengd over delmengd"
+    },
+    {
+        "search": "superset above superset",
+        "replace": "overmengd over overmengd"
+    },
+    {
+        "search": "superset beside subset",
+        "replace": "overmengd ved sida av delmengd"
+    },
+    {
+        "search": "superset beside and joined by dash with subset",
+        "replace": "overmengd ved sida av og forbunde med strek med delmengd"
+    },
+    {
+        "search": "transversal intersection",
+        "replace": "transversalt snitt"
+    },
+    {
+        "search": "short left tack",
+        "replace": "kort venstre stift"
+    },
+    {
+        "search": "short down tack",
+        "replace": "kort ned stift"
+    },
+    {
+        "search": "short up tack",
+        "replace": "kort opp stift"
+    },
+    {
+        "search": "vertical bar triple right turnstile",
+        "replace": "vertikal strek trippel høgre turnstile"
+    },
+    {
+        "search": "vertical bar double left turnstile",
+        "replace": "vertikal strek dobbelt venstre turnstile"
+    },
+    {
+        "search": "short down tack with overbar",
+        "replace": "kort ned stift med overstrek"
+    },
+    {
+        "search": "short up tack with underbar",
+        "replace": "kort opp stift med understrek"
+    },
+    {
+        "search": "short up tack above short down tack",
+        "replace": "kort opp stift over kort ned stift"
+    },
+    {
+        "search": "vertical line with circle above",
+        "replace": "vertikal linje med sirkel over"
+    },
+    {
+        "search": "vertical line with circle below",
+        "replace": "vertikal linje med sirkel under"
+    },
+    {
+        "search": "triple vertical bar binary relation",
+        "replace": "trippel vertikal strek binær relasjon"
+    },
+    {
+        "search": "triple vertical bar with horizontal stroke",
+        "replace": "trippel vertikal strek med horisontal strek"
+    },
+    {
+        "search": "triple colon operator",
+        "replace": "trippel kolon operator"
+    },
+    {
+        "search": "triple nested less-than",
+        "replace": "trippel nestet mindre enn"
+    },
+    {
+        "search": "triple nested greater-than",
+        "replace": "trippel nestet større enn"
+    },
+    {
+        "search": "triple solidus binary relation",
+        "replace": "trippel solidus binær relasjon"
+    },
+    {
+        "search": "white vertical bar",
+        "replace": "kvit vertikal strek"
+    },
+    {
+        "search": "three leftwards arrows",
+        "replace": "tre venstre piler"
+    },
+    {
+        "search": "wave arrow pointing directly left",
+        "replace": "bølgjepil som peikar direkte til venstre"
+    },
+    {
+        "search": "rightwards arrow through greater-than",
+        "replace": "høgre pil gjennom større enn"
+    },
+    {
+        "search": "rightwards arrow through superset",
+        "replace": "høgre pil gjennom overmengd"
+    },
+    {
+        "search": "tilde operator above leftwards arrow",
+        "replace": "tilde operator over venstre pil"
+    },
+    {
+        "search": "rightwards arrow above reverse tilde operator",
+        "replace": "høgre pil over omvendt tilde operator"
+    },
+    {
+        "search": "small plus sign",
+        "replace": "liten plussteikn"
+    },
+    {
+        "search": "small less-than sign",
+        "replace": "liten mindre enn-teikn"
+    },
+    {
+        "search": "small greater-than sign",
+        "replace": "liten større enn-teikn"
+    },
+    {
+        "search": "small equals sign",
+        "replace": "liten likskapsteikn"
+    },
+    {
+        "search": "logical or overlapping logical and",
+        "replace": "logisk eller som overlappar logisk og"
+    },
+    {
+        "search": "pitchfork with tee top",
+        "replace": "gaffel med t-topp"
+    },
+    {
+        "search": "nonforking",
+        "replace": "ikkje-forgrening"
+    },
+    {
+        "search": "perpendicular with s",
+        "replace": "vinkelrett med s"
+    },
+    {
+        "search": "long dash from left member of double vertical",
+        "replace": "lang strek frå venstre medlem av dobbelt vertikal"
+    },
+    {
+        "search": "reversed double stroke not sign",
+        "replace": "omvendt dobbelt strek ikkje-teikn"
+    },
+    {
+        "search": "parallel with horizontal stroke",
+        "replace": "parallell med horisontal strek"
+    },
+    {
+        "search": "parallel with tilde operator",
+        "replace": "parallell med tilde operator"
+    },
+    {
+        "search": "n-ary white vertical bar",
+        "replace": "n-ær kvit vertikal strek"
+    },
+    {
+        "search": "long leftwards squiggle arrow",
+        "replace": "lang venstre sikksakkpil"
+    },
+    {
+        "search": "leftwards two-headed arrow with vertical stroke",
+        "replace": "venstre tohodet pil med vertikal strek"
+    },
+    {
+        "search": "leftwards two-headed arrow with double vertical stroke",
+        "replace": "venstre tohodet pil med dobbelt vertikal strek"
+    },
+    {
+        "search": "leftwards two-headed arrow from bar",
+        "replace": "venstre tohodet pil frå strek"
+    },
+    {
+        "search": "leftwards two-headed triple dash arrow",
+        "replace": "venstre tohodet trippelstrek pil"
+    },
+    {
+        "search": "leftwards two-headed arrow with tail",
+        "replace": "venstre tohodet pil med hale"
+    },
+    {
+        "search": "leftwards two-headed arrow with tail with vertical stroke",
+        "replace": "venstre tohodet pil med hale med vertikal strek"
+    },
+    {
+        "search": "leftwards two-headed arrow with tail with double vertical stroke",
+        "replace": "venstre tohodet pil med hale med dobbelt vertikal strek"
+    },
+    {
+        "search": "reverse tilde operator above leftwards arrow",
+        "replace": "omvendt tilde operator over venstre pil"
+    },
+    {
+        "search": "reverse tilde operator above rightwards arrow",
+        "replace": "omvendt tilde operator over høgre pil"
+    },
+    {
+        "search": "rightwards arrow above reverse almost equal to",
+        "replace": "høgre pil over omvendt nesten lik"
+    },
+    {
+        "search": "mathematical bold nabla",
+        "replace": "matematisk fet nabla"
+    },
+    {
+        "search": "mathematical bold partial differential",
+        "replace": "matematisk fet partiellderivert"
+    },
+    {
+        "search": "mathematical italic nabla",
+        "replace": "matematisk kursiv nabla"
+    },
+    {
+        "search": "mathematical italic partial differential",
+        "replace": "matematisk kursiv partiellderivert"
+    },
+    {
+        "search": "mathematical bold italic nabla",
+        "replace": "matematisk fet kursiv nabla"
+    },
+    {
+        "search": "mathematical bold italic partial differential",
+        "replace": "matematisk fet kursiv partiellderivert"
+    },
+    {
+        "search": "mathematical sans-serif bold nabla",
+        "replace": "matematisk sans-serif fet nabla"
+    },
+    {
+        "search": "mathematical sans-serif bold partial differential",
+        "replace": "matematisk sans-serif fet partiellderivert"
+    },
+    {
+        "search": "mathematical sans-serif bold italic nabla",
+        "replace": "matematisk sans-serif fet kursiv nabla"
+    },
+    {
+        "search": "mathematical sans-serif bold italic partial differential",
+        "replace": "matematisk sans-serif fet kursiv partiellderivert"
+    }
 ]

@@ -432,8 +432,11 @@ describe('Norwegian Translation Integration Tests', () => {
             
             const sortedTranslations = noTranslations.sort((a, b) => b.search.length - a.search.length);
             
+            // Use the same translation logic as the actual application (with word boundaries)
             sortedTranslations.forEach(t => {
-                text = text.replace(new RegExp(t.search, 'g'), t.replace);
+                const regexString = `\\b(${t.search})\\b`;
+                const re = new RegExp(regexString, "g");
+                text = text.replace(re, t.replace);
             });
 
             expect(text).toContain('pluss');
