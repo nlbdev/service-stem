@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/*jshint esversion: 8 */
 
 /**
  * ALIX Calculation:
@@ -63,7 +62,7 @@ module.exports = {
     };
   },
   GetALIX: (counts, modifiers) => {
-    var alix = 0;
+    let alix = 0;
     Object.entries(counts).map(item => {
       if (item[1] > 0 || !isNaN(item[1]) || modifiers[item[0]] > 0) {
         alix += (item[1] * modifiers[item[0]]);

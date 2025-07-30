@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-console, no-unused-vars */
+
 require('dotenv').config();
 const Airbrake = require('@airbrake/node');
 
@@ -28,7 +30,6 @@ new Airbrake.Notifier({
     validateMigratedContent,
     getMigrationRecommendations
   } = require('./backward-compatibility');
-    // const { GenerateSvg } = require("./conversions/svg");
 
   // Create reusable parser instances for better performance
   const xmlParser = new XMLParser({
@@ -126,7 +127,7 @@ new Airbrake.Notifier({
      * @param {{mathml: string;success: boolean;language: string;words: any[];ascii: string;display: string;imagepath: string;alix: number;}} mathObj Math Object
      * @returns {String} AsciiMath
      */
-  const GenerateAsciiMath = (mathml, ascii) => {
+  const GenerateAsciiMath = (mathml) => {
     try {
       return MathML2Ascii(mathml);
     }

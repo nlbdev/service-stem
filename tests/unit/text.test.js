@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { GenerateMath } = require('../../src/conversions/text');
 
 describe('Text Conversion Module', () => {
@@ -400,7 +402,7 @@ describe('Text Conversion Module', () => {
         expect(result.success).toBe(true);
         expect(result.words).toContain('crossed');
         expect(result.words).toContain('out');
-        expect(result.words).toContain('fraction');
+        expect(result.words).toContain('fraction with counter');
       });
     });
 

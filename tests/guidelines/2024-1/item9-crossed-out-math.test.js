@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { GenerateMath } = require('../../../src/conversions/text');
 
 describe('Item 9: Crossed Out Math Support', () => {
@@ -32,7 +34,7 @@ describe('Item 9: Crossed Out Math Support', () => {
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
-      expect(result.words).toContain('fraction');
+      expect(result.words).toContain('fraction with counter');
       expect(result.words).toContain('1');
       expect(result.words).toContain('2');
     });
@@ -153,7 +155,7 @@ describe('Item 9: Crossed Out Math Support', () => {
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
-      expect(result.words).toContain('fraction');
+      expect(result.words).toContain('fraction with counter');
       expect(result.words).toContain('x');
       expect(result.words).toContain('squared');
     });

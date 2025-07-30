@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -111,7 +113,6 @@ describe('Performance Tests', () => {
 
     expect(response.body.success).toBe(true);
     expect(processingTime).toBeLessThan(1000); // Should complete within 1 second
-    console.log(`Simple MathML processing time: ${processingTime}ms`);
   }, 15000); // Increase timeout to 15 seconds
 
   test('should handle complex nested MathML efficiently', async () => {
@@ -152,7 +153,6 @@ describe('Performance Tests', () => {
 
     expect(response.body.success).toBe(true);
     expect(processingTime).toBeLessThan(2000); // Should complete within 2 seconds
-    console.log(`Complex MathML processing time: ${processingTime}ms`);
   }, 15000); // Increase timeout to 15 seconds
 
   test('should handle large MathML content efficiently', async () => {
@@ -177,7 +177,6 @@ describe('Performance Tests', () => {
 
     expect(response.body.success).toBe(true);
     expect(processingTime).toBeLessThan(3000); // Should complete within 3 seconds
-    console.log(`Large MathML processing time: ${processingTime}ms`);
   }, 15000); // Increase timeout to 15 seconds
 
   test('should handle repeated requests efficiently', async () => {
@@ -208,16 +207,10 @@ describe('Performance Tests', () => {
     });
 
     expect(avgTime).toBeLessThan(1000); // Average should be under 1 second
-    console.log(`Average time for repeated requests: ${avgTime}ms`);
   }, 15000); // Increase timeout to 15 seconds
 
   test('should handle memory usage efficiently', async () => {
     const initialMemory = process.memoryUsage();
-    console.log('Initial memory usage:', {
-      rss: Math.round(initialMemory.rss / 1024 / 1024) + 'MB',
-      heapUsed: Math.round(initialMemory.heapUsed / 1024 / 1024) + 'MB',
-      heapTotal: Math.round(initialMemory.heapTotal / 1024 / 1024) + 'MB'
-    });
 
     // Process multiple requests to test memory usage
     const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn><mo>+</mo><mn>1</mn></math>';
@@ -233,11 +226,6 @@ describe('Performance Tests', () => {
     }
 
     const finalMemory = process.memoryUsage();
-    console.log('Final memory usage:', {
-      rss: Math.round(finalMemory.rss / 1024 / 1024) + 'MB',
-      heapUsed: Math.round(finalMemory.heapUsed / 1024 / 1024) + 'MB',
-      heapTotal: Math.round(finalMemory.heapTotal / 1024 / 1024) + 'MB'
-    });
 
     // Memory should not grow excessively
     const memoryGrowth = finalMemory.heapUsed - initialMemory.heapUsed;

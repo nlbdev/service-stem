@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 // Jest setup file for common test configurations
 
 // Suppress console warnings during tests unless explicitly needed

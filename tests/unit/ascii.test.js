@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { GenerateAsciiMath } = require('../../src/conversions/ascii');
 
 describe('ASCII Conversion Module', () => {

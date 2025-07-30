@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { MathMLCache, mathMLCache } = require('../../src/cache');
 
 describe('Cache Tests', () => {

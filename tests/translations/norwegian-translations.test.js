@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const fs = require('fs');
 const path = require('path');
 
@@ -173,10 +175,6 @@ describe('Norwegian Translation Files', () => {
         // Notation
         'parenthesis', 'bracket', 'index', 'power'
       ];
-
-      // Check which terms are missing
-      const missingTerms = essentialCategories.filter(term => !allSearchTerms.has(term));
-      console.log('Missing terms:', missingTerms);
 
       // At least 80% of essential terms should be present
       const presentTerms = essentialCategories.filter(term => allSearchTerms.has(term));

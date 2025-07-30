@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { validateMathML } = require('../../src/validation');
 
 describe('MathML Validation', () => {

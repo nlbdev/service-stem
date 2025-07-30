@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const request = require('supertest');
 const path = require('path');
 
@@ -80,7 +82,6 @@ describe('Complete STEM Coverage Tests', () => {
       try {
         MathTests = require(datapath);
       } catch (error) {
-        console.warn(`Could not load test data file: ${datapath}`, error.message);
         MathTests = [];
       }
 
@@ -262,15 +263,12 @@ describe('Complete STEM Coverage Tests', () => {
         try {
           const data = require(path.join(__dirname, 'data', filename));
           totalTests += data.length;
-          console.log(`- ${filename.replace('.json', '')}: ${data.length}`);
-        } catch (error) {
-          console.log(`- ${filename.replace('.json', '')}: 0 (not found)`);
+        } catch {
+          // Do nothing
         }
       });
 
       totalTests += 10; // +10 for specific tests
-      console.log(`Total tests loaded: ${totalTests}`);
-      console.log('- Specific Tests: 10');
 
       expect(totalTests).toBeGreaterThan(0);
     });

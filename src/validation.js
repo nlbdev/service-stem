@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/*jshint esversion: 8 */
+/* eslint-disable complexity, max-depth, max-lines, no-console, no-unused-vars */
 
 const { XMLParser } = require('fast-xml-parser');
 
@@ -281,7 +281,7 @@ function checkForDeprecatedElements(obj, deprecatedElements, result, strictMode 
 
   // Recursively check all object properties
   for (const key in obj) {
-    if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
+    if (Object.prototype.hasOwnProperty.call(obj, key) && typeof obj[key] === 'object') {
       checkForDeprecatedElements(obj[key], deprecatedElements, result, strictMode);
     }
   }

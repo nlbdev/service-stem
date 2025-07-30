@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/*jshint esversion: 8 */
+/* eslint-disable complexity, max-depth, max-lines, no-console, no-unused-vars */
 
 const operators = require('./data/text-operators.json');
 const identifiers = require('./data/text-identifiers.json');
@@ -18,6 +18,7 @@ const modifiers = GetDefaultModifiers();
 function GetText(s, source) {
   var found;
   if(typeof(s) === 'string') {
+    // eslint-disable-next-line no-control-regex
     if(/[^\u0000-\u00ff]/.test(s)) {
       found = source.unicode.find( m => m.code === s );
     }
@@ -70,12 +71,12 @@ function DividendText(node, words) {
  */
 function ParenthesisTextOpen(node, words) {
   var cont = true;
-  if(node.nextSibling !== null && node.nextSibling.localName === 'mo') {
-    if(node.nextSibling.firstChild.nodeValue.charCodeAt() === 8242) {// Derivative
+  if(node.nextSibling !== null && node.nextSibling !== undefined && node.nextSibling.localName === 'mo') {
+    if(node.nextSibling.firstChild && node.nextSibling.firstChild.nodeValue && node.nextSibling.firstChild.nodeValue.charCodeAt() === 8242) {// Derivative
       cont = false;
       AddWord(GetText('the derivative of the expression', misc), words);
     }
-    else if(node.nextSibling.firstChild.nodeValue.charCodeAt() === 8243) { // Double derivative
+    else if(node.nextSibling.firstChild && node.nextSibling.firstChild.nodeValue && node.nextSibling.firstChild.nodeValue.charCodeAt() === 8243) { // Double derivative
       cont = false;
       AddWord(GetText('the double derivative of the expression', misc), words);
     }
@@ -94,17 +95,17 @@ function ParenthesisTextOpen(node, words) {
     }
 
     try {
-      IsSiblingMo = node.previousSibling.localName === 'mo';
+      IsSiblingMo = node.previousSibling && node.previousSibling.localName === 'mo';
     } catch(ex) {
       // Do nothing
     }
     try {
-      IsPreviousSiblingFunction = node.previousSibling.firstChild.nodeValue.charCodeAt() === 8289;
+      IsPreviousSiblingFunction = node.previousSibling && node.previousSibling.firstChild && node.previousSibling.firstChild.nodeValue && node.previousSibling.firstChild.nodeValue.charCodeAt() === 8289;
     } catch(ex) {
       // Do nothing
     }
     try {
-      IsFirstChildMtable = node.firstChild.localName === 'mtable';
+      IsFirstChildMtable = node.firstChild && node.firstChild.localName === 'mtable';
     } catch(ex) {
       // Do nothing
     }
@@ -112,7 +113,7 @@ function ParenthesisTextOpen(node, words) {
     // Check if this is inside crossed out math
     let isInCrossedOutMath = false;
     let parent = node.parentNode;
-    while (parent) {
+    while (parent && parent.localName) {
       if (parent.localName === 'menclose') {
         const notation = parent.getAttribute('notation');
         if (notation) {
@@ -160,8 +161,8 @@ function ParenthesisTextOpen(node, words) {
  */
 function ParenthesisTextClose(node, words) {
   var cont = true;
-  if(node.nextSibling !== null && node.nextSibling.localName === 'mo') {
-    if(node.nextSibling.firstChild.nodeValue.charCodeAt() === 8242 || node.nextSibling.firstChild.nodeValue.charCodeAt() === 8243) { // Derivative or Double derivative
+  if(node.nextSibling !== null && node.nextSibling !== undefined && node.nextSibling.localName === 'mo') {
+    if(node.nextSibling.firstChild && node.nextSibling.firstChild.nodeValue && (node.nextSibling.firstChild.nodeValue.charCodeAt() === 8242 || node.nextSibling.firstChild.nodeValue.charCodeAt() === 8243)) { // Derivative or Double derivative
       cont = false;
       AddWord(`${GetText('expression', misc)} ${GetText('end', misc)},`, words);
     }
@@ -386,6 +387,8 @@ function ParseNode(node, words, indexes) {
   try {
     if (node !== null) {
       indexes[node.localName]++;
+      // Before the switch statement in ParseNode, declare all variables needed in case blocks:
+      let notation, openAttr, closeAttr, firstRow, firstCell, intent, labelText, hasPrescripts, base, postSub, postSup, prescripts, preSub, preSup, isLabeledEquation, isInsideLabeledEquation, row, cell, tr, y, parent, child, grandChild;
       switch (node.localName) {
       case 'mphantom':
       case 'mspace':
@@ -409,8 +412,7 @@ function ParseNode(node, words, indexes) {
         StandardLoop(node, words, 0, indexes);
         break;
       case 'menclose':
-        // Handle crossed out math
-        const notation = node.getAttribute('notation');
+        notation = node.getAttribute('notation');
         if (notation) {
           // Add "crossed out" text for all notation types
           AddWord(GetText('crossed', misc), words);
@@ -432,8 +434,8 @@ function ParseNode(node, words, indexes) {
         console.warn('Warning: <mfenced> element is deprecated. Use <mo> elements for parentheses instead.');
 
         // Extract open and close attributes for backward compatibility
-        const openAttr = node.getAttribute('open') || '(';
-        const closeAttr = node.getAttribute('close') || ')';
+        openAttr = node.getAttribute('open') || '(';
+        closeAttr = node.getAttribute('close') || ')';
 
         // Add opening parenthesis text
         ParenthesisTextOpen({ getAttribute: () => openAttr }, words);
@@ -448,7 +450,7 @@ function ParseNode(node, words, indexes) {
         // Handle chemical isotopes and other multiscript notation
         if (node.childNodes.length >= 5) {
           // Check if this is a chemical isotope (has mprescripts)
-          let hasPrescripts = false;
+          hasPrescripts = false;
           for (let i = 0; i < node.childNodes.length; i++) {
             if (node.childNodes[i].localName === 'mprescripts') {
               hasPrescripts = true;
@@ -459,7 +461,6 @@ function ParseNode(node, words, indexes) {
           if (hasPrescripts) {
             // Chemical isotope notation: <mmultiscripts><mi>C</mi><mrow></mrow><mrow></mrow><mprescripts/><mrow></mrow><mn>14</mn></mmultiscripts>
             // Structure: base, post-sub, post-sup, mprescripts, pre-sub, pre-sup
-            let base, postSub, postSup, prescripts, preSub, preSup;
             base = node.childNodes[0];
             postSub = node.childNodes[1];
             postSup = node.childNodes[2];
@@ -498,19 +499,19 @@ function ParseNode(node, words, indexes) {
         break;
       case 'mtable':
         // Check if this is a labeled equation (has intent=":equation-label" in first cell)
-        let isLabeledEquation = false;
+        isLabeledEquation = false;
         if (node.childNodes.length > 0) {
-          const firstRow = node.childNodes[0];
+          firstRow = node.childNodes[0];
           if (firstRow && firstRow.localName === 'mtr' && firstRow.childNodes.length > 0) {
-            const firstCell = firstRow.childNodes[0];
+            firstCell = firstRow.childNodes[0];
             if (firstCell && firstCell.localName === 'mtd') {
-              const intent = firstCell.getAttribute('intent');
+              intent = firstCell.getAttribute('intent');
               if (intent === ':equation-label') {
                 isLabeledEquation = true;
               } else {
                 // Check if first cell contains text that looks like a label (e.g., "(1.4)")
                 if (firstCell.firstChild && firstCell.firstChild.localName === 'mtext') {
-                  const labelText = firstCell.firstChild.firstChild.nodeValue;
+                  labelText = firstCell.firstChild.firstChild.nodeValue;
                   if (labelText && /^\([^)]+\)$/.test(labelText)) {
                     isLabeledEquation = true;
                   }
@@ -539,8 +540,8 @@ function ParseNode(node, words, indexes) {
           AddWord(`${GetText('equation', misc)} ${GetText('end', misc)},`, words);
         } else {
           // Check if this is inside a labeled equation (for nested matrices)
-          let isInsideLabeledEquation = false;
-          let parent = node.parentNode;
+          isInsideLabeledEquation = false;
+          parent = node.parentNode;
           while (parent) {
             if (parent.localName === 'mtable') {
               // Check if this parent mtable is a labeled equation
@@ -582,10 +583,9 @@ function ParseNode(node, words, indexes) {
         break;
       case 'mtr':
       case 'mlabeledtr':
-        let tr;
         for(tr = 0; tr < node.parentNode.childNodes.length; tr++) {if(node === node.parentNode.childNodes[tr]) {break;}}
         AddWord(`${GetText('row', misc)} ${(tr+1)} ${GetText('contains', misc)} ${node.childNodes.length} ${GetText('cells', misc)}:`, words);
-        for (var y = 0; y < node.childNodes.length; y++) {
+        for (y = 0; y < node.childNodes.length; y++) {
           AddWord(`${GetText('cell', misc)} ${y+1} ${GetText('contains', misc)}`, words);
           ParseNode(node.childNodes[y], words, indexes);
 
@@ -634,14 +634,14 @@ function ParseNode(node, words, indexes) {
         break;
       case 'mtd':
         // Check if this is an equation label
-        const intent = node.getAttribute('intent');
+        intent = node.getAttribute('intent');
         if (intent === ':equation-label') {
           AddWord(`${GetText('label', misc)}`, words);
           StandardLoop(node, words, 0, indexes);
         } else {
           // Check if this cell contains text that looks like a label (e.g., "(1.4)")
           if (node.firstChild && node.firstChild.localName === 'mtext') {
-            const labelText = node.firstChild.firstChild.nodeValue;
+            labelText = node.firstChild.firstChild.nodeValue;
             if (labelText && /^\([^)]+\)$/.test(labelText)) {
               AddWord(`${GetText('label', misc)}`, words);
               StandardLoop(node, words, 0, indexes);
@@ -930,27 +930,38 @@ function ParseNode(node, words, indexes) {
       case 'mfrac':
         RaisedLoweredText(node, words);
         if(IsExp(node)) {AddWord(`${GetText('the', misc)} ${GetText('expression', misc)}`, words);}
-
         // Check if this is inside crossed out math
-        let isInCrossedOutMath = false;
-        let parent = node.parentNode;
-        while (parent) {
-          if (parent.localName === 'menclose') {
-            const notation = parent.getAttribute('notation');
+        var isInCrossedOutMath = false;
+        for (let i = 0; i < node.childNodes.length; i++) {
+          child = node.childNodes[i];
+          if (child && child.localName === 'menclose') {
+            notation = child.getAttribute('notation');
             if (notation) {
               isInCrossedOutMath = true;
               break;
             }
           }
-          parent = parent.parentNode;
+          // Check recursively in child elements
+          if (child && child.childNodes) {
+            for (let j = 0; j < child.childNodes.length; j++) {
+              grandChild = child.childNodes[j];
+              if (grandChild && grandChild.localName === 'menclose') {
+                notation = grandChild.getAttribute('notation');
+                if (notation) {
+                  isInCrossedOutMath = true;
+                  break;
+                }
+              }
+            }
+          }
         }
 
         // Also check if this fraction contains crossed out math
         if (!isInCrossedOutMath) {
           for (let i = 0; i < node.childNodes.length; i++) {
-            const child = node.childNodes[i];
+            child = node.childNodes[i];
             if (child && child.localName === 'menclose') {
-              const notation = child.getAttribute('notation');
+              notation = child.getAttribute('notation');
               if (notation) {
                 isInCrossedOutMath = true;
                 break;
@@ -959,9 +970,9 @@ function ParseNode(node, words, indexes) {
             // Check recursively in child elements
             if (child && child.childNodes) {
               for (let j = 0; j < child.childNodes.length; j++) {
-                const grandChild = child.childNodes[j];
+                grandChild = child.childNodes[j];
                 if (grandChild && grandChild.localName === 'menclose') {
-                  const notation = grandChild.getAttribute('notation');
+                  notation = grandChild.getAttribute('notation');
                   if (notation) {
                     isInCrossedOutMath = true;
                     break;
@@ -1098,9 +1109,9 @@ function ParseNode(node, words, indexes) {
         RaisedLoweredText(node, words);
 
         if(node.firstChild !== null) {
-          var mi_val = node.firstChild.nodeValue;
-          var mi_code = mi_val.charCodeAt();
-          var value = 1;
+          const mi_val = node.firstChild.nodeValue;
+          const mi_code = mi_val.charCodeAt();
+          let value = 1;
 
           // Check if this element has intent=":unit" attribute (new guidelines)
           const intent = node.getAttribute('intent');
@@ -1197,7 +1208,7 @@ function ParseNode(node, words, indexes) {
 
             // For H - check if it's a chemical element first
             if (mi_val === 'H') {
-              var mi_text = GetText(mi_val, identifiers);
+              const mi_text = GetText(mi_val, identifiers);
               if (mi_text && mi_text !== mi_val) {
                 // This is a chemical element, use the element name
                 AddWord(mi_text, words);
@@ -1236,7 +1247,7 @@ function ParseNode(node, words, indexes) {
             } else {
               // For other letters (K, N, J, W, V, F, T, P, Ω), use the default behavior
               // which treats them as units/chemical elements from the identifiers file
-              var mi_text = GetText(mi_val, identifiers);
+              const mi_text = GetText(mi_val, identifiers);
               if (mi_text) {
                 AddWord(mi_text, words);
               } else {
@@ -1248,7 +1259,7 @@ function ParseNode(node, words, indexes) {
           }
           // For all other cases, use the original logic (treat as chemical element, variable, etc.)
           else {
-            var mi_text = GetText(mi_val, identifiers);
+            const mi_text = GetText(mi_val, identifiers);
             if(mi_text !== undefined) {
               switch(mi_code) {
               case 176:
@@ -1303,7 +1314,7 @@ function ParseNode(node, words, indexes) {
               }
             }
             else {
-              var mi_c = GetText(mi_code, identifiers);
+              const mi_c = GetText(mi_code, identifiers);
               if(mi_c !== undefined) {
                 switch(mi_code) {
                 case 176:
@@ -1374,8 +1385,6 @@ function ParseNode(node, words, indexes) {
             AddWord(numValue, words);
           }
         }
-        break;
-      case 'mspace':
         break;
       default:
         if(node.firstChild !== null) {

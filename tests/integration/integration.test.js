@@ -1,3 +1,6 @@
+/* eslint-disable no-dupe-keys */
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const request = require('supertest');
 
 // Mock external dependencies

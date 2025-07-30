@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const fs = require('fs');
 const path = require('path');
 
@@ -45,10 +47,6 @@ describe('Norwegian Translation Integration Tests', () => {
       const missingFromNb = [...identifierValues].filter(value => !nbSearchTerms.has(value));
       const missingFromNn = [...identifierValues].filter(value => !nnSearchTerms.has(value));
 
-      console.log('Missing from no.json (identifiers):', missingFromNo);
-      console.log('Missing from nb.json (identifiers):', missingFromNb);
-      console.log('Missing from nn.json (identifiers):', missingFromNn);
-
       // All identifier values should be present in Norwegian files
       expect(missingFromNo).toHaveLength(0);
       expect(missingFromNb).toHaveLength(0);
@@ -77,10 +75,6 @@ describe('Norwegian Translation Integration Tests', () => {
       const missingFromNo = [...miscValues].filter(value => !noSearchTerms.has(value));
       const missingFromNb = [...miscValues].filter(value => !nbSearchTerms.has(value));
       const missingFromNn = [...miscValues].filter(value => !nnSearchTerms.has(value));
-
-      console.log('Missing from no.json (misc):', missingFromNo);
-      console.log('Missing from nb.json (misc):', missingFromNb);
-      console.log('Missing from nn.json (misc):', missingFromNn);
 
       // All misc values should be present in Norwegian files
       expect(missingFromNo).toHaveLength(0);
@@ -116,10 +110,6 @@ describe('Norwegian Translation Integration Tests', () => {
       const missingFromNb = [...operatorValues].filter(value => !nbSearchTerms.has(value));
       const missingFromNn = [...operatorValues].filter(value => !nnSearchTerms.has(value));
 
-      console.log('Missing from no.json (operators):', missingFromNo);
-      console.log('Missing from nb.json (operators):', missingFromNb);
-      console.log('Missing from nn.json (operators):', missingFromNn);
-
       // All operator values should be present in Norwegian files
       expect(missingFromNo).toHaveLength(0);
       expect(missingFromNb).toHaveLength(0);
@@ -143,10 +133,6 @@ describe('Norwegian Translation Integration Tests', () => {
       const missingFromNo = [...rootValues].filter(value => !noSearchTerms.has(value));
       const missingFromNb = [...rootValues].filter(value => !nbSearchTerms.has(value));
       const missingFromNn = [...rootValues].filter(value => !nnSearchTerms.has(value));
-
-      console.log('Missing from no.json (roots):', missingFromNo);
-      console.log('Missing from nb.json (roots):', missingFromNb);
-      console.log('Missing from nn.json (roots):', missingFromNn);
 
       // All root values should be present in Norwegian files
       expect(missingFromNo).toHaveLength(0);
@@ -183,11 +169,6 @@ describe('Norwegian Translation Integration Tests', () => {
       const missingFromNb = [...allDataValues].filter(value => !nbSearchTerms.has(value));
       const missingFromNn = [...allDataValues].filter(value => !nnSearchTerms.has(value));
 
-      console.log('Total data values:', allDataValues.size);
-      console.log('Missing from no.json (total):', missingFromNo.length, missingFromNo);
-      console.log('Missing from nb.json (total):', missingFromNb.length, missingFromNb);
-      console.log('Missing from nn.json (total):', missingFromNn.length, missingFromNn);
-
       // All data values should be present in Norwegian files
       expect(missingFromNo).toHaveLength(0);
       expect(missingFromNb).toHaveLength(0);
@@ -206,10 +187,6 @@ describe('Norwegian Translation Integration Tests', () => {
       const missingFromNo = [...enSearchTerms].filter(term => !noSearchTerms.has(term));
       const missingFromNb = [...enSearchTerms].filter(term => !nbSearchTerms.has(term));
       const missingFromNn = [...enSearchTerms].filter(term => !nnSearchTerms.has(term));
-
-      console.log('Missing from no.json:', missingFromNo);
-      console.log('Missing from nb.json:', missingFromNb);
-      console.log('Missing from nn.json:', missingFromNn);
 
       // All English keys should be present in Norwegian files
       expect(missingFromNo).toHaveLength(0);

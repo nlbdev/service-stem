@@ -1,3 +1,5 @@
+/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { GenerateMath } = require('../../../src/conversions/text');
 
 describe('Item 1: Namespace and Semantics Handling', () => {

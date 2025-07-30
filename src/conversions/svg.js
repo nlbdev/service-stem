@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-/*jshint esversion: 8 */
 
 const mathjax = require('mathjax-full/js/mathjax.js').mathjax;
 const MathML = require('mathjax-full/js/input/mathml.js').MathML;
@@ -26,7 +25,7 @@ module.exports = {
     // Generate SVG
     const node = html.convert(mathml);
     node.kind = 'div';
-    node.attributes = { 'class': 'visual-math' };
+    node.attributes = { class: 'visual-math' };
 
     return adaptor.outerHTML(node);
   }
