@@ -9,7 +9,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
     it('should handle new direct xmlns namespace format', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -17,7 +17,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
     it('should handle legacy m: namespace format for backward compatibility', () => {
       const mathML = testUtils.createLegacyMathML('<m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -25,7 +25,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
     it('should handle invalid root element gracefully', () => {
       const invalidMathML = '<invalid xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></invalid>';
       const result = GenerateMath(invalidMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBeDefined();
     });
@@ -33,7 +33,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
     it('should process MathML without explicit namespace declaration', () => {
       const mathML = '<math><mn>3</mn><mo>+</mo><mn>2</mn></math>';
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -45,7 +45,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         '<semantics><mn>3</mn><mo>+</mo><mn>2</mn></semantics>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Semantics elements are skipped entirely, so no content is processed
       expect(result.words).toEqual([]);
@@ -56,7 +56,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         '<semantics><mn>3</mn><mo>+</mo><mn>2</mn><annotation>3+2</annotation></semantics>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Semantics elements are skipped entirely, so no content is processed
       expect(result.words).toEqual([]);
@@ -67,7 +67,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         '<semantics><mn>3</mn><mo>+</mo><mn>2</mn><annotation-xml>3+2</annotation-xml></semantics>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Semantics elements are skipped entirely, so no content is processed
       expect(result.words).toEqual([]);
@@ -82,7 +82,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         '</semantics>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Semantics elements are skipped entirely, so no content is processed
       expect(result.words).toEqual([]);
@@ -96,7 +96,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         { 'xml:lang': 'no' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -107,7 +107,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         { lang: 'sv' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -115,7 +115,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
     it('should default to en when no language specified', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -130,7 +130,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         '</m:semantics>'
       );
       const result = GenerateMath(oldMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Semantics elements are skipped entirely, so no content is processed
       expect(result.words).toEqual([]);
@@ -141,7 +141,7 @@ describe('Item 1: Namespace and Semantics Handling', () => {
         '<m:mn>3</m:mn><mo>+</mo><m:mn>2</m:mn>' +
         '</math>';
       const result = GenerateMath(mixedMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });

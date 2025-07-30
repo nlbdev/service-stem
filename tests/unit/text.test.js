@@ -9,7 +9,7 @@ describe('Text Conversion Module', () => {
     it('should process basic MathML correctly', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
       expect(result.alix).toBeGreaterThan(0);
@@ -18,7 +18,7 @@ describe('Text Conversion Module', () => {
     it('should handle legacy m: namespace format', () => {
       const mathML = testUtils.createLegacyMathML('<m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -29,7 +29,7 @@ describe('Text Conversion Module', () => {
         { display: 'block' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('equation end');
@@ -41,7 +41,7 @@ describe('Text Conversion Module', () => {
         { display: 'inline' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).not.toContain('equation');
     });
@@ -52,7 +52,7 @@ describe('Text Conversion Module', () => {
         { alttext: '3+2', altimg: 'image.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -60,7 +60,7 @@ describe('Text Conversion Module', () => {
     it('should handle invalid MathML gracefully', () => {
       const invalidMathML = '<invalid>content</invalid>';
       const result = GenerateMath(invalidMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBeDefined();
     });
@@ -68,7 +68,7 @@ describe('Text Conversion Module', () => {
     it('should handle empty MathML', () => {
       const emptyMathML = testUtils.createMathML('');
       const result = GenerateMath(emptyMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual([]);
     });
@@ -78,7 +78,7 @@ describe('Text Conversion Module', () => {
         '<mfenced open="(" close=")"><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>'
       );
       const result = GenerateMath(mfencedMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -90,7 +90,7 @@ describe('Text Conversion Module', () => {
         '<mo>(</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>)</mo>'
       );
       const result = GenerateMath(moMathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -100,7 +100,7 @@ describe('Text Conversion Module', () => {
     it('should handle negative numbers', () => {
       const mathML = testUtils.createMathML('<mn>−5</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['minus', '5']);
     });
@@ -108,7 +108,7 @@ describe('Text Conversion Module', () => {
     it('should handle negative numbers with minus sign', () => {
       const mathML = testUtils.createMathML('<mn>-3</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['minus', '3']);
     });
@@ -118,7 +118,7 @@ describe('Text Conversion Module', () => {
     it('should calculate ALIX score for simple expressions', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.alix).toBeGreaterThan(0);
       expect(typeof result.alix).toBe('number');
     });
@@ -128,17 +128,17 @@ describe('Text Conversion Module', () => {
       const complexMathML = testUtils.createMathML(
         '<mn>3</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>5</mn>'
       );
-      
+
       const simpleResult = GenerateMath(simpleMathML, { noEquationText: 12 });
       const complexResult = GenerateMath(complexMathML, { noEquationText: 12 });
-      
+
       expect(complexResult.alix).toBeGreaterThan(simpleResult.alix);
     });
 
     it('should remove equation text when ALIX is below threshold', () => {
       const mathML = testUtils.createMathML('<mn>3</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).not.toContain('equation');
       expect(result.words).not.toContain('equation end');
@@ -152,7 +152,7 @@ describe('Text Conversion Module', () => {
           '<mfrac><mn>1</mn><mn>2</mn></mfrac>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('fraction with counter');
         expect(result.words).toContain('1');
@@ -164,7 +164,7 @@ describe('Text Conversion Module', () => {
           '<mfrac><mrow><mn>3</mn><mo>+</mo><mn>2</mn></mrow><mn>5</mn></mfrac>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('fraction with counter');
         expect(result.words).toContain('3');
@@ -180,7 +180,7 @@ describe('Text Conversion Module', () => {
           '<msup><mn>2</mn><mn>3</mn></msup>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('2');
         expect(result.words).toContain('to the power of');
@@ -192,7 +192,7 @@ describe('Text Conversion Module', () => {
           '<msub><mi>x</mi><mn>1</mn></msub>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('x');
         expect(result.words).toContain('with the lower index');
@@ -204,7 +204,7 @@ describe('Text Conversion Module', () => {
           '<msubsup><mi>x</mi><mn>1</mn><mn>2</mn></msubsup>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('x');
         expect(result.words).toContain('1');
@@ -218,7 +218,7 @@ describe('Text Conversion Module', () => {
           '<msqrt><mn>16</mn></msqrt>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('the square root of');
         expect(result.words).toContain('16');
@@ -229,7 +229,7 @@ describe('Text Conversion Module', () => {
           '<mroot><mn>8</mn><mn>3</mn></mroot>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('8');
         expect(result.words.join(' ')).toMatch(/root end/);
@@ -242,7 +242,7 @@ describe('Text Conversion Module', () => {
           '<mtable><mtr><mtd><mn>1</mn></mtd><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3</mn></mtd><mtd><mn>4</mn></mtd></mtr></mtable>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('matrix');
         expect(result.words.join(' ')).toMatch(/row 1 contains 2 cells/);
@@ -254,7 +254,7 @@ describe('Text Conversion Module', () => {
           '<mtable><mtr><mtd intent=":equation-label"><mtext>(1.1)</mtext></mtd><mtd><mn>3</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>5</mn></mtd></mtr></mtable>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words.join(' ')).toMatch(/equation start/);
         expect(result.words).toContain('label');
@@ -266,7 +266,7 @@ describe('Text Conversion Module', () => {
       it('should handle chemical elements', () => {
         const mathML = testUtils.createMathML('<mi>H</mi>');
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('hydrogen');
       });
@@ -276,7 +276,7 @@ describe('Text Conversion Module', () => {
           '<mrow><mi>H</mi><msub><mn>2</mn><mn></mn></msub><mi>O</mi></mrow>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('hydrogen');
         expect(result.words).toContain('with the lower index');
@@ -289,7 +289,7 @@ describe('Text Conversion Module', () => {
           '<mmultiscripts><mi>C</mi><mrow></mrow><mrow></mrow><mprescripts/><mrow></mrow><mn>14</mn></mmultiscripts>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('14');
         expect(result.words).toContain('superscript');
@@ -303,7 +303,7 @@ describe('Text Conversion Module', () => {
         operators.forEach(op => {
           const mathML = testUtils.createMathML(`<mo>${op}</mo>`);
           const result = GenerateMath(mathML, { noEquationText: 12 });
-          
+
           expect(result.success).toBe(true);
           expect(result.words.length).toBeGreaterThan(0);
         });
@@ -314,7 +314,7 @@ describe('Text Conversion Module', () => {
         operators.forEach(op => {
           const mathML = testUtils.createMathML(`<mo>${op}</mo>`);
           const result = GenerateMath(mathML, { noEquationText: 12 });
-          
+
           expect(result.success).toBe(true);
           expect(result.words.length).toBeGreaterThan(0);
         });
@@ -323,7 +323,7 @@ describe('Text Conversion Module', () => {
       it('should handle arrow operators', () => {
         const mathML = testUtils.createMathML('<mo>→</mo>');
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('yields');
       });
@@ -335,7 +335,7 @@ describe('Text Conversion Module', () => {
           '<mrow><mi>sin</mi><mo>⁡</mo><mfenced><mi>x</mi></mfenced></mrow>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('the function');
         expect(result.words).toContain('sine');
@@ -346,7 +346,7 @@ describe('Text Conversion Module', () => {
           '<mrow><mi>log</mi><mo>⁡</mo><mfenced><mi>x</mi></mfenced></mrow>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('the function');
         expect(result.words).toContain('the logarithm');
@@ -359,7 +359,7 @@ describe('Text Conversion Module', () => {
           '<msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('the integral');
         expect(result.words).toContain('with the lower limit');
@@ -371,7 +371,7 @@ describe('Text Conversion Module', () => {
           '<msubsup><mo>∬</mo><mn>0</mn><mn>1</mn></msubsup>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('the double integral');
       });
@@ -385,7 +385,7 @@ describe('Text Conversion Module', () => {
           '<menclose notation="updiagonalstrike"><mn>3</mn><mo>+</mo><mn>2</mn></menclose>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('crossed');
         expect(result.words).toContain('out');
@@ -396,7 +396,7 @@ describe('Text Conversion Module', () => {
           '<menclose notation="updiagonalstrike"><mfrac><mn>1</mn><mn>2</mn></mfrac></menclose>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('crossed');
         expect(result.words).toContain('out');
@@ -410,7 +410,7 @@ describe('Text Conversion Module', () => {
           '<mn>5</mn><mo>⁢</mo><mi intent=":unit">m</mi>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('5');
         expect(result.words).toContain('times');
@@ -422,7 +422,7 @@ describe('Text Conversion Module', () => {
           '<mn>10</mn><mo>⁢</mo><mi mathvariant="normal">kg</mi>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('10');
         expect(result.words).toContain('times');
@@ -436,7 +436,7 @@ describe('Text Conversion Module', () => {
           '<mrow><mi>H</mi><mn>2</mn><mo>+</mo><mi>O</mi><mn>2</mn><mo>→</mo><mi>H</mi><mn>2</mn><mi>O</mi></mrow>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('hydrogen');
         expect(result.words).toContain('oxygen');
@@ -448,7 +448,7 @@ describe('Text Conversion Module', () => {
           '<mrow><mi>A</mi><mo>↔</mo><mi>B</mi></mrow>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('A');
         expect(result.words).toContain('reversible reaction');
@@ -460,7 +460,7 @@ describe('Text Conversion Module', () => {
       it('should handle missing namespace gracefully', () => {
         const mathML = '<math><mn>3</mn></math>';
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         expect(result.words).toContain('3');
       });
@@ -468,7 +468,7 @@ describe('Text Conversion Module', () => {
       it('should handle malformed XML', () => {
         const malformedMathML = '<math><mn>3<mn>'; // Missing closing tag
         const result = GenerateMath(malformedMathML, { noEquationText: 12 });
-        
+
         // The parser is lenient, so expect success true
         expect(result.success).toBe(true);
       });
@@ -488,7 +488,7 @@ describe('Text Conversion Module', () => {
           '<semantics><mn>3</mn><annotation encoding="text/plain">three</annotation></semantics>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         // Should skip semantics and annotation elements
         expect(result.words).toEqual([]);
@@ -499,7 +499,7 @@ describe('Text Conversion Module', () => {
           '<annotation encoding="text/plain">three</annotation>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         // Should skip annotation elements
         expect(result.words).toEqual([]);
@@ -512,7 +512,7 @@ describe('Text Conversion Module', () => {
           '<mphantom><mn>3</mn></mphantom>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         // Should skip mphantom elements
         expect(result.words).toEqual([]);
@@ -523,7 +523,7 @@ describe('Text Conversion Module', () => {
           '<mspace width="1em"/>'
         );
         const result = GenerateMath(mathML, { noEquationText: 12 });
-        
+
         expect(result.success).toBe(true);
         // Should skip mspace elements
         expect(result.words).toEqual([]);
@@ -537,7 +537,7 @@ describe('Text Conversion Module', () => {
         '<mrow><mi>H</mi><msub><mn>2</mn><mn></mn></msub><mi>O</mi><mo>→</mo><mi>H</mi><msub><mn>2</mn><mn></mn></msub><mi>O</mi></mrow>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Should post-process H₂O to "water" (not present in output, so just check for hydrogen/oxygen)
       expect(result.words).toContain('hydrogen');
@@ -549,7 +549,7 @@ describe('Text Conversion Module', () => {
         '<mrow><mi>A</mi><mo>↔</mo><mi>B</mi></mrow>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Should post-process "capital a" to "A" in reversible reactions
       expect(result.words).toContain('A');
@@ -561,10 +561,10 @@ describe('Text Conversion Module', () => {
   describe('Cache Functionality', () => {
     it('should use cache for repeated identical inputs', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const result1 = GenerateMath(mathML, { noEquationText: 12 });
       const result2 = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result1.success).toBe(true);
       expect(result2.success).toBe(true);
       expect(result1.words).toEqual(result2.words);
@@ -573,10 +573,10 @@ describe('Text Conversion Module', () => {
 
     it('should handle different thresholds correctly', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const result1 = GenerateMath(mathML, { noEquationText: 5 });
       const result2 = GenerateMath(mathML, { noEquationText: 15 });
-      
+
       expect(result1.success).toBe(true);
       expect(result2.success).toBe(true);
       // Results should be different due to different thresholds

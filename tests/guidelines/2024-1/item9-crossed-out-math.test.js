@@ -9,7 +9,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -28,7 +28,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -46,7 +46,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -62,7 +62,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -78,7 +78,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -94,7 +94,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -116,7 +116,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -149,7 +149,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -175,7 +175,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</mrow>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -201,7 +201,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</mfrac>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('fraction');
       expect(result.words).toContain('crossed');
@@ -225,7 +225,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</mfrac>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('fraction');
       expect(result.words).toContain('crossed');
@@ -245,7 +245,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('x');
       expect(result.words).toContain('plus');
@@ -255,7 +255,7 @@ describe('Item 9: Crossed Out Math Support', () => {
     it('should handle empty menclose element', () => {
       const mathML = testUtils.createMathML('<menclose notation="updiagonalstrike"></menclose>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -268,7 +268,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -286,7 +286,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('crossed');
       expect(result.words).toContain('out');
@@ -302,7 +302,7 @@ describe('Item 9: Crossed Out Math Support', () => {
         '</menclose>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.alix).toBeGreaterThan(0);
       expect(result.words).toContain('crossed');

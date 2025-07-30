@@ -1,6 +1,6 @@
 # service-stem
 
-A microservice to generate text content and images based on MathML, following the Nordic MathML Guidelines for accessibility and compliance.
+A microservice to generate text content and images based on MathML, following the Nordic MathML Guidelines for accessibility and compliance. **Version 2.0.0** includes enhanced backward compatibility, migration assistance, and comprehensive guideline compliance.
 
 ## Documentation
 
@@ -8,6 +8,25 @@ A microservice to generate text content and images based on MathML, following th
 - **[Developer Documentation](docs/DEVELOPER.md)** - Internal implementation details and guidelines
 - **[MathML Examples](docs/MATHML_EXAMPLES.md)** - Comprehensive examples of MathML markup patterns
 - **[Nordic MathML Guidelines](https://github.com/nlbdev/mathml-guidelines)** - Official guidelines repository
+
+## What's New in Version 2.0.0
+
+### 🚀 New Features
+- **Backward Compatibility Support** - Automatic detection and migration of legacy MathML content
+- **Migration Assistance Endpoints** - `/migrate` and `/detect-version` for content migration
+- **Enhanced Validation** - Comprehensive Nordic MathML Guidelines 2024 compliance
+- **Improved Error Handling** - Better error messages and migration recommendations
+
+### 🔧 Migration Tools
+- **Version Detection** - Automatically identify legacy MathML patterns
+- **Content Migration** - Convert deprecated elements and attributes
+- **Migration Recommendations** - Get specific guidance for content updates
+
+### 📋 Enhanced Guidelines Compliance
+- **Namespace Validation** - Strict enforcement of direct namespace declaration
+- **Deprecated Element Detection** - Automatic identification of `<mfenced>`, `<semantics>`, etc.
+- **Invisible Operator Support** - Proper handling of mathematical invisible operators
+- **Special Character Validation** - Unicode character compliance
 
 ## Installation
 
@@ -46,6 +65,26 @@ curl -H 'Content-Type: application/json' \
       -d '{ "contentType": "math", "content": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"en\" display=\"block\"><mn>3</mn><mo>-</mo><mn>2</mn><mo>=</mo><mn>1</mn></math>" }' \
       -X POST \
       http://[HOST]:[PORT]/
+```
+
+### Migration Assistance
+
+For legacy MathML content, use the migration endpoints:
+
+**Detect Version:**
+```bash
+curl -H 'Content-Type: application/json' \
+      -d '{ "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>" }' \
+      -X POST \
+      http://[HOST]:[PORT]/detect-version
+```
+
+**Migrate Content:**
+```bash
+curl -H 'Content-Type: application/json' \
+      -d '{ "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>" }' \
+      -X POST \
+      http://[HOST]:[PORT]/migrate
 ```
 
 ### Key Requirements
@@ -129,6 +168,75 @@ The test suite includes:
 - Unit tests for validation and conversion logic
 - Integration tests for API endpoints
 - Documentation tests for MathML examples
+- **Backward compatibility tests** - Legacy content migration and version detection
+- **Guidelines compliance tests** - Nordic MathML Guidelines 2024 validation
+- **Performance tests** - Service performance and caching validation
+
+## Development
+
+### Code Quality
+
+This project uses ESLint for code linting and Jest for testing:
+
+```bash
+# Run linting
+pnpm lint
+
+# Fix linting issues automatically
+pnpm lint:fix
+
+# Run tests with coverage
+pnpm test:coverage
+
+# Run all CI checks locally
+pnpm ci
+```
+
+### Continuous Integration
+
+The project includes comprehensive GitHub Actions workflows:
+
+- **CI Pipeline** (`ci.yml`): Runs on push/PR to main/develop branches
+  - Linting with ESLint
+  - Unit tests with coverage reporting
+  - Security audits
+  - Docker build verification
+
+- **Code Quality** (`code-quality.yml`): Additional quality checks
+  - Complexity analysis
+  - TODO comment detection
+  - Console.log statement detection
+  - File size monitoring
+
+- **Dependency Management** (`dependency-check.yml`): Weekly dependency updates
+  - Outdated dependency detection
+  - Security vulnerability scanning
+  - Automatic issue creation for updates
+
+- **Release Management** (`release.yml`): Automated releases on version tags
+  - Changelog generation
+  - GitHub release creation
+  - Asset upload
+
+### Branch Protection
+
+The main branch is protected with:
+
+- Required status checks (linting, tests, security)
+- Required pull request reviews
+- No force pushes allowed
+- No deletions allowed
+
+### Pull Request Process
+
+1. Create a feature branch from `develop`
+2. Make your changes following the coding standards
+3. Run `pnpm ci` locally to ensure all checks pass
+4. Create a pull request using the provided template
+5. Ensure all CI checks pass
+6. Get approval from at least one reviewer
+7. Merge to `develop` for integration testing
+8. Create a release PR to `main` when ready
 
 ## API Reference
 

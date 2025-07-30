@@ -9,7 +9,7 @@ describe('Item 7: Chemistry Markup Support', () => {
     it('should handle basic chemical elements', () => {
       const mathML = testUtils.createMathML('<mi>H</mi><mi>O</mi>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
       expect(result.words).toContain('oxygen');
@@ -18,7 +18,7 @@ describe('Item 7: Chemistry Markup Support', () => {
     it('should handle common chemical elements', () => {
       const mathML = testUtils.createMathML('<mi>Na</mi><mi>Cl</mi>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('sodium');
       expect(result.words).toContain('chlorine');
@@ -27,7 +27,7 @@ describe('Item 7: Chemistry Markup Support', () => {
     it('should handle transition metals', () => {
       const mathML = testUtils.createMathML('<mi>Fe</mi><mi>Cu</mi><mi>Ag</mi>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('iron');
       expect(result.words).toContain('copper');
@@ -41,7 +41,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<msub><mi>H</mi><mn>2</mn></msub><mi>O</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
       expect(result.words).toContain('subscript');
@@ -54,7 +54,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>C</mi><msub><mi>O</mi><mn>2</mn></msub>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('carbon');
       expect(result.words).toContain('oxygen');
@@ -67,7 +67,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<msub><mi>H</mi><mn>2</mn></msub><mi>S</mi><msub><mi>O</mi><mn>4</mn></msub>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
       expect(result.words).toContain('subscript');
@@ -91,7 +91,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '</mmultiscripts>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('14');
       expect(result.words).toContain('superscript');
@@ -110,7 +110,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '</mmultiscripts>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('superscript');
@@ -129,7 +129,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '</mmultiscripts>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('235');
       expect(result.words).toContain('superscript');
@@ -147,7 +147,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<msub><mi>H</mi><mn>2</mn></msub><mi>O</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
       expect(result.words).toContain('subscript');
@@ -163,7 +163,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>A</mi><mo>&#x2194;</mo><mi>B</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('A');
       expect(result.words).toContain('reversible reaction');
@@ -181,7 +181,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mn>2</mn><msub><mi>H</mi><mn>2</mn></msub><mi>O</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('carbon');
       expect(result.words).toContain('hydrogen');
@@ -198,7 +198,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>Na</mi><msup><mo>+</mo><mn>1</mn></msup>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('sodium');
       expect(result.words).toContain('plus');
@@ -211,7 +211,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>SO</mi><msub><mn>4</mn></msub><msup><mo>-</mo><mn>2</mn></msup>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('sulfur');
       expect(result.words).toContain('oxygen');
@@ -229,7 +229,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>Ca</mi><msub><mi>CO</mi><mn>3</mn></msub>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('calcium');
       expect(result.words).toContain('carbon');
@@ -247,7 +247,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mn>2</mn><mi>H</mi><msub><mn>2</mn></msub><mi>O</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('2');
       expect(result.words).toContain('hydrogen');
@@ -264,7 +264,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>&#x3B1;</mi><mi>Fe</mi><msub><mn>2</mn></msub><mi>O</mi><msub><mn>3</mn></msub>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('alpha');
       expect(result.words).toContain('iron');
@@ -279,7 +279,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>H</mi><msub><mn>2</mn></msub><mi>SO</mi><msub><mn>4</mn></msub><mo>&#x2212;</mo>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
       expect(result.words).toContain('subscript');
@@ -297,7 +297,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>H</mi><mo>2</mo><mi>O</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
       expect(result.words).toContain('2');
@@ -309,7 +309,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<mi>Na</mi><mi>Cl</mi><mo>+</mo><msub><mi>H</mi><mn>2</mn></msub><mi>O</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('sodium');
       expect(result.words).toContain('chlorine');
@@ -334,10 +334,10 @@ describe('Item 7: Chemistry Markup Support', () => {
           '<mn>235</mn>' +
         '</mmultiscripts>'
       );
-      
+
       const simpleResult = GenerateMath(simpleFormula, { noEquationText: 12 });
       const complexResult = GenerateMath(complexFormula, { noEquationText: 12 });
-      
+
       expect(simpleResult.alix).toBeGreaterThan(0);
       expect(complexResult.alix).toBeGreaterThan(0);
       // Complex formulas should have higher ALIX scores
@@ -353,7 +353,7 @@ describe('Item 7: Chemistry Markup Support', () => {
         '<msub><mi>H</mi></msub>' // Missing subscript value
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('hydrogen');
     });
@@ -361,7 +361,7 @@ describe('Item 7: Chemistry Markup Support', () => {
     it('should handle unknown chemical elements', () => {
       const mathML = testUtils.createMathML('<mi>Xx</mi>'); // Unknown element
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('Xx'); // Should fall back to raw text
     });

@@ -26,10 +26,10 @@ jest.mock('../../src/validation', () => ({
 }));
 
 jest.mock('../../src/backward-compatibility', () => ({
-  detectMathMLVersion: jest.fn(() => ({ 
-    isLegacy: false, 
-    legacyFeatures: [], 
-    compatibilityMode: false 
+  detectMathMLVersion: jest.fn(() => ({
+    isLegacy: false,
+    legacyFeatures: [],
+    compatibilityMode: false
   })),
   migrateMathML: jest.fn((content) => content),
   validateMigratedContent: jest.fn(() => ({ isValid: true })),
@@ -43,25 +43,25 @@ describe('Dependency Compatibility Tests', () => {
   beforeAll(async () => {
     // Set up test environment
     process.env.NODE_ENV = 'test';
-    
+
     // Create Express app for testing
     app = express();
     app.use(bodyParser.text({ type: 'application/xml' }));
     app.use(bodyParser.json());
-    
+
     // Mock the main processing endpoint
     app.post('/', async (req, res) => {
       const contentType = req.get('Content-Type');
       const content = req.body;
-      
+
       if (!contentType || !contentType.includes('application/xml')) {
         return res.status(400).json({ error: 'Missing or invalid Content-Type' });
       }
-      
+
       if (!content) {
         return res.status(400).json({ error: 'Missing content' });
       }
-      
+
       // Mock successful processing
       res.json({
         success: true,
@@ -84,7 +84,7 @@ describe('Dependency Compatibility Tests', () => {
         }
       });
     });
-    
+
     // Health endpoint
     app.get('/health', (req, res) => {
       res.json({
@@ -92,7 +92,7 @@ describe('Dependency Compatibility Tests', () => {
         timestamp: new Date().toISOString()
       });
     });
-    
+
     // Start server on random port
     server = app.listen(0);
   });
@@ -106,7 +106,7 @@ describe('Dependency Compatibility Tests', () => {
   describe('MathML Processing with Updated Dependencies', () => {
     test('should process basic MathML with updated libraries', async () => {
       const mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi><mo>+</mo><mn>2</mn></math>';
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -131,7 +131,7 @@ describe('Dependency Compatibility Tests', () => {
           </mtable>
         </math>
       `;
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -161,7 +161,7 @@ describe('Dependency Compatibility Tests', () => {
           <mi>O</mi>
         </math>
       `;
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -177,7 +177,7 @@ describe('Dependency Compatibility Tests', () => {
           <mi>&#x2212;</mi><mn>5</mn><mo>&#x2208;</mo><mi>&#x211D;</mi>
         </math>
       `;
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -193,7 +193,7 @@ describe('Dependency Compatibility Tests', () => {
           <mi>&#x9109;</mi><mo>+</mo><mn>5</mn><mo>=</mo><mn>10</mn>
         </math>
       `;
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -218,7 +218,7 @@ describe('Dependency Compatibility Tests', () => {
           </mfrac>
         </math>
       `;
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -234,7 +234,7 @@ describe('Dependency Compatibility Tests', () => {
           <mi>&alpha;</mi><mo>&lt;</mo><mi>&beta;</mi>
         </math>
       `;
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -257,7 +257,7 @@ describe('Dependency Compatibility Tests', () => {
 
     test('should handle content type parsing correctly', async () => {
       const mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math>';
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -268,7 +268,7 @@ describe('Dependency Compatibility Tests', () => {
 
     test('should handle missing content type gracefully', async () => {
       const mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math>';
-      
+
       const response = await request(app)
         .post('/')
         .send(mathml);
@@ -281,7 +281,7 @@ describe('Dependency Compatibility Tests', () => {
   describe('Error Handling with Updated Dependencies', () => {
     test('should handle invalid MathML gracefully', async () => {
       const invalidMathml = '<math><invalid-tag></invalid-tag></math>';
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -293,7 +293,7 @@ describe('Dependency Compatibility Tests', () => {
 
     test('should handle malformed XML gracefully', async () => {
       const malformedXml = '<math><mi>x<mo>+</mo><mn>2</mn></math>';
-      
+
       const response = await request(app)
         .post('/')
         .set('Content-Type', 'application/xml')
@@ -322,7 +322,7 @@ describe('Dependency Compatibility Tests', () => {
         largeMathml += `<mi>x</mi><mo>+</mo><mn>${i}</mn>`;
       }
       largeMathml += '</math>';
-      
+
       const startTime = Date.now();
       const response = await request(app)
         .post('/')
@@ -336,8 +336,8 @@ describe('Dependency Compatibility Tests', () => {
 
     test('should handle concurrent requests efficiently', async () => {
       const mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi><mo>+</mo><mn>2</mn></math>';
-      
-      const promises = Array(10).fill().map(() => 
+
+      const promises = Array(10).fill().map(() =>
         request(app)
           .post('/')
           .set('Content-Type', 'application/xml')
@@ -345,7 +345,7 @@ describe('Dependency Compatibility Tests', () => {
       );
 
       const responses = await Promise.all(promises);
-      
+
       responses.forEach(response => {
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('output');

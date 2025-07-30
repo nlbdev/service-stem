@@ -9,7 +9,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
     it('should process MathML without alttext attribute (recommended)', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -20,7 +20,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: '3+2' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -31,7 +31,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: '3 plus 2 equals 5' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -42,7 +42,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: 'different content' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Should generate from MathML structure, not use alttext
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -53,7 +53,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
     it('should process MathML without altimg attribute (recommended)', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -64,7 +64,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { altimg: 'image.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -75,7 +75,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { altimg: '/images/math/equation-001.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -88,7 +88,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: '3+2', altimg: 'image.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -99,7 +99,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: '3+2=5', altimg: 'equation.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -116,7 +116,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: '3+2', altimg: 'image.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -126,7 +126,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         '<m:mn>3</m:mn><mo>+</mo><m:mn>2</m:mn>' +
         '</math>';
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -139,7 +139,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: 'different content' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Should generate from MathML structure, not use alttext
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -153,7 +153,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: 'fallback content' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -166,7 +166,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { altimg: 'image.png' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Template should not reference altimg
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -178,7 +178,7 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         { alttext: '3+2' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Template should not reference alttext
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -192,10 +192,10 @@ describe('Item 4: Alttext and Altimg Deprecation', () => {
         '<mn>3</mn><mo>+</mo><mn>2</mn>',
         { alttext: '3+2', altimg: 'image.png' }
       );
-      
+
       const cleanResult = GenerateMath(cleanMathML, { noEquationText: 12 });
       const deprecatedResult = GenerateMath(deprecatedMathML, { noEquationText: 12 });
-      
+
       expect(cleanResult.success).toBe(true);
       expect(deprecatedResult.success).toBe(true);
       expect(cleanResult.words).toEqual(deprecatedResult.words);

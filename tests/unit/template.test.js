@@ -20,11 +20,11 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       // Should not contain alttext or altimg references
       expect(result).not.toContain('alttext');
       expect(result).not.toContain('altimg');
-      
+
       // Should contain proper block structure
       expect(result).toContain('<figure class="image"');
       expect(result).toContain('<figcaption>');
@@ -42,11 +42,11 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       // Should not contain alttext or altimg references
       expect(result).not.toContain('alttext');
       expect(result).not.toContain('altimg');
-      
+
       // Should contain proper inline structure
       expect(result).toContain('<span class="image"');
       expect(result).toContain('spoken-math');
@@ -63,7 +63,7 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       // Should not contain SVG when alix is below threshold
       expect(result).not.toContain('<svg>');
       expect(result).toContain('<p>');
@@ -78,7 +78,7 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       // Should still render without errors
       expect(result).toContain('spoken-math');
       expect(result).toContain('3 plus 2');
@@ -95,7 +95,7 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       expect(result).toContain('xml:lang="no"');
     });
 
@@ -124,7 +124,7 @@ describe('Template Updates for New MathML Structure', () => {
   describe('Template Compatibility with New MathML Guidelines', () => {
     it('should not reference deprecated m: prefix elements', async () => {
       const templateContent = require('fs').readFileSync(templatePath, 'utf8');
-      
+
       // Template should not contain references to deprecated m: prefix
       expect(templateContent).not.toContain('m:math');
       expect(templateContent).not.toContain('m:');
@@ -132,14 +132,14 @@ describe('Template Updates for New MathML Structure', () => {
 
     it('should not reference deprecated mfenced elements', async () => {
       const templateContent = require('fs').readFileSync(templatePath, 'utf8');
-      
+
       // Template should not contain references to deprecated mfenced
       expect(templateContent).not.toContain('mfenced');
     });
 
     it('should not reference deprecated semantics elements', async () => {
       const templateContent = require('fs').readFileSync(templatePath, 'utf8');
-      
+
       // Template should not contain references to deprecated semantics
       expect(templateContent).not.toContain('semantics');
       expect(templateContent).not.toContain('annotation');
@@ -159,7 +159,7 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       // Should be valid HTML structure
       expect(result).toMatch(/<figure[^>]*>.*<\/figure>/s);
       expect(result).toMatch(/<figcaption[^>]*>.*<\/figcaption>/s);
@@ -177,7 +177,7 @@ describe('Template Updates for New MathML Structure', () => {
       };
 
       const result = await ejs.renderFile(templatePath, opts);
-      
+
       // Should escape HTML in text content (EJS uses &#34; for quotes)
       expect(result).toContain('&lt;script&gt;alert(&#34;xss&#34;)&lt;/script&gt;');
       expect(result).not.toContain('<script>');

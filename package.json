@@ -2,18 +2,18 @@
   "name": "service-stem",
   "version": "2.0.0",
   "description": "A service to generate text content based on markup",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
-    "@airbrake/node": "^2.1.8",
+    "@airbrake/node": "^2.1.9",
     "body-parser": "^2.2.0",
-    "cheerio": "^1.0.0-rc.12",
+    "cheerio": "^1.1.2",
     "cross-fetch": "^4.1.0",
     "dotenv": "^17.2.1",
-    "ejs": "^3.1.9",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "fast-xml-parser": "^5.2.5",
     "he": "^1.2.0",
-    "jquery": "^3.5.0",
+    "jquery": "^3.7.1",
     "jsdom": "^26.1.0",
     "mathjax-full": "^3.2.2",
     "mathml-to-asciimath": "^1.4.0",
@@ -21,21 +21,23 @@
     "pino-multi-stream": "^6.0.0",
     "pino-papertrail": "^2.1.0",
     "tough-cookie": "^5.1.2",
-    "x2js": "^3.4.0",
+    "x2js": "^3.4.4",
     "xml": "^1.0.1"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "complexity-report": "^2.0.0",
+    "complexity-report": "2.0.0-alpha",
     "eslint": "^8.57.0",
+    "eslint-scope": "^8.4.0",
+    "espree": "^10.4.0",
     "jest": "^30.0.5",
-    "nodemon": "^3.0.0",
+    "nodemon": "^3.1.10",
     "supertest": "^7.1.4"
   },
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon src/index.js",
     "build": "docker build -t service-stem .",
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -53,5 +55,5 @@
     "url": "https://github.com/nlbdev/service-database/issues"
   },
   "homepage": "https://github.com/nlbdev/service-database#readme",
-  "packageManager": "pnpm@10.12.4"
+  "packageManager": "pnpm@10.13.1"
 }

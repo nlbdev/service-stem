@@ -27,7 +27,81 @@ Returns the health status of the service.
 ```json
 {
   "name": "service-stem",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "timestamp": "2024-01-15T10:30:00.000Z"
+}
+```
+
+### Version Detection
+
+**POST** `/detect-version`
+
+Analyzes MathML content to detect version and compatibility issues.
+
+**Request Body:**
+
+```json
+{
+  "content": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">...</math>"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "versionInfo": {
+    "version": "2.0.0",
+    "isLegacy": false,
+    "legacyFeatures": [],
+    "migrationHints": [],
+    "compatibilityMode": false
+  },
+  "recommendations": [],
+  "timestamp": "2024-01-15T10:30:00.000Z"
+}
+```
+
+### Content Migration
+
+**POST** `/migrate`
+
+Migrates legacy MathML content to the new format.
+
+**Request Body:**
+
+```json
+{
+  "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\">...</m:math>"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "originalContent": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\">...</m:math>",
+  "migratedContent": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">...</math>",
+  "versionInfo": {
+    "version": "2.0.0",
+    "isLegacy": true,
+    "legacyFeatures": ["m: namespace prefix"],
+    "migrationHints": ["Replace m: namespace with direct xmlns declaration"]
+  },
+  "migrationResult": {
+    "changes": ["Replaced m: namespace with direct xmlns"],
+    "warnings": [],
+    "success": true
+  },
+  "validationResult": {
+    "isValid": true,
+    "errors": [],
+    "warnings": [],
+    "remainingLegacyFeatures": []
+  },
+  "recommendations": [],
   "timestamp": "2024-01-15T10:30:00.000Z"
 }
 ```
@@ -96,6 +170,15 @@ Processes MathML content and returns accessible text representations.
 ```xml
 <!-- DEPRECATED - Do not use -->
 <m:math xmlns:m="http://www.w3.org/1998/Math/MathML">
+```
+
+**Migration:** Use the `/migrate` endpoint to automatically convert legacy content:
+
+```bash
+curl -H 'Content-Type: application/json' \
+  -d '{ "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>" }' \
+  -X POST \
+  http://[HOST]:[PORT]/migrate
 ```
 
 ### Display Attribute
@@ -327,6 +410,28 @@ curl -H 'Content-Type: application/json' \
   }' \
   -X POST \
   http://localhost:3000/
+```
+
+### Version Detection
+
+```bash
+curl -H 'Content-Type: application/json' \
+  -d '{
+    "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>"
+  }' \
+  -X POST \
+  http://localhost:3000/detect-version
+```
+
+### Content Migration
+
+```bash
+curl -H 'Content-Type: application/json' \
+  -d '{
+    "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>"
+  }' \
+  -X POST \
+  http://localhost:3000/migrate
 ```
 
 ### Complex Expression with Invisible Operators

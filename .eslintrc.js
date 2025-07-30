@@ -11,17 +11,20 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: 'module'
   },
+  globals: {
+    testUtils: 'readonly'
+  },
   rules: {
     // Error handling
     'no-console': 'warn',
     'no-debugger': 'error',
-    
+
     // Code quality
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'no-undef': 'error',
     'no-redeclare': 'error',
     'no-unreachable': 'error',
-    
+
     // Best practices
     'eqeqeq': ['error', 'always'],
     'curly': ['error', 'all'],
@@ -29,7 +32,7 @@ module.exports = {
     'no-implied-eval': 'error',
     'no-new-func': 'error',
     'no-script-url': 'error',
-    
+
     // Styling
     'indent': ['error', 2],
     'quotes': ['error', 'single', { avoidEscape: true }],
@@ -37,7 +40,7 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
     'no-trailing-spaces': 'error',
     'eol-last': 'error',
-    
+
     // Complexity
     'complexity': ['warn', 10],
     'max-depth': ['warn', 4],
@@ -51,4 +54,4 @@ module.exports = {
     'build/',
     '*.min.js'
   ]
-}; 
+};

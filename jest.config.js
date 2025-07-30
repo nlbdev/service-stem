@@ -1,14 +1,14 @@
 module.exports = {
   // Test environment
   testEnvironment: 'node',
-  
+
   // Test file patterns
   testMatch: [
     '**/tests/**/*.test.js',
     '**/tests/**/*.spec.js',
     '**/__tests__/**/*.js'
   ],
-  
+
   // Test organization
   projects: [
     {
@@ -57,15 +57,16 @@ module.exports = {
       setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
     }
   ],
-  
+
   // Coverage configuration
   collectCoverageFrom: [
-    'conversions/**/*.js',
+    'src/conversions/**/*.js',
+    'src/**/*.js',
     '!**/node_modules/**',
     '!**/tests/**',
-    '!index.js'
+    '!src/index.js'
   ],
-  
+
   // Coverage thresholds
   coverageThreshold: {
     global: {
@@ -75,21 +76,21 @@ module.exports = {
       statements: 70
     }
   },
-  
+
   // Setup files
   setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
-  
+
   // Module name mapping for better imports
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1'
   },
-  
+
   // Verbose output
   verbose: true,
-  
+
   // Clear mocks between tests
   clearMocks: true,
-  
+
   // Test timeout
   testTimeout: 10000
 };

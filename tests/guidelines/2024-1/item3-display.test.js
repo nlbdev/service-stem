@@ -9,7 +9,7 @@ describe('Item 3: Display Attribute Handling', () => {
     it('should process MathML without display attribute normally', () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -20,7 +20,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'inline' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -31,7 +31,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'block' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Display attribute affects rendering, not text generation
       expect(result.words).toContain('3');
@@ -49,7 +49,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'block' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Display attribute affects rendering, not text generation
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -61,7 +61,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'inline' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -72,7 +72,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'invalid' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Should still process the MathML content
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -84,7 +84,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: '' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -97,7 +97,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { displaystyle: 'true' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -108,7 +108,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { displaystyle: 'false' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -119,7 +119,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { displaystyle: 'invalid' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -132,7 +132,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'block' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Display attribute affects rendering, not text generation
       expect(result.words).toContain('3');
@@ -147,7 +147,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'inline' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('2');
@@ -161,7 +161,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'block', displaystyle: 'true' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       // Display attributes affect rendering, not text generation
       expect(result.words).toEqual(['3', 'plus', '2']);
@@ -175,7 +175,7 @@ describe('Item 3: Display Attribute Handling', () => {
         { display: 'block' }
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -185,7 +185,7 @@ describe('Item 3: Display Attribute Handling', () => {
         '<m:mn>3</m:mn><mo>+</mo><m:mn>2</m:mn>' +
         '</math>';
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -201,10 +201,10 @@ describe('Item 3: Display Attribute Handling', () => {
         '<mn>3</mn><mo>+</mo><mn>2</mn>',
         { display: 'block' }
       );
-      
+
       const inlineResult = GenerateMath(inlineMathML, { noEquationText: 12 });
       const blockResult = GenerateMath(blockMathML, { noEquationText: 12 });
-      
+
       expect(inlineResult.alix).toBeGreaterThan(0);
       expect(blockResult.alix).toBeGreaterThan(0);
       // Both should have valid ALIX scores

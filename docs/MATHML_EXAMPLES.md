@@ -1,6 +1,6 @@
 # MathML Examples
 
-This document provides comprehensive examples of MathML markup patterns that comply with the Nordic MathML Guidelines. These examples demonstrate proper usage of the new MathML requirements and can be used for testing and reference.
+This document provides comprehensive examples of MathML markup patterns that comply with the Nordic MathML Guidelines 2024. These examples demonstrate proper usage of the new MathML requirements and can be used for testing and reference. **Version 2.0.0** includes enhanced validation and backward compatibility support.
 
 ## Basic Mathematical Expressions
 
@@ -328,4 +328,26 @@ curl -H 'Content-Type: application/json' \
   }' \
   -X POST \
   http://localhost:3000/
+```
+
+### Version Detection Test
+
+```bash
+curl -H 'Content-Type: application/json' \
+  -d '{
+    "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>"
+  }' \
+  -X POST \
+  http://localhost:3000/detect-version
+```
+
+### Migration Test
+
+```bash
+curl -H 'Content-Type: application/json' \
+  -d '{
+    "content": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:math>"
+  }' \
+  -X POST \
+  http://localhost:3000/migrate
 ```

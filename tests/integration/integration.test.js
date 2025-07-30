@@ -28,7 +28,7 @@ describe('Index.js Main Application', () => {
   beforeAll(async () => {
     // Set up environment
     process.env.NODE_ENV = 'test';
-    
+
     // Mock implementations
     mockMathML2Latex = {
       convert: jest.fn().mockReturnValue('3 + 2')
@@ -79,13 +79,13 @@ describe('Index.js Main Application', () => {
     require('mathml-to-latex').convert = mockMathML2Latex.convert;
     const mathmlToAscii = require('mathml-to-asciimath');
     mathmlToAscii.mockImplementation(mockMathML2Ascii);
-    
+
     // Mock local modules
     const textModule = require('../../src/conversions/text');
     const validationModule = require('../../src/validation');
     const backwardCompatibilityModule = require('../../src/backward-compatibility');
     const cacheModule = require('../../src/cache');
-    
+
     textModule.GenerateMath = mockGenerateMath;
     validationModule.validateMathML = mockValidateMathML;
     backwardCompatibilityModule.detectMathMLVersion = mockDetectMathMLVersion;
@@ -119,8 +119,8 @@ describe('Index.js Main Application', () => {
       xml2dom: jest.fn().mockReturnValue({
         documentElement: {
           getAttribute: jest.fn().mockImplementation((attr) => {
-            if (attr === 'xml:lang') return 'en';
-            if (attr === 'display') return 'inline';
+            if (attr === 'xml:lang') {return 'en';}
+            if (attr === 'display') {return 'inline';}
             return null;
           })
         }
@@ -134,10 +134,10 @@ describe('Index.js Main Application', () => {
     // Create test app
     const express = require('express');
     const bodyParser = require('body-parser');
-    
+
     app = express();
     app.use(bodyParser.json());
-    
+
     // Mock package.json
     jest.doMock('../../package.json', () => ({
       name: 'service-stem',
@@ -164,7 +164,7 @@ describe('Index.js Main Application', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     testUtils.clearConsoleMocks();
-    
+
     // Reset mock implementations
     mockGenerateMath.mockReturnValue({
       success: true,
@@ -233,7 +233,7 @@ describe('Index.js Main Application', () => {
       // Mock the cache stats endpoint
       app.get('/cache-stats', (req, res) => {
         const stats = mockMathMLCache.getStats();
-        
+
         res.json({
           success: true,
           cache: {
@@ -269,7 +269,7 @@ describe('Index.js Main Application', () => {
       // Mock the cache clear endpoint
       app.post('/cache-clear', (req, res) => {
         mockMathMLCache.clear();
-        
+
         res.json({
           success: true,
           message: 'Cache cleared successfully'
@@ -291,11 +291,11 @@ describe('Index.js Main Application', () => {
       // Mock the migration endpoint
       app.post('/migrate', (req, res) => {
         const { content } = req.body;
-        
+
         if (!content) {
           res.status(400).json({
             success: false,
-            error: "Missing content parameter"
+            error: 'Missing content parameter'
           });
           return;
         }
@@ -323,14 +323,14 @@ describe('Index.js Main Application', () => {
         } catch (error) {
           res.status(500).json({
             success: false,
-            error: "Migration failed",
+            error: 'Migration failed',
             message: error.message
           });
         }
       });
 
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const response = await request(app)
         .post('/migrate')
         .send({ content: mathML })
@@ -375,11 +375,11 @@ describe('Index.js Main Application', () => {
       // Mock the version detection endpoint
       app.post('/detect-version', (req, res) => {
         const { content } = req.body;
-        
+
         if (!content) {
           res.status(400).json({
             success: false,
-            error: "Missing content parameter"
+            error: 'Missing content parameter'
           });
           return;
         }
@@ -397,14 +397,14 @@ describe('Index.js Main Application', () => {
         } catch (error) {
           res.status(500).json({
             success: false,
-            error: "Version detection failed",
+            error: 'Version detection failed',
             message: error.message
           });
         }
       });
 
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const response = await request(app)
         .post('/detect-version')
         .send({ content: mathML })
@@ -450,24 +450,24 @@ describe('Index.js Main Application', () => {
         const noEquationTextInt = parseInt(noEquationText) || 12;
 
         if (!contentType || !content) {
-          res.status(400).send("Missing contentType or content");
+          res.status(400).send('Missing contentType or content');
           return;
         }
 
         // Validate MathML content
-        if (contentType === "math") {
+        if (contentType === 'math') {
           const versionInfo = mockDetectMathMLVersion(content);
           const validationOptions = {
             strictMode: !versionInfo.compatibilityMode,
             allowLegacy: true
           };
-          
+
           const validationResult = mockValidateMathML(content, validationOptions);
-          
+
           if (!validationResult.isValid) {
             res.status(400).json({
               success: false,
-              error: "MathML validation failed",
+              error: 'MathML validation failed',
               validationErrors: validationResult.errors,
               validationWarnings: validationResult.warnings,
               legacyFeatures: validationResult.legacyFeatures
@@ -478,28 +478,28 @@ describe('Index.js Main Application', () => {
 
         let result = null;
         switch (contentType) {
-          case "math":
-            result = mockGenerateMath(content, { noImage: noImageInt, noEquationText: noEquationTextInt });
-            break;
-          case "chemistry":
-            res.status(501).json({ success: false, error: "non-mathematical formula" });
-            return;
-          case "physics":
-            res.status(501).json({ success: false, error: "non-mathematical formula" });
-            return;
-          case "other":
-            res.status(501).json({ success: false, error: "non-mathematical formula" });
-            return;
-          default:
-            res.status(400).json({ success: false, error: "unknown content type" });
-            return;
+        case 'math':
+          result = mockGenerateMath(content, { noImage: noImageInt, noEquationText: noEquationTextInt });
+          break;
+        case 'chemistry':
+          res.status(501).json({ success: false, error: 'non-mathematical formula' });
+          return;
+        case 'physics':
+          res.status(501).json({ success: false, error: 'non-mathematical formula' });
+          return;
+        case 'other':
+          res.status(501).json({ success: false, error: 'non-mathematical formula' });
+          return;
+        default:
+          res.status(400).json({ success: false, error: 'unknown content type' });
+          return;
         }
 
         if (result === null) {
-          res.status(400).send("Invalid content");
+          res.status(400).send('Invalid content');
           return;
         }
-        
+
         if (result.success === false) {
           res.status(500).send(result.message);
           return;
@@ -509,42 +509,42 @@ describe('Index.js Main Application', () => {
         const versionInfo = mockDetectMathMLVersion(content, version);
         const latexStr = mockMathML2Latex.convert(content);
         const asciiStr = mockMathML2Ascii(content);
-        const translatedStr = result.words.join(" ");
+        const translatedStr = result.words.join(' ');
 
         const returnObj = {
-          "success": result.success,
-          "input": {
-            "mathml": content,
-            "version": version || "2.0.0"
+          'success': result.success,
+          'input': {
+            'mathml': content,
+            'version': version || '2.0.0'
           },
-          "output": {
-            "text": {
-              "words": result.words,
-              "translated": translatedStr,
-              "latex": latexStr,
-              "ascii": asciiStr,
-              "html": '<span>3 plus 2</span>',
+          'output': {
+            'text': {
+              'words': result.words,
+              'translated': translatedStr,
+              'latex': latexStr,
+              'ascii': asciiStr,
+              'html': '<span>3 plus 2</span>'
             },
-            "image": {
-              "path": null
+            'image': {
+              'path': null
             },
-            "attributes": {
-              "language": "en",
-              "alix": result.alix,
-              "alixThresholdNoImage": noImageInt,
-              "alixThresholdNoEquationText": noEquationTextInt,
-              "compatibilityMode": versionInfo.compatibilityMode
+            'attributes': {
+              'language': 'en',
+              'alix': result.alix,
+              'alixThresholdNoImage': noImageInt,
+              'alixThresholdNoEquationText': noEquationTextInt,
+              'compatibilityMode': versionInfo.compatibilityMode
             }
           }
         };
 
         if (versionInfo.isLegacy || versionInfo.legacyFeatures.length > 0) {
           returnObj.backwardCompatibility = {
-            "isLegacy": versionInfo.isLegacy,
-            "legacyFeatures": versionInfo.legacyFeatures,
-            "migrationHints": versionInfo.migrationHints,
-            "migrationRecommendations": mockGetMigrationRecommendations(versionInfo),
-            "compatibilityMode": versionInfo.compatibilityMode
+            'isLegacy': versionInfo.isLegacy,
+            'legacyFeatures': versionInfo.legacyFeatures,
+            'migrationHints': versionInfo.migrationHints,
+            'migrationRecommendations': mockGetMigrationRecommendations(versionInfo),
+            'compatibilityMode': versionInfo.compatibilityMode
           };
         }
 
@@ -554,7 +554,7 @@ describe('Index.js Main Application', () => {
 
     it('should process valid MathML request successfully', async () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const response = await request(app)
         .post('/')
         .send({
@@ -700,7 +700,7 @@ describe('Index.js Main Application', () => {
 
     it('should process with custom ALIX thresholds', async () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const response = await request(app)
         .post('/?noImage=30&noEquationText=15')
         .send({
@@ -723,7 +723,7 @@ describe('Index.js Main Application', () => {
       });
 
       const mathML = testUtils.createLegacyMathML('<mfenced><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>');
-      
+
       const response = await request(app)
         .post('/')
         .send({
@@ -740,7 +740,7 @@ describe('Index.js Main Application', () => {
 
     it('should handle version parameter', async () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const response = await request(app)
         .post('/?version=1.0.0')
         .send({
@@ -779,4 +779,4 @@ describe('Index.js Main Application', () => {
       expect(mockMathMLCache.clear).toHaveBeenCalled();
     });
   });
-}); 
+});

@@ -11,7 +11,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mfenced><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -23,7 +23,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mfenced open="[" close="]"><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -35,7 +35,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mfenced open="{" close="}"><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -47,7 +47,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mfenced open="|" close="|"><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -59,7 +59,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mfenced><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -73,7 +73,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mo>(</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>)</mo>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -85,7 +85,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mo>[</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>]</mo>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -97,7 +97,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mo>{</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>}</mo>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -109,7 +109,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mo>|</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>|</mo>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -121,7 +121,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mn>3</mn><mo>+</mo><mn>2</mn>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toEqual(['3', 'plus', '2']);
     });
@@ -135,10 +135,10 @@ describe('Item 2: mfenced Deprecation Handling', () => {
       const moMathML = testUtils.createMathML(
         '<mo>(</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>)</mo>'
       );
-      
+
       const mfencedResult = GenerateMath(mfencedMathML, { noEquationText: 12 });
       const moResult = GenerateMath(moMathML, { noEquationText: 12 });
-      
+
       expect(mfencedResult.success).toBe(true);
       expect(moResult.success).toBe(true);
       // Both should contain the same core content
@@ -155,7 +155,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<m:mfenced open="(" close=")"><m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn></m:mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -172,7 +172,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '</mfenced>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');
@@ -187,7 +187,7 @@ describe('Item 2: mfenced Deprecation Handling', () => {
         '<mo>(</mo><mn>4</mn><mo>×</mo><mn>5</mn><mo>)</mo>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3');
       expect(result.words).toContain('plus');

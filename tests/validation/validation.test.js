@@ -6,7 +6,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<mfenced open="(" close=")"><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Deprecated element <mfenced> is not allowed. Use <mo> elements for parentheses instead.');
@@ -17,7 +17,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<mfenced open="(" close=")"><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Deprecated element <mfenced> is not allowed. Use <mo> elements for parentheses instead.');
@@ -27,7 +27,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<semantics><mn>3</mn><mo>+</mo><mn>2</mn></semantics>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Deprecated element <semantics> is not allowed unless specifically requested by the Ordering Agency.');
@@ -38,7 +38,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<semantics><mn>3</mn><mo>+</mo><mn>2</mn></semantics>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Deprecated element <semantics> is not allowed unless specifically requested by the Ordering Agency.');
@@ -48,7 +48,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<annotation>3+2</annotation>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Deprecated element <annotation> is not allowed unless specifically requested by the Ordering Agency.');
@@ -59,7 +59,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<annotation>3+2</annotation>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Deprecated element <annotation> is not allowed unless specifically requested by the Ordering Agency.');
@@ -69,7 +69,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<annotation-xml>3+2</annotation-xml>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Deprecated element <annotation-xml> is not allowed unless specifically requested by the Ordering Agency.');
@@ -80,7 +80,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<annotation-xml>3+2</annotation-xml>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Deprecated element <annotation-xml> is not allowed unless specifically requested by the Ordering Agency.');
@@ -90,7 +90,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(true);
       expect(result.errors).toEqual([]);
@@ -103,7 +103,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(true);
       expect(result.errors).toEqual([]);
@@ -113,7 +113,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(true);
       expect(result.errors).toEqual([]);
@@ -123,7 +123,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" display="invalid">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Invalid display attribute value "invalid". Must be "block" or "inline".');
@@ -133,7 +133,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(true);
       expect(result.errors).toEqual([]);
@@ -145,7 +145,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(true);
       expect(result.errors).toEqual([]);
@@ -155,7 +155,7 @@ describe('MathML Validation', () => {
       const mathML = '<m:math xmlns:m="http://www.w3.org/1998/Math/MathML">' +
         '<m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn>' +
         '</m:math>';
-      
+
       const result = validateMathML(mathML, { allowLegacy: true });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Legacy m: namespace detected. Consider migrating to direct xmlns declaration.');
@@ -166,7 +166,7 @@ describe('MathML Validation', () => {
       const mathML = '<m:math xmlns:m="http://www.w3.org/1998/Math/MathML">' +
         '<m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn>' +
         '</m:math>';
-      
+
       const result = validateMathML(mathML, { allowLegacy: false });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Legacy m: namespace is not allowed in strict mode. Use xmlns="http://www.w3.org/1998/Math/MathML" instead.');
@@ -174,7 +174,7 @@ describe('MathML Validation', () => {
 
     it('should reject MathML without namespace', () => {
       const mathML = '<math><mn>3</mn><mo>+</mo><mn>2</mn></math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('MathML must include xmlns="http://www.w3.org/1998/Math/MathML" namespace declaration.');
@@ -184,7 +184,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://wrong.namespace.com">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('MathML must include xmlns="http://www.w3.org/1998/Math/MathML" namespace declaration.');
@@ -196,7 +196,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="3+2">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
@@ -207,7 +207,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="3+2">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('alttext attribute is deprecated. MathML support has improved and this attribute should not be used.');
@@ -217,7 +217,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" altimg="image.png">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
@@ -228,7 +228,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" altimg="image.png">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('altimg attribute is deprecated. MathML support has improved and this attribute should not be used.');
@@ -238,7 +238,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="3+2" altimg="image.png">' +
         '<mn>3</mn><mo>+</mo><mn>2</mn>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toHaveLength(2);
@@ -254,7 +254,7 @@ describe('MathML Validation', () => {
       const mathML = '<math display="invalid">' +
         '<mfenced><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: true });
       expect(result.isValid).toBe(false);
       expect(result.errors).toHaveLength(3);
@@ -267,7 +267,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="3+2">' +
         '<mfenced><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>' +
         '</math>';
-      
+
       const result = validateMathML(mathML, { strictMode: false });
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Deprecated element <mfenced> is not allowed. Use <mo> elements for parentheses instead.');
@@ -280,7 +280,7 @@ describe('MathML Validation', () => {
   describe('Error Handling', () => {
     it('should handle invalid XML gracefully', () => {
       const invalidMathML = '<math><mn>3<mn>+<mn>2</math>';
-      
+
       const result = validateMathML(invalidMathML);
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Invalid XML structure. Please check your MathML syntax.');
@@ -304,7 +304,7 @@ describe('MathML Validation', () => {
       const mathML = '<math xmlns="http://www.w3.org/1998/Math/MathML">' +
         '<mfenced><mn>3</mn><mo>+</mo><mn>2</mn></mfenced>' +
         '</math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Deprecated element <mfenced> is not allowed. Use <mo> elements for parentheses instead.');
@@ -314,7 +314,7 @@ describe('MathML Validation', () => {
       const mathML = '<m:math xmlns:m="http://www.w3.org/1998/Math/MathML">' +
         '<m:mn>3</m:mn><m:mo>+</m:mo><m:mn>2</m:mn>' +
         '</m:math>';
-      
+
       const result = validateMathML(mathML);
       expect(result.isValid).toBe(true);
       expect(result.warnings).toContain('Legacy m: namespace detected. Consider migrating to direct xmlns declaration.');

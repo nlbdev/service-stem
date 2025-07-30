@@ -7,7 +7,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>100</mn><mo>&#x2062;</mo><mi mathvariant="normal">m</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('100');
       expect(result.words).toContain('times');
@@ -19,7 +19,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>50</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">kg</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('50');
       expect(result.words).toContain('times');
@@ -31,7 +31,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>10</mn><mo>&#x2062;</mo><mrow><mi mathvariant="normal" intent=":unit">m</mi><mo>/</mo><msup><mi mathvariant="normal" intent=":unit">s</mi><mn>2</mn></msup></mrow>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('10');
       expect(result.words).toContain('times');
@@ -44,7 +44,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>25</mn><mo>&#x2062;</mo><mi>cm</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('25');
       expect(result.words).toContain('times');
@@ -56,7 +56,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>90</mn><mo>&#x2062;</mo><mi mathvariant="normal">°</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('90');
       expect(result.words).toContain('times');
@@ -70,7 +70,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>3.14</mn>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('3.14');
     });
@@ -80,7 +80,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>−5.2</mn>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('minus');
       expect(result.words).toContain('5.2');
@@ -91,7 +91,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>-3.7</mn>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('minus');
       expect(result.words).toContain('3.7');
@@ -102,7 +102,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>1,000,000</mn>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('1,000,000');
     });
@@ -112,7 +112,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>42.5</mn><mo rspace="0.25em">&#x2062;</mo><mi mathvariant="normal" intent=":unit">km</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('42.5');
       expect(result.words).toContain('times');
@@ -126,7 +126,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>10</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">m</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('10');
       expect(result.words).toContain('times');
@@ -138,7 +138,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>5</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">kg</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('5');
       expect(result.words).toContain('times');
@@ -150,7 +150,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>30</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">s</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('30');
       expect(result.words).toContain('times');
@@ -162,7 +162,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>2</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">A</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('2');
       expect(result.words).toContain('times');
@@ -174,7 +174,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>273</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">K</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('273');
       expect(result.words).toContain('times');
@@ -186,7 +186,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>1</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">mol</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('1');
       expect(result.words).toContain('times');
@@ -198,7 +198,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>100</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">cd</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('100');
       expect(result.words).toContain('times');
@@ -210,7 +210,7 @@ describe('Item 11: Units and Numbers', () => {
     it('should treat "g" as variable when not in unit context', () => {
       const mathML = testUtils.createMathML('<mi>g</mi><mo>(</mo><mi>x</mi><mo>)</mo>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('g');
       expect(result.words).not.toContain('gram');
@@ -221,7 +221,7 @@ describe('Item 11: Units and Numbers', () => {
         '<mn>5</mn><mo>&#x2062;</mo><mi mathvariant="normal" intent=":unit">g</mi>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('5');
       expect(result.words).toContain('times');
@@ -231,7 +231,7 @@ describe('Item 11: Units and Numbers', () => {
     it('should treat "m" as variable when not in unit context', () => {
       const mathML = testUtils.createMathML('<mi>m</mi><mo>=</mo><mn>5</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('m');
       expect(result.words).not.toContain('meter');
@@ -240,7 +240,7 @@ describe('Item 11: Units and Numbers', () => {
     it('should treat "s" as variable when not in unit context', () => {
       const mathML = testUtils.createMathML('<mi>s</mi><mo>=</mo><mi>t</mi><mo>+</mo><mn>1</mn>');
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('s');
       expect(result.words).not.toContain('second');

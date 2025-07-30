@@ -23,19 +23,19 @@ global.testUtils = {
     const attrString = Object.entries(attributes)
       .map(([key, value]) => `${key}="${value}"`)
       .join(' ');
-    
+
     return `<math xmlns="http://www.w3.org/1998/Math/MathML" ${attrString}>${content}</math>`;
   },
-  
+
   // Helper to create legacy MathML with m: prefix
   createLegacyMathML: (content, attributes = {}) => {
     const attrString = Object.entries(attributes)
       .map(([key, value]) => `${key}="${value}"`)
       .join(' ');
-    
+
     return `<m:math xmlns:m="http://www.w3.org/1998/Math/MathML" ${attrString}>${content}</m:math>`;
   },
-  
+
   // Helper to check if console warnings were called
   expectWarnings: (warnings) => {
     if (Array.isArray(warnings)) {
@@ -46,7 +46,7 @@ global.testUtils = {
       expect(console.warn).toHaveBeenCalledWith(expect.stringContaining(warnings));
     }
   },
-  
+
   // Helper to clear console mocks
   clearConsoleMocks: () => {
     console.warn.mockClear();

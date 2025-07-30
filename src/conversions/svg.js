@@ -22,12 +22,12 @@ const svg = new SVG({fontCache: 'none'});
 const html = mathjax.document('', {InputJax: mml, OutputJax: svg});
 
 module.exports = {
-    GenerateSvg: async (mathml) => {
-        // Generate SVG
-        const node = html.convert(mathml);
-        node.kind = "div";
-        node.attributes = { "class": "visual-math" };
+  GenerateSvg: async (mathml) => {
+    // Generate SVG
+    const node = html.convert(mathml);
+    node.kind = 'div';
+    node.attributes = { 'class': 'visual-math' };
 
-        return adaptor.outerHTML(node);
-    }
+    return adaptor.outerHTML(node);
+  }
 };

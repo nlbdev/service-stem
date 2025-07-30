@@ -9,27 +9,27 @@ describe('API Endpoints', () => {
     process.env.NODE_ENV = 'test';
     const express = require('express');
     const bodyParser = require('body-parser');
-    
+
     // Create a test app instance
     app = express();
     app.use(bodyParser.json());
-    
+
     // Mock the main processing logic
     app.post('/', (req, res) => {
       const { contentType, content } = req.body;
-      
+
       if (!contentType) {
         return res.status(400).send('Missing contentType');
       }
-      
+
       if (!content) {
         return res.status(400).send('Missing content');
       }
-      
+
       if (contentType !== 'math') {
         return res.status(400).send('Unsupported contentType');
       }
-      
+
       // Mock successful response
       res.json({
         success: true,
@@ -52,7 +52,7 @@ describe('API Endpoints', () => {
         }
       });
     });
-    
+
     // Start server on random port
     server = app.listen(0);
   });
@@ -66,7 +66,7 @@ describe('API Endpoints', () => {
   describe('POST /', () => {
     it('should process valid MathML request', async () => {
       const mathML = testUtils.createMathML('<mn>3</mn><mo>+</mo><mn>2</mn>');
-      
+
       const response = await request(app)
         .post('/')
         .send({

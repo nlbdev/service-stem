@@ -12,25 +12,32 @@ This document provides internal documentation for developers working on the serv
    - Express.js web server
    - MathML validation and processing
    - Response generation
+   - **New:** Migration endpoints (`/migrate`, `/detect-version`)
 
 2. **Validation Module** (`validation.js`)
    - MathML content validation
    - Nordic MathML Guidelines compliance checking
    - Error and warning reporting
 
-3. **Conversion Modules** (`conversions/`)
+3. **Backward Compatibility Module** (`backward-compatibility.js`)
+   - **New:** Version detection and analysis
+   - **New:** Content migration strategies
+   - **New:** Migration recommendations
+   - **New:** Legacy feature identification
+
+4. **Conversion Modules** (`conversions/`)
    - `text.js`: MathML to text conversion
    - `ascii.js`: MathML to ASCIIMath conversion
    - `svg.js`: MathML to SVG conversion (if needed)
    - `alix.js`: ALIX accessibility scoring
 
-4. **Configuration** (`configurations/`)
+5. **Configuration** (`configurations/`)
    - `appConfig.js`: Application configuration
 
-5. **Templates** (`templates/`)
+6. **Templates** (`templates/`)
    - `accessibleHtmlWithAlix.ejs`: HTML template generation
 
-6. **Translations** (`translations/`)
+7. **Translations** (`translations/`)
    - Language-specific translation files
 
 ## MathML Processing Pipeline
@@ -40,7 +47,13 @@ This document provides internal documentation for developers working on the serv
 - Validate required fields (`contentType`, `content`)
 - Check content type is supported (`math`, `chemistry`, `physics`, `other`)
 
-### 2. MathML Validation
+### 2. Version Detection (New)
+
+- **New:** Detect MathML version and compatibility mode
+- **New:** Identify legacy features and migration requirements
+- **New:** Generate migration recommendations
+
+### 3. MathML Validation
 
 - Parse XML structure
 - Validate namespace declaration
@@ -48,25 +61,27 @@ This document provides internal documentation for developers working on the serv
 - Validate display attribute values
 - Generate validation errors and warnings
 
-### 3. Content Processing
+### 4. Content Processing
 
 - Remove deprecated elements (semantics, annotations)
 - Convert deprecated elements (mfenced → mo)
 - Handle both old and new namespace formats
 - Extract language and display attributes
+- **New:** Apply migration strategies for legacy content
 
-### 4. Text Generation
+### 5. Text Generation
 
 - Convert MathML to word array
 - Apply language-specific translations
 - Generate LaTeX and ASCIIMath representations
 - Create accessible HTML with ALIX scoring
 
-### 5. Response Assembly
+### 6. Response Assembly
 
 - Structure response with input/output format
 - Include validation warnings
 - Add metadata (language, ALIX scores, thresholds)
+- **New:** Include migration information and recommendations
 
 ## Nordic MathML Guidelines Implementation
 
@@ -162,17 +177,29 @@ The validation system provides:
 
 ### Test Categories
 
-1. **Unit Tests** (`tests/`)
+1. **Unit Tests** (`tests/unit/`)
    - Individual function testing
    - Validation logic testing
    - Conversion module testing
 
-2. **Integration Tests** (`tests/api.test.js`)
+2. **Integration Tests** (`tests/integration/`)
    - End-to-end API testing
    - Request/response validation
    - Error handling testing
 
-3. **Documentation Tests** (`tests/documentation.test.js`)
+3. **Backward Compatibility Tests** (`tests/backward-compatibility/`)
+   - **New:** Version detection testing
+   - **New:** Migration functionality testing
+   - **New:** Legacy content handling
+   - **New:** Migration endpoint validation
+
+4. **Guidelines Compliance Tests** (`tests/guidelines/2024-1/`)
+   - **New:** Nordic MathML Guidelines 2024 validation
+   - **New:** Namespace compliance testing
+   - **New:** Deprecated element detection
+   - **New:** Special character validation
+
+5. **Documentation Tests** (`tests/validation/`)
    - API documentation example validation
    - MathML requirement compliance
 
@@ -283,6 +310,11 @@ Required environment variables (see `config.env.example`):
    - More output formats
    - Enhanced accessibility features
 
+4. **Migration Tools Enhancement**
+   - **New:** Batch migration capabilities
+   - **New:** Migration progress tracking
+   - **New:** Automated migration workflows
+
 ### Maintenance Tasks
 
 1. **Dependency Updates**
@@ -292,10 +324,12 @@ Required environment variables (see `config.env.example`):
 2. **Guideline Compliance**
    - Monitor Nordic MathML Guidelines updates
    - Implement new requirements
+   - **New:** Automated compliance checking
 
 3. **Testing**
    - Expand test coverage
    - Add performance tests
+   - **New:** Migration regression testing
 
 ## Contributing
 

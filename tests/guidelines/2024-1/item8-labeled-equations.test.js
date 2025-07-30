@@ -14,7 +14,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -36,7 +36,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -58,7 +58,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('3.5');
@@ -83,7 +83,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -112,7 +112,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -134,7 +134,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -156,7 +156,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -180,7 +180,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -203,7 +203,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -220,7 +220,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -237,7 +237,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -257,7 +257,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('matrix');
       expect(result.words).toContain('x');
@@ -277,7 +277,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('x');
@@ -295,7 +295,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -318,7 +318,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('8.1');
@@ -342,7 +342,7 @@ describe('Item 8: Labeled Equations Support', () => {
         '</mtable>'
       );
       const result = GenerateMath(mathML, { noEquationText: 12 });
-      
+
       expect(result.success).toBe(true);
       expect(result.words).toContain('equation');
       expect(result.words).toContain('label');
@@ -363,10 +363,10 @@ describe('Item 8: Labeled Equations Support', () => {
           '</mtr>' +
         '</mtable>'
       );
-      
+
       const simpleResult = GenerateMath(simpleMathML, { noEquationText: 12 });
       const labeledResult = GenerateMath(labeledMathML, { noEquationText: 12 });
-      
+
       expect(simpleResult.alix).toBeGreaterThan(0);
       expect(labeledResult.alix).toBeGreaterThan(0);
       expect(typeof simpleResult.alix).toBe('number');
