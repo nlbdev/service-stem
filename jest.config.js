@@ -50,6 +50,11 @@ module.exports = {
       displayName: 'guidelines',
       testMatch: ['<rootDir>/tests/guidelines/**/*.test.js'],
       setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
+    },
+    {
+      displayName: 'specific-tests',
+      testMatch: ['<rootDir>/tests/specific/**/*.test.js'],
+      setupFilesAfterEnv: ['<rootDir>/tests/setup.js']
     }
   ],
   
