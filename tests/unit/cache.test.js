@@ -1,4 +1,4 @@
-const { MathMLCache, mathMLCache } = require('../../cache');
+const { MathMLCache, mathMLCache } = require('../../src/cache');
 
 describe('Cache Tests', () => {
     let testCache;

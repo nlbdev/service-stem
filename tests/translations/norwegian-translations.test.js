@@ -6,7 +6,7 @@ describe('Norwegian Translation Files', () => {
 
     beforeAll(() => {
         // Load translation files
-        const translationsDir = path.join(__dirname, '..', '..', 'translations');
+        const translationsDir = path.join(__dirname, '..', '..', 'src', 'translations');
         noTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'no.json'), 'utf8'));
         nbTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'nb.json'), 'utf8'));
         nnTranslations = JSON.parse(fs.readFileSync(path.join(translationsDir, 'nn.json'), 'utf8'));

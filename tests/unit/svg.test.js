@@ -1,4 +1,4 @@
-const { GenerateSvg } = require('../../conversions/svg');
+const { GenerateSvg } = require('../../src/conversions/svg');
 
 describe('SVG Conversion Module', () => {
   test('should convert MathML to SVG', async () => {

@@ -1,5 +1,4 @@
 const request = require('supertest');
-const path = require('path');
 
 // Mock external dependencies
 jest.mock('@airbrake/node');
@@ -8,10 +7,10 @@ jest.mock('ejs');
 jest.mock('fast-xml-parser');
 jest.mock('mathml-to-latex');
 jest.mock('mathml-to-asciimath');
-jest.mock('../../conversions/text');
-jest.mock('../../validation');
-jest.mock('../../backward-compatibility');
-jest.mock('../../cache');
+jest.mock('../../src/conversions/text');
+jest.mock('../../src/validation');
+jest.mock('../../src/backward-compatibility');
+jest.mock('../../src/cache');
 
 describe('Index.js Main Application', () => {
   let app;
@@ -82,10 +81,10 @@ describe('Index.js Main Application', () => {
     mathmlToAscii.mockImplementation(mockMathML2Ascii);
     
     // Mock local modules
-    const textModule = require('../../conversions/text');
-    const validationModule = require('../../validation');
-    const backwardCompatibilityModule = require('../../backward-compatibility');
-    const cacheModule = require('../../cache');
+    const textModule = require('../../src/conversions/text');
+    const validationModule = require('../../src/validation');
+    const backwardCompatibilityModule = require('../../src/backward-compatibility');
+    const cacheModule = require('../../src/cache');
     
     textModule.GenerateMath = mockGenerateMath;
     validationModule.validateMathML = mockValidateMathML;
@@ -146,7 +145,7 @@ describe('Index.js Main Application', () => {
     }));
 
     // Mock appConfig
-    jest.doMock('../../configurations/appConfig', () => ({
+    jest.doMock('../../src/configurations/appConfig', () => ({
       PORT: 3000,
       HOST: 'localhost'
     }));

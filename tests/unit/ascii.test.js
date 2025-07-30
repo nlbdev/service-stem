@@ -1,4 +1,4 @@
-const { GenerateAsciiMath } = require('../../conversions/ascii');
+const { GenerateAsciiMath } = require('../../src/conversions/ascii');
 
 describe('ASCII Conversion Module', () => {
   test('should convert basic MathML to ASCII', async () => {

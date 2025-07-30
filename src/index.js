@@ -27,7 +27,7 @@ new Airbrake.Notifier({
         migrateMathML, 
         validateMigratedContent, 
         getMigrationRecommendations 
-    } = require("./backward-compatibility");
+    } = require("./src/backward-compatibility");
     // const { GenerateSvg } = require("./conversions/svg");
 
     // Create reusable parser instances for better performance
@@ -244,7 +244,7 @@ new Airbrake.Notifier({
 
     // Cache statistics endpoint for performance monitoring
     app.get('/cache-stats', (req, res) => {
-        const { mathMLCache } = require('./cache');
+        const { mathMLCache } = require('./src/cache');
         const stats = mathMLCache.getStats();
         
         res.json({
@@ -266,7 +266,7 @@ new Airbrake.Notifier({
 
     // Clear cache endpoint for maintenance
     app.post('/cache-clear', (req, res) => {
-        const { mathMLCache } = require('./cache');
+        const { mathMLCache } = require('./src/cache');
         mathMLCache.clear();
         
         res.json({

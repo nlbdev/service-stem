@@ -13,7 +13,7 @@ jest.mock('mathml-to-latex', () => ({
 jest.mock('mathml-to-asciimath', () => jest.fn(() => '3+2=5'));
 
 // Mock the conversion modules
-jest.mock('../../conversions/text', () => ({
+jest.mock('../../src/conversions/text', () => ({
   GenerateMath: jest.fn((content, thresholds) => ({
     success: true,
     words: ['x', '+', '2'],
@@ -21,11 +21,11 @@ jest.mock('../../conversions/text', () => ({
   }))
 }));
 
-jest.mock('../../validation', () => ({
+jest.mock('../../src/validation', () => ({
   validateMathML: jest.fn(() => ({ isValid: true }))
 }));
 
-jest.mock('../../backward-compatibility', () => ({
+jest.mock('../../src/backward-compatibility', () => ({
   detectMathMLVersion: jest.fn(() => ({ 
     isLegacy: false, 
     legacyFeatures: [], 

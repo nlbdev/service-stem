@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../conversions/text');
+const { GenerateMath } = require('../../src/conversions/text');
 
 describe('Text Conversion Module', () => {
   beforeEach(() => {

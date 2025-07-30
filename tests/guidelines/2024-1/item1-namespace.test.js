@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../../conversions/text');
+const { GenerateMath } = require('../../../src/conversions/text');
 
 describe('Item 1: Namespace and Semantics Handling', () => {
   beforeEach(() => {

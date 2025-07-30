@@ -8,7 +8,7 @@ const createTestApp = () => {
     const jsonParser = bodyParser.json();
     
     // Mock the required modules
-    jest.mock('../../conversions/text', () => ({
+    jest.mock('../../src/conversions/text', () => ({
         GenerateMath: jest.fn((content, alixThresholds) => ({
             success: true,
             words: ['3', 'plus', '2', 'equals', '5'],
@@ -16,7 +16,7 @@ const createTestApp = () => {
         }))
     }));
     
-    jest.mock('../../validation', () => ({
+    jest.mock('../../src/validation', () => ({
         validateMathML: jest.fn((content) => {
             // Allow legacy content for backward compatibility
             if (content.includes('<m:math')) {
@@ -70,7 +70,7 @@ const createTestApp = () => {
         }
 
         // Mock validation
-        const { validateMathML } = require('../../validation');
+        const { validateMathML } = require('../../src/validation');
         const validationResult = validateMathML(content);
         
         if (!validationResult.isValid) {

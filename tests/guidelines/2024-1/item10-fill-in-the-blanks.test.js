@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../../conversions/text');
+const { GenerateMath } = require('../../../src/conversions/text');
 
 describe('Item 10: Fill-in-the-blanks Support', () => {
   beforeEach(() => {

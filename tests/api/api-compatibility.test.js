@@ -8,7 +8,7 @@ const createTestApp = () => {
     const jsonParser = bodyParser.json();
     
     // Mock the required modules
-    jest.mock('../../conversions/text', () => ({
+    jest.mock('../../src/conversions/text', () => ({    
         GenerateMath: jest.fn((content, alixThresholds) => {
             // Mock responses based on content patterns
             if (content.includes('lim') && content.includes('x')) {
@@ -45,7 +45,7 @@ const createTestApp = () => {
         })
     }));
     
-    jest.mock('../../validation', () => ({
+    jest.mock('../../src/validation', () => ({
         validateMathML: jest.fn((content) => {
             // Allow legacy content for backward compatibility
             return {
@@ -76,7 +76,7 @@ const createTestApp = () => {
         }
 
         // Mock validation
-        const { validateMathML } = require('../../validation');
+        const { validateMathML } = require('../../src/validation');
         const validationResult = validateMathML(content);
         
         if (!validationResult.isValid) {
@@ -90,7 +90,7 @@ const createTestApp = () => {
         }
 
         // Mock successful response using GenerateMath result
-        const { GenerateMath } = require('../../conversions/text');
+        const { GenerateMath } = require('../../src/conversions/text');
         const mathResult = GenerateMath(content, { noImage: noImageInt, noEquationText: noEquationTextInt });
 
         const returnObj = {

@@ -1,4 +1,4 @@
-const { GenerateMath } = require('../../../conversions/text');
+const { GenerateMath } = require('../../../src/conversions/text');
 
 describe('Item 9: Crossed Out Math Support', () => {
   describe('Basic Crossed Out Math', () => {

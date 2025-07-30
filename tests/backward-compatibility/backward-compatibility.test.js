@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Mock dependencies for testing
-jest.mock('../../conversions/text', () => ({
+jest.mock('../../src/conversions/text', () => ({
     GenerateMath: jest.fn((content, alixThresholds) => {
         // Mock successful response
         return {
@@ -14,7 +14,7 @@ jest.mock('../../conversions/text', () => ({
     })
 }));
 
-jest.mock('../../validation', () => ({
+jest.mock('../../src/validation', () => ({
     validateMathML: jest.fn((content, options) => {
         // Check for invalid content
         if (content.includes('<invalid>') || content.includes('<m:invalid>')) {
@@ -60,7 +60,7 @@ const createTestApp = () => {
         }
 
         // Mock validation
-        const { validateMathML } = require('../../validation');
+        const { validateMathML } = require('../../src/validation');
         const validationResult = validateMathML(content);
         
         if (!validationResult.isValid) {
@@ -74,7 +74,7 @@ const createTestApp = () => {
         }
 
         // Mock successful response
-        const { GenerateMath } = require('../../conversions/text');
+        const { GenerateMath } = require('../../src/conversions/text');
         const mathResult = GenerateMath(content, { noImage: noImageInt, noEquationText: noEquationTextInt });
 
         const returnObj = {

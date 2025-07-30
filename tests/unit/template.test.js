@@ -5,7 +5,7 @@ describe('Template Updates for New MathML Structure', () => {
   let templatePath;
 
   beforeAll(() => {
-    templatePath = path.resolve('./templates/accessibleHtmlWithAlix.ejs');
+    templatePath = path.resolve('./src/templates/accessibleHtmlWithAlix.ejs');
   });
 
   describe('Template Structure Validation', () => {
