@@ -50,7 +50,7 @@ module.exports = {
         .trim();
 
       return result || '';
-    } catch (error) {
+    } catch {
       // Return empty string on error instead of logging
       return '';
     }

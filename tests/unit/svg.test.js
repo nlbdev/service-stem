@@ -1,4 +1,4 @@
-/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 const { GenerateSvg } = require('../../src/conversions/svg');
 
 describe('SVG Conversion Module', () => {

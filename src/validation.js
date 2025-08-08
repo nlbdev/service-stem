@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable complexity, max-depth, max-lines, no-console, no-unused-vars */
+/* eslint-disable complexity, max-lines, no-console */
 
 const { XMLParser } = require('fast-xml-parser');
 
