@@ -1,4 +1,4 @@
-/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+/* eslint-disable max-lines, no-unused-vars */
 
 const request = require('supertest');
 const express = require('express');

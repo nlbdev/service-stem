@@ -1,4 +1,4 @@
-/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+/* eslint-disable no-unused-vars */
 
 const request = require('supertest');
 const path = require('path');

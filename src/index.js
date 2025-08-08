@@ -1,4 +1,4 @@
-/* eslint-disable complexity, max-depth, max-lines, no-console, no-unused-vars */
+/* eslint-disable complexity, max-lines, no-console, no-unused-vars */
 
 require('dotenv').config();
 const Airbrake = require('@airbrake/node');

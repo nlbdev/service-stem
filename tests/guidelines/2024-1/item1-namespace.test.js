@@ -1,4 +1,4 @@
-/* eslint-disable complexity, max-depth, max-lines, no-unused-vars */
+
 
 const { GenerateMath } = require('../../../src/conversions/text');
 
