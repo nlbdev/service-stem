@@ -1,0 +1,132 @@
+[
+    {
+        "name": "equation with degrees",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mrow><m:mn>0</m:mn><m:mi>°</m:mi></m:mrow><m:mspace width=\"0.25em\"/><m:mtext>C</m:mtext></m:mrow><m:mo>=</m:mo><m:mrow><m:mrow><m:mn>32</m:mn><m:mi>°</m:mi></m:mrow><m:mspace width=\"0.25em\"/><m:mtext>F</m:mtext></m:mrow><m:mrow><m:mo>=</m:mo><m:mn>273</m:mn><m:mspace width=\"0.25em\"/><m:mtext>K</m:mtext></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning 0 grader celcius er lik, 32 grader fahrenheit er lik, 273 kelvin ligning slutt"
+    },
+    {
+        "name": "equation with degrees 2",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:msub><m:mi>T</m:mi><m:mn>0</m:mn></m:msub><m:mo>=</m:mo><m:mrow><m:mrow><m:mo>-</m:mo><m:mn>273,15</m:mn></m:mrow><m:mi>°</m:mi></m:mrow><m:mspace width=\"0.25em\"/><m:mtext>C</m:mtext></m:mrow></m:semantics></m:math>",
+        "expect": "ligning stor t med nedre indeks 0 indeks slutt, er lik, minus 273,15 grader celcius ligning slutt"
+    },
+    {
+        "name": "equation with sinus, fractions, square roots and greek letters",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mi>sin</m:mi><m:mo>⁡</m:mo><m:mrow><m:mn>45</m:mn><m:mi>°</m:mi></m:mrow></m:mrow><m:mo>=</m:mo><m:mrow><m:mi>sin</m:mi><m:mo>⁡</m:mo><m:msup><m:mn>50</m:mn><m:mtext>g</m:mtext></m:msup></m:mrow><m:mo>=</m:mo><m:mrow><m:mi>sin</m:mi><m:mo>⁡</m:mo><m:mfrac><m:mi>π</m:mi><m:mn>4</m:mn></m:mfrac></m:mrow><m:mo>=</m:mo><m:mfrac><m:mn>1</m:mn><m:msqrt><m:mn>2</m:mn></m:msqrt></m:mfrac></m:mrow></m:semantics></m:math>",
+        "expect": "ligning sinus av uttrykket 45 grader uttrykk slutt, er lik, sinus av uttrykket 50 opphøyd i g uttrykk slutt, er lik, sinus av uttrykket brøk med teller pi og med nevner 4 brøk slutt, uttrykk slutt, er lik, brøk med teller 1 og med nevner kvadratroten av 2 kvadratrot slutt, brøk slutt, ligning slutt"
+    },
+    {
+        "name": "equation with simple vector",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mover><m:mo>v</m:mo><m:mo>→</m:mo></m:mover></m:mrow></m:semantics></m:math>",
+        "expect": "ligning vektor v vektor slutt, ligning slutt"
+    },
+    {
+        "name": "equation with vectors",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mover><m:mi>a</m:mi><m:mo>→</m:mo></m:mover><m:mo>=</m:mo><m:mover><m:msub><m:mi>a</m:mi><m:mn>1</m:mn></m:msub><m:mo>→</m:mo></m:mover><m:mo>+</m:mo><m:mover><m:msub><m:mi>a</m:mi><m:mn>2</m:mn></m:msub><m:mo>→</m:mo></m:mover></m:mrow></m:semantics></m:math>",
+        "expect": "ligning vektor a vektor slutt, er lik, vektor a med nedre indeks 1 vektor slutt, pluss vektor a med nedre indeks 2 vektor slutt, ligning slutt"
+    },
+    {
+        "name": "equation with bold lettering and lower indices",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mi mathvariant=\"bold\">v</m:mi><m:mo>=</m:mo><m:msub><m:mi>v</m:mi><m:mi>x</m:mi></m:msub><m:mo>⁢</m:mo><m:mi mathvariant=\"bold\">i</m:mi><m:mo>+</m:mo><m:msub><m:mi>v</m:mi><m:mi>y</m:mi></m:msub><m:mo>⁢</m:mo><m:mi mathvariant=\"bold\">j</m:mi><m:mo>+</m:mo><m:msub><m:mi>v</m:mi><m:mi>z</m:mi></m:msub><m:mo>⁢</m:mo><m:mi mathvariant=\"bold\">k</m:mi></m:mrow></m:semantics></m:math>",
+        "expect": "ligning v er lik, v med nedre indeks x indeks slutt, ganger i pluss v med nedre indeks y indeks slutt, ganger j pluss v med nedre indeks z indeks slutt, ganger k ligning slutt"
+    },
+    {
+        "name": "equation with lower indices",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:msub><m:mrow><m:mi>A</m:mi></m:mrow><m:mi>T</m:mi></m:msub><m:mo>=</m:mo><m:msub><m:mrow><m:mi>A</m:mi></m:mrow><m:mn>1</m:mn></m:msub><m:mo>+</m:mo><m:msub><m:mrow><m:mi>A</m:mi></m:mrow><m:mn>2</m:mn></m:msub></m:mrow></m:semantics></m:math>",
+        "expect": "ligning stor a med nedre indeks stor t indeks slutt, er lik, stor a med nedre indeks 1 indeks slutt, pluss stor a med nedre indeks 2 indeks slutt, ligning slutt"
+    },
+    {
+        "name": "equation with greek letters, fractions and lower indices",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:msub><m:mrow><m:mi>I</m:mi></m:mrow><m:mi>ɑ</m:mi></m:msub><m:mo>=</m:mo><m:mfrac><m:mrow><m:msub><m:mrow><m:mi>I</m:mi></m:mrow><m:mi>ϐ</m:mi></m:msub><m:mo>-</m:mo><m:msub><m:mrow><m:mi>I</m:mi></m:mrow><m:mi>γ</m:mi></m:msub></m:mrow><m:mn>2</m:mn></m:mfrac></m:mrow></m:semantics></m:math>",
+        "expect": "ligning stor i med nedre indeks alfa indeks slutt, er lik, brøk med teller stor i med nedre indeks beta indeks slutt, minus stor i med nedre indeks gamma indeks slutt, og med nevner 2 brøk slutt, ligning slutt"
+    },
+    {
+        "name": "equation with simple function",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mi>g</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen g av x funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with simple function and greek letters",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mi>ψ</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>t</m:mi></m:mfenced></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen psi av t funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with function and greek letters",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>Δ</m:mi><m:mi>x</m:mi></m:mrow></m:mfenced></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen f av x pluss stor delta x funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with a bigger function",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi><m:mi>y</m:mi><m:mi>z</m:mi></m:mfenced></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen f av x y z funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with a bigger function and greek letters",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mi>ψ</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>r</m:mi><m:mi>ϑ</m:mi></m:mfenced></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen psi av r theta funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with a function, greek letters and sinus",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mi>g</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>ɑ</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mrow><m:mi>sin</m:mi><m:mo>⁡</m:mo><m:mi>ɑ</m:mi></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen g av alfa funksjon slutt, er lik, sinus av alfa ligning slutt"
+    },
+    {
+        "name": "equation with functions and logarithms",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mi>ln</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mi>x</m:mi><m:mo>⁢</m:mo><m:mi>y</m:mi></m:mrow></m:mfenced></m:mrow><m:mo>=</m:mo><m:mrow><m:mi>ln</m:mi><m:mo>⁡</m:mo><m:mi>x</m:mi></m:mrow><m:mo>+</m:mo><m:mrow><m:mi>ln</m:mi><m:mo>⁡</m:mo><m:mi>y</m:mi></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen den naturlige logaritmen til x ganger y funksjon slutt, er lik, den naturlige logaritmen til x pluss den naturlige logaritmen til y ligning slutt"
+    },
+    {
+        "name": "equation with functions, limit and lower index",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mi>g</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mrow><m:munder><m:mo>lim</m:mo><m:mrow><m:mi>t</m:mi><m:mo>→</m:mo><m:mi>T</m:mi></m:mrow></m:munder><m:mo>⁡</m:mo><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi><m:mi>t</m:mi></m:mfenced></m:mrow></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen g av x funksjon slutt, er lik, grense for t som beveger seg mot stor t av funksjonen f av x t funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with functions, derivative, limit, fraction, and lower index",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:msup><m:mi>f</m:mi><m:mo>′</m:mo></m:msup><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mrow><m:munder><m:mo>lim</m:mo><m:mrow><m:mi>h</m:mi><m:mo>→</m:mo><m:mn>0</m:mn></m:mrow></m:munder><m:mo>⁡</m:mo><m:mfrac><m:mrow><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mi>x</m:mi><m:mo>+</m:mo><m:mi>h</m:mi></m:mrow></m:mfenced></m:mrow><m:mo>-</m:mo><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>h</m:mi></m:mfenced></m:mrow></m:mrow><m:mi>h</m:mi></m:mfrac></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen f derivert av x funksjon slutt, er lik, grense for h som beveger seg mot 0 av brøk med teller funksjonen f av x pluss h funksjon slutt, minus funksjonen f av h funksjon slutt, og med nevner h brøk slutt, ligning slutt"
+    },
+    {
+        "name": "equation with derivative and double derivative",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:msup><m:mi>f</m:mi><m:mo>″</m:mo></m:msup><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mrow><m:msup><m:mi>f</m:mi><m:mo>′</m:mo></m:msup><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mrow><m:msup><m:mi>f</m:mi><m:mo>′</m:mo></m:msup><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow></m:mfenced></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen f dobbelderivert av x funksjon slutt, er lik, funksjonen f derivert av funksjonen f derivert av x funksjon slutt, funksjon slutt, ligning slutt"
+    },
+    {
+        "name": "equation with double deriative, derivative and expressions",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:msup><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mn>3</m:mn><m:mo>⁢</m:mo><m:mi>a</m:mi><m:mo>⁢</m:mo><m:msup><m:mi>x</m:mi><m:mn>3</m:mn></m:msup></m:mrow></m:mfenced><m:mo>″</m:mo></m:msup><m:mo>=</m:mo><m:msup><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mn>9</m:mn><m:mo>⁢</m:mo><m:mi>a</m:mi><m:mo>⁢</m:mo><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:mfenced><m:mo>′</m:mo></m:msup><m:mo>=</m:mo><m:mn>18</m:mn><m:mo>⁢</m:mo><m:mi>a</m:mi><m:mo>⁢</m:mo><m:mi>x</m:mi></m:mrow></m:semantics></m:math>",
+        "expect": "ligning den dobbeltderiverte av uttrykket 3 ganger a ganger x opphøyd i 3 uttrykk slutt, er lik, den deriverte av uttrykket 9 ganger a ganger x i annen uttrykk slutt, er lik, 18 ganger a ganger x ligning slutt"
+    },
+    {
+        "name": "equation with functions, derivative, fraction and differentials",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:msup><m:mi>f</m:mi><m:mo>′</m:mo></m:msup><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mfrac><m:mrow><m:mo>ⅆ</m:mo><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow></m:mrow><m:mrow><m:mo>ⅆ</m:mo><m:mi>x</m:mi></m:mrow></m:mfrac></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen f derivert av x funksjon slutt, er lik, brøk med teller differensial med hensyn til funksjonen f av x funksjon slutt, og med nevner differensial med hensyn til x brøk slutt, ligning slutt"
+    },
+    {
+        "name": "equation with functions, double derivative, fraction, differentials and powers",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:msup><m:mi>g</m:mi><m:mo>″</m:mo></m:msup><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mfrac><m:mrow><m:msup><m:mo>ⅆ</m:mo><m:mn>2</m:mn></m:msup><m:mrow><m:mi>sin</m:mi><m:mo>⁡</m:mo><m:mi>x</m:mi></m:mrow></m:mrow><m:mrow><m:mo>ⅆ</m:mo><m:msup><m:mi>x</m:mi><m:mn>2</m:mn></m:msup></m:mrow></m:mfrac></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen g dobbelderivert av x funksjon slutt, er lik, brøk med teller differensial med hensyn til 2 sinus av x og med nevner differensial med hensyn til x i annen brøk slutt, ligning slutt"
+    },
+    {
+        "name": "equation with functions, integral with upper and lower limit and differential",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mi>F</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>x</m:mi></m:mfenced></m:mrow><m:mo>=</m:mo><m:mrow><m:munderover><m:mo>∫</m:mo><m:mrow><m:mi>t</m:mi><m:mo>=</m:mo><m:mi>a</m:mi></m:mrow><m:mrow><m:mi>t</m:mi><m:mo>=</m:mo><m:mi>x</m:mi></m:mrow></m:munderover><m:mrow><m:mi>f</m:mi><m:mo>⁡</m:mo><m:mfenced open=\"(\" close=\")\"><m:mi>t</m:mi></m:mfenced></m:mrow><m:mrow><m:mo>ⅅ</m:mo><m:mi>t</m:mi></m:mrow></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning funksjonen stor f av x funksjon slutt, er lik, integralen med nedre grense t er lik, a og med øvre grense t er lik, x integral slutt, funksjonen f av t funksjon slutt, differensial med hensyn til t ligning slutt"
+    },
+    {
+        "name": "equation with contour integral, fraction, differential, integral and greek letters",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mo>∮</m:mo><m:mfrac><m:mn>1</m:mn><m:mi>z</m:mi></m:mfrac><m:mrow><m:mo>ⅅ</m:mo><m:mi>z</m:mi></m:mrow><m:mo>=</m:mo><m:mrow><m:munderover><m:mo>∫</m:mo><m:mn>0</m:mn><m:mrow><m:mn>2</m:mn><m:mo>⁢</m:mo><m:mi>π</m:mi></m:mrow></m:munderover><m:mrow><m:mfrac><m:mn>1</m:mn><m:msup><m:mi>e</m:mi><m:mrow><m:mi>i</m:mi><m:mo>⁢</m:mo><m:mi>t</m:mi></m:mrow></m:msup></m:mfrac><m:mo>⁢</m:mo><m:mi>i</m:mi><m:mo>⁢</m:mo><m:msup><m:mi>e</m:mi><m:mrow><m:mi>i</m:mi><m:mo>⁢</m:mo><m:mi>t</m:mi></m:mrow></m:msup></m:mrow><m:mrow><m:mo>ⅅ</m:mo><m:mi>t</m:mi></m:mrow></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning konturintegralet av brøk med teller 1 og med nevner z brøk slutt, differensial med hensyn til z er lik, integralen med nedre grense 0 og med øvre grense 2 ganger pi integral slutt, brøk med teller 1 og med nevner e opphøyd i i ganger t brøk slutt, ganger i ganger e opphøyd i i ganger t differensial med hensyn til t ligning slutt"
+    },
+    {
+        "name": "equation with matrix",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"[AsciiMath markup]\" altimg=\"[Image path]\" display=\"block\" xml:lang=\"no\"><m:semantics><m:mrow><m:mrow><m:mfenced open=\"(\" close=\")\"><m:mtable><m:mtr><m:mtd><m:mn>1</m:mn></m:mtd><m:mtd><m:mn>0</m:mn></m:mtd><m:mtd><m:mn>0</m:mn></m:mtd></m:mtr><m:mtr><m:mtd><m:mn>0</m:mn></m:mtd><m:mtd><m:mn>1</m:mn></m:mtd><m:mtd><m:mn>0</m:mn></m:mtd></m:mtr><m:mtr><m:mtd><m:mn>0</m:mn></m:mtd><m:mtd><m:mn>0</m:mn></m:mtd><m:mtd><m:mn>1</m:mn></m:mtd></m:mtr></m:mtable></m:mfenced></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "ligning matrise start, matrisen inneholder 3 rader, rad 1 inneholder 3 kolonner: celle 1 inneholder 1, celle 2 inneholder 0, celle 3 inneholder 0, rad slutt, rad 2 inneholder 3 kolonner: celle 1 inneholder 0, celle 2 inneholder 1, celle 3 inneholder 0, rad slutt, rad 3 inneholder 3 kolonner: celle 1 inneholder 0, celle 2 inneholder 0, celle 3 inneholder 1, rad slutt, matrise slutt, ligning slutt"
+    },
+    {
+        "name": "equation with chemical notation",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"6 CO_2 + 6 H_2O + light rarr C_6H_12O_6 + 6 O_2\" display=\"block\" class=\"chemistry\" xml:lang=\"no\"><m:semantics><m:mrow><m:mn>6</m:mn><m:mtext class=\"asciimath\">C O_2</m:mtext><m:mo>+</m:mo><m:mn>6</m:mn><m:mtext class=\"asciimath\">H_2 O</m:mtext><m:mo>+</m:mo><m:mtext>lys</m:mtext><m:mo>→</m:mo><m:mtext class=\"asciimath\">C_6 H_12 O_6</m:mtext><m:mo>+</m:mo><m:mn>6</m:mn><m:mtext class=\"asciimath\">O_2</m:mtext></m:mrow></m:semantics></m:math>",
+        "expect": "ligning 6 C O_2 pluss 6 H_2 O pluss lys som beveger seg mot C_6 H_12 O_6 pluss 6 O_2 ligning slutt"
+    },
+    {
+        "name": "equation with physics notation",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" alttext=\"energy\" display=\"block\" class=\"physics\" xml:lang=\"no\"><m:semantics><m:mrow><m:mtext>energi</m:mtext></m:mrow></m:semantics></m:math>",
+        "expect": "energi"
+    }
+]

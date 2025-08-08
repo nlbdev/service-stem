@@ -1,0 +1,7 @@
+[
+    {
+        "name": "281303: #1 - error equation",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" altimg=\"images/math-234.jpg\" alttext=\"A_v = pivarphi_dhcos(alpha)\" display=\"inline\" xml:lang=\"en\"><m:semantics><m:mrow><m:mrow><m:msub><m:mtext>A</m:mtext><m:mtext>v</m:mtext></m:msub><m:mo>=</m:mo><m:mi>π</m:mi><m:msub><m:mi>ϕ</m:mi><m:mtext>d</m:mtext></m:msub><m:mtext>h</m:mtext><m:mi>cos</m:mi><m:mfenced><m:mi>α</m:mi></m:mfenced></m:mrow></m:mrow></m:semantics></m:math>",
+        "expect": "equation A with the lower index v index end, equals pi phi with the lower index d index end, h cosine left parenthesis alpha right parenthesis equation end"
+    }
+]

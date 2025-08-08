@@ -1,0 +1,12 @@
+[
+    {
+        "name": "281898: #1 - chemical equation with isotope - English",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"en\" alttext=\"altekst kommer her\" altimg=\"images/Eqn5_2.jpg\" display=\"block\"><m:mrow><m:mmultiscripts><m:mtext>C</m:mtext><m:mprescripts/><m:mn>6</m:mn><m:mrow><m:mn>14</m:mn></m:mrow></m:mmultiscripts></m:mrow></m:math>",
+        "expect": "equation 14 over 6 prior to C equation end"
+    },
+    {
+        "name": "281898: #2 - chemical equation with isotope - Norwegian",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"altekst kommer her\" altimg=\"images/Eqn5_2.jpg\" display=\"block\"><m:mrow><m:mmultiscripts><m:mtext>C</m:mtext><m:mprescripts/><m:mn>6</m:mn><m:mrow><m:mn>14</m:mn></m:mrow></m:mmultiscripts></m:mrow></m:math>",
+        "expect": "ligning 14 over 6 før C ligning slutt"
+    }
+]

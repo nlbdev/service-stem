@@ -1,0 +1,32 @@
+[
+    {
+        "name": "229781: #7 - formula with lower indices error 1",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"% FF = (AV_text(til nå) * 100)/(AV_text(til nå) + AV_text(gjenstående))\" altimg=\"images/Eqn5_2.jpg\" display=\"block\"><m:mrow><m:mo>%</m:mo><m:mtext>FF</m:mtext><m:mo>=</m:mo><m:mfrac><m:mrow><m:msub><m:mrow><m:mtext>AV</m:mtext></m:mrow><m:mrow><m:mtext>til nå</m:mtext></m:mrow></m:msub><m:mo>⋅</m:mo><m:mn>100</m:mn></m:mrow><m:mrow><m:msub><m:mrow><m:mtext>AV</m:mtext></m:mrow><m:mrow><m:mtext>til nå</m:mtext></m:mrow></m:msub><m:mo>+</m:mo><m:msub><m:mrow><m:mtext>AV</m:mtext></m:mrow><m:mrow><m:mtext>gjenstående</m:mtext></m:mrow></m:msub></m:mrow></m:mfrac></m:mrow></m:math>",
+        "expect": "ligning % FF er lik, brøk med teller AV med nedre indeks til nå indeks slutt, ganger 100 og med nevner AV med nedre indeks til nå indeks slutt, pluss AV med nedre indeks gjenstående indeks slutt, brøk slutt, ligning slutt"
+    },
+    {
+        "name": "229781: formula example 1",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"% FF = (120 text(dv) * 100)/(120 text(dv) + 200 text(dv)) = 37,5 %\" altimg=\"images/Eqn5_3.jpg\" display=\"block\"><m:mrow><m:mo>%</m:mo><m:mtext>FF</m:mtext><m:mo>=</m:mo><m:mfrac><m:mrow><m:mn>120</m:mn><m:mtext>dv</m:mtext><m:mo>⋅</m:mo><m:mn>100</m:mn></m:mrow><m:mrow><m:mn>120</m:mn><m:mtext>dv</m:mtext><m:mo>+</m:mo><m:mn>200</m:mn><m:mtext>dv</m:mtext></m:mrow></m:mfrac><m:mo>=</m:mo><m:mn>37,5</m:mn><m:mo>%</m:mo></m:mrow></m:math>",
+        "expect": "ligning % FF er lik, brøk med teller 120 dv ganger 100 og med nevner 120 dv pluss 200 dv brøk slutt, er lik, 37,5 % ligning slutt"
+    },
+    {
+        "name": "229781: formula example 2",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"(% FF = (180 * 100)/720 = 25 %)\" altimg=\"images/Eqn5_22.jpg\" display=\"block\"><m:mrow><m:mo>%</m:mo><m:mtext>FF</m:mtext><m:mo>=</m:mo><m:mfrac><m:mrow><m:mn>180</m:mn><m:mo>⋅</m:mo><m:mn>100</m:mn></m:mrow><m:mrow><m:mn>720</m:mn></m:mrow></m:mfrac><m:mo>=</m:mo><m:mn>25</m:mn><m:mo>%</m:mo></m:mrow></m:math>",
+        "expect": "ligning % FF er lik, brøk med teller 180 ganger 100 og med nevner 720 brøk slutt, er lik, 25 % ligning slutt"
+    },
+    {
+        "name": "229781: formula example 3",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"90 text(dagsverk) // 9 text(dager) = 10 text(dagsverk pr. dag)\" altimg=\"images/Eqn5_32.jpg\" display=\"inline\"><m:mrow><m:mn>90</m:mn><m:mtext>dagsverk</m:mtext><m:mo>/</m:mo><m:mn>9</m:mn><m:mtext>dager</m:mtext><m:mo>=</m:mo><m:mn>10</m:mn><m:mtext>dagsverk pr.dag</m:mtext></m:mrow></m:math>",
+        "expect": "ligning 90 dagsverk delt på 9 dager er lik, 10 dagsverk pr.dag ligning slutt"
+    },
+    {
+        "name": "229781: formula example 4",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"R_text(MAX) = 16 text(personer)\" altimg=\"images/Eqn7_1.jpg\" display=\"block\"><m:mrow><m:msub><m:mi>R</m:mi><m:mrow><m:mtext>MAX</m:mtext></m:mrow></m:msub><m:mo>=</m:mo><m:mn>16</m:mn><m:mtext>personer</m:mtext></m:mrow></m:math>",
+        "expect": "ligning stor r med nedre indeks MAX indeks slutt, er lik, 16 personer ligning slutt"
+    },
+    {
+        "name": "229781: formula example 5",
+        "payload": "<m:math xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xml:lang=\"no\" alttext=\"K_text(nytt prosjekt) = K_text(erfaringsprosjekt) * ((S2)/(S1))^n * ((I2)/(I1)) * ((G2)/(G1))...\" altimg=\"images/Eqn3_2.jpg\" display=\"block\"><m:mrow><m:msub><m:mi>K</m:mi><m:mrow><m:mtext>nytt prosjekt</m:mtext></m:mrow></m:msub><m:mo>=</m:mo><m:msub><m:mi>K</m:mi><m:mrow><m:mtext>erfaringsprosjekt</m:mtext></m:mrow></m:msub><m:mo>⋅</m:mo><m:msup><m:mrow><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mfrac><m:mrow><m:mi>S</m:mi><m:mn>2</m:mn></m:mrow><m:mrow><m:mi>S</m:mi><m:mn>1</m:mn></m:mrow></m:mfrac></m:mrow></m:mfenced></m:mrow><m:mn>2</m:mn></m:msup><m:mo>⋅</m:mo><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mfrac><m:mrow><m:mi>I</m:mi><m:mn>2</m:mn></m:mrow><m:mrow><m:mi>I</m:mi><m:mn>1</m:mn></m:mrow></m:mfrac></m:mrow></m:mfenced><m:mo>⋅</m:mo><m:mfenced open=\"(\" close=\")\"><m:mrow><m:mfrac><m:mrow><m:mi>G</m:mi><m:mn>2</m:mn></m:mrow><m:mrow><m:mi>G</m:mi><m:mn>1</m:mn></m:mrow></m:mfrac></m:mrow></m:mfenced><m:mi>&#8230;</m:mi></m:mrow></m:math>",
+        "expect": "ligning stor k med nedre indeks nytt prosjekt indeks slutt, er lik, stor k med nedre indeks erfaringsprosjekt indeks slutt, ganger venstreparentes brøk med teller stor s 2 og med nevner stor s 1 brøk slutt, høyreparentes i annen ganger venstreparentes brøk med teller stor i 2 og med nevner stor i 1 brøk slutt, høyreparentes ganger venstreparentes brøk med teller stor g 2 og med nevner stor g 1 brøk slutt, høyreparentes og så videre, ligning slutt"
+    }
+]

@@ -1,0 +1,94 @@
+name: Dependency Check
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Every Monday at 2 AM
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.13.1
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: pnpm
+        
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      
+    - name: Check for outdated dependencies
+      id: outdated
+      run: |
+        pnpm outdated --format json > outdated.json || echo "[]" > outdated.json
+        echo "outdated=$(cat outdated.json)" >> $GITHUB_OUTPUT
+        
+    - name: Run security audit
+      id: audit
+      run: |
+        pnpm audit --audit-level moderate --format json > audit.json || echo "{}" > audit.json
+        echo "audit=$(cat audit.json)" >> $GITHUB_OUTPUT
+        
+    - name: Create issue for outdated dependencies
+      uses: actions/github-script@v7
+      if: steps.outdated.outputs.outdated != '[]'
+      with:
+        script: |
+          const outdated = JSON.parse('${{ steps.outdated.outputs.outdated }}');
+          
+          if (outdated.length > 0) {
+            const body = `## Outdated Dependencies Found
+            
+            The following dependencies have updates available:
+            
+            ${outdated.map(dep => `- **${dep.name}**: ${dep.current} → ${dep.latest}`).join('\n')}
+            
+            Please review and update these dependencies when appropriate.
+            `;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Dependency Updates Available',
+              body: body,
+              labels: ['dependencies', 'maintenance']
+            });
+          }
+          
+    - name: Create issue for security vulnerabilities
+      uses: actions/github-script@v7
+      if: steps.audit.outputs.audit != '{}'
+      with:
+        script: |
+          const audit = JSON.parse('${{ steps.audit.outputs.audit }}');
+          
+          if (audit.metadata && audit.metadata.vulnerabilities && audit.metadata.vulnerabilities.total > 0) {
+            const body = `## Security Vulnerabilities Found
+            
+            ${audit.metadata.vulnerabilities.total} vulnerabilities detected:
+            - **Critical**: ${audit.metadata.vulnerabilities.critical || 0}
+            - **High**: ${audit.metadata.vulnerabilities.high || 0}
+            - **Moderate**: ${audit.metadata.vulnerabilities.moderate || 0}
+            - **Low**: ${audit.metadata.vulnerabilities.low || 0}
+            
+            Please run \`pnpm audit\` locally to see details and fix these issues.
+            `;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Security Vulnerabilities Detected',
+              body: body,
+              labels: ['security', 'high-priority']
+            });
+          } 

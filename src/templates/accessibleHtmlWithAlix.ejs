@@ -1,0 +1,29 @@
+<%_ 
+// Ensure all required parameters have default values to prevent undefined errors
+const displayMode = typeof disp !== 'undefined' ? disp : 'block';
+const textContent = typeof txt !== 'undefined' ? txt : '';
+const svgContent = typeof svg !== 'undefined' ? svg : '';
+const alixValue = typeof alix !== 'undefined' ? alix : 0;
+const alixThreshold = typeof alixThresholdNoImage !== 'undefined' ? alixThresholdNoImage : 25;
+const langCode = typeof language !== 'undefined' ? language : 'en';
+_%>
+
+<%_ if (displayMode=="block") { _%>
+  <%_ if (alixValue < alixThreshold) { _%>
+    <p><span class="spoken-math"><%= textContent %></span></p>
+  <%_ } else { _%>
+    <figure class="image" xml:lang="<%= langCode %>">
+      <%- svgContent %>
+      <figcaption><span class="spoken-math"><%= textContent %></span></figcaption>
+    </figure>
+  <%_ } _%>
+<%_ } else if (displayMode=="inline") { _%>
+  <%_ if (alixValue < alixThreshold) { _%>
+    <span><span class="spoken-math"><%= textContent %></span></span>
+  <%_ } else { _%>
+    <span class="image" xml:lang="<%= langCode %>">
+      <%- svgContent %>
+      <span class="spoken-math"><%= textContent %></span>
+    </span>
+  <%_ } _%>
+<%_ } _%> 

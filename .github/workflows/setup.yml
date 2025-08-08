@@ -1,0 +1,150 @@
+name: Repository Setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      setup_branch_protection:
+        description: 'Setup branch protection rules'
+        required: false
+        default: true
+        type: boolean
+      setup_issue_templates:
+        description: 'Setup issue templates'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup branch protection rules
+      if: inputs.setup_branch_protection
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          
+          // Setup branch protection for main branch
+          await github.rest.repos.updateBranchProtection({
+            owner,
+            repo,
+            branch: 'main',
+            required_status_checks: {
+              strict: true,
+              contexts: ['test', 'security', 'build']
+            },
+            enforce_admins: false,
+            required_pull_request_reviews: {
+              required_approving_review_count: 1,
+              dismiss_stale_reviews: true,
+              require_code_owner_reviews: false
+            },
+            restrictions: null,
+            allow_force_pushes: false,
+            allow_deletions: false
+          });
+          
+          console.log('Branch protection rules configured for main branch');
+          
+    - name: Setup issue templates
+      if: inputs.setup_issue_templates
+      run: |
+        mkdir -p .github/ISSUE_TEMPLATE
+        
+        # Bug report template
+        cat > .github/ISSUE_TEMPLATE/bug_report.md << 'EOF'
+        ---
+        name: Bug report
+        about: Create a report to help us improve
+        title: '[BUG] '
+        labels: ['bug']
+        assignees: ''
+        ---
+        
+        **Describe the bug**
+        A clear and concise description of what the bug is.
+        
+        **To Reproduce**
+        Steps to reproduce the behavior:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+        
+        **Expected behavior**
+        A clear and concise description of what you expected to happen.
+        
+        **Screenshots**
+        If applicable, add screenshots to help explain your problem.
+        
+        **Environment:**
+        - OS: [e.g. Ubuntu 20.04]
+        - Node.js version: [e.g. 20.x]
+        - Package manager: [e.g. pnpm 10.13.1]
+        
+        **Additional context**
+        Add any other context about the problem here.
+        EOF
+        
+        # Feature request template
+        cat > .github/ISSUE_TEMPLATE/feature_request.md << 'EOF'
+        ---
+        name: Feature request
+        about: Suggest an idea for this project
+        title: '[FEATURE] '
+        labels: ['enhancement']
+        assignees: ''
+        ---
+        
+        **Is your feature request related to a problem? Please describe.**
+        A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+        
+        **Describe the solution you'd like**
+        A clear and concise description of what you want to happen.
+        
+        **Describe alternatives you've considered**
+        A clear and concise description of any alternative solutions or features you've considered.
+        
+        **Additional context**
+        Add any other context or screenshots about the feature request here.
+        EOF
+        
+        # Documentation template
+        cat > .github/ISSUE_TEMPLATE/documentation.md << 'EOF'
+        ---
+        name: Documentation
+        about: Suggest improvements to the documentation
+        title: '[DOCS] '
+        labels: ['documentation']
+        assignees: ''
+        ---
+        
+        **Is your documentation request related to a problem? Please describe.**
+        A clear and concise description of what the problem is. Ex. I couldn't find information about [...]
+        
+        **Describe the documentation you'd like**
+        A clear and concise description of what documentation you'd like to see.
+        
+        **Where would you like to see this documentation?**
+        - [ ] README.md
+        - [ ] API documentation
+        - [ ] Code comments
+        - [ ] Other (please specify)
+        
+        **Additional context**
+        Add any other context or screenshots about the documentation request here.
+        EOF
+        
+    - name: Commit and push changes
+      if: inputs.setup_issue_templates
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .github/ISSUE_TEMPLATE/
+        git commit -m "Add issue templates" || echo "No changes to commit"
+        git push 
