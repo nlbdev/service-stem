@@ -12,7 +12,7 @@ new Airbrake.Notifier({
 (() => {
   'use strict';
 
-  const Pack = require('./package.json');
+  const Pack = require('../package.json');
   const X2JS = require('x2js');
   const ejs = require('ejs');
   const Resolve = require('path').resolve;
@@ -245,7 +245,7 @@ new Airbrake.Notifier({
 
   // Cache statistics endpoint for performance monitoring
   app.get('/cache-stats', (req, res) => {
-    const { mathMLCache } = require('./src/cache');
+    const { mathMLCache } = require('./cache');
     const stats = mathMLCache.getStats();
 
     res.json({
@@ -267,7 +267,7 @@ new Airbrake.Notifier({
 
   // Clear cache endpoint for maintenance
   app.post('/cache-clear', (req, res) => {
-    const { mathMLCache } = require('./src/cache');
+    const { mathMLCache } = require('./cache');
     mathMLCache.clear();
 
     res.json({
