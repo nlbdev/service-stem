@@ -22,7 +22,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: '22.x'
         cache: pnpm
         
     - name: Install dependencies
@@ -30,6 +30,13 @@ jobs:
       
     - name: Build Docker image
       run: pnpm build
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'service-stem'
+        severity: 'CRITICAL,HIGH'
+        exit-code: '1'
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
