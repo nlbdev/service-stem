@@ -22,9 +22,6 @@ LABEL org.opencontainers.image.authors="TL-utviklere@nb.no"
 # Apply Alpine security updates
 RUN apk upgrade --no-cache
 
-# Install pnpm in runner stage
-RUN npm install -g pnpm
-
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
@@ -34,6 +31,9 @@ WORKDIR /usr/src/app
 
 # Copy built application from build stage
 COPY --from=build --chown=nodejs:nodejs /usr/src/app .
+
+# Remove bundled npm/corepack/yarn node_modules so Trivy does not report their CVEs (we only need node + app at runtime)
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /opt/yarn-v* 2>/dev/null || true
 
 # Switch to non-root user
 USER nodejs
