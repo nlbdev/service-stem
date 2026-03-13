@@ -1,5 +1,5 @@
 FROM node:22.22-alpine3.23 AS build
-LABEL MAINTAINER Gaute Rønningen <Gaute.Ronningen@nlb.no> <http://www.nlb.no/>
+LABEL org.opencontainers.image.authors="TL-utviklere@nb.no"
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile --prod
 COPY . .
 
 FROM node:22.22-alpine3.23 AS runner
-LABEL MAINTAINER Gaute Rønningen <Gaute.Ronningen@nlb.no> <http://www.nlb.no/>
+LABEL org.opencontainers.image.authors="TL-utviklere@nb.no"
 
 # Install pnpm in runner stage
 RUN npm install -g pnpm
