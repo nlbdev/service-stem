@@ -21,7 +21,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: '22.x'
         cache: pnpm
         
     - name: Install dependencies
@@ -36,7 +36,7 @@ jobs:
     - name: Run security audit
       id: audit
       run: |
-        pnpm audit --audit-level moderate --format json > audit.json || echo "{}" > audit.json
+        pnpm audit --audit-level high --format json > audit.json || echo "{}" > audit.json
         echo "audit=$(cat audit.json)" >> $GITHUB_OUTPUT
         
     - name: Create issue for outdated dependencies

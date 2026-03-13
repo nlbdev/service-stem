@@ -1,5 +1,5 @@
-FROM node:20-alpine AS build
-LABEL MAINTAINER Gaute Rønningen <Gaute.Ronningen@nlb.no> <http://www.nlb.no/>
+FROM node:22.22-alpine3.23 AS build
+LABEL org.opencontainers.image.authors="TL-utviklere@nb.no"
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -16,11 +16,11 @@ RUN pnpm install --frozen-lockfile --prod
 # Bundle app source
 COPY . .
 
-FROM node:20-alpine AS runner
-LABEL MAINTAINER Gaute Rønningen <Gaute.Ronningen@nlb.no> <http://www.nlb.no/>
+FROM node:22.22-alpine3.23 AS runner
+LABEL org.opencontainers.image.authors="TL-utviklere@nb.no"
 
-# Install pnpm in runner stage
-RUN npm install -g pnpm
+# Apply Alpine security updates
+RUN apk upgrade --no-cache
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
@@ -31,6 +31,9 @@ WORKDIR /usr/src/app
 
 # Copy built application from build stage
 COPY --from=build --chown=nodejs:nodejs /usr/src/app .
+
+# Remove bundled npm/corepack/yarn node_modules so Trivy does not report their CVEs (we only need node + app at runtime)
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /opt/yarn-v* 2>/dev/null || true
 
 # Switch to non-root user
 USER nodejs
