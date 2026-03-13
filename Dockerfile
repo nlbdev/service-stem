@@ -1,4 +1,4 @@
-FROM node:20-alpine AS build
+FROM node:22.22-alpine3.23 AS build
 LABEL MAINTAINER Gaute Rønningen <Gaute.Ronningen@nlb.no> <http://www.nlb.no/>
 
 # Install pnpm
@@ -16,7 +16,7 @@ RUN pnpm install --frozen-lockfile --prod
 # Bundle app source
 COPY . .
 
-FROM node:20-alpine AS runner
+FROM node:22.22-alpine3.23 AS runner
 LABEL MAINTAINER Gaute Rønningen <Gaute.Ronningen@nlb.no> <http://www.nlb.no/>
 
 # Install pnpm in runner stage
