@@ -19,6 +19,9 @@ COPY . .
 FROM node:22.22-alpine3.23 AS runner
 LABEL org.opencontainers.image.authors="TL-utviklere@nb.no"
 
+# Apply Alpine security updates
+RUN apk upgrade --no-cache
+
 # Install pnpm in runner stage
 RUN npm install -g pnpm
 
